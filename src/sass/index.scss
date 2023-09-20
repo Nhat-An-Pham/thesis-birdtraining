@@ -1,6 +1,13 @@
 @import "./base";
 // @import "./variables";
 
+@import "./sass_components/homeCarousel";
+@import "./sass_components/homeCourses";
+
+@import "./sass_pages/homepage";
+@import "./sass_pages/consultationpage";
+@import "./sass_pages/workshoppage";
 
 
 @import "./sass_container/navbar";
+@import "./sass_container/footer";

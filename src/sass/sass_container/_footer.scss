@@ -1,0 +1,35 @@
+.footer_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #65451F;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.footer_elements{
+    width: 50%;
+    height: 300px;
+
+    &-content{
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & h1, h5{
+            width: 90%;
+            margin: 0px;
+        }
+        & h5{
+            font-weight: lighter;
+        }
+    }
+
+    &-google{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
