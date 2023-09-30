@@ -1,0 +1,20 @@
+.homepage {
+    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.home_carousel {
+    border: 1px red solid;
+}
+
+.home_carousel_section {
+    &-curve {
+        width: 500px;
+        height: 30px;
+        border: solid 3px White;
+        border-color: White transparent transparent transparent;
+        border-radius: 70%/100px 100px 0 0;
+    }
+}

@@ -1,0 +1,29 @@
+.cards_container{
+    width: 30%;
+    height: 300px;
+    height: auto;
+    border: 1px black solid;
+}
+
+.cards_img{
+    overflow: hidden;
+    object-fit: contain;
+    height: 60%;
+    & img{
+        width: 100%;
+    }
+
+    
+}
+
+.cards_content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    & h2, p{
+        width: 80%;
+        border: 1px red solid;
+    }
+}

@@ -1,11 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 function NavbarMain() {
   return (
     <nav className="navbar">
       <div className='nav_container'>
         <div className='nav_elements nav_elements-logo'>
+          {/* <Link to="/home"> */}
             <h1>BirdTrainingCenter</h1>
+          {/* </Link> */}
         </div>
         <div className='nav_elements nav_elements-content'>
           <ul>
@@ -21,8 +24,8 @@ function NavbarMain() {
           </ul>
         </div>
         <div className='nav_elements nav_elements-sign'>
-            <button className='button-login'>Login</button>
-            <button className="button-signup"><span>Sign Up</span></button>
+          <button className='button-login'>Login</button>
+          <button className="button-signup"><span>Sign Up</span></button>
         </div>
       </div>
     </nav>

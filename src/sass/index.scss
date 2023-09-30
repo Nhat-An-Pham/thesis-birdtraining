@@ -1,11 +1,14 @@
 @import "./base";
 // @import "./variables";
 
-@import "./sass_components/homeCarousel";
-@import "./sass_components/homeCourses";
+@import "./sass_components/ocpCarousel";
+@import "./sass_components/ocpCourses";
+@import "./sass_components/cards";
+
 
 @import "./sass_pages/homepage";
 @import "./sass_pages/consultationpage";
+@import "./sass_pages/onlinecoursepage";
 @import "./sass_pages/workshoppage";
 
 

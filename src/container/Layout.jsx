@@ -1,12 +1,13 @@
 import { BrowserRouter, Outlet, Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 
-import Home from '../pages/Home';
+import HomePage from '../pages/HomePage';
 import NavbarMain from './NavbarMain';
 import Footer from './Footer';
 
-import Consultation from '../pages/Consultation';
-import Workshop from '../pages/Workshop';
+import Consultation from '../pages/ConsultationPage';
+import Workshop from '../pages/WorkshopPage';
+import OnlineCourse from '../pages/OnlineCoursePage';
 
 function Layout4Route() {
   return (
@@ -29,8 +30,9 @@ function Layout() {
       <Routes>
         <Route element={<Layout4Route />}>
           {/* Pages */}
-          <Route path='/home' exact element={<Home />} />
-          <Route path="*" exact element={<Home />} />
+          <Route path='/home' exact element={<HomePage />} />
+          <Route path='/courses' exact element={<OnlineCourse />} />
+          <Route path="*" exact element={<HomePage />} />
         </Route>
         <Route element={<Outlet />}>
           <Route path="/consultation" exact element={<Consultation />} />
