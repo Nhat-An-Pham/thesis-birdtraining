@@ -15,8 +15,8 @@ function NavbarMain() {
             <li><a href='/home'>Home</a></li>
             <li><a href='/courses'>Courses</a></li>
             <li><a href='/workshops'>Workshops</a></li>
-            <li><a class='nav_dropdown-arrow'>Services</a>
-              <ul class='nav_sub-menus'>
+            <li><a className='nav_dropdown-arrow'>Services</a>
+              <ul className='nav_sub-menus'>
                 <li><a href='consultation'>Consultations</a></li>
                 <li><a href='birdacademy'>Bird Training Academy</a></li>
               </ul>

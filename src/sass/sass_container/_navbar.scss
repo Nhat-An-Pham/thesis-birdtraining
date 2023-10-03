@@ -7,6 +7,7 @@
     box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.67);
     -webkit-box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.67);
     -moz-box-shadow: 0px 4px 23px -4px rgba(0, 0, 0, 0.67);
+    z-index: 2;
 }
 
 .nav_container {
@@ -49,20 +50,27 @@
         border: none;
         border-radius: 20px;
     }
-
-    & button:hover{
-        
-    }
 }
 
 .button-login {
-    background-color: #FFFFFF;
+    background-color: transparent;
     color: #96989B;
+    transition: background-color 0.5s, transform 0.5s;
+    &:hover{
+        color: black;
+        transform: scale(1.1, 1.1)
+    }
 }
 
 .button-signup {
     background-color: #765827;
     color: white;
+    transition: background-color 0.5s, transform 0.5s;
+    &:hover{
+        background-color: #C8AE7D ;
+        color: white;
+        transform: scale(1.1, 1.1)
+    }
 }
 
 //mid content

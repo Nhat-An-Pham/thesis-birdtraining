@@ -3,18 +3,330 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    position: relative;
 }
 
+.home_section {
+    width: 100%;
+
+    &-carousel {
+        background-image: url("../../assets/pages/home/home_carousel.webp");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    &-banner {
+        height: 250px;
+        background-color: #65451F;
+        color: white;
+        display: flex;
+        align-items: center;
+    }
+
+    &-member {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &-services {
+        background-color: #65451F;
+        padding-bottom: 40px;
+    }
+
+    &-review {
+        width: 80%;
+        height: auto;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+}
+
+//carousel
 .home_carousel {
-    border: 1px red solid;
+    width: 50%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+    & img {
+        width: 20px;
+    }
+
 }
 
 .home_carousel_section {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-title {
+        font-size: 300%;
+        font-weight: 800;
+    }
+
     &-curve {
         width: 500px;
         height: 30px;
-        border: solid 3px White;
+        border: solid 3px grey;
         border-color: White transparent transparent transparent;
         border-radius: 70%/100px 100px 0 0;
+        opacity: 80%;
+    }
+
+    &-button {
+        width: 200px;
+        padding: 20px 40px;
+        border: none;
+        border-radius: 20px;
+        text-transform: uppercase;
+        background-color: #765827;
+        color: white;
+        transition: background-color 0.5s, transform 0.5s;
+
+        &:hover {
+            background-color: #C8AE7D;
+            color: white;
+            transform: scale(1.2, 1.2)
+        }
+    }
+
+    &-achievement {}
+}
+
+.achievements_section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+
+    //text
+    font-size: auto;
+    color: white;
+    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black,
+        1px 1px black, -1px -1px black, 1px -1px black, -1px 1px #fff;
+    font-weight: light;
+
+}
+
+//banner
+.homebanner {
+    &_title {
+        width: 30%;
+        border-right: 0.8px black solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & h1 {
+            width: 80%;
+            text-align: right;
+        }
+    }
+
+    &_description {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & p {
+            width: 90%;
+            text-align: left;
+        }
+    }
+}
+
+//member card
+.homemember_section {
+    width: 80%;
+
+    &-title {
+        height: 20%;
+        display: flex;
+        align-items: center;
+
+        & h2 {
+            color: #5F6368;
+            text-shadow: 1px 2px 15px rgba(0, 0, 0, 0.44);
+        }
+
+    }
+
+    &-cards {
+        height: 80%;
+        display: flex;
+        justify-content: space-between;
+
+    }
+}
+
+.homecard {
+    &_container {
+        margin-bottom: 20px;
+        width: 20%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & img {
+            width: 100%;
+            border-radius: 50%;
+        }
+
+        text-align: center;
+    }
+}
+
+//Our Services
+.homeservice_section {
+    &-title {
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 10px;
+        font-size: larger;
+    }
+
+    &-cards {
+        display: flex;
+        justify-content: space-around;
+    }
+
+}
+
+.homecardservice_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    width: 23%;
+    border-radius: 5px;
+
+    & h5 {
+        font-size: larger;
+        height: 50px;
+        text-align: center;
+    }
+
+    & p {
+        height: 250px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.homecardservice_button {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+    & a {
+        padding: 13px;
+        text-decoration: inherit;
+        color: white;
+        background-color: #C8AE7D;
+        border-radius: 20px;
+        transition: background-color 0.5s, transform 0.5s;
+
+        &:hover {
+            background-color: #C8AE7D;
+            transform: scale(1.2, 1.2)
+        }
+    }
+}
+
+//Review
+.homereview_section {
+    display: flex;
+
+    &-title {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        height: min-content;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        & h5,
+        h3 {
+            margin: 0px;
+        }
+
+        & h5 {
+            color: #C8AE7D;
+        }
+
+        & h3 {
+            color: #5F6368;
+        }
+    }
+
+    &-body {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+}
+
+.homereviewbody {
+    overflow: hidden;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    &-image {
+        width: 60%;
+        box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
+        -webkit-box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
+        -moz-box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
+        & img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &-content {
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & h4, p1, p {
+            width: 90%;
+        }
+        & h4 {
+            text-align: center;
+            height: 10%;
+            color: #C8AE7D;
+        }
+        & p1 {
+            height: 50%;
+        }
+        & p{
+            height: 40%;
+        }
     }
 }
