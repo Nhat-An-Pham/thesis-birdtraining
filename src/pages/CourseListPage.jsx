@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
-import Cards from '../components/cards/Cards'
-import { Link } from 'react-router-dom'
+import React from 'react'
+import Cards from '../components/cards/Cards';
+import { useState } from 'react';
 
-
-const OnlineCoursesCourses = () => {
+const CourseListPage = () => {
 
   const [courses, setCourses] = useState([
     {
@@ -39,24 +38,24 @@ const OnlineCoursesCourses = () => {
 
 
   return (
-    <div className='ocp_courses'>
-      <div className='ocpcourse_elements ocpcourse_elements-title '>
-        <p>
-          Top of our categories
-        </p>
-        <h2>
-          Explore our popular courses
-        </h2>
+    <div className='courselistpage'>
+      <div className='courselistpage_section courselistpage_section-search'>
+        <input type="text" required placeholder='Search For Courses' />
       </div>
-      <div className='ocpcourse_elements ocpcourse_elements-cards'>
-        {courses.map((course) => (
+      <div className='courselistpage_section courselistpage_section-title'>
+        <h3>Explore our Courses</h3>
+      </div>
+      <div className='courselistpage_section courselistpage_section-list'>
+        <div className='courselistpagelist_elements courselistpagelist_elements-cards'>
+          {courses.map((course) => (
             <Cards id={course.id} title={course.title} key={course.id}
               thumbnail={course.coursethumbnail} shortdescr={course.shortdescr}
               price={course.price} />
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   )
 }
 
-export default OnlineCoursesCourses;
+export default CourseListPage;

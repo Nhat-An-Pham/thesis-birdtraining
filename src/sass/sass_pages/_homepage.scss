@@ -97,6 +97,10 @@
         background-color: #765827;
         color: white;
         transition: background-color 0.5s, transform 0.5s;
+        box-shadow: 4px 15px 55px 0px rgba(94, 92, 92, 1);
+        -webkit-box-shadow: 4px 15px 55px 0px rgba(94, 92, 92, 1);
+        -moz-box-shadow: 4px 15px 55px 0px rgba(94, 92, 92, 1);
+        transition: transform 0.5s;
 
         &:hover {
             background-color: #C8AE7D;
@@ -297,12 +301,14 @@
     overflow: hidden;
     margin-top: 30px;
     margin-bottom: 40px;
+
     &-image {
         width: 60%;
         box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
         -webkit-box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
         -moz-box-shadow: 4px 4px 16px -4px rgba(0, 0, 0, 0.49);
-        & img{
+
+        & img {
             width: 100%;
             height: 100%;
         }
@@ -314,18 +320,23 @@
         flex-direction: column;
         align-items: center;
 
-        & h4, p1, p {
+        & h4,
+        p1,
+        p {
             width: 90%;
         }
+
         & h4 {
             text-align: center;
             height: 10%;
             color: #C8AE7D;
         }
+
         & p1 {
             height: 50%;
         }
-        & p{
+
+        & p {
             height: 40%;
         }
     }

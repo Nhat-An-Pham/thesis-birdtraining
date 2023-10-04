@@ -1,16 +1,25 @@
 import React from 'react'
 
-const Cards = ({id,title,thumbnail, shortdescr,price}) => {
+const Cards = ({ title, thumbnail, shortdescr, price }) => {
     return (
-        <div className='cards_container'>
-            <div className='cards_img'>
-                <img src={thumbnail} alt=''></img>
-            </div>
-            <div className='cards_content'>
-                <h2>{title}</h2>
-                <p>{shortdescr}</p>
-            </div>
-        </div>
+        <section class="card_container">
+            <article>
+                <div class="article-wrapper">
+                    <figure>
+                        <img src={thumbnail} alt="" />
+                    </figure>
+                    <div class="article-body">
+                        <h2>{title}</h2>
+                        <p>
+                            {shortdescr}
+                        </p>
+                        <a href="/" class="read-more">
+                            Read more <span class="sr-only"></span>
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </section>
     )
 }
 
