@@ -1,7 +1,10 @@
 import React from 'react'
 
-const Cards = ({ title, thumbnail, shortdescr, price }) => {
+const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price, }) => {
+
+
     return (
+
         <section class="card_container">
             <article>
                 <div class="article-wrapper">
@@ -13,8 +16,8 @@ const Cards = ({ title, thumbnail, shortdescr, price }) => {
                         <p>
                             {shortdescr}
                         </p>
-                        <a href="/" class="read-more">
-                            Read more <span class="sr-only"></span>
+                        <a href={`/workshopslist/${id}`} class="read-more">
+                            Read more <span classz="sr-only"></span>
                         </a>
                     </div>
                 </div>
@@ -23,4 +26,4 @@ const Cards = ({ title, thumbnail, shortdescr, price }) => {
     )
 }
 
-export default Cards
+export default WorkshopClassListCards;

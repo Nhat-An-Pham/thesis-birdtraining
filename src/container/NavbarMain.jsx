@@ -17,15 +17,15 @@ function NavbarMain() {
             <li><a href='/workshops'>Workshops</a></li>
             <li><a className='nav_dropdown-arrow'>Services</a>
               <ul className='nav_sub-menus'>
-                <li><a href='consultation'>Consultations</a></li>
-                <li><a href='birdacademy'>Bird Training Academy</a></li>
+                <li><a href='/consultation'>Consultations</a></li>
+                <li><a href='/birdacademy'>Bird Training Academy</a></li>
               </ul>
             </li>
           </ul>
         </div>
         <div className='nav_elements nav_elements-sign'>
-          <button className='button-login'>Login</button>
-          <button className="button-signup"><span>Sign Up</span></button>
+          <Link to="/login"><button className='button-login'>Login</button></Link>
+          <Link to="/signup"><button className="button-signup"><span>Sign Up</span></button></Link>
         </div>
       </div>
     </nav>

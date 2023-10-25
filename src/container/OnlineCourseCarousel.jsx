@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const OnlineCoursesCarousel = () => {
   return (
@@ -10,7 +11,7 @@ const OnlineCoursesCarousel = () => {
         <div class="ocp_carousel_section-curve"></div>
 
         <div className='ocp_carousel_section ocp_carousel_section-button'>
-            <button>Join for free</button>
+            <Link to='/signup'><button>Join for free</button></Link>
         </div>
         <div className='ocp_carousel_section ocp_carousel_section-video'>
             <img src={require("../assets/pages/ocp/ocp_carousel.jpg")} alt=''/>

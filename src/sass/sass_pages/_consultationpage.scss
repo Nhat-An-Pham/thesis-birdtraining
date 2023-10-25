@@ -6,7 +6,6 @@
 }
 
 .cons_section {
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,6 +19,14 @@
 
     &-service {
         margin-bottom: 60px;
+    }
+
+    &-booking{
+        margin-bottom: 100px;
+        padding-top: 30px;
+        display: flex;
+        flex-direction: column;
+        border-top: 1px #EAC696 solid ;
     }
 
 }
@@ -76,5 +83,112 @@
             }
         }
 
+    }
+}
+
+//Chỗ Submit
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Màu nền mờ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    /* Đảm bảo nổi bật trên tất cả các phần tử khác */
+}
+
+.modal-content {
+    background: white;
+    width: 600px;
+    height: 600px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-content-section {
+    margin: 10px;
+
+    &-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    &-left {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+
+        & input {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        & select{
+            height: 40px;
+
+            & option{
+                height: 60px;
+            }
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+
+    &-right {
+        width: 50%;
+
+        & input {
+            width: 100%;
+            height: 430px;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        & input::placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 10px;
+        }
+    }
+
+}
+
+.modal-button {
+    height: 40px;
+    width: 70px;
+    border-radius: 10px;
+    &-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: 0.5px solid grey;
+        background-color: red;
+        color: white;
+    }
+
+    &-submit {
+        background: green;
+        border: none;
+        color: white;
+    }
+
+    &:hover{
+        cursor:pointer;
     }
 }

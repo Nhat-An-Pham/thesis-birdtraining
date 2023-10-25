@@ -1,37 +1,9 @@
 import React, { useState } from 'react'
-import Cards from '../components/cards/Cards'
+import Cards from '../components/cards/WorkshopClassListCards'
+import workshops from "../assets/fakedb/workshops"
 
 
 const WorkshopListPage = () => {
-    const [event, setEvent] = useState([
-        {
-            id: "1",
-            title: "Event 1",
-            shortdescr: "This is the first Event",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            status: "available"
-        }, {
-            id: "2",
-            title: "Event 2",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the second Event",
-            status: "available"
-        }, {
-            id: "3",
-            title: "Event 3",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the third Event",
-            price: "10",
-            status: "available"
-        }, {
-            id: "4",
-            title: "Event 4",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the fournth Event",
-            price: "10",
-            status: "available"
-        }
-    ])
 
 
     return (
@@ -44,10 +16,10 @@ const WorkshopListPage = () => {
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-list'>
                 <div className='workshoplistpagelist_elements workshoplistpagelist_elements-cards'>
-                    {event.map((events) => (
-                        <Cards id={events.id} title={events.title} key={events.id}
-                            thumbnail={events.backgroundimage} shortdescr={events.shortdescr}
-                            price={events.price} >
+                    {workshops.map((workshop) => (
+                        <Cards id={workshop.workshopId} title={workshop.title} key={workshop.workshopId}
+                            thumbnail={workshop.backgroundimage} shortdescr={workshop.shortdescr}
+                            price={workshop.price} >
                         </Cards>
                     ))}
                 </div>

@@ -1,0 +1,65 @@
+.userdata-container{
+    height: auto;
+    display: flex;
+    width: 100%;
+}
+
+.userdata-wrapper{
+    margin-left: 200px;
+    width: 80%;
+}
+
+.userdata_section{
+    margin-bottom: 20px;
+    width: 100%;
+    &-search{
+        height: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        & input{
+            height: 100%;
+            width: 250px;
+        }
+        & button{
+            height: 100%;
+        }
+    }
+    &-table{
+        display: flex;
+        flex-direction: column;
+        border: 1px black solid;
+        margin-right: 10px;
+        max-height: 1000px;
+        overflow: scroll;
+    }
+}
+
+.userdata_section_addnew-wrapper{
+    display: flex;
+    flex-direction: column;
+    & input{
+        width: 300px;
+        height: 30px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    & label{
+        font-size: 15px;
+        margin-top: 10px;
+    }
+    & select{
+        width: 300px;
+        height: 45px;
+    }
+    & button{
+        width: 200px;
+        height: 40px;
+        background-color: grey;
+        color: white;
+        margin-top: 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}

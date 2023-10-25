@@ -1,41 +1,9 @@
 import React, { useState } from 'react'
-import Cards from '../components/cards/Cards'
+import Cards from '../components/cards/CoursesListCards'
 import { Link } from 'react-router-dom'
-
+import courses from '../assets/fakedb/courses'
 
 const OnlineCoursesCourses = () => {
-
-  const [courses, setCourses] = useState([
-    {
-      id: "1",
-      title: "First Course",
-      shortdescr: "Hello this is the first course",
-      coursethumbnail: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-      price: "10",
-      status: "available"
-    }, {
-      id: "2",
-      title: "Second Course",
-      coursethumbnail: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-      shortdescr: "Hello this is the second course",
-      price: "10",
-      status: "available"
-    }, {
-      id: "3",
-      title: "Third Course",
-      coursethumbnail: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-      shortdescr: "Hello this is the third course",
-      price: "10",
-      status: "available"
-    }, {
-      id: "4",
-      title: "Fourth Course",
-      coursethumbnail: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-      shortdescr: "Hello this is the fourth course",
-      price: "10",
-      status: "available"
-    }
-  ])
 
 
   return (
