@@ -26,6 +26,8 @@ import Payment from '../pages/Payment';
 import CustomerReq from '../Management/customer/CustomerReq';
 import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
+import WorkshopManagement from '../Management/workshop/Workshop'
+import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 
 
 //Management
@@ -72,7 +74,8 @@ function Layout() {
             <Route path="/management" element={<Dashboard />} />
             <Route path="/management/customerreq" element={<CustomerReq />} />
             <Route path="/management/timetable" element={<TimeTable />} />
-            <Route path="/management/birdacademy" element={<Dashboard />} />
+            <Route path="/management/birdacademy" element={<BirdAcademyMng />} />
+            <Route path="/management/workshop" element={<WorkshopManagement />} />
             <Route path="/management/userdata" element={<UserData />} />
           </Routes>
 

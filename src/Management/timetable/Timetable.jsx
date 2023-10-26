@@ -2,55 +2,89 @@ import React, { useState } from "react";
 import "./timetable.scss";
 import Sidebar from "../component/sidebar/Sidebar";
 
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import 'react-datepicker/dist/react-datepicker.css';
+
+
+
 
 function TimeTable() {
+    const localizer = momentLocalizer(moment);
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [busySlots, setBusySlots] = useState(Array(8).fill({ date: null, reason: '' }));
+    const [selectedEmployee, setSelectedEmployee] = useState([]);
+    const events = [
+        {
+            title: 'Sự kiện 1',
+            start: new Date(2023, 10, 20, 10, 0),
+            end: new Date(2023, 10, 20, 12, 0),
+        },
+        {
+            title: 'Sự kiện 2',
+            start: new Date(2023, 10, 21, 14, 0),
+            end: new Date(2023, 10, 21, 16, 0),
+        },
+        // Thêm các sự kiện khác tại đây
+    ];
 
-    const handleDateChange = (e) => {
-        setSelectedDate(new Date(e.target.value));
+    const employees = [
+        { id: 1, name: 'Pham Nhat An' },
+        { id: 2, name: 'Nguyen Thanh Trung' },
+        { id: 3, name: 'Hoang Dinh Thong' },
+        // Thêm các nhân viên khác tại đây
+    ];
+
+    const handleEmployeeChange = (employee) => {
+        setSelectedEmployee(employee);
     };
-
-    const handleSlotClick = (index) => {
-        const updatedSlots = [...busySlots];
-        if (updatedSlots[index].date) {
-            updatedSlots[index] = { date: null, reason: '' };
-        } else {
-            updatedSlots[index] = { date: selectedDate, reason: '' };
-        }
-        setBusySlots(updatedSlots);
-    };
-
     return (
         <>
             <div className="timetable-container">
                 <Sidebar />
                 <div className="timetable-wrapper">
-                    <div>
-                        <h2>TimeTable</h2>
-                        <label>Select Date:</label>
-                        <input type="date" value={selectedDate.toISOString().split('T')[0]} onChange={handleDateChange} />
-
-                        <div className="timetable">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Time Slot</th>
-                                        <th>Busy?</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {busySlots.map((slot, index) => (
-                                        <tr key={index} onClick={() => handleSlotClick(index)} className={slot.date ? 'busy' : ''}>
-                                            <td>Slot {index + 1}</td>
-                                            <td>{slot.date ? 'Busy' : 'Free'}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                    <div className="timetable_section timetable_section-center">
+                        <h2>CENTER SCHEDULE</h2>
+                        <Calendar
+                            localizer={localizer}
+                            events={events}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ height: 500 }}
+                        />
+                        <div className="timetable_section_center-button">
+                            <button>Add New Event</button>
                         </div>
                     </div>
-
+                    <div className="timetable_section timetable_section-employee">
+                        <h2>EMPLOYEE SCHEDULE</h2>
+                        <div>
+                            <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+                        </div>
+                        <div className="timetable_section_employee-select">
+                            <select onChange={(e) => handleEmployeeChange(e.target.value)}>
+                                <option value="">Employee</option>
+                                {employees.map((employee) => (
+                                    <option key={employee.id} value={employee.id}>
+                                        {employee.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        {selectedEmployee && (
+                            <Calendar
+                                localizer={localizer}
+                                events={events}
+                                startAccessor="start"
+                                endAccessor="end"
+                                style={{ height: 500 }}
+                            />
+                        )}
+                        <div className="timetable_section_employee-button">
+                            <button>Add New Event</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>

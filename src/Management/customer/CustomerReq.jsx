@@ -31,6 +31,12 @@ const CustomerReq = () => {
         },
         // Add more data as needed
     ];
+
+    const faketrainer = {
+        first: "Nhat An",
+        second: "Thanh Trung",
+        third: "Dinh Thong"
+    }
     return (
         <>
             <div className='customerreq-container'>
@@ -59,12 +65,22 @@ const CustomerReq = () => {
                                             <TableCell>{row.Phone}</TableCell>
                                             <TableCell>{row.Service}</TableCell>
                                             <TableCell>{row.Request}</TableCell>
-                                            <TableCell>{row.AssignTo}</TableCell>
+                                            <TableCell>
+                                                <select>
+                                                    <option>{faketrainer.first}</option>
+                                                    <option>{faketrainer.second}</option>
+                                                    <option>{faketrainer.third}</option>
+                                                </select>
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <div className='customerreq_section_notdone-button'>
+                            <button>Cancel</button>
+                            <button>Accept Changes</button>
+                        </div>
                     </div>
                     <div className='customerreq_section customerreq_section-done'>
                         <p>Requests that had handled </p>
@@ -94,6 +110,10 @@ const CustomerReq = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        <div className='customerreq_section_done-button'>
+                            <button>Cancel</button>
+                            <button>Accept Changes</button>
+                        </div>
                     </div>
                 </div>
             </div>
