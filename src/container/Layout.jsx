@@ -1,6 +1,8 @@
-import { BrowserRouter, Outlet, Route } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Navigate } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import ScrollTop from "../components/ScrollTop"
+import { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 import HomePage from '../pages/HomePage';
 import NavbarMain from './NavbarMain';
@@ -29,12 +31,17 @@ import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 
-
-//Management
-
-
-
 function Layout() {
+
+  //Check Role
+  const decodeToken = localStorage.getItem("user-token");
+  const [userRole, setUserRoll] = useState();
+
+
+  useEffect(() => {
+    setUserRoll(jwtDecode(decodeToken).role)
+  }, [])
+
   return (
     <>
       <BrowserRouter>
@@ -47,7 +54,7 @@ function Layout() {
 
           <ScrollTop />
           <Routes>
-            {/* Pages */}
+            {/* Catch All */}
             <Route path='*' exact element={<HomePage />} />
             <Route path='/home' element={<HomePage />} />
             <Route path='/courses' element={<OnlineCourse />} />
@@ -64,19 +71,28 @@ function Layout() {
             <Route path="/payment" element={<Payment />} />
             <Route path="/certificate" element={<Certificate />} />
 
-
-
             {/* login signup */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
 
-            {/* management */}
-            <Route path="/management" element={<Dashboard />} />
-            <Route path="/management/customerreq" element={<CustomerReq />} />
-            <Route path="/management/timetable" element={<TimeTable />} />
-            <Route path="/management/birdacademy" element={<BirdAcademyMng />} />
-            <Route path="/management/workshop" element={<WorkshopManagement />} />
-            <Route path="/management/userdata" element={<UserData />} />
+            {/* private pages */}
+            {userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" || userRole === "Admin" ? (
+              <Route path="/management" >
+                <Route path="/management" exact element={<Dashboard />} />
+                <Route path="/management/customerreq" exact element={<CustomerReq />} />
+                <Route path="/management/timetable" exact element={<TimeTable />} />
+                <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
+                <Route path="/management/workshop" exact element={<WorkshopManagement />} />
+                <Route path="/management/userdata" exact element={<UserData />} />
+              </Route>
+            ) : (
+              <Route path="/home">
+                <Navigate to="/home" />
+              </Route>
+            )
+
+            }
+
           </Routes>
 
         </div>
