@@ -1,8 +1,10 @@
 import { BrowserRouter, Outlet, Route, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import ScrollTop from "../components/ScrollTop"
 import { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import React from 'react';
 
 import HomePage from '../pages/HomePage';
 import NavbarMain from './NavbarMain';
@@ -35,12 +37,17 @@ function Layout() {
 
   //Check Role
   const decodeToken = localStorage.getItem("user-token");
-  const [userRole, setUserRoll] = useState();
-
+  const [userRole, setUserRole] = useState();
 
   useEffect(() => {
-    setUserRoll(jwtDecode(decodeToken).role)
-  }, [])
+    if (decodeToken !== null) {
+      setUserRole(jwtDecode(decodeToken).role)
+    }
+  },[])
+
+  const NavigateRoute = () => {
+    useNavigate("/home");
+  }
 
   return (
     <>
@@ -86,9 +93,9 @@ function Layout() {
                 <Route path="/management/userdata" exact element={<UserData />} />
               </Route>
             ) : (
-              <Route path="/home">
-                <Navigate to="/home" />
-              </Route>
+              <>
+                {NavigateRoute}
+              </>
             )
 
             }

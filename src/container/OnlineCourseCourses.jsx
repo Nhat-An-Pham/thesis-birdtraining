@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Cards from '../components/cards/CoursesListCards'
-import { Link } from 'react-router-dom'
 import courses from '../assets/fakedb/courses'
 
 const OnlineCoursesCourses = () => {

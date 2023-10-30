@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function CourseDetailPage() {
-  const [course, setCourse] = useState({
+  const course = {
     title: 'Course Number 1',
     sessions: [
       {
@@ -21,7 +21,7 @@ function CourseDetailPage() {
         ],
       },
     ],
-  });
+  };
 
   const [selectedSession, setSelectedSession] = useState(null);
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -70,7 +70,7 @@ function CourseDetailPage() {
             ))}
           </ul>
           {showLessonDetail === true ? (
-            <button onClick={handleCompleteLesson} style={{backgroundColor: 'green'}}>
+            <button onClick={handleCompleteLesson} style={{ backgroundColor: 'green' }}>
               {session.completed ? (
                 <span style={{ color: 'white' }}>  ✔</span>
               ) : (

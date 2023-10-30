@@ -1,5 +1,4 @@
 import axios from "axios";
-import Cookies from "js-cookie";
 import { http } from "./http";
 const URL = process.env.REACT_APP_API;
 const API_URL = URL + "/api/auth/";

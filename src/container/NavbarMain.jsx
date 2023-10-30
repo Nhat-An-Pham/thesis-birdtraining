@@ -13,9 +13,12 @@ function NavbarMain() {
 
   //get name from token
   useEffect(() => {
-    setDecodeItemName(jwtDecode(decodeToken).name)
-    setDecodeItemRole(jwtDecode(decodeToken).role)
+    if (decodeToken !== null) {
+      setDecodeItemName(jwtDecode(decodeToken).name)
+      setDecodeItemRole(jwtDecode(decodeToken).role)
+    }
   }, [])
+
 
   //logout
   const handlelogout = () => {
@@ -41,7 +44,6 @@ function NavbarMain() {
               ) : (
                 <li><a href='/management'>Management</a></li>
               )}
-
               <li><a href='/setting'>User Setting</a></li>
             </ul>
           </li>
