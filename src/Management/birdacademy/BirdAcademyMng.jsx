@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Sidebar from '../component/sidebar/Sidebar'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
+import TrainingSkillComponent from './TrainingSkillComponent';
 
 const BirdAcademyMng = () => {
 
@@ -38,6 +39,10 @@ const BirdAcademyMng = () => {
         { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
         { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accen", userId: 3, registeredDate:"registeredDate",status:"complete" },
     ];
+    const [keyParam, setKeyParam] = useState(null);
+    const handleButtonClick = (key) => {
+        setKeyParam(key);
+      };
 
     return (
         <div className='workshop-container'>
@@ -97,7 +102,21 @@ const BirdAcademyMng = () => {
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
                                                 <TableCell>{cls.registeredDate}</TableCell>
                                                 <TableCell>{cls.status}</TableCell>
-                                                {cls.status === "registered" && <TableCell><button>Assign trainer</button></TableCell>}
+                                                {cls.status === "registered" 
+                                                    && <TableCell>
+                                                            <button onClick={() => handleButtonClick(cls.id)}>
+                                                                Confirm
+                                                            </button>
+                                                            <div>
+                                                            {keyParam !== null && (
+                                                                <div>
+                                                                    <h3>Training Progress for Key: {keyParam}</h3>
+                                                                    <TrainingSkillComponent keyParam={keyParam} />
+                                                                </div>
+                                                            )}
+                                                            </div>
+                                                            <button>Cancel</button>
+                                                        </TableCell>}
                                                 {cls.status === "confirmed" && <TableCell><button>Receive bird</button></TableCell>}
                                                 {cls.status === "checkin" && <TableCell><button></button></TableCell>}
                                                 {cls.status === "training" && <TableCell><button></button></TableCell>}
