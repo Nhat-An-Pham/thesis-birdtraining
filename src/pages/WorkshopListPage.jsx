@@ -1,10 +1,22 @@
 import React from 'react'
 import Cards from '../components/cards/WorkshopClassListCards'
 import workshops from "../assets/fakedb/workshops"
-
+import WorkshopService from '../services/workshop.service'
+import {useState, useEffect} from "react"
 
 const WorkshopListPage = () => {
 
+    const [workshopList, setWorkshopList] = useState([]);
+
+    useEffect(() => {
+        WorkshopService
+            .getWorkshopList()
+            .then((res) => {
+                console.log("success workshop list test", res.data);
+                setWorkshopList(res.data);
+            })
+            .catch((e) => console.log("fail workshop list test", e));
+    }, []);
 
     return (
         <div className='workshoplistpage'>
@@ -16,7 +28,7 @@ const WorkshopListPage = () => {
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-list'>
                 <div className='workshoplistpagelist_elements workshoplistpagelist_elements-cards'>
-                    {workshops.map((workshop) => (
+                    {workshopList.map((workshop) => (
                         <Cards id={workshop.workshopId} title={workshop.title} key={workshop.workshopId}
                             thumbnail={workshop.backgroundimage} shortdescr={workshop.shortdescr}
                             price={workshop.price} >
