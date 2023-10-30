@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Cards from '../components/cards/WorkshopClassListCards'
 import { Link } from 'react-router-dom'
 import workshops from '../assets/fakedb/workshops'

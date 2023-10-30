@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import authService from '../services/auth.service';
-import Cookies from 'universal-cookie';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const [loginStatus, setLoginStatus] = useState("");
+    
 
     const navigate = useNavigate();
     const [err, setErr] = useState([]);
@@ -20,8 +19,6 @@ const Login = () => {
         }
         authService.login(input).then(
             ({ data }) => {
-                const cookies = new Cookies();
-                cookies.set("auth-token", data);
                 alert("success");
                 navigate('/home');
             }

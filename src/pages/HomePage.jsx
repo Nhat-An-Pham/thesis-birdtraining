@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const HomePage = () => {
 
-    const [member, setMember] = useState([
+    const member = [
         {
             id: "1",
             name: "Nhat An Pham",
@@ -29,9 +29,9 @@ const HomePage = () => {
             thumbnail: (require("../assets/pages/home/member/Nhat An Pham.jpeg")),
 
         },
-    ])
+    ]
 
-    const [service, setService] = useState([
+    const service = [
         {
             id: "1",
             name: "Private Consultation",
@@ -60,13 +60,13 @@ const HomePage = () => {
             image: (require("../assets/pages/home/service/Parrot.avif")),
             link: "/birdacademy",
         },
-    ])
+    ]
 
-    const [review, setReview] = useState({
+    const review = {
         img: (require("../assets/pages/home/review/review.jpeg")),
         name: "Nhat An Pham",
         review: ".... My bird has been better since I use ... service, hoping this site will improve and go further in the future",
-    })
+    }
 
     return (
         <div className='homepage'>
