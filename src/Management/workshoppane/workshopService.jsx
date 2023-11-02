@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://54.179.55.17";
 const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJlbWFpbCI6InRydW5nYWRtaW5AbWFpbCIsInJvbGUiOiJNYW5hZ2VyIiwibmFtZSI6IlRydW5nIEFkbWluaXN0cmF0b3IiLCJhdmF0YXIiOiIiLCJleHAiOjE2OTgyMDQ4Mzh9.W9HI8eNKb6MNSQERttmbUWPXSvVZf3tpkdbl65rZXYY";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyIiwiZW1haWwiOiJtYW5hZ2VyQGdtYWlsLmNvbSIsInJvbGUiOiJNYW5hZ2VyIiwibmFtZSI6Ik1hbmFnZXIiLCJhdmF0YXIiOiIiLCJleHAiOjE2OTg4OTMwNjJ9.yM-t9SiMt7eJob--wipE1bM5TP1lRzOk3N2fYUe1Y7Y";
 export async function getWorkshops(params = null) {
   try {
     const response = await axios.get(`${BASE_URL}/api/workshop/workshops`, {
