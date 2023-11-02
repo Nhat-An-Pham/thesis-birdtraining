@@ -33,6 +33,8 @@ import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
+import { ToastContainer } from 'react-toastify';
+import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 
 function Layout() {
 
