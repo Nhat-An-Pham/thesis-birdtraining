@@ -58,12 +58,18 @@
         background-color: #765827;
         color: white;
         border-radius: 20px;
+        border: none;
         height: 30px;
         width: 100px;
-        padding: 10px;
+        padding: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+
+        &:hover{
+            transform: scale(1.05);
+        }
     }
 
     &-link {

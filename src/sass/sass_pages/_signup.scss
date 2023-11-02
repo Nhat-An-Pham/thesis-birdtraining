@@ -52,6 +52,10 @@
             border-radius: 10px;
             border: 0.2px black solid;
         }
+        & p{
+            text-align: center;
+            font-size: 10px;
+        }
     }
 
     &-button {
@@ -60,10 +64,15 @@
         border-radius: 20px;
         height: 30px;
         width: 100px;
-        padding: 10px;
+        padding: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+        border: none;
+        &:hover{
+            transform: scale(1.05);
+        }
     }
 
     &-link {

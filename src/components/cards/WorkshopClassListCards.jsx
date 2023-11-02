@@ -16,6 +16,9 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price, }) =>
                         <p>
                             {shortdescr}
                         </p>
+                        <p>
+                            {price}$
+                        </p>
                         <a href={`/workshopslist/${id}`} class="read-more">
                             Read more <span classz="sr-only"></span>
                         </a>
