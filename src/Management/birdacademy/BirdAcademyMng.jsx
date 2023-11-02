@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Sidebar from '../component/sidebar/Sidebar'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
+import TrainingSkillComponent from './TrainingSkillComponent';
 
 const BirdAcademyMng = () => {
 
@@ -24,6 +25,24 @@ const BirdAcademyMng = () => {
         { id: 3, name: "Class 3", trainer: "Trainer C", currentClass: "Talking",classTaken: "Talking", userId: 2 },
         { id: 4, name: "Class 4", trainer: "Trainer D", currentClass: "Talking",classTaken: "Talking", userId: 2 },
     ];
+
+    const birdTrainingCourse = [
+        { id: 1, trainingCourseId: "1", birdName: "Bird 1", customerName: "Pham Nhat An", trainingCourseTitle: "Flying lv1", userId: 1, registeredDate:"registeredDate",status:"registered" },
+        { id: 2, trainingCourseId: "2", birdName: "Bird B", customerName: "Pham Nhat An",trainingCourseTitle: "Flying lv2 ", userId: 1, registeredDate:"registeredDate",status:"confirmed" },
+        { id: 3, trainingCourseId: "1", birdName: "Bird C", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking india accent", userId: 2, registeredDate:"registeredDate",status:"training" },
+        { id: 4, trainingCourseId: "4", birdName: "Bird D", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking", userId: 2, registeredDate:"registeredDate",status:"checkin" },
+        { id: 5, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"registered" },
+        { id: 6, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"confirmed" },
+        { id: 7, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"checkin" },
+        { id: 8, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"checkout" },
+        { id: 9, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"training" },
+        { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
+        { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accen", userId: 3, registeredDate:"registeredDate",status:"complete" },
+    ];
+    const [keyParam, setKeyParam] = useState(null);
+    const handleButtonClick = (key) => {
+        setKeyParam(key);
+      };
 
     return (
         <div className='workshop-container'>
@@ -59,29 +78,51 @@ const BirdAcademyMng = () => {
                     </TableContainer>
                 </div>
                 <div className='workshop_section_table workshop_section_table-classes'>
-                    <h2>Birds</h2>
+                    <h2>Registered TrainingCourse</h2>
                     <TableContainer component={Paper}>
                         <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Bird Name</TableCell>
-                                    <TableCell>Instructor</TableCell>
-                                    <TableCell>Current Class</TableCell>
-                                    <TableCell>Class Taken</TableCell>
+                                    <TableCell>Owner Name</TableCell>
+                                    <TableCell>Course Title</TableCell>
+                                    <TableCell>Date registered</TableCell>
+                                    <TableCell>Status</TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {selectedUser !== null && birds && birds.length > 0
-                                    ? birds
+                                {selectedUser !== null && birdTrainingCourse && birdTrainingCourse.length > 0
+                                    ? birdTrainingCourse
                                         .filter((cls) => cls.userId === selectedUser)
                                         .map((cls) => (
                                             <TableRow key={cls.id}>
-                                                <TableCell>{cls.name}</TableCell>
-                                                <TableCell>{cls.trainer}</TableCell>
-                                                <TableCell>{cls.currentClass}</TableCell>
-                                                <TableCell>{cls.classTaken}</TableCell>
-                                                <TableCell><button>Update</button></TableCell>
+                                                <TableCell>{cls.birdName}</TableCell>
+                                                <TableCell>{cls.customerName}</TableCell>
+                                                <TableCell>{cls.trainingCourseTitle}</TableCell>
+                                                <TableCell>{cls.registeredDate}</TableCell>
+                                                <TableCell>{cls.status}</TableCell>
+                                                {cls.status === "registered" 
+                                                    && <TableCell>
+                                                            <button onClick={() => handleButtonClick(cls.id)}>
+                                                                Confirm
+                                                            </button>
+                                                            <div>
+                                                            {keyParam !== null && (
+                                                                <div>
+                                                                    <h3>Training Progress for Key: {keyParam}</h3>
+                                                                    <TrainingSkillComponent keyParam={keyParam} />
+                                                                </div>
+                                                            )}
+                                                            </div>
+                                                            <button>Cancel</button>
+                                                        </TableCell>}
+                                                {cls.status === "confirmed" && <TableCell><button>Receive bird</button></TableCell>}
+                                                {cls.status === "checkin" && <TableCell><button></button></TableCell>}
+                                                {cls.status === "training" && <TableCell><button></button></TableCell>}
+                                                {cls.status === "trainingdone" && <TableCell><button>Return bird</button></TableCell>}
+                                                {cls.status === "checkout" && <TableCell><button>Payment</button></TableCell>}
+                                                {cls.status === "complete" && <TableCell><button></button></TableCell>}
                                             </TableRow>
                                         ))
                                     : null}

@@ -1,0 +1,10 @@
+.image-cell {
+    height: 100px; /* Set the desired height for the cell */
+    overflow: hidden; /* Hide any overflow */
+}
+
+.image-cell img {
+    width: 100%; /* Make the image width 100% to match the cell width */
+    height: 100%; /* Make the image height 100% to match the cell height */
+    object-fit: cover; /* Control how the image fills the container */
+}

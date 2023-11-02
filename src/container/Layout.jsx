@@ -33,6 +33,7 @@ import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import { ToastContainer } from 'react-toastify';
+import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 
 function Layout() {
 
@@ -90,7 +91,7 @@ function Layout() {
                 <Route path="/management/customerreq" exact element={<CustomerReq />} />
                 <Route path="/management/timetable" exact element={<TimeTable />} />
                 <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
-                <Route path="/management/workshop" exact element={<WorkshopManagement />} />
+                <Route path="/management/workshop" exact element={<WorkshopManagementComponent />} />
                 <Route path="/management/userdata" exact element={<UserData />} />
               </Route>
             ) : (
