@@ -83,17 +83,21 @@ const WClassListPage = () => {
         {isDivVisible && (
           <div className='wclpdiv-background'>
             <div className='wclpdiv-container'>
-              <h2>Class Detail: <span style={{color: "red", fontSize: "35px"}}>{dateFormat(selectedClass.startTime, "mmmm dS, yyyy")}</span></h2>
-              <ul>
+              <h2 className='wclpdiv_section wclpdiv_section-title'>Class Detail: <span style={{ color: "red", fontSize: "35px" }}>{dateFormat(selectedClass.startTime, "mmmm dS, yyyy")}</span></h2>
+              <div className='wclpdiv_section wclpdiv_section-mapping'>
                 {selectedClass.classSlots.map((workshopClass) => (
-                  <div>
-                    <li key={workshopClass.id}>{workshopClass.detail}</li>
-                    <li >{workshopClass.startTime}/{workshopClass.endTime}</li>
+                  <div className='wclpdiv_section_mapping-content' key={workshopClass.id}>
+                    <p className='wclpdiv_content wclpdiv_content-detail '>Description: <span>{workshopClass.detail}</span></p>
+                    <p className='wclpdiv_content wclpdiv_content-registered'>Start-Time: {workshopClass.startTime}/End-Time: {workshopClass.endTime}</p>
+                    -----------------------
                   </div>
                 ))}
-              </ul>
-              <button onClick={handleCloseDiv}>Close</button>
-              <button onClick={handleCloseDiv}>ENROLL NOW</button>
+              </div>
+              
+              <div className='wclpdiv_section wclpdiv_section-button'>
+                <button className='wclpdiv_section_button-close' onClick={handleCloseDiv}>Close</button>
+                <button className='wclpdiv_section_button-enroll' onClick={handleCloseDiv}>ENROLL NOW</button>
+              </div>
             </div>
           </div>
         )}

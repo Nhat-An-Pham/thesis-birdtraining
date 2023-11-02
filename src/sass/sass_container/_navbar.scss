@@ -21,6 +21,14 @@
 
     &-logo {
         flex-grow: 1;
+        cursor: pointer;
+        & a {
+            color: black;
+            transition: transform 0.5s;
+            &:hover{
+                transform: scale(1.02);
+            }
+        }
     }
 
     &-content {
@@ -56,7 +64,8 @@
     background-color: transparent;
     color: #96989B;
     transition: background-color 0.5s, transform 0.5s;
-    &:hover{
+
+    &:hover {
         color: black;
         transform: scale(1.1, 1.1)
     }
@@ -66,8 +75,9 @@
     background-color: #765827;
     color: white;
     transition: background-color 0.5s, transform 0.5s;
-    &:hover{
-        background-color: #C8AE7D ;
+
+    &:hover {
+        background-color: #C8AE7D;
         color: white;
         transform: scale(1.1, 1.1)
     }
@@ -137,7 +147,7 @@
 }
 
 //after logged in
-.nav_elements-content-afterloggedin{
+.nav_elements-content-afterloggedin {
     & ul li {
         margin: 0 auto;
         padding: 0;
