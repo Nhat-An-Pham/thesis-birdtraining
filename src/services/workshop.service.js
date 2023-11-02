@@ -1,20 +1,44 @@
 import axios from "axios";
-import { http } from "./http";
 const URL = process.env.REACT_APP_API;
-const API_URL = URL + "/api/";
+const API_URL = URL + "/api/workshop";
 
 class WorkshopService {
 
     // get all workshops
     async getWorkshopList() {
         const response = await axios
-        .get(API_URL+ "workshop");
-        console.log(response)
+            .get(API_URL + "");
+        // console.log(response)
         return response;
     }
 
-    
+    //get Workshop By ID
+    async getWorkshopById({ id }) {
+        const response = await axios
+            .get(API_URL + `/get-by-id?workshopId=${id}`);
+        return response;
+    }
 
+    //get classes by workshop Id
+    async getClasses({ id }) {
+        const response = await axios
+            .get(API_URL + `/class?workshopId=${id}`);
+        return response;
+    }
+
+    //get class by classID
+    async getClassById({ id }) {
+        const response = await axios
+            .get(API_URL + `/class-by-id?workshopClassId=${id}`)
+        return response;
+    }
+
+    //get Class number registered
+    async getClassNumberRegistered({ id }) {
+        const response = await axios
+            .get(API_URL + `/registration-info?workshopClassId=${id}`);
+        return response;
+    }
 }
 
 export default new WorkshopService();

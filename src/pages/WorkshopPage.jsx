@@ -1,11 +1,26 @@
 import React from 'react'
 import Cards from '../components/cards/WorkshopClassListCards'
 import { Link } from 'react-router-dom'
-import workshops from '../assets/fakedb/workshops'
+import {useState, useEffect} from "react"
+import WorkshopService from '../services/workshop.service'
+// import workshops from '../assets/fakedb/workshops'
 
 
 const Workshop = () => {
 
+    const [workshopList, setWorkshopList] = useState([]);
+    //take first 4 workshops
+    const sliceWorkshop = workshopList.slice(0,4)
+
+    useEffect(() => {
+        WorkshopService
+            .getWorkshopList()
+            .then((res) => {
+                console.log("success workshop list test", res.data);
+                setWorkshopList(res.data);
+            })
+            .catch((e) => console.log("fail workshop list test", e));
+    }, []);
 
     return (
         <div className='workshopspage'>
@@ -37,9 +52,9 @@ const Workshop = () => {
                     </h2>
                 </div>
                 <div className='workshoppageevents_elements workshoppageevents_elements-cards'>
-                    {workshops.map((workshop) => (
-                        <Cards id={workshop.workshopId} title={workshop.title} key={workshop.workshopId}
-                            thumbnail={workshop.backgroundimage} shortdescr={workshop.shortdescr}
+                    {sliceWorkshop.map((workshop) => (
+                        <Cards id={workshop.id} title={workshop.title} key={workshop.id}
+                            thumbnail={workshop.picture.split(",")[0]} shortdescr={workshop.description}
                             price={workshop.price} >
                         </Cards>
                     ))}

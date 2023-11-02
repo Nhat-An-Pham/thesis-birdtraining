@@ -32,7 +32,7 @@ import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
-import WorkshopPane from '../Management/workshoppane/workshop-pane/WorkshopPane';
+import { ToastContainer } from 'react-toastify';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 
 function Layout() {
@@ -85,7 +85,7 @@ function Layout() {
             <Route path="/signup" element={<SignUp />} />
 
             {/* private pages */}
-            {userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" || userRole === "Admin"  ? (
+            {userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" || userRole === "Administrator"  ? (
               <Route path="/management" >
                 <Route path="/management" exact element={<Dashboard />} />
                 <Route path="/management/customerreq" exact element={<CustomerReq />} />
