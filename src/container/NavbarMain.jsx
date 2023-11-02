@@ -63,9 +63,9 @@ function NavbarMain() {
     <nav className="navbar">
       <div className='nav_container'>
         <div className='nav_elements nav_elements-logo'>
-          {/* <Link to="/home"> */}
+          <Link to="/home">
           <h1>BirdTrainingCenter</h1>
-          {/* </Link> */}
+          </Link>
         </div>
         <div className='nav_elements nav_elements-content'>
           <ul>

@@ -1,6 +1,6 @@
 import React from 'react'
 import Cards from '../components/cards/WorkshopClassListCards'
-import workshops from "../assets/fakedb/workshops"
+// import workshops from "../assets/fakedb/workshops"
 import WorkshopService from '../services/workshop.service'
 import {useState, useEffect} from "react"
 
@@ -29,8 +29,8 @@ const WorkshopListPage = () => {
             <div className='workshoplistpage_section workshoplistpage_section-list'>
                 <div className='workshoplistpagelist_elements workshoplistpagelist_elements-cards'>
                     {workshopList.map((workshop) => (
-                        <Cards id={workshop.workshopId} title={workshop.title} key={workshop.workshopId}
-                            thumbnail={workshop.backgroundimage} shortdescr={workshop.shortdescr}
+                        <Cards id={workshop.id} title={workshop.title} key={workshop.id}
+                            thumbnail={workshop.picture.split(",")[0]} shortdescr={workshop.description}
                             price={workshop.price} >
                         </Cards>
                     ))}

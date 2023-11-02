@@ -5,24 +5,18 @@ import { http } from "./http";
 const API_URL = "/api/AdviceConsultingCustomer/";
 
 class ConsultantService {
-    //self generate: Bảo xem lại api 
-    async CusSendTicket({ id, customerId, Address, consultingType, trainerId, consultingDetail, distance, onlineOrOffline, appointmentDate, actualSlotStart, actualEndSlot, price, discountedPrice, status }) {
-        return http
+    
+    async CusSendTicket({customerId, address, consultingType, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
+        return axios
             .post(API_URL + "customer-sendConsultingTicket", {
-                id,
                 customerId,
-                Address,
+                address,
                 consultingType,
                 trainerId,
                 consultingDetail,
-                distance,
                 onlineOrOffline,
                 appointmentDate,
                 actualSlotStart,
-                actualEndSlot,
-                price,
-                discountedPrice,
-                status
             })
     }
 }
