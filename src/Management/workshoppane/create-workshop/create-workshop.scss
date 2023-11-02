@@ -1,0 +1,21 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    min-height: 100vh;
+  
+    .form {
+      width: 50%; // Default width for large screens
+      @media (max-width: 768px) {
+        width: 75%; // 75% width for medium screens
+      }
+  
+      @media (max-width: 480px) {
+        width: 50%; // 50% width for small screens
+      }
+  
+      // Add other styling as needed
+    }
+  
+    // Add styles for form fields, labels, and other elements as needed
+  }
