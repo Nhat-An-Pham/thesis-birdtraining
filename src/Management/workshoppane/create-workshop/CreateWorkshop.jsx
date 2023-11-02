@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import "./create-workshop.scss";
 import Editor from "../../component/text-editor/Editor";
-import { getWorkshops } from "../workshopService";
+import { createWorkshop, getWorkshops } from "../workshopService";
 import { UploadComponent } from "../../component/upload/Upload";
 
 const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
@@ -47,11 +47,6 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let ACCESS_TOKEN =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJlbWFpbCI6InRydW5nYWRtaW5AbWFpbCIsInJvbGUiOiJNYW5hZ2VyIiwibmFtZSI6IlRydW5nIEAkbWluaXN0cmF0b3IiLCJhdmF0YXIiOiIiLCJleHAiOjE2OTgyMDQ4Mzh9.W9HI8eNKb6MNSQERttmbUWPXSvVZf3tpkdbl65rZXYY"; // Replace with your actual token
-    let apiUrl = "http://54.179.55.17/api/workshop/create";    
-    const token = ACCESS_TOKEN;
-
     // Create a FormData object to hold the form data
     const formData = new FormData();
     formData.append("Title", title);
@@ -64,24 +59,16 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
     pictures.forEach((picture, index) => {
       formData.append(`Pictures`, picture);
     });
-    try {
-      const response = await axios.post(apiUrl, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (response.status === 200) {
-        let id = response.data;
-        let workshop = await fetchCreatedData(id);
+    
+    createWorkshop(formData).then(response => {
+      let id = response.data;
+      fetchCreatedData(id).then(workshop => {
         callbackCreateWorkshop(workshop);
-      } else {
-        // Handle error responses here
-      }
-    } catch (error) {
+      });
+    })
+    .catch(error => {
       console.log(error);
-    }
+    })
   };
 
   return (

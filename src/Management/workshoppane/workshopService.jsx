@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const BASE_URL = "http://54.179.55.17";
-const ACCESS_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIyIiwiZW1haWwiOiJtYW5hZ2VyQGdtYWlsLmNvbSIsInJvbGUiOiJNYW5hZ2VyIiwibmFtZSI6Ik1hbmFnZXIiLCJhdmF0YXIiOiIiLCJleHAiOjE2OTg4OTMwNjJ9.yM-t9SiMt7eJob--wipE1bM5TP1lRzOk3N2fYUe1Y7Y";
+const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
+
 export async function getWorkshops(params = null) {
   try {
     const response = await axios.get(`${BASE_URL}/api/workshop/workshops`, {
@@ -115,3 +115,22 @@ export function modifyTemplateDetail (id, value) {
         throw error;
    }
   };
+  export async function createWorkshop(formData){
+    try {
+      const response = await axios.post(`${BASE_URL}/api/workshop/create`, formData, {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      if (response.status === 200) {
+        let id = response.data;
+        return response;
+      } else {
+        throw response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Img} from 'react-image';
 import { getWorkshops } from '../workshopService';
 import RawHTMLRenderer from '../../component/htmlRender/htmlRender';
+import WorkshopManagementService from '../../../services/workshop-management.service';
 // import { toast } from 'react-toastify';
 
 
@@ -28,7 +29,7 @@ const WorkshopPane = ({callbackSelectWorkshop, statusFilter = 'Active'}) => {
               let params = {
                 $filter: `status eq '${statusFilter}'`
               }
-              let response = await getWorkshops(params);
+              let response = await WorkshopManagementService.getWorkshops(params);
               setWorkshops(response);
             } catch (error) {
               console.error("Error fetching data:", error);
