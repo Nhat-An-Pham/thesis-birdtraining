@@ -3,15 +3,24 @@ import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper
 
 const TrainingSkillComponent = ({ keyParam }) => {
     
+const [birdSkillId, setBirdSkillId] = useState(null);
+const handleButtonClick = (birdSkillId) => {
+      setBirdSkillId(birdSkillId);
+};
 
+const [selectedProgress, setSelectedProgress] = useState(null);
+const handleUserProgressClick = (progressId) => {
+      setSelectedProgress(progressId);
+      setBirdSkillId(null);
+};
 const trainingProgress = [
-    { id: "1", birdTrainingCourseId: "1", skillName: "Skill 1", status:"waiting for assign", trainerName:""},
-    { id: "2", birdTrainingCourseId: "1", skillName: "SKill 2", status:"assigned", trainerName:""},
-    { id: "7", birdTrainingCourseId: "1", skillName: "SKill 2", status:"assigned", trainerName:""},
-    { id: "3", birdTrainingCourseId: "5", skillName: "Skill 1", status:"training", trainerName:""},
-    { id: "4", birdTrainingCourseId: "5", skillName: "Skill 4", status:"notpass", trainerName:""},
-    { id: "5", birdTrainingCourseId: "5", skillName: "Skill 5", status:"pass", trainerName:""},
-    { id: "6", birdTrainingCourseId: "5", skillName: "Skill 6", status:"cancel", trainerName:""},
+    { id: "1", birdTrainingCourseId: "1", birdSkillId: "1", birdSkillName: "Skill 1", status:"waiting for assign", trainerName:""},
+    { id: "2", birdTrainingCourseId: "1", birdSkillId: "2", birdSkillName: "SKill 2", status:"assigned", trainerName:""},
+    { id: "7", birdTrainingCourseId: "1", birdSkillId: "2", birdSkillName: "SKill 2", status:"assigned", trainerName:""},
+    { id: "3", birdTrainingCourseId: "5", birdSkillId: "1", birdSkillName: "Skill 1", status:"training", trainerName:""},
+    { id: "4", birdTrainingCourseId: "5", birdSkillId: "4", birdSkillName: "Skill 4", status:"notpass", trainerName:""},
+    { id: "5", birdTrainingCourseId: "5", birdSkillId: "5", birdSkillName: "Skill 5", status:"pass", trainerName:""},
+    { id: "6", birdTrainingCourseId: "5", birdSkillId: "6", birdSkillName: "Skill 6", status:"cancel", trainerName:""},
     // ... more items
   ];
   useEffect(() => {
@@ -21,7 +30,7 @@ const trainingProgress = [
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>Skill Name</TableCell>
+          <TableCell>Bird Skill Name</TableCell>
           <TableCell>Trainer Name</TableCell>
           <TableCell>Status</TableCell>
         </TableRow>

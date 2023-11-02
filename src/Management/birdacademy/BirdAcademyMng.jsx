@@ -91,6 +91,7 @@ const BirdAcademyMng = () => {
                                     <TableCell>Date registered</TableCell>
                                     <TableCell>Status</TableCell>
                                     <TableCell></TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
