@@ -6,10 +6,15 @@ import TrainingSkillComponent from './TrainingSkillComponent';
 
 const BirdAcademyMng = () => {
 
+    const [keyParam, setKeyParam] = useState(null);
+    const handleButtonClick = (key) => {
+        setKeyParam(key);
+      };
     const [selectedUser, setSelectedUser] = useState(null);
 
     const handleUserClick = (userId) => {
         setSelectedUser(userId);
+        setKeyParam(null);
     };
 
     const users = [
@@ -39,10 +44,7 @@ const BirdAcademyMng = () => {
         { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
         { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accen", userId: 3, registeredDate:"registeredDate",status:"complete" },
     ];
-    const [keyParam, setKeyParam] = useState(null);
-    const handleButtonClick = (key) => {
-        setKeyParam(key);
-      };
+    
 
     return (
         <div className='workshop-container'>
@@ -96,34 +98,35 @@ const BirdAcademyMng = () => {
                                     ? birdTrainingCourse
                                         .filter((cls) => cls.userId === selectedUser)
                                         .map((cls) => (
-                                            <TableRow key={cls.id}>
+                                            <><TableRow key={cls.id}>
                                                 <TableCell>{cls.birdName}</TableCell>
                                                 <TableCell>{cls.customerName}</TableCell>
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
                                                 <TableCell>{cls.registeredDate}</TableCell>
                                                 <TableCell>{cls.status}</TableCell>
-                                                {cls.status === "registered" 
-                                                    && <TableCell>
-                                                            <button onClick={() => handleButtonClick(cls.id)}>
-                                                                Confirm
-                                                            </button>
-                                                            <div>
-                                                            {keyParam !== null && (
-                                                                <div>
-                                                                    <h3>Training Progress for Key: {keyParam}</h3>
-                                                                    <TrainingSkillComponent keyParam={keyParam} />
-                                                                </div>
-                                                            )}
-                                                            </div>
-                                                            <button>Cancel</button>
-                                                        </TableCell>}
-                                                {cls.status === "confirmed" && <TableCell><button>Receive bird</button></TableCell>}
-                                                {cls.status === "checkin" && <TableCell><button></button></TableCell>}
-                                                {cls.status === "training" && <TableCell><button></button></TableCell>}
-                                                {cls.status === "trainingdone" && <TableCell><button>Return bird</button></TableCell>}
+                                                {cls.status === "registered" &&
+                                                    <TableCell>
+                                                        <button onClick={() => handleButtonClick(cls.id)}>
+                                                            Confirm
+                                                        </button>
+                                                    </TableCell>}
+                                                {cls.status === "confirmed" && (
+                                                    <>
+                                                        <TableCell><button>Check In</button></TableCell>
+                                                        <TableCell><button>Cancel</button></TableCell>
+                                                    </>
+                                                )}
+                                                {cls.status === "checkin" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "training" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "trainingdone" && <TableCell><button>Check Out</button></TableCell>}
                                                 {cls.status === "checkout" && <TableCell><button>Payment</button></TableCell>}
-                                                {cls.status === "complete" && <TableCell><button></button></TableCell>}
+                                                {cls.status === "complete" && <TableCell><button>Check Out</button></TableCell>}
+                                                {/* <TableCell><button>Cancel</button></TableCell> */}
                                             </TableRow>
+                                            {keyParam !== null && keyParam === cls.id && (
+                                                <TrainingSkillComponent keyParam={cls.id} />
+                                            )}
+                                            </>
                                         ))
                                     : null}
                             </TableBody>
