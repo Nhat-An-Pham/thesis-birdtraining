@@ -10,3 +10,10 @@ export const ochreTheme = createTheme({
       },
     },
   });
+export const groundTheme = createTheme({
+    palette: {
+      ground: {
+        main: '#C8AE7D'
+      }
+    }
+});
