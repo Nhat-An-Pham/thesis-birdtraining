@@ -19,20 +19,14 @@ import {
   SpaceDashboardOutlined,
   SupportAgentOutlined,
 } from "@mui/icons-material";
-import { Avatar, Grid, ThemeProvider, createTheme } from "@mui/material";
+import { Avatar, Grid, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
+import { groundTheme } from "../../themes/Theme";
 
-export const groundTheme = createTheme({
-  palette: {
-    ground: {
-      main: "#C8AE7D",
-      Link: "black",
-    },
-  },
-});
-const logo =
-  "https://storage.googleapis.com/birdtrainingcentersystem.appspot.com/images/birdlogo.png";
+
+const logo = process.env.REACT_APP_LOGO;
+console.log(logo);
 const drawerWidth = 200;
 const elements = [
   { route: "/management", icon: <SpaceDashboardOutlined />, name: "Dashboard" },
@@ -78,14 +72,14 @@ export default function ReworkSidebar({ selectTab }) {
               width: drawerWidth,
               boxSizing: "border-box",
               backgroundColor: groundTheme.palette.ground.main,
-              justifyContent: "center", // Center horizontally
-              alignItems: "center", // Center vertically
+              // justifyContent: "center", // Center horizontally
+              // alignItems: "center", // Center vertically
             },
           }}
           variant="permanent"
           anchor="left"
         >
-          <Toolbar>
+          <Toolbar sx={{  }}>
             <Link
               to={"/home"}
               style={{
@@ -93,29 +87,30 @@ export default function ReworkSidebar({ selectTab }) {
                 color: groundTheme.palette.ground.Link,
               }}
             >
-              <Grid
+              {/* <Grid
                 container
                 direction="column"
                 justifyContent="center"
                 alignItems="center"
                 spacing={2}
-              >
+              > */}
                 <Avatar
                   alt="logo"
                   src={logo}
-                  sx={{ width: 100, height: 100 }}
-                  variant="rounded"
+                  sx={{ alignSelf: 'center', justifySelf: 'center', width: '100%', height: '100%'}}
+                  variant="rounded"                  
                 >
                   B
                 </Avatar>
-                <Typography sx={{ textDecoration: "none" }}>
+                {/* <Typography sx={{ textDecoration: "none" }}>
                   Bird Training
-                </Typography>
-              </Grid>
+                </Typography> */}
+              {/* </Grid> */}
             </Link>
           </Toolbar>
-          <Divider />
+          
           <List>
+          <Divider />
             {elements.map((element, index) => (
               <>
                 <ListItem disablePadding>

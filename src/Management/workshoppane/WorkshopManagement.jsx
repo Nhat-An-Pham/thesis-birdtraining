@@ -1,9 +1,8 @@
 import { Button, Drawer, Grid, ThemeProvider } from "@mui/material";
-import Sidebar from "../component/sidebar/Sidebar";
 import WorkshopPane from "./workshop/workshop-pane/WorkshopPane";
 import CreateWorkshopComponent from "./workshop/create-workshop/CreateWorkshop";
 import { useState } from "react";
-import { ochreTheme } from "./Theme";
+import { ochreTheme } from "../themes/Theme";
 import WorkshopDetailOverviewComponent from "./detail-overview/detail/WorkshopDetailOverview";
 import WorkshopPaneDrawerItems from "./WorkshopPaneDrawerItems";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
