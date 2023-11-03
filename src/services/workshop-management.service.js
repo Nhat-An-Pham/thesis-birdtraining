@@ -1,7 +1,12 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 const BASE_URL = process.env.REACT_APP_API;
 const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 class WorkshopManagementService {    
+    getCurrentUser() {
+        const user = jwtDecode(ACCESS_TOKEN);
+        return user;
+    }
     async getWorkshops(params = null) {
         try {
           const response = await axios.get(`${BASE_URL}/api/workshop/workshops`, {
