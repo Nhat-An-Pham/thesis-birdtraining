@@ -1,0 +1,57 @@
+.customerhandledreq-container {
+    height: auto;
+    display: flex;
+    width: 100%;
+
+}
+
+.customerhandledreq-wrapper {
+    margin-left: 200px;
+    width: 80%;
+}
+
+
+.customerhandledreq_section {
+    &_notdone-button {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin-top: 20px;
+        height: 50px;
+
+        & button {
+            cursor: pointer;
+            background-color: #C8AE7D;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.5s ease-in-out;
+            margin-right: 10px;
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+    &_done-button {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin-top: 20px;
+        height: 50px;
+        
+        & button {
+            cursor: pointer;
+            background-color: #C8AE7D;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.5s ease-in-out;
+            margin-right: 10px;
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}

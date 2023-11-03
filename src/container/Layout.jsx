@@ -32,6 +32,7 @@ import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
+import CustomerHandledReq from '../Management/customer/CustomerHandledReq';
 
 function Layout() {
 
@@ -87,6 +88,7 @@ function Layout() {
               <Route path="/management" >
                 <Route path="/management" exact element={<Dashboard />} />
                 <Route path="/management/customerreq" exact element={<CustomerReq />} />
+                <Route path="/management/customerhandledreq" exact element={<CustomerHandledReq/>} />
                 <Route path="/management/timetable" exact element={<TimeTable />} />
                 <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
                 <Route path="/management/workshop" exact element={<WorkshopManagement />} />
