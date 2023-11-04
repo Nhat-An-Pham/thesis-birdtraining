@@ -3,8 +3,12 @@ import Sidebar from '../component/sidebar/Sidebar'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainingSkillComponent from './TrainingSkillComponent';
+import { Tab } from '@coreui/coreui';
 
 const BirdAcademyMng = () => {
+
+    const [renderCustomer, setRenderCustomer] = useState(true);
+    const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
 
     const [keyParam, setKeyParam] = useState(null);
     const handleButtonClick = (key) => {
@@ -34,15 +38,15 @@ const BirdAcademyMng = () => {
     const birdTrainingCourse = [
         { id: 1, trainingCourseId: "1", birdName: "Bird 1", customerName: "Pham Nhat An", trainingCourseTitle: "Flying lv1", userId: 1, registeredDate:"registeredDate",status:"registered" },
         { id: 2, trainingCourseId: "2", birdName: "Bird B", customerName: "Pham Nhat An",trainingCourseTitle: "Flying lv2 ", userId: 1, registeredDate:"registeredDate",status:"confirmed" },
-        { id: 3, trainingCourseId: "1", birdName: "Bird C", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking india accent", userId: 2, registeredDate:"registeredDate",status:"training" },
+        { id: 3, trainingCourseId: "1", birdName: "Bird C", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking English", userId: 2, registeredDate:"registeredDate",status:"training" },
         { id: 4, trainingCourseId: "4", birdName: "Bird D", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking", userId: 2, registeredDate:"registeredDate",status:"checkin" },
-        { id: 5, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"registered" },
-        { id: 6, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"confirmed" },
-        { id: 7, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"checkin" },
-        { id: 8, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"checkout" },
-        { id: 9, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"training" },
-        { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accent", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
-        { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking india accen", userId: 3, registeredDate:"registeredDate",status:"complete" },
+        { id: 5, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking Vietnamese", userId: 3, registeredDate:"registeredDate",status:"registered" },
+        { id: 6, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Flying circle", userId: 3, registeredDate:"registeredDate",status:"confirmed" },
+        { id: 7, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Fly-Racing", userId: 3, registeredDate:"registeredDate",status:"checkin" },
+        { id: 8, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Fly-Performing", userId: 3, registeredDate:"registeredDate",status:"checkout" },
+        { id: 9, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking Chinese", userId: 3, registeredDate:"registeredDate",status:"training" },
+        { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Good behavior", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
+        { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Singing", userId: 3, registeredDate:"registeredDate",status:"complete" },
     ];
     
 
@@ -50,7 +54,7 @@ const BirdAcademyMng = () => {
         <div className='workshop-container'>
             <Sidebar />
             <div className='workshop_section-wrapper'>
-                <div className='workshop_section_table workshop_section_table-workshop'>
+                {renderCustomer && <div className='workshop_section_table workshop_section_table-workshop'>
                     <h2>Customers</h2>
                     <TableContainer component={Paper}>
                         <Table>
@@ -78,8 +82,8 @@ const BirdAcademyMng = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
-                <div className='workshop_section_table workshop_section_table-classes'>
+                </div>}
+                {renderCustomerRequest && <div className='workshop_section_table workshop_section_table-classes'>
                     <h2>Registered TrainingCourse</h2>
                     <TableContainer component={Paper}>
                         <Table>
@@ -107,15 +111,16 @@ const BirdAcademyMng = () => {
                                                 <TableCell>{cls.status}</TableCell>
                                                 {cls.status === "registered" &&
                                                     <TableCell>
-                                                        <button onClick={() => handleButtonClick(cls.id)}>
+                                                        <button style={{marginRight:'18px'}} onClick={() => {
+                                                            handleButtonClick(cls.id);
+                                                            // setRenderCustomerRequest(false);
+                                                            }}>
                                                             Confirm
                                                         </button>
+                                                        <button>Cancel</button>
                                                     </TableCell>}
                                                 {cls.status === "confirmed" && (
-                                                    <>
-                                                        <TableCell><button>Check In</button></TableCell>
-                                                        <TableCell><button>Cancel</button></TableCell>
-                                                    </>
+                                                    <TableCell><button>Check In</button></TableCell>
                                                 )}
                                                 {cls.status === "checkin" && <TableCell><button>Check Out</button></TableCell>}
                                                 {cls.status === "training" && <TableCell><button>Check Out</button></TableCell>}
@@ -124,16 +129,17 @@ const BirdAcademyMng = () => {
                                                 {cls.status === "complete" && <TableCell><button>Check Out</button></TableCell>}
                                                 {/* <TableCell><button>Cancel</button></TableCell> */}
                                             </TableRow>
-                                            {keyParam !== null && keyParam === cls.id && (
-                                                <TrainingSkillComponent keyParam={cls.id} />
-                                            )}
+                                                    
                                             </>
                                         ))
                                     : null}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </div>}
+                {keyParam !== null  && (
+                    <TrainingSkillComponent keyParam={keyParam} />
+                )}
             </div>
         </div>
     )

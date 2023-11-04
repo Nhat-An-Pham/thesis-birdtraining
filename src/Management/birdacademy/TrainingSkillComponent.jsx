@@ -1,8 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import './trainingSkillComponent.scss';
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 
-const TrainingSkillComponent = ({ keyParam }) => {
-    
+const TrainingSkillComponent = ({ keyParam }) => { 
+
+const [renderTrainer, setRenderTrainer] = useState(false);
+const handleTrainerAssign = () => {
+  setRenderTrainer(true); // Đảo ngược trạng thái hiển thị danh sách
+};
+
 const [birdSkillId, setBirdSkillId] = useState(null);
 const handleButtonClick = (birdSkillId) => {
       setBirdSkillId(birdSkillId);
@@ -23,16 +29,24 @@ const trainingProgress = [
     { id: "6", birdTrainingCourseId: "5", birdSkillId: "6", birdSkillName: "Skill 6", status:"cancel", trainerName:""},
     // ... more items
   ];
-  useEffect(() => {
-    console.log(keyParam);
-  },[])
+
+  const trainers = [
+    {id: "1", name: "Trainer 1"},
+    {id: "2", name: "Trainer 2"},
+    {id: "3", name: "Trainer 3"},
+    {id: "4", name: "Trainer 4"},
+  ]
   return (
-    <Table>
+    <div>
+    <TableContainer className='table-container' component={Paper}>
+    <Table className='table'>
       <TableHead>
+      <h2>Training Skill</h2>
         <TableRow>
           <TableCell>Bird Skill Name</TableCell>
           <TableCell>Trainer Name</TableCell>
           <TableCell>Status</TableCell>
+          <TableCell></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -40,15 +54,38 @@ const trainingProgress = [
         .filter((item) => item.birdTrainingCourseId == keyParam)
         .map((item) => (
                 <TableRow key={item.id}>
-                  <TableCell>{item.skillName}</TableCell>
+                  <TableCell>{item.birdSkillName}</TableCell>
                   <TableCell>{item.trainerName}</TableCell>
                   <TableCell>{item.status}</TableCell>
-                  {item.status == "waiting for assign" && <TableCell><button>Assign trainer</button></TableCell>}
-                  {item.status == "assigned" && <TableCell><button>Re-assign trainer</button></TableCell>}
+                  {item.status == "waiting for assign" && <TableCell><button onClick={handleTrainerAssign}>Assign trainer</button></TableCell>}
+                  {item.status == "assigned" && <TableCell><button onClick={handleTrainerAssign}>Re-assign trainer</button></TableCell>}
                 </TableRow>
             ))}
       </TableBody>
     </Table>
+    {renderTrainer && <Table className='table'>
+      <TableHead>
+      <h2>Trainer</h2>
+        <TableRow>
+          <TableCell>Name</TableCell>
+          <TableCell></TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+          {trainers.map((trainer) => (
+              <TableRow key={trainer.id}>
+                <TableCell>{trainer.name}</TableCell>
+                <TableCell><button>Assign</button></TableCell>
+              </TableRow>
+          ))}
+      </TableBody>
+    </Table>}
+    </TableContainer>
+    <div className="main-button-container">
+      <button className="button">Confirm</button>
+      <button className="button">Cancel</button>
+    </div>
+    </div>
   );
 };
 
