@@ -1,55 +1,61 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import FormGroup from "@mui/material/FormGroup";
+import consultantService from "../../services/consultant.service";
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
-function Step4({getFormValues}) {
-    const [firstName, setFirstName] = useState(null);
-    const [lastName, setLastName] = useState(null);
-    const [phone, setphoneNumber] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [emailError, setEmailError] = useState(null);
-    const [phoneNumberError, setPhoneNumberError] = useState(null);
+function Step4({ getFormValues }) {
+    const [consultingDetail, setConsultingDetail] = useState(null);
+    const [address, setAddress] = useState(null);
+    const [consultingTypes, setConsultingTypes] = useState([]);
+    const [consultingTypeId, setConsultingTypeId] = useState(null);
 
-
-    const handleEmail = (e) =>{
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if(re.test(e.target.value)){
-            setEmailError(null);
-            setEmail(e.target.value);
-        }else{
-            setEmailError("invalid email")
-        }
-    
+    const handleChangeConsultingType =(event)=>{
+        setConsultingTypeId(event.target.value.id)
     }
 
-    const handlePhoneNumber = (e) =>{
-        let re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
-        if (re.test(e.target.value)){
-            setPhoneNumberError(null);
-            setphoneNumber(e.target.value);
-        }
-        else{
-            setPhoneNumberError("invalid phone number format");
-        }
-    }
+    useEffect(() => {
+        consultantService
+            .getConsultingType()
+            .then((res) => {
+                console.log("success workshop list test", res.data);
+                setConsultingTypes(res.data);
+            })
+            .catch((e) => console.log("fail workshop list test", e));
+    }, []);
 
-    if(firstName && lastName && phone && email){
-        getFormValues(firstName, lastName, phone, email);
+    if (consultingTypes) {
+        getFormValues(consultingDetail, address, consultingTypeId);
     }
 
 
-    return ( 
+    return (
         <>
-        <FormGroup >
-        <TextField onChange={(e) =>{
-            setFirstName(e.target.value)
-            console.log(firstName)}} id="standard-basic" label="First Name" variant="standard" />
-        <TextField  onChange={(e) =>setLastName(e.target.value)}  id="standard-basic" label="Last Name" variant="standard" />
-        <TextField error={phoneNumberError ? true: false} helperText={phoneNumberError} onChange={(e) =>handlePhoneNumber(e)}  id="standard-basic" label="phone" variant="standard" />
-        <TextField error={emailError? true : false} helperText={emailError}  onChange={(e) => handleEmail(e)}  type="email" id="standard-basic" label="Email" variant="standard" />
-        </FormGroup>
+            <FormGroup >
+                <TextField onChange={(e) => { setConsultingDetail(e.target.value) }} id="standard-basic" label="Consulting Detail (Optional)" variant="standard" />
+                <TextField onChange={(e) => setAddress(e.target.value)} id="standard-basic" label="Address (Optional)" variant="standard" />
+                <br/>
+                {consultingTypes && <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Consulting Type</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Consulting Type"
+                        onChange={(event) => handleChangeConsultingType(event)}
+                    >
+                        {consultingTypes.map((consultingType) =>
+
+                            <MenuItem value={consultingType}>{consultingType.name}</MenuItem>
+
+                        )}
+                    </Select>
+                </FormControl>}
+            </FormGroup>
         </>
-     );
+    );
 }
 
 export default Step4;

@@ -10,24 +10,22 @@ import axios from "axios";
 
 /* [{businessId: 1, businessName:'Studio 786 Salon', icon: <StorefrontIcon/>},{businessId: 2, businessName: 'Skull & Thrones', icon:<ContentCutOutlinedIcon/>}] */
 
-export default function Step1({ getBusinessId }) {
+export default function Step1({ getServiceId }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [listOfBusinesses, setListOfBusinesses] = useState([])
-  const [selectedBusiness, setSelectedBusiness] = useState(null);
-  const [icons, setIcons] = useState([
+  const listOfBusinesses = [
     {
-      iconName: "scissorscutoutline",
-      iconSymbol: <ContentCutOutlinedIcon />
+      id: true,
+      name: "In-home consultation",
     },
     {
-      iconName: "storefronticon",
-      iconSymbol: <StorefrontIcon />
-    }
-  ])
-  const handleListItemClick = (businessId, index) => {
-    //this function sets business id into state
-    getBusinessId(businessId, selectedIndex);
+      id: false,
+      name: "Online consultation",
+    },
+  ]
 
+  const handleListItemClick = (serviceId, index) => {
+    //this function sets business id into state
+    getServiceId(serviceId);
     setSelectedIndex(index);
 
   };
@@ -38,17 +36,17 @@ export default function Step1({ getBusinessId }) {
   //  }]
 
   //use effect to populate list of businesses
-  useEffect(() => {
-    //GET REQUEST TO POPULATE listOfBusinesses state array  d
+  // useEffect(() => {
+  //   //GET REQUEST TO POPULATE listOfBusinesses state array  d
 
-    axios.get("https://instabookapi.azurewebsites.net/api/get_all_businesses")
-      .then((results) => {
+  //   axios.get("https://instabookapi.azurewebsites.net/api/get_all_businesses")
+  //     .then((results) => {
 
-        setListOfBusinesses(results.data);
+  //       setListOfBusinesses(results.data);
 
-      })
+  //     })
 
-  }, [])
+  // }, [])
   return (
     <Box sx={{ width: '100%', minWidth: 400, bgcolor: 'background.paper' }}>
 
@@ -58,16 +56,9 @@ export default function Step1({ getBusinessId }) {
             <>
               <ListItemButton
                 selected={selectedIndex === idx}
-                onClick={(event) => handleListItemClick(business.businessId, idx)}
+                onClick={(event) => handleListItemClick(business.id, idx)}
               >
-                <ListItemIcon>
-                  {icons.map((icon) => {
-                    if (icon.iconName === business.icon) {
-                      return icon.iconSymbol;
-                    }
-                  })}
-                </ListItemIcon>
-                <ListItemText primary={business.businessName} />
+                <ListItemText primary={business.name} />
               </ListItemButton>
             </>
           )

@@ -10,34 +10,59 @@ import Typography from '@mui/material/Typography';
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
-import axios from "axios";
 import Step4 from './Step4';
 import moment from "moment";
+import dayjs from 'dayjs';
 
 import "./booking.scss"
+import ConsultantService from '../../services/consultant.service';
 
 function BookingComponent() {
 
     /*DATA AMD STATES*/
+    //1 and customerID
+    const [serviceId, setServiceId] = useState(false);
+    const customerId = JSON.parse(localStorage.getItem("user-token"))
+    //2
+    const [selectedTrainerId, setSelectedTrainerId] = useState(null);
+    
     const [activeStep, setActiveStep] = useState(0);
-    const [selectedIndex, setSelectedIndex] = useState(null)
-    const [services, setServices] = useState([]);
-    const [selectedServiceName, setSelectedServiceName] = useState(null);
-    const [cFirstName, setCFirstName] = useState(null);
-    const [cLastName, setCLastName] = useState(null);
-    const [selectedTime, setSelectedTime] = useState(null);
-    const [selectedServiceId, setSelectedServiceId] = useState(null);
-    const [cPhone, setCPhone] = useState(null);
-    const [cEmail, setCEmail] = useState(null);
-    const [apptDate, setApptDate] = useState(moment(new Date).format("YYYY-MM-DD"))
-    const [selectedServiceLength, setSelectedServiceLength] = useState(null);
-    const [businessId, setBusinessId] = useState(null);
+    //3
+    const [apptDate, setApptDate] = useState(dayjs())
+    const [slotId, setSlotId] =useState(null);
+    //4
+    const [consultingType, setConsultingType] =useState(null)
+    const [consultingDetail, setConsultingDetail] = useState(null);
+    const [address, setAddress] = useState(null);
+
+    //throw
     const [duplicateCheck, setDuplicateCheck] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const getBusinessId = (id, itemIndex) => {
-        setBusinessId(id);
-        setSelectedIndex(itemIndex)
+
+    //1
+    const getServiceId = (id) => {
+        setServiceId(id);
+    }
+    //2
+    const getTrainerId = (id) => {
+        setSelectedTrainerId(id);
+    }
+    //3
+    const getAppointmentDate = (appointmentDate) => {
+        setApptDate(appointmentDate);
+    }
+    const getSlotId = (slotId) =>{
+        setSlotId(slotId)
+    }
+    //4
+    const getConsultingType = (consultingType) =>{
+        setConsultingType(consultingType);
+    }
+    const getFormValues = (consultingDetail, address, consultingTypeId) => {
+        setConsultingDetail(consultingDetail);
+        setAddress(address);
+        setConsultingType(consultingTypeId)
     }
 
     /*FUNCTIONS*/
@@ -45,118 +70,88 @@ function BookingComponent() {
         setErrorMessage(null);
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
         if (activeStep == 1) {
-            setBusinessId(null);
-            setServices([]);
+            setServiceId(null);
         }
         if (activeStep == 2) {
-            setSelectedServiceName(null);
-            setSelectedServiceId(null);
+            setSelectedTrainerId(null);
 
         }
         if (activeStep == 3) {
-            setSelectedTime(null);
+            setApptDate(null);
+            setSlotId(null);
         }
     };
 
-    const getServiceAndLengthMinutes = (name, serviceId, length) => {
-        setSelectedServiceName(name);
-        setSelectedServiceId(serviceId);
-        setSelectedServiceLength(length);
-
-    }
-    const getFormValues = (firstName, lastName, phone, email) => {
-        setCFirstName(firstName)
-        setCLastName(lastName);
-        setCPhone(phone);
-        setCEmail(email);
-    }
-    const getDateTime = (date, time) => {
-        setApptDate(date);
-        setSelectedTime(time);
-    }
+    
+    
 
     const handleNext = async (index) => {
-        if (businessId === null) {
+        if (serviceId === null) {
             setErrorMessage("*Please select a service.")
             return;
         }
-        if (index === 1 && selectedServiceId == null) {
-            setErrorMessage("*Please select a trainer from below.")
-
+        if (index === 1 && selectedTrainerId == null) {
+            setErrorMessage("*Please Choose A Trainer or let Us Choose For You")
             return;
         }
-        if (index === 2 && selectedTime == null) {
+        if (index === 2 && apptDate == null) {
             setErrorMessage("*Please select a time.");
         }
         else {
             setErrorMessage(null);
             setActiveStep((prevActiveStep) => prevActiveStep + 1);
-            if (index === 0) {
-                // await axios.get(`https://instabookapi.azurewebsites.net/api/business_services/{id}?businessId=${businessId}`)
-                //     .then((results) => {
-                //         setServices(results.data);
-                //     })
-            }
             if (index === 3) {
                 //axios request to submit appointment
-                if (!cFirstName || !cLastName || !cPhone || !cEmail) {
+                if (consultingType === null) {
                     setErrorMessage("*Please fill out all fields")
                     setActiveStep(3);
                 }
                 else {
                     setErrorMessage(null);
                     const newAppt = {
-                        firstName: cFirstName,
-                        lastName: cLastName,
-                        startTime: selectedTime,
-                        endTime: "",
-                        serviceId: selectedServiceId,
-                        confirmed: 1,
-                        phoneNumber: cPhone,
-                        email: cEmail,
-                        apptDate: apptDate,
-                        lengthMinutes: selectedServiceLength,
-                        businessId: businessId
+                        customerId: customerId,
+                        onlineOrOffline: serviceId,
+                        trainerId: selectedTrainerId,
+                        appointmentDate: apptDate,
+                        actualSlotStart: slotId,
+                        consultingDetail: consultingDetail,
+                        address: address
                     }
-                    // try {
-                    //     await axios.post("https://instabookapi.azurewebsites.net/api/appt_confirmed", newAppt)
-                    //         .then((results) => {
-                    //             setDuplicateCheck(results.data);
-                    //             console.log(results.data);
-                    //         })
-                    // } catch (error) {
-                    //     console.log(error.response.data);
-                    // }
+                    try {
+                        ConsultantService.CusSendTicket(newAppt)
+                    } catch (error) {
+                        console.log(error.response.data);
+                    }
                 }
                 return;
             }
         }
     };
+
+    //Reset Button
     const handleReset = () => {
         setActiveStep(0);
-        setCFirstName(null);
-        setCLastName(null);
-        setSelectedTime(null);
-        setBusinessId(null);
-        setServices([]);
-        setSelectedServiceId(null);
+        setServiceId(null);
+        setSelectedTrainerId(null);
     };
+
+
     const steps = [
         {
             label: 'Select a service',
-            description: <Step1 getBusinessId={getBusinessId} />,
+            description: <Step1 getServiceId={getServiceId} />,
         },
         {
             label: 'Which Trainer would you like to make an appointment with?',
-            description: <Step2 businessId={businessId} services={services} getServiceAndLengthMinutes={getServiceAndLengthMinutes} />,
+            description: <Step2 getTrainerId = {getTrainerId} />,
         },
         {
             label: 'Select Date & Time',
-            description: <Step3 getDateTime={getDateTime} selectedServiceId={selectedServiceId} selectedServiceLength={selectedServiceLength} selectedServiceName={selectedServiceName} />,
+            description: <Step3 getAppointmentDate={getAppointmentDate} selectedTrainerId={selectedTrainerId} getSlotId={getSlotId} />,
         },
         {
             label: 'Please enter Contact Information',
-            description: <Step4 getFormValues={getFormValues} />
+            description: <Step4 getFormValues={getFormValues} getConsultingType = {getConsultingType} />
         }
     ];
 
@@ -204,7 +199,7 @@ function BookingComponent() {
                 <Paper square elevation={0} sx={{ p: 3 }}>
 
                     {duplicateCheck == 1 ?
-                        <Typography variant="h5" style={{ color: "#009688" }}>You&apos;re appointment on {apptDate} at {selectedTime} for {selectedServiceName} as been confirmed!</Typography> :
+                        <Typography variant="h5" style={{ color: "#009688" }}>You&apos;re appointment on {apptDate} has been confirmed!</Typography> :
                         <Typography variant="h5" style={{ color: "#ba000d" }}>We're sorry, that appointment time slot is taken. Please select another time.</Typography>
                     }
                     <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
