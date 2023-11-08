@@ -105,6 +105,7 @@
             font-size: 13px;
             height: max-content;
             overflow: hidden;
+
             & span {
                 color: red;
             }
@@ -129,7 +130,7 @@
 
     &-container {
         background: white;
-        width: 700px;
+        width: 900px;
         height: auto;
         padding: 20px;
         border-radius: 5px;
@@ -137,74 +138,50 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         overflow: hidden;
         position: relative;
+    }
+}
 
-        & p {
-            text-align: center;
+.wclpdiv_section{
+    display: block;
+    margin: 0px;
+    margin-bottom: 30px;
+    &-mapping{
+        width: 100%;
+    }
+    //wclpdiv_section-button
+    &-button{
+        height: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        & button{
+            padding: 10px;
+        }
+    }
+    &_button{
+        &-close{
+            
+        }
+        &-enroll{
+            width: 120px;
         }
     }
 }
 
-.wclpdiv_section {
-
-    &-backgroundimg {
-        opacity: 0.6;
-        position: absolute;
-        left: 0;
-        top: 0;
+//wclpdiv_section-mapping
+.wclpdiv_section_mapping-content{
+    & .wclpdiv_content{
         width: 100%;
-        height: 100%;
-    }
-
-    &-content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    &_input {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        width: 100%;
-
-        & input {
-            width: 60%;
-            padding: 20px;
-            margin: 10px;
-            border-radius: 10px;
-            border: none;
+        &-detail{
+            font-weight: bold;
+            & span{
+                font-weight: normal;
+            }
         }
-    }
-
-    &_button-submit {
-        height: 50px;
-        width: 170px;
-        border: 1px rgb(234, 198, 150) solid;
-        border-radius: 20px;
-        background-color: green;
-        color: white;
-        box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        transition: transform 0.5s;
-    }
-
-    &_button-close {
-        margin-top: 40px;
-        height: 40px;
-        width: 170px;
-        border: 1px rgb(234, 198, 150) solid;
-        border-radius: 20px;
-        box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        transition: transform 0.5s;
-
-        &:hover {
-            color: black;
-            transform: scale(1.1, 1.1)
+        &-registered{
+            font-size: 15px;
+            text-align: right;
+            margin-top: 30px;
         }
     }
 }

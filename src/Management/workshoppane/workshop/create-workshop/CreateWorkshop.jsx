@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import {
   Button,
   FormControl,
@@ -9,11 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import "./create-workshop.scss";
-import Editor from "../../component/text-editor/Editor";
-import { getWorkshops } from "../workshopService";
-import { UploadComponent } from "../../component/upload/Upload";
+import Editor from "../../../component/text-editor/Editor";
+import { UploadComponent } from "../../../component/upload/Upload";
+import workshopManagementService from "../../../../services/workshop-management.service";
 
-const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
+const CreateWorkshopComponent = ({ callbackCreateWorkshop }) => {
   const [title, setTitle] = useState("");
   const [totalSlot, setTotalSlot] = useState(0);
   const [registerEnd, setRegisterEnd] = useState(0);
@@ -21,7 +20,7 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
   const [description, setDescription] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
-  
+
   const handleEditorChange = (value) => {
     setDescription(value);
   };
@@ -29,7 +28,7 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setPictures(files);
-  
+
     // Create an array of image names from the selected files
     const imageNames = files.map((file) => file.name);
     setSubmittedImages(imageNames);
@@ -39,7 +38,7 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
       let params = {
         $filter: `id eq ${id}`,
       };
-      let response = await getWorkshops(params);
+      let response = await workshopManagementService.getWorkshops(params);
       return response[0];
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -47,11 +46,6 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let ACCESS_TOKEN =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUiLCJlbWFpbCI6InRydW5nYWRtaW5AbWFpbCIsInJvbGUiOiJNYW5hZ2VyIiwibmFtZSI6IlRydW5nIEAkbWluaXN0cmF0b3IiLCJhdmF0YXIiOiIiLCJleHAiOjE2OTgyMDQ4Mzh9.W9HI8eNKb6MNSQERttmbUWPXSvVZf3tpkdbl65rZXYY"; // Replace with your actual token
-    let apiUrl = "http://54.179.55.17/api/workshop/create";    
-    const token = ACCESS_TOKEN;
-
     // Create a FormData object to hold the form data
     const formData = new FormData();
     formData.append("Title", title);
@@ -64,24 +58,18 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
     pictures.forEach((picture, index) => {
       formData.append(`Pictures`, picture);
     });
-    try {
-      const response = await axios.post(apiUrl, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
 
-      if (response.status === 200) {
+    workshopManagementService
+      .createWorkshop(formData)
+      .then((response) => {
         let id = response.data;
-        let workshop = await fetchCreatedData(id);
-        callbackCreateWorkshop(workshop);
-      } else {
-        // Handle error responses here
-      }
-    } catch (error) {
-      console.log(error);
-    }
+        fetchCreatedData(id).then((workshop) => {
+          callbackCreateWorkshop(workshop);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -103,24 +91,41 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
             </FormControl>
             <FormControl fullWidth required variant="outlined">
               <InputLabel>Total Slot</InputLabel>
-              <Input type="number" step="1" onChange={(e) => setTotalSlot(e.target.value)} required />
+              <Input
+                type="number"
+                step="1"
+                onChange={(e) => setTotalSlot(e.target.value)}
+                required
+              />
             </FormControl>
           </Stack>
           <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
             <FormControl fullWidth required variant="outlined">
               <InputLabel>Register End</InputLabel>
-              <Input type="number" onChange={(e) => setRegisterEnd(e.target.value)} required />
+              <Input
+                type="number"
+                onChange={(e) => setRegisterEnd(e.target.value)}
+                required
+              />
             </FormControl>
             <FormControl fullWidth required variant="outlined">
               <InputLabel>Price</InputLabel>
-              <Input type="number" step="0.01" onChange={(e) => setPrice(e.target.value)} required />
+              <Input
+                type="number"
+                step="0.01"
+                onChange={(e) => setPrice(e.target.value)}
+                required
+              />
             </FormControl>
           </Stack>
           <FormControl fullWidth required style={{ marginBottom: 10 }}>
             <Typography variant="h6" gutterBottom>
               Description
             </Typography>
-            <Editor onGetHtmlValue={handleEditorChange} htmlValue={description} />
+            <Editor
+              onGetHtmlValue={handleEditorChange}
+              htmlValue={description}
+            />
           </FormControl>
           <FormControl required style={{ marginBottom: 15 }}>
             <Typography variant="h6" gutterBottom>
@@ -140,7 +145,7 @@ const CreateWorkshopComponent = ({callbackCreateWorkshop}) => {
           </FormControl>
           <br />
           <Button
-            sx={{ float: "right", marginBottom: '20px' }}
+            sx={{ float: "right", marginBottom: "20px" }}
             variant="contained"
             color="ochre"
             type="submit"
