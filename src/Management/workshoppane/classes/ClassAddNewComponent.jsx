@@ -22,6 +22,7 @@ export default function ClassAddNewComponent({
   selectedWorkshop,
   open,
   handleClose,
+  callbackCreateClass
 }) {
   const ideal = dayjs(new Date()).add(5, "day");
   const [startDate, setStartDate] = useState(ideal);
@@ -39,6 +40,7 @@ export default function ClassAddNewComponent({
         if(response.status === 200){
             toast.success('Create successfully!');
             toast.info('Please assign trainer to created class!');
+            callbackCreateClass();
         } else {
             console.log(response);
             toast.error('An error has occur');
