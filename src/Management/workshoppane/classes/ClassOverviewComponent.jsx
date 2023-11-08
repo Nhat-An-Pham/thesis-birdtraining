@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import classManagementService from "../../../services/class-management.service";
 import {
+  Button,
   Grid,
   Paper,
   Table,
@@ -16,26 +17,41 @@ import WorkshopViewComponent from "../detail-overview/WorkshopViewComponent";
 import { AddCircleOutlineOutlined } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
+import ClassAddNewComponent from "./ClassAddNewComponent";
 
 export default function ClassOverviewComponent({ workshop, callbackClassSelect }) {
   const [classes, setClasses] = useState([]); // Initialize as an empty array
+  const [selectedWorkshop, setSelectedWorkshop] = useState(workshop);
   const [selectedClass, setSelectedClass] = useState();
-  useEffect(() => {
-    async function fetchClasses() {
-      try {
-        let params = {
-          workshopId: workshop.id,
-        };
-        const response = await classManagementService.getClasses(params);
-        setClasses(response.data);
-      } catch (error) {
-        console.error(error);
-      }
+  const [open, setOpen] = useState(false);
+  async function fetchClasses() {
+    try {
+      let params = {
+        workshopId: workshop.id,
+      };
+      const response = await classManagementService.getClasses(params);
+      setClasses(response.data);
+    } catch (error) {
+      console.error(error);
     }
+  }
+  useEffect(() => {
+    
     if (workshop) {
       fetchClasses();
     }
   }, [workshop]);
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+  };
+  const callbackCreateClass = async () => {
+    setOpen(false);
+    await fetchClasses();
+  }
 
   function handleClassSelect(classItem) {
     callbackClassSelect(classItem.id);
@@ -84,6 +100,11 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
   }
   return (
     <>
+    <ClassAddNewComponent
+        selectedWorkshop={selectedWorkshop}
+        open={open}
+        handleClose={handleCloseModal}
+        callbackCreateClass={callbackCreateClass}/>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <WorkshopViewComponent workshopId={workshop.id} />
@@ -116,12 +137,15 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
                 {loadListClasses()}
                 <TableRow hover>
                   <TableCell colSpan={12} align="center">
-                    <AddCircleOutlineOutlined scale={"150%"} />
+                    <Button onClick={handleOpenModal}>
+                      <AddCircleOutlineOutlined scale={"150%"} />
+                    </Button>
                   </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
+          
         </Grid>
       </Grid>
     </>

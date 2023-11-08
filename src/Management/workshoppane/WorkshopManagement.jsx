@@ -47,6 +47,10 @@ export default function WorkshopManagementComponent() {
     setSelectedWorkshop(null);
     setOpen(false);
   };
+  const callbackCreateClass= () => {
+    setOpen(false);
+    setRenderedIndex(3);
+  }
   let renderedComponents = [
     <WorkshopPane
       statusFilter={statusFilter}
@@ -126,6 +130,7 @@ export default function WorkshopManagementComponent() {
         selectedWorkshop={selectedWorkshop}
         open={open}
         handleClose={handleCloseModal}
+        callbackCreateClass={callbackCreateClass}
       />
       </ThemeProvider>
     </div>
