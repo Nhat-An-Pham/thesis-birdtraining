@@ -5,6 +5,7 @@ import dateFormat from 'dateformat';
 // import workshopsData from '../assets/fakedb/workshops'
 import { Link } from 'react-router-dom';
 import WorkshopService from '../services/workshop.service';
+import { useNavigate } from 'react-router-dom';
 
 
 const WClassListPage = () => {
@@ -64,6 +65,14 @@ const WClassListPage = () => {
     setIsDivVisible(false);
   };
 
+
+  //Set Enroll
+  const navigate = useNavigate();
+  const handleEnroll = (event) =>{
+    console.log(event);
+    navigate(`/payment/${event}`)
+  }
+
   //Select Class
   const [selectedClass, setSelectedClass] = useState(null);
 
@@ -96,7 +105,7 @@ const WClassListPage = () => {
               
               <div className='wclpdiv_section wclpdiv_section-button'>
                 <button className='wclpdiv_section_button-close' onClick={handleCloseDiv}>Close</button>
-                <button className='wclpdiv_section_button-enroll' onClick={handleCloseDiv}>ENROLL NOW</button>
+                <button className='wclpdiv_section_button-enroll' onClick={() => handleEnroll(selectedClass.id)}>ENROLL NOW</button>
               </div>
             </div>
           </div>

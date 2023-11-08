@@ -1,9 +1,6 @@
 import React from 'react'
 
 const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => {
-    console.log(link);
-
-
     return (
 
         <section class="card_container">

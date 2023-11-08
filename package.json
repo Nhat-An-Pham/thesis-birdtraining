@@ -22,6 +22,7 @@
     "cors": "^2.8.5",
     "date-fns": "^2.30.0",
     "dateformat": "^5.0.3",
+    "datejs": "^1.0.0-rc3",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "moment": "^2.29.4",

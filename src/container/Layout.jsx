@@ -1,9 +1,6 @@
 import { Route } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import ScrollTop from "../components/ScrollTop"
-import { useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
 import React from 'react';
 
 import HomePage from '../pages/HomePage';
@@ -33,8 +30,6 @@ import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
-import { ToastContainer } from 'react-toastify';
-import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 
 function Layout() {
 
@@ -63,7 +58,8 @@ function Layout() {
           <Route path="/birdacademy" element={<TrainingAcademyPage />} />
 
           {/* Payment */}
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/:wclassid" element={<Payment />} />
+          <Route path="/payment/:oclassid" element={<Payment />} />
           <Route path="/certificate" element={<Certificate />} />
 
           {/* login signup */}
@@ -72,12 +68,12 @@ function Layout() {
 
           {/* private pages */}
           <Route element={<PrivateRoutes/>} >
-            <Route path="/management" element={<Dashboard />} />
-            <Route path="/management/customerreq" element={<CustomerReq />} />
-            <Route path="/management/timetable" element={<TimeTable />} />
-            <Route path="/management/birdacademy" element={<BirdAcademyMng />} />
-            <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
-            <Route path="/management/userdata" element={<UserData />} />
+            <Route path="/management" exact element={<Dashboard />} />
+            <Route path="/management/customerreq" exact element={<CustomerReq />} />
+            <Route path="/management/timetable" exact element={<TimeTable />} />
+            <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
+           <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
+            <Route path="/management/userdata" exact element={<UserData />} />
           </Route>
         </Routes>
 

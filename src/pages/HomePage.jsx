@@ -157,7 +157,7 @@ const HomePage = () => {
                     </div>
                     <div className='homereviewbody homereviewbody-content'>
                         <h4>" REVIEW "</h4>
-                        <p1>{review.review}</p1>
+                        <p>{review.review}</p>
                         <p>- {review.name}</p>
                     </div>
                 </div>
