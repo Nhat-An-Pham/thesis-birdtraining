@@ -1,38 +1,45 @@
-
-import { Button, Grid } from "@mui/material";
-import axios from "axios";
+import { Button, Grid, Typography } from "@mui/material";
 // import { toast } from 'react-toastify';
 import Editor from "../../../component/text-editor/Editor";
 import { useEffect, useState } from "react";
-import { modifyTemplateDetail } from "../../workshopService";
+import workshopManagementService from "../../../../services/workshop-management.service";
+import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 
-export default function WorkshopDetailTemplateComponent( {selectedDetail} ) {    
-    const [description, setDescription] = useState(selectedDetail.detail);
-    // const handleEditorSubmit = (value) => {
-    //   setDescription(value);
-    //   console.log('description');
-    //   console.log(value);
-    // }
-    useEffect(() => {
-        // console.log('change selected detail');
-        // console.log(selectedDetail);
-      setDescription(selectedDetail.detail);
-    }, [selectedDetail])
-    const handleChanges = (value) => {
-        setDescription(value);
-    }
-    const handleSaveChanges = () => {
-      modifyTemplateDetail(selectedDetail.id, description);
-    //   onHandleDetailChange();
-      };
-    return (
-        <Grid item xs={8}>
-            <div className="right-side-content">
-            <Editor onGetHtmlValue={handleChanges} htmlValue={description}/>
-                <Button variant="contained" color="primary" onClick={handleSaveChanges}>
-                    Save Changes
-                </Button>
-            </div>
-        </Grid>
+export default function WorkshopDetailTemplateComponent({ selectedDetail }) {
+  const [description, setDescription] = useState(selectedDetail.detail);
+    const [user, setUser] = useState(workshopManagementService.getCurrentUser);
+  useEffect(() => {
+    setDescription(selectedDetail.detail);
+  }, [selectedDetail]);
+
+  const handleChanges = (value) => {
+    setDescription(value);
+  };
+
+  const handleSaveChanges = () => {
+    workshopManagementService.modifyTemplateDetail(
+      selectedDetail.id,
+      description
     );
+  };
+
+  return (
+    <Grid item xs={8}>
+      <div className="right-side-content">
+        {
+            user?.role === 'Manager'?(
+<div>
+            <Editor onGetHtmlValue={handleChanges} htmlValue={description} />
+            <Button variant="contained" color="primary" onClick={handleSaveChanges}>
+              Save Changes
+            </Button>
+        </div>
+            ):(
+                <Typography><RawHTMLRenderer htmlContent={description} /></Typography>
+            )
+        }
+        
+      </div>
+    </Grid>
+  );
 }

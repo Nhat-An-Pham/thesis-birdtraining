@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
     }, []);
 
     return (
-        userTokenRole && (userTokenRole === "Trainer" || userTokenRole === "Staff" || userTokenRole === "Manager" ||
+ userTokenRole && (userTokenRole === "Trainer" || userTokenRole === "Staff" || userTokenRole === "Manager" ||
             userTokenRole === "Administrator") ?
             <Outlet /> : null
     )

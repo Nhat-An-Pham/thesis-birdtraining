@@ -72,7 +72,7 @@ function Layout() {
             <Route path="/management/customerreq" exact element={<CustomerReq />} />
             <Route path="/management/timetable" exact element={<TimeTable />} />
             <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
-            <Route path="/management/workshop" exact element={<WorkshopManagement />} />
+           <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
             <Route path="/management/userdata" exact element={<UserData />} />
           </Route>
         </Routes>
