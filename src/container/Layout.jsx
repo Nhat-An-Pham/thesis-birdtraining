@@ -58,7 +58,8 @@ function Layout() {
           <Route path="/birdacademy" element={<TrainingAcademyPage />} />
 
           {/* Payment */}
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment/:wclassid" element={<Payment />} />
+          <Route path="/payment/:oclassid" element={<Payment />} />
           <Route path="/certificate" element={<Certificate />} />
 
           {/* login signup */}

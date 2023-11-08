@@ -39,6 +39,19 @@ class WorkshopService {
             .get(API_URL + `/registration-info?workshopClassId=${id}`);
         return response;
     }
+
+
+    // Billing information
+    async getBillingInformation({ wclassId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .get(API_URL + `/billing-information?workshopClassId=${wclassId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
 }
 
 export default new WorkshopService();

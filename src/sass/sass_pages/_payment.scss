@@ -1,73 +1,103 @@
-.paymentpage{
-    background-image: url("../../assets/pages/loginsignup/backgroundimage.jpeg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #C8AE7D;
+.paymentpage {
+  background-image: url("../../assets/pages/loginsignup/backgroundimage.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
 
 
 .paymentApp {
-    text-align: center;
-    width: 700px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f5f5f5;
+  text-align: center;
+  width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+}
+
+.paymentApp-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.paymentApp-middle {
+  display: flex;
+  justify-content: center;
+  & img{
+    margin-top: 10px;
+    width: 300px;
   }
-  
-  .paymentApp-title {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .paymentApp-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .paymentApp-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: flex;
-    & input{
-        width: 50%;
+}
+
+.paymentApp_middle {
+  width: 50%;
+  padding: 10px;
+  &-left{
+    padding-top: 0px;
+    h3{
+      font-weight: normal;
     }
-    & label{
-        width: 50%;
-        display: flex;
-        align-items: center;
-    }
   }
-  
-  .paymentApp-input {
+  &-right{
+    border-left: 1px grey solid;
+  }
+}
+
+.paymentApp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.paymentApp-label {
+  font-weight: normal;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  & input {
+    width: 50%;
+  }
+
+  & label {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
   }
-  
-  .paymentApp-button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .paymentApp-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .paymentApp-confirmation {
-    color: green;
-    font-weight: bold;
-    margin-top: 20px;
-  }
-  
+}
+
+.paymentApp-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.paymentApp-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  width: 200px;
+}
+
+.paymentApp-button:hover {
+  background-color: #0056b3;
+}
+
+.paymentApp-confirmation {
+  color: green;
+  font-weight: bold;
+  margin-top: 20px;
+}
