@@ -13,9 +13,10 @@ const PrivateRoutes = () => {
     }, [])
 
     return (
-        userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" ||
-            userRole === "Administrator" && decodeToken !== null ?
-            <Outlet /> : <Navigate to="/home" />
+        // userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" ||
+        //     userRole === "Administrator" && decodeToken !== null ?
+        //     <Outlet /> : <Navigate to="/home" />
+        <Outlet/>
     )
 }
 

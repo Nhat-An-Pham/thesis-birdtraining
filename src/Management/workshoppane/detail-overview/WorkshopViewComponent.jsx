@@ -58,7 +58,7 @@ export default function WorkshopViewComponent({ workshopId }) {
     <div>
       <Grid container>
         <Grid container item justifyContent="center" xs={12}>
-          <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+          <ImageList sx={{ width: 200, height: 200 }} cols={3} rowHeight={164}>
             {pictures.map((picture) => (
               <ImageListItem key={picture}>
                 <img

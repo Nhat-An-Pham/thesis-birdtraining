@@ -6,12 +6,16 @@ import { ochreTheme } from "../themes/Theme";
 import WorkshopDetailOverviewComponent from "./detail-overview/detail/WorkshopDetailOverview";
 import WorkshopPaneDrawerItems from "./WorkshopPaneDrawerItems";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
+import ClassManagementComponent from "./classes/ClassManagementComponent";
+import { ToastContainer } from "react-toastify";
+import ClassAddNewComponent from "./classes/ClassAddNewComponent";
 
 export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState("Active"); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
   const [drawerState, setDrawerState] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleFilterClick = () => {
     // Toggle between 'Active' and 'Deactive' status filter
@@ -35,7 +39,14 @@ export default function WorkshopManagementComponent() {
     setSelectedWorkshop(workshop);
     setRenderedIndex(2);
   };
+  const handleOpenModal = () => {
+    setOpen(true);
+  };
 
+  const handleCloseModal = () => {
+    setSelectedWorkshop(null);
+    setOpen(false);
+  };
   let renderedComponents = [
     <WorkshopPane
       statusFilter={statusFilter}
@@ -44,19 +55,22 @@ export default function WorkshopManagementComponent() {
     />,
     <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
     <WorkshopDetailOverviewComponent workshop={selectedWorkshop} />,
+    <ClassManagementComponent selectedWorkshop={selectedWorkshop} />,
   ];
   return (
     <div className="workshop-container">
+      <ToastContainer />
       <Drawer anchor={"right"} open={drawerState} onClose={toggleDrawer(false)}>
         <WorkshopPaneDrawerItems
           toggleEvent={toggleDrawer(true)}
           onDetailRequest={onDetailView}
           onClassesRequest={onClassView}
+          onCreateClassRequest={handleOpenModal}
         />
       </Drawer>
 
       <ThemeProvider theme={ochreTheme}>
-        <ReworkSidebar selectTab={3}/>
+        <ReworkSidebar selectTab={3} />
         <Grid container spacing={1} sx={{ margin: "15px" }}>
           <Grid container item xs={6} justifyContent="flex-start">
             {renderedIndex === 0 ? (
@@ -108,6 +122,11 @@ export default function WorkshopManagementComponent() {
             {renderedComponents[renderedIndex]}
           </Grid>
         </Grid>
+        <ClassAddNewComponent
+        selectedWorkshop={selectedWorkshop}
+        open={open}
+        handleClose={handleCloseModal}
+      />
       </ThemeProvider>
     </div>
   );

@@ -1,13 +1,30 @@
-import { InfoOutlined } from "@mui/icons-material";
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { AddBoxOutlined, InfoOutlined, PlusOneOutlined } from "@mui/icons-material";
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { jwtDecode } from "jwt-decode";
 
-export default function WorkshopPaneDrawerItems ({toggleEvent, onDetailRequest, onClassesRequest}) {
+export default function WorkshopPaneDrawerItems({
+  toggleEvent,
+  onDetailRequest,
+  onClassesRequest,
+  onCreateClassRequest,
+}) {
   const detailClick = () => {
     onDetailRequest();
-  }
+  };
   const classClick = () => {
     onClassesRequest();
-  }
+  };
+  const createClassClick = () => {
+    onCreateClassRequest();
+  };
   return (
     <Box
       sx={{ width: 200 }}
@@ -17,21 +34,31 @@ export default function WorkshopPaneDrawerItems ({toggleEvent, onDetailRequest, 
     >
       <List>
         <ListItem disablePadding onClick={detailClick}>
-            <ListItemButton>
-              <ListItemIcon>
-                <InfoOutlined />
-              </ListItemIcon>
-              <ListItemText secondary={'Workshop detail'} />
-            </ListItemButton>
+          <ListItemButton>
+            <ListItemIcon>
+              <InfoOutlined />
+            </ListItemIcon>
+            <ListItemText primary={"Workshop detail"} />
+          </ListItemButton>
         </ListItem>
-        <Divider/>
+
+        <Divider />
         <ListItem disablePadding onClick={classClick}>
-            <ListItemButton>
-              <ListItemIcon>
-                <InfoOutlined />
-              </ListItemIcon>
-              <ListItemText  secondary={'Classes'} />
-            </ListItemButton>
+          <ListItemButton>
+            <ListItemIcon>
+              <InfoOutlined />
+            </ListItemIcon>
+            <ListItemText primary={"Classes"} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+        <ListItem disablePadding onClick={createClassClick}>
+          <ListItemButton>
+            <ListItemIcon>
+              <AddBoxOutlined />
+            </ListItemIcon>
+            <ListItemText primary={"New class"} />
+          </ListItemButton>
         </ListItem>
       </List>
     </Box>

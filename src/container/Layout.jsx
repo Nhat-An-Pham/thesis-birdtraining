@@ -76,7 +76,7 @@ function Layout() {
             <Route path="/management/customerreq" element={<CustomerReq />} />
             <Route path="/management/timetable" element={<TimeTable />} />
             <Route path="/management/birdacademy" element={<BirdAcademyMng />} />
-            <Route path="/management/workshop" element={<WorkshopManagement />} />
+            <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
             <Route path="/management/userdata" element={<UserData />} />
           </Route>
         </Routes>
