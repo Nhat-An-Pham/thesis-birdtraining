@@ -24,7 +24,7 @@ import UserData from '../Management/userdata/UserData';
 import TimeTable from '../Management/timetable/Timetable';
 import SignUp from '../pages/SignUp';
 import Payment from '../pages/Payment';
-import CustomerReq from '../Management/customer/CustomerReq';
+import CustomerReqComponent from '../Management/customer/CustomerReq';
 import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
 import WorkshopManagement from '../Management/workshop/Workshop'
@@ -70,10 +70,10 @@ function Layout() {
           {/* private pages */}
           <Route element={<PrivateRoutes/>} >
             <Route path="/management" exact element={<Dashboard />} />
-            <Route path="/management/customerreq" exact element={<CustomerReq />} />
+            <Route path="/management/customerreq" exact element={<CustomerReqComponent />} />
             <Route path="/management/timetable" exact element={<TimeTable />} />
             <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
-           <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
+            <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
             <Route path="/management/userdata" exact element={<UserData />} />
           </Route>
         </Routes>
