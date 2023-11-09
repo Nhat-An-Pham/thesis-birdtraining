@@ -14,11 +14,11 @@ export default function Step1({ getServiceId }) {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const listOfBusinesses = [
     {
-      id: true,
+      id: false,
       name: "In-home consultation",
     },
     {
-      id: false,
+      id: true,
       name: "Online consultation",
     },
   ]

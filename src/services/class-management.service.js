@@ -102,6 +102,25 @@ class ClassManagementService {
       throw error;
     }
   }
+  async GetClassById(classId){
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/workshop/class-by-id`,
+        {
+          params:{
+            workshopClassId: `${classId}`
+          }
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error get class by id:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
 }
 
 export default new ClassManagementService();
