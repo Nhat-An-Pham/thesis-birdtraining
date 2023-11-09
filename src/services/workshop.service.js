@@ -52,6 +52,18 @@ class WorkshopService {
             });
         return response;
     }
+
+    //Purchase
+    async postPurchaseWsClass({ wclassId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .post(API_URL + `/purchase?workshopClassId=${wclassId}`,null, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
 }
 
 export default new WorkshopService();
