@@ -1,8 +1,12 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import WorkshopService from '../services/workshop.service';
+import dateFormat from 'dateformat';
+import { Navigator } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { color } from '@mui/system';
 
 const Payment = () => {
     const token = localStorage.getItem("user-token")
@@ -14,22 +18,31 @@ const Payment = () => {
         }
     }, [])
 
-    //Get Payment 
-    const wclassid = useParams();
-    const oclassid = useParams();
-    const [billingInfo, setBillingInfo] = useState();
+    const [err, setErr] = useState(null);
 
-    useEffect(()=>{
-        if (wclassid){
-        WorkshopService.getBillingInformation({wclassId: wclassid})
-            .then((res)=>{
-                setBillingInfo(res.data);
-                console.log("billingInfom", billingInfo)
-            })
+    //Get Payment 
+    const { wclassid } = useParams();
+    const { oclassid } = useParams();
+    const [billingInfo, setBillingInfo] = useState(null);
+    //Item
+    const [item, setItem] = useState();
+
+    useEffect(() => {
+        //get Bill
+        if (wclassid) {
+            WorkshopService.getBillingInformation({ wclassId: wclassid })
+                .then((res) => {
+                    setBillingInfo(res.data);
+                    console.log(res.data)
+                })
+            WorkshopService.getClassById({ id: wclassid })
+                .then((res) => {
+                    setItem(res.data)
+                    console.log(res.data)
+                })
         }
 
-        
-    },[])
+    }, [])
 
     //Set For UI
     const [name, setName] = useState('');
@@ -38,11 +51,32 @@ const Payment = () => {
     const [cvv, setCVV] = useState('');
     const [isPaymentComplete, setIsPaymentComplete] = useState(false);
 
-    const handlePaymentSubmit = (e) => {
-        e.preventDefault();
-        // Thực hiện xác nhận thanh toán ở đây (có thể là một cuộc gọi API)
-        // Sau khi xác nhận thanh toán, bạn có thể cập nhật state và hiển thị thông báo
-        setIsPaymentComplete(true);
+
+    const navigate = useNavigate();
+
+
+    const handlePaymentSubmit = () => {
+
+        WorkshopService.postPurchaseWsClass({wclassId: wclassid})
+        .then((res)=>{
+            toast.success('Successfully Paid', {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: 0,
+                theme: "colored",
+            });
+            setTimeout(() => {
+                navigate('/home')
+            }, 3000);
+        })
+        .catch((err) =>{
+            console.log(err.response.data)
+            setErr(err.response.data)
+        })
     };
 
 
@@ -50,64 +84,143 @@ const Payment = () => {
     return (
         <div className='paymentpage'>
             <div className="paymentApp">
-                <h1 className='paymentApp-title'>Payment For {userName}</h1>
-                <div className='paymentApp-middle'>
-                    <div className='paymentApp_middle paymentApp_middle-left '>
-                        <h4>Billing Information</h4>
+                <div class="checkout-container">
+                    <div class="left-side">
+                        <div class="text-box">
+                            {/* <h1 class="home-heading">{item.name}</h1> */}
+                            {billingInfo &&
+                                <>
+                                    <p class="home-price">{billingInfo.workshopPrice} USD</p>
+                                    <p class="home-desc">
+                                        <em>{dateFormat(item.startTime, "mmmm dS, yyyy")}</em>
+                                    </p>
+                                </>}
+                        </div>
                     </div>
-                    <div className='paymentApp_middle paymentApp_middle-right'>
-                        {isPaymentComplete ? (
-                            <div>
-                                <p>Payment Confirmed!!</p>
-                                <Link to="/home"><button className='paymentApp-button'>Back To Home</button></Link>
+
+                    <div class="right-side">
+                        {billingInfo &&
+                            <div class="receipt">
+                                <h2 class="receipt-heading">Receipt Summary</h2>
+                                <div>
+                                    <table class="table">
+                                        <tr>
+                                            <td>Price</td>
+                                            <td class="price">{billingInfo.workshopPrice} USD</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Discount</td>
+                                            <td class="price">{billingInfo.discountedPrice} USD</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Discounted Rate</td>
+                                            <td class="price">{billingInfo.discountRate} USD</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Membership Name</td>
+                                            <td class="price">{billingInfo.membershipName}</td>
+                                        </tr>
+                                        
+                                        <tr class="total">
+                                            <td>Total Price</td>
+                                            <td class="price">{billingInfo.totalPrice} USD</td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
-                        ) : (
-                            <form className='paymentApp-form' onSubmit={handlePaymentSubmit}>
-                                <div className='paymentApp-label'>
-                                    <label>Tên trên thẻ</label>
+                        }
+
+                        <div class="payment-info">
+                            <h3 class="payment-heading">Payment Information</h3>
+                            <form
+                                class="form-box"
+                                enctype="text/plain"
+                                method="get"
+                                target="_blank"
+                            >
+                                <div>
+                                    <label for="full-name">Full Name</label>
                                     <input
+                                        id="full-name"
+                                        name="full-name"
+                                        placeholder="Nguyen Van A"
+                                        required
                                         type="text"
-                                        value={name}
-                                        className="paymentApp-input"
-                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label for="credit-card-num"
+                                    >Card Number
+                                        <span class="card-logos">
+                                            <i class="card-logo fa-brands fa-cc-visa"></i>
+                                            <i class="card-logo fa-brands fa-cc-amex"></i>
+                                            <i class="card-logo fa-brands fa-cc-mastercard"></i>
+                                            <i class="card-logo fa-brands fa-cc-discover"></i> </span
+                                        ></label>
+                                    <input
+                                        id="credit-card-num"
+                                        name="credit-card-num"
+                                        placeholder="1111-2222-3333-4444"
+                                        required
+                                        type="text"
+                                    />
+                                </div>
+
+                                <div>
+                                    <p class="expires">Expires on:</p>
+                                    <div class="card-experation">
+                                        <label for="expiration-month">Month: </label>
+                                        <select id="expiration-month" name="expiration-month" required>
+                                            <option value="">Month</option>
+                                            <option value="">January</option>
+                                            <option value="">February</option>
+                                            <option value="">March</option>
+                                            <option value="">April</option>
+                                            <option value="">May</option>
+                                            <option value="">June</option>
+                                            <option value="">July</option>
+                                            <option value="">August</option>
+                                            <option value="">September</option>
+                                            <option value="">October</option>
+                                            <option value="">November</option>
+                                            <option value="">Decemeber</option>
+                                        </select>
+
+                                        <label class="expiration-year">   Year: </label>
+                                        <select id="experation-year" name="experation-year" required>
+                                            <option value="">Year</option>
+                                            <option value="">2023</option>
+                                            <option value="">2024</option>
+                                            <option value="">2025</option>
+                                            <option value="">2026</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label for="cvv">CVV  </label>
+                                    <input
+                                        id="cvv"
+                                        name="cvv"
+                                        placeholder="415"
+                                        type="text"
                                         required
                                     />
                                 </div>
-                                <div className='paymentApp-label'>
-                                    <label>Số thẻ</label>
-                                    <input
-                                        type="text"
-                                        value={cardNumber}
-                                        className="paymentApp-input"
-                                        onChange={(e) => setCardNumber(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className='paymentApp-label'>
-                                    <label>Ngày hết hạn</label>
-                                    <input
-                                        type="text"
-                                        value={expiry}
-                                        className="paymentApp-input"
-                                        onChange={(e) => setExpiry(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <div className='paymentApp-label'>
-                                    <label>CVV</label>
-                                    <input
-                                        type="text"
-                                        value={cvv}
-                                        className="paymentApp-input"
-                                        onChange={(e) => setCVV(e.target.value)}
-                                        required
-                                    />
-                                </div>
-                                <button className='paymentApp-button' type="submit">Xác nhận thanh toán</button>
+
+                                <button class="btn" onClick={handlePaymentSubmit}>
+                                    <i class="fa-solid fa-lock"></i> Submit Payment
+                                </button>
                             </form>
-                        )}
-                        <div>
-                            <img alt='' src={require("../assets/pages/payment/cards.jpeg")} />
+
+                            <p class="footer-text">
+                                <i class="fa-solid fa-lock"></i>
+                                
+                                Your credit card information is encrypted
+                                <br/>
+                                {err && <i style={{color: "red"}}>{err}</i>}
+                            </p>
                         </div>
                     </div>
                 </div>

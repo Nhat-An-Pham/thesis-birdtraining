@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ConsultantService from '../../services/consultant.service';
 
+
 // STEP 2 IS WHERE WE GET AND SET TRAINER FOR THE APPLY
 export default function Step2({getTrainerId}) {
   const [selectedIndex, setSelectedIndex] = useState(1);
@@ -15,7 +16,7 @@ export default function Step2({getTrainerId}) {
     ConsultantService
         .getTrainerList()
         .then((res) => {
-            console.log("success Trainer list test", res.data);
+            // console.log("success Trainer list test", res.data);
             setListOfTrainers(res.data);
         })
         .catch((e) => console.log("fail Trainer list test", e));

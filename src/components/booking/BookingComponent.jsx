@@ -115,10 +115,16 @@ function BookingComponent() {
                         appointmentDate: apptDate,
                         actualSlotStart: slotId,
                         consultingDetail: consultingDetail,
-                        address: address
+                        consultingTypeId: consultingType,
+                        address: address,
                     }
                     try {
                         ConsultantService.CusSendTicket(newAppt)
+                        .then((res)=>{
+                            console.log("Send Ticket Success")
+                        }).catch((error)=>{
+                            console.log(error.response.data)
+                        })
                     } catch (error) {
                         console.log(error.response.data);
                     }
@@ -158,11 +164,11 @@ function BookingComponent() {
 
     return (
         <Box sx={{ maxWidth: 400 }}>
-            <Typography variant="h6" style={{ color: '#ba000d' }}>{errorMessage}</Typography>
-            <Stepper activeStep={activeStep} orientation="vertical">
+            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "15px", textAlign: "center" }}>{errorMessage}</Typography>
+            <Stepper activeStep={activeStep} orientation="vertical" >
                 {steps.map((step, index) => (
-                    <Step key={step.label}>
-                        <StepLabel
+                    <Step key={step.label} >
+                        <StepLabel 
                             optional={
                                 index === 3 ? (
                                     <Typography variant="caption">Last step</Typography>
@@ -196,14 +202,14 @@ function BookingComponent() {
                 ))}
             </Stepper>
             {activeStep === steps.length && (
-                <Paper square elevation={0} sx={{ p: 3 }}>
+                <Paper square elevation={0} sx={{ p: 3 }} >
 
                     {duplicateCheck == 1 ?
                         <Typography variant="h5" style={{ color: "#009688" }}>You&apos;re appointment on {apptDate} has been confirmed!</Typography> :
                         <Typography variant="h5" style={{ color: "#ba000d" }}>We're sorry, that appointment time slot is taken. Please select another time.</Typography>
                     }
                     <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                        Create Another Appointment
+                        Create Another Appointment 
                     </Button>
                 </Paper>
             )}
