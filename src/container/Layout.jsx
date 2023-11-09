@@ -31,6 +31,7 @@ import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
+import CustomerHandledReq from '../Management/customer/CustomerHandledReq';
 
 function Layout() {
 
@@ -67,16 +68,26 @@ function Layout() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
-          {/* private pages */}
-          <Route element={<PrivateRoutes/>} >
-            <Route path="/management" exact element={<Dashboard />} />
-            <Route path="/management/customerreq" exact element={<CustomerReq />} />
-            <Route path="/management/timetable" exact element={<TimeTable />} />
-            <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
-           <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
-            <Route path="/management/userdata" exact element={<UserData />} />
-          </Route>
-        </Routes>
+            {/* private pages */}
+            {userRole === "Trainer" || userRole === "Staff" || userRole === "Manager" || userRole === "Admin"  ? (
+              <Route path="/management" >
+                <Route path="/management" exact element={<Dashboard />} />
+                <Route path="/management/customerreq" exact element={<CustomerReq />} />
+                <Route path="/management/customerhandledreq" exact element={<CustomerHandledReq/>} />
+                <Route path="/management/timetable" exact element={<TimeTable />} />
+                <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
+                <Route path="/management/workshop" exact element={<WorkshopManagement />} />
+                <Route path="/management/userdata" exact element={<UserData />} />
+              </Route>
+            ) : (
+              <>
+                {NavigateRoute}
+              </>
+            )
+
+            }
+
+          </Routes>
 
       </div>
       <footer>
