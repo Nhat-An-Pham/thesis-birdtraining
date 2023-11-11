@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import { ochreTheme } from "../themes/Theme";
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, ThemeProvider, Grid, Button} from "@mui/material";
 import './customerReq.scss'
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
 import { Link } from 'react-router-dom';
+import ConsultantService from '../../services/consultant.service';
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(0);
-
+    
     const onAssignedView = () => {
         setRenderedIndex(0);
     }
@@ -20,42 +24,66 @@ export default function CustomerReqComponent() {
         setRenderedIndex(2);
     }
 
-    const notAssignedConsultingTicketTableData = [
-        {
-            TicketId: 1,
-            Name: "Pham Nhat An",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "Online",
-            Date: "10-11-2023",
-            Slot: "1",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        {
-            TicketId: 2,
-            Name: "Nguyen Thanh Trung",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "In-Home",
-            Date: "10-11-2023",
-            Slot: "2",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        {
-            TicketId: 3,
-            Name: "Nguyen Tho Thai Bao",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "In-Home",
-            Date: "10-11-2023",
-            Slot: "3",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        // Add more data as needed
-    ];
+    const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
+    
+    useEffect(() => {
+        ConsultantService
+            .getFreeTrainerOnSlotDate({dateValue: "1-1-2001", slotId: "1"})
+            .then((res) => {
+                console.log("success Free Trainer list test", res.data);
+                setListOfFreeTrainer(res.data);
+            })
+            .catch((e) => console.log("fail Free Trainer list test", e));
+    }, []);
+
+    const [listNotAssignedConsultingTicket, setlistNotAssignedConsultingTicket] = useState([]);
+    
+    useEffect(() => {
+        ConsultantService
+            .viewListNotAssignedConsultingTicket()
+            .then((res) => {
+                console.log("success Not Assigned Consulting Ticket list test", res.data);
+                setlistNotAssignedConsultingTicket(res.data);
+            })
+            .catch((e) => console.log("fail Not Assigned Consulting Ticket list test", e));
+    }, []); 
+
+    // const notAssignedConsultingTicketTableData = [
+    //     {
+    //         TicketId: 1,
+    //         Name: "Pham Nhat An",
+    //         Address: "17 Pasteur",
+    //         Phone: "0904560264",
+    //         Service: "Online",
+    //         Date: "10-11-2023",
+    //         Slot: "1",
+    //         Request: "Consulting",
+    //         AssignTo: "Pham Nhat An",
+    //     },
+    //     {
+    //         TicketId: 2,
+    //         Name: "Nguyen Thanh Trung",
+    //         Address: "17 Pasteur",
+    //         Phone: "0904560264",
+    //         Service: "In-Home",
+    //         Date: "10-11-2023",
+    //         Slot: "2",
+    //         Request: "Consulting",
+    //         AssignTo: "Pham Nhat An",
+    //     },
+    //     {
+    //         TicketId: 3,
+    //         Name: "Nguyen Tho Thai Bao",
+    //         Address: "17 Pasteur",
+    //         Phone: "0904560264",
+    //         Service: "In-Home",
+    //         Date: "10-11-2023",
+    //         Slot: "3",
+    //         Request: "Consulting",
+    //         AssignTo: "Pham Nhat An",
+    //     },
+    //     // Add more data as needed
+    // ];
 
     const assignedConsultingTicketTableData = [
         {
@@ -133,12 +161,6 @@ export default function CustomerReqComponent() {
         },
         // Add more data as needed
     ];
-
-    const availableTrainer = {
-        first: "Other",
-        second: "Thanh Trung",
-        third: "Dinh Thong",        
-    }
 
     return (
       <div className="workshop-container">
@@ -234,7 +256,7 @@ export default function CustomerReqComponent() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {notAssignedConsultingTicketTableData.map((row, index) => (
+                                    {listNotAssignedConsultingTicket.map((row, index) => (
                                         <TableRow key={index}>
                                             <TableCell>{row.Name}</TableCell>
                                             <TableCell>{row.Address}</TableCell>
@@ -245,9 +267,9 @@ export default function CustomerReqComponent() {
                                             <TableCell>{row.Request}</TableCell>
                                             <TableCell>
                                                 <select>
-                                                    <option>{availableTrainer.first}</option>
-                                                    <option>{availableTrainer.second}</option>
-                                                    <option>{availableTrainer.third}</option>
+                                                {listOfFreeTrainer.map((trainer, idx) => (
+                                                    <option>{trainer.name}</option>
+                                                ))}
                                                 </select>
                                             </TableCell>
                                             <TableCell>
