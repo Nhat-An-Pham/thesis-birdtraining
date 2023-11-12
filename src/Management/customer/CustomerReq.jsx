@@ -48,119 +48,29 @@ export default function CustomerReqComponent() {
             .catch((e) => console.log("fail Not Assigned Consulting Ticket list test", e));
     }, []); 
 
-    // const notAssignedConsultingTicketTableData = [
-    //     {
-    //         TicketId: 1,
-    //         Name: "Pham Nhat An",
-    //         Address: "17 Pasteur",
-    //         Phone: "0904560264",
-    //         Service: "Online",
-    //         Date: "10-11-2023",
-    //         Slot: "1",
-    //         Request: "Consulting",
-    //         AssignTo: "Pham Nhat An",
-    //     },
-    //     {
-    //         TicketId: 2,
-    //         Name: "Nguyen Thanh Trung",
-    //         Address: "17 Pasteur",
-    //         Phone: "0904560264",
-    //         Service: "In-Home",
-    //         Date: "10-11-2023",
-    //         Slot: "2",
-    //         Request: "Consulting",
-    //         AssignTo: "Pham Nhat An",
-    //     },
-    //     {
-    //         TicketId: 3,
-    //         Name: "Nguyen Tho Thai Bao",
-    //         Address: "17 Pasteur",
-    //         Phone: "0904560264",
-    //         Service: "In-Home",
-    //         Date: "10-11-2023",
-    //         Slot: "3",
-    //         Request: "Consulting",
-    //         AssignTo: "Pham Nhat An",
-    //     },
-    //     // Add more data as needed
-    // ];
+    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
 
-    const assignedConsultingTicketTableData = [
-        {
-            TicketId: 1,
-            Name: "Pham Nhat An",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "Online",
-            Date: "10-11-2023",
-            Slot: "1",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        {
-            TicketId: 2,
-            Name: "Nguyen Thanh Trung",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "In-Home",
-            Date: "10-11-2023",
-            Slot: "2",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        {
-            TicketId: 3,
-            Name: "Nguyen Tho Thai Bao",
-            Address: "17 Pasteur",
-            Phone: "0904560264",
-            Service: "In-Home",
-            Date: "10-11-2023",
-            Slot: "3",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-        },
-        // Add more data as needed
-    ];
+    useEffect(() => {
+        ConsultantService
+        .viewListAssignedConsultingTicket()
+        .then((res) => {
+            console.log("success Assigned Consulting Ticket list test", res.data);
+            setListAssignedConsultingTicket(res.data);
+        })
+        .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
+    }, []);
 
-    const handledConsultingTicketTableData = [
-        {
-            TicketId: 4,
-            Name: "Nguyen Van A",
-            Address: "17 Pasteur",
-            Phone: "090011001",
-            Service: "Online",
-            Date: "09-11-2023",
-            Slot: "4",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-            Status: "Confirmed",
-        },
-        {
-            TicketId: 5,
-            Name: "Tran Thi B",
-            Address: "19 Pasteur",
-            Phone: "090011002",
-            Service: "In-Home",
-            Date: "09-11-2023",
-            Slot: "5",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-            Status: "Canceled",
-        },
-        {
-            TicketId: 6,
-            Name: "Nguyen Hoang C",
-            Address: "21 Pasteur",
-            Phone: "090011003",
-            Service: "In-Home",
-            Date: "09-11-2023",
-            Slot: "6",
-            Request: "Consulting",
-            AssignTo: "Pham Nhat An",
-            Status: "Confirmed",
-        },
-        // Add more data as needed
-    ];
+    const [listHandledConsultingTicket, setListHandledConsultingTicket] = useState([]);
+
+    useEffect(() => {
+        ConsultantService
+        .listHandledConsultingTicket()
+        .then((res) => {
+            console.log("success Handled Consulting Ticket list test", res.data);
+            setListHandledConsultingTicket(res.data);
+        })
+        .catch((e) => console.log("fail Handled Consulting Ticket list test", e));
+    }, []);
 
     return (
       <div className="workshop-container">
@@ -200,33 +110,29 @@ export default function CustomerReqComponent() {
                                         <TableCell>Name</TableCell>
                                         <TableCell>Address</TableCell>
                                         <TableCell>Phone</TableCell>
-                                        <TableCell>Service</TableCell>
                                         <TableCell>Date</TableCell>
                                         <TableCell>Slot</TableCell>
-                                        <TableCell>Request</TableCell>
                                         <TableCell>Assign To</TableCell>
                                         <TableCell>Confirm</TableCell>
                                         <TableCell>Cancel</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {assignedConsultingTicketTableData.map((row, index) => (
+                                    {listAssignedConsultingTicket.map((row, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{row.Name}</TableCell>
-                                            <TableCell>{row.Address}</TableCell>
-                                            <TableCell>{row.Phone}</TableCell>
-                                            <TableCell>{row.Service}</TableCell>
-                                            <TableCell>{row.Date}</TableCell>
-                                            <TableCell>{row.Slot}</TableCell>
-                                            <TableCell>{row.Request}</TableCell>
-                                            <TableCell>{row.AssignTo}</TableCell>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell>{row.address}</TableCell>
+                                            <TableCell>{row.phone}</TableCell>
+                                            <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.slot}</TableCell>
+                                            <TableCell>{row.trainer}</TableCell>
                                             <TableCell>
-                                                <Button>
+                                                <Button type="button">
                                                     Confirm
                                                 </Button>
                                             </TableCell>
                                             <TableCell>
-                                                <Button>
+                                                <Button type="button">
                                                     Cancel
                                                 </Button>
                                             </TableCell>
@@ -246,10 +152,8 @@ export default function CustomerReqComponent() {
                                         <TableCell>Name</TableCell>
                                         <TableCell>Address</TableCell>
                                         <TableCell>Phone</TableCell>
-                                        <TableCell>Service</TableCell>
                                         <TableCell>Date</TableCell>
                                         <TableCell>Slot</TableCell>
-                                        <TableCell>Request</TableCell>
                                         <TableCell>Assign To</TableCell>
                                         <TableCell>Assign</TableCell>
                                         <TableCell>Cancel</TableCell>
@@ -258,27 +162,25 @@ export default function CustomerReqComponent() {
                                 <TableBody>
                                     {listNotAssignedConsultingTicket.map((row, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{row.Name}</TableCell>
-                                            <TableCell>{row.Address}</TableCell>
-                                            <TableCell>{row.Phone}</TableCell>
-                                            <TableCell>{row.Service}</TableCell>
-                                            <TableCell>{row.Date}</TableCell>
-                                            <TableCell>{row.Slot}</TableCell>
-                                            <TableCell>{row.Request}</TableCell>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell>{row.address}</TableCell>
+                                            <TableCell>{row.phone}</TableCell>
+                                            <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.slot}</TableCell>
                                             <TableCell>
                                                 <select>
                                                 {listOfFreeTrainer.map((trainer, idx) => (
-                                                    <option>{trainer.name}</option>
+                                                    <option key={idx}>{trainer.name}</option>
                                                 ))}
                                                 </select>
                                             </TableCell>
                                             <TableCell>
-                                                <Button>
+                                                <Button type="button">
                                                     Assign
                                                 </Button>
                                             </TableCell>
                                             <TableCell>
-                                                <Button>
+                                                <Button type="button">
                                                     Cancel
                                                 </Button>
                                             </TableCell>
@@ -298,26 +200,22 @@ export default function CustomerReqComponent() {
                                         <TableCell>Name</TableCell>
                                         <TableCell>Address</TableCell>
                                         <TableCell>Phone</TableCell>
-                                        <TableCell>Service</TableCell>
                                         <TableCell>Date</TableCell>
                                         <TableCell>Slot</TableCell>
-                                        <TableCell>Request</TableCell>
                                         <TableCell>Assign To</TableCell>
                                         <TableCell>Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {handledConsultingTicketTableData.map((row, index) => (
+                                    {listHandledConsultingTicket.map((row, index) => (
                                         <TableRow key={index}>
-                                            <TableCell>{row.Name}</TableCell>
-                                            <TableCell>{row.Address}</TableCell>
-                                            <TableCell>{row.Phone}</TableCell>
-                                            <TableCell>{row.Service}</TableCell>
-                                            <TableCell>{row.Date}</TableCell>
-                                            <TableCell>{row.Slot}</TableCell>
-                                            <TableCell>{row.Request}</TableCell>
-                                            <TableCell>{row.AssignTo}</TableCell>
-                                            <TableCell>{row.Status}</TableCell>
+                                            <TableCell>{row.name}</TableCell>
+                                            <TableCell>{row.address}</TableCell>
+                                            <TableCell>{row.phone}</TableCell>
+                                            <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.slot}</TableCell>
+                                            <TableCell>{row.trainer}</TableCell>
+                                            <TableCell>{row.status}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
