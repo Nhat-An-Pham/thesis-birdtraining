@@ -6,11 +6,11 @@ const API_URL_STAFF = URL + "api/AdviceConsultingStaff/";
 
 class ConsultantService {
 
-    async CusSendTicket({ customerId, address, consultingType, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
+    async CusSendTicket({ customerId, address, consultingTypeId, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
         return axios
-            .post(API_URL_CUS + "customer-sendConsultingTicket", {
+            .post(API_URL_CUS + "sendConsultingTicket", {
                 address,
-                consultingType,
+                consultingTypeId,
                 trainerId,
                 consultingDetail,
                 onlineOrOffline,
@@ -39,7 +39,7 @@ class ConsultantService {
 
     async getTrainerFreeSlotOnDate({dateValue, selectedTrainerId}){
         const response = await axios
-            .get(API_URL_CUS + `getTrainerFreeSlotOnDate?date=${dateValue}&trainerId=${selectedTrainerId}`);
+            .get(API_URL_AllROLE + `getTrainerFreeSlotOnDate?date=${dateValue}&trainerId=${selectedTrainerId}`);
         return response;
     } 
 

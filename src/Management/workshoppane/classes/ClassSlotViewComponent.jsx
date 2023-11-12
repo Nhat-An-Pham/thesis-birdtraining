@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import timetableService from "../../../services/timetable.service";
 import classManagementService from "../../../services/class-management.service";
 
-export default function ClassSlotViewComponent(slot) {
+export default function ClassSlotViewComponent(slot, selectedClassId) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [dateSlot, setDateSlot] = useState(null);
   const [slots, setSlots] = useState([]);
@@ -26,6 +26,25 @@ export default function ClassSlotViewComponent(slot) {
   const [selectedSlotTime, setSelectedSlotTime] = useState(null);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
 
+  async function fetchClassSlot() {
+    try {
+      let params = {
+        workshopClassId: slot.selectedClassId,
+        $filter: `id eq ${slot.slot.id}`,
+      };
+      let response = await classManagementService.getSlots(params);
+      setSelectedSlot(response.data[0]);
+      console.log(response.data[0]);
+    } catch (error) {
+      toast.error(error);
+    }
+  }
+  useEffect(() => {
+    fetchClassSlot();  
+    return () => {
+    }
+  }, [selectedClassId, slot]);
+  
   async function fetchSlots() {
     try {
       let response = await timetableService.getSlotTime();
@@ -50,51 +69,7 @@ export default function ClassSlotViewComponent(slot) {
       toast.error(error);
     }
   }
-  useEffect(() => {
-    if (slot) {
-      setSelectedSlot(slot.slot);
-      setDateSlot(dayjs(slot.date));
-      fetchSlots();
-    }
 
-    return () => {};
-  }, [slot]);
-  useEffect(() => {
-    if (selectedSlot) {
-      if (slots && slots.length > 0) {
-        slots.forEach((slotTime) => {
-          if (slotTime.startTime === selectedSlot.startTime) {
-            setSelectedSlotTime(slotTime.id);
-          }
-        });
-      }
-    }
-
-    return () => {};
-  }, [slots]);
-  useEffect(() => {
-    if(slots && slots.length > 0){
-      let slotTime = slots.find((element) => element.id === selectedSlotTime)
-      // console.log(slotTime);
-      if(slotTime.startTime === selectedSlot.startTime){
-        console.log(slotTime.startTime + ' - ' + selectedSlot.startTime);
-        console.log(selectedSlot.trainer.id);
-        console.log(trainers);
-        setSelectedTrainer(selectedSlot.trainer.id);
-        // console.log('trainer: '+ selectedSlot.trainer.id);
-      }
-    }
-    
-  
-    return () => {
-      
-    }
-  }, [trainers])
-  
-  useEffect(() => {
-    fetchTrainers();
-    return () => {};
-  }, [selectedSlotTime]);
   const handleSaveChanges = async () => {
     try {
       let model = {
@@ -112,11 +87,11 @@ export default function ClassSlotViewComponent(slot) {
         toast.error(response.data);
       }
     } catch (error) {
-      toast.error(error.response.data);
+      toast.error(JSON.stringify(error.response.data));
       console.log(error.response.data);
     }
   }
-  const handleResetClick = async () => {
+  const handleResetClick = async () => {    
     if (selectedSlot) {
       if (slots && slots.length > 0) {
         slots.forEach((slotTime) => {
@@ -126,7 +101,6 @@ export default function ClassSlotViewComponent(slot) {
         });
       }
     }
-
   }
   const handleChangeDate = (selectedDate) => {
     setDateSlot(selectedDate);
@@ -157,7 +131,7 @@ export default function ClassSlotViewComponent(slot) {
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  minDate={dayjs(new Date())}
+                  // minDate={dayjs(new Date())}
                   label="Date"
                   value={dateSlot}
                   onChange={(value) => handleChangeDate(value)}

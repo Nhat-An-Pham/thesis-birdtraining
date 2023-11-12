@@ -113,7 +113,7 @@ const WClassListPage = () => {
         <h1 className='wclp_section wclp_section-title'>Classes for: {workshopList.title}  </h1>
         <div className='wclp_section wclp_section-cards'>
           {classData.map((classeses, index) => (
-            <Link key={index} className='wclp_card-container' to="">
+            <Link key={index} className='wclp_card-container' onClick={() => twoFunctionOnClick(classeses)}>
               <div className='wclp_card_section wclp_card_section-top'>
                 <div className='wclp_card_section_top wclp_card_section_top-button'>
                   <button onClick={() => twoFunctionOnClick(classeses)} >Check For Class Here</button>

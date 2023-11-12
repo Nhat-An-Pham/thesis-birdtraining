@@ -1,13 +1,13 @@
 import React from 'react'
 import './dashboard.scss'
 import Sidebar from '../component/sidebar/Sidebar'
-
+import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 
 const Dashboard = () => {
   return (
     <>
       <div className='dashboard-container'>
-        <Sidebar />
+        <ReworkSidebar selectTab={0} />
         <div className='dashboard_section-wrapper'>
           <h1>Dashboard</h1>
 
