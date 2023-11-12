@@ -64,7 +64,7 @@ export default function CustomerReqComponent() {
 
     useEffect(() => {
         ConsultantService
-        .listHandledConsultingTicket()
+        .viewListHandledConsultingTicket()
         .then((res) => {
             console.log("success Handled Consulting Ticket list test", res.data);
             setListHandledConsultingTicket(res.data);

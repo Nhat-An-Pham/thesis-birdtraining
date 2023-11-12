@@ -60,6 +60,12 @@ class ConsultantService {
             .get(API_URL_STAFF + "viewListNotAssignedConsultingTicket");
         return response;
     }
+
+    async viewListHandledConsultingTicket() {
+        const response = await axios
+            .get(API_URL_STAFF + "viewListHandledConsultingTicket");
+        return response;
+    }
 }
 
 export default new ConsultantService();
