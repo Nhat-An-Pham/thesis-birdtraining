@@ -11,7 +11,7 @@
     width: 100%;
 
     &-carousel {
-        background-image: url("../../assets/pages/home/home_carousel.webp");
+        background-image: url("../../assets/pages/home/home_carousel.jpeg");
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -37,6 +37,8 @@
     &-services {
         background-color: #65451F;
         padding-bottom: 40px;
+        text-decoration: none;
+
     }
 
     &-review {
@@ -48,6 +50,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        margin-bottom: 100px;
     }
 
 }
@@ -77,6 +80,8 @@
     &-title {
         font-size: 300%;
         font-weight: 800;
+        text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+            1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
     }
 
     &-curve {
@@ -188,9 +193,17 @@
         justify-content: center;
         align-items: center;
 
+
         & img {
             width: 100%;
+            aspect-ratio: 1 / 1;
             border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.5s;
+
+            &:hover {
+                transform: scale(1.2, 1.2)
+            }
         }
 
         text-align: center;
@@ -223,19 +236,40 @@
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
+    text-decoration: none;
     width: 23%;
     border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1.05, 1.05)
+    }
+
+    & img {
+        opacity: 0.6;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: auto;
+    }
 
     & h5 {
         font-size: larger;
         height: 50px;
         text-align: center;
+        padding: 10px;
+        position: relative;
     }
 
     & p {
         height: 250px;
         padding-left: 15px;
         padding-right: 15px;
+        position: relative;
     }
 }
 
@@ -246,10 +280,13 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    position: relative;
 
     & a {
         padding: 13px;
+        width: 100px;
         text-decoration: inherit;
+        text-align: center;
         color: white;
         background-color: #C8AE7D;
         border-radius: 20px;
@@ -293,7 +330,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        position: relative;
+        position: relative;   
     }
 }
 

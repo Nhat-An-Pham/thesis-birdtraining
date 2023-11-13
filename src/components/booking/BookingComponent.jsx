@@ -1,194 +1,220 @@
-import { useEffect, useState, useContext } from "react";
-import { AppointmentPicker } from "react-appointment-picker";
-
-import { DatePickerCalendar } from "react-nice-dates";
-import "react-nice-dates/build/style.css";
-
-import { Container, Row, Col } from "react-bootstrap";
-import { getDay } from "date-fns";
+import React, { useState } from 'react';
+import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepContent from '@mui/material/StepContent';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Step1 from "./Step1";
+import Step2 from "./Step2";
+import Step3 from "./Step3";
+import Step4 from './Step4';
+// import moment from "moment";z
+import dayjs from 'dayjs';
 
 import "./booking.scss"
+import ConsultantService from '../../services/consultant.service';
 
 function BookingComponent() {
-    const [lodaing, setLoading] = useState(false);
-    const [date, setDate] = useState(new Date(new Date().setHours(8, 0, 0, 0)));
-    const [days, setDays] = useState([[]]);
-    const [appointment, setAppointment] = useState("");
 
-    const modifiers = {
-        disabled: (date) => getDay(date) === 0 || getDay(date) === 6 // Disables Saturdays
+    /*DATA AMD STATES*/
+    //1 and customerID
+    const [serviceId, setServiceId] = useState(false);
+    const customerId = JSON.parse(localStorage.getItem("user-token"))
+    //2
+    const [selectedTrainerId, setSelectedTrainerId] = useState(null);
+    
+    const [activeStep, setActiveStep] = useState(0);
+    //3
+    const [apptDate, setApptDate] = useState(dayjs())
+    const [slotId, setSlotId] =useState(null);
+    //4
+    const [consultingType, setConsultingType] =useState(null)
+    const [consultingDetail, setConsultingDetail] = useState(null);
+    const [address, setAddress] = useState(null);
+
+    //throw
+    const [duplicateCheck, setDuplicateCheck] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+
+
+    //1
+    const getServiceId = (id) => {
+        setServiceId(id);
+    }
+    //2
+    const getTrainerId = (id) => {
+        setSelectedTrainerId(id);
+    }
+    //3
+    const getAppointmentDate = (appointmentDate) => {
+        setApptDate(appointmentDate);
+    }
+    const getSlotId = (slotId) =>{
+        setSlotId(slotId)
+    }
+    //4
+    const getConsultingType = (consultingType) =>{
+        setConsultingType(consultingType);
+    }
+    const getFormValues = (consultingDetail, address, consultingTypeId) => {
+        setConsultingDetail(consultingDetail);
+        setAddress(address);
+        setConsultingType(consultingTypeId)
+    }
+
+    /*FUNCTIONS*/
+    const handleBack = () => {
+        setErrorMessage(null);
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+        if (activeStep == 1) {
+            setServiceId(null);
+        }
+        if (activeStep == 2) {
+            setSelectedTrainerId(null);
+
+        }
+        if (activeStep == 3) {
+            setApptDate(null);
+            setSlotId(null);
+        }
     };
 
-    useEffect(() => {
-        if (date != null) {
-            console.log("getting appointments");
-            const days = [
-                [
-                    {
-                        id: 1,
-                        number: 1,
-                        isReserved: true
-                    },
-                    {
-                        id: 2,
-                        number: 2,
-                        isReserved: true
-                    },
-                    {
-                        id: 3,
-                        number: 3
-                    },
-                    {
-                        id: 4,
-                        number: 4,
-                        isSelected: true
-                    },
-                    {
-                        id: 5,
-                        number: 5
+    
+    
+
+    const handleNext = async (index) => {
+        if (serviceId === null) {
+            setErrorMessage("*Please select a service.")
+            return;
+        }
+        if (index === 1 && selectedTrainerId == null) {
+            setErrorMessage("*Please Choose A Trainer or let Us Choose For You")
+            return;
+        }
+        if (index === 2 && apptDate == null) {
+            setErrorMessage("*Please select a time.");
+        }
+        else {
+            setErrorMessage(null);
+            setActiveStep((prevActiveStep) => prevActiveStep + 1);
+            if (index === 3) {
+                //axios request to submit appointment
+                if (consultingType === null) {
+                    setErrorMessage("*Please fill out all fields")
+                    setActiveStep(3);
+                }
+                else {
+                    setErrorMessage(null);
+                    const newAppt = {
+                        customerId: customerId,
+                        onlineOrOffline: serviceId,
+                        trainerId: selectedTrainerId,
+                        appointmentDate: apptDate,
+                        actualSlotStart: slotId,
+                        consultingDetail: consultingDetail,
+                        consultingTypeId: consultingType,
+                        address: address,
                     }
-                ]
-            ];
-            setAppointment(
-                <AppointmentPicker
-                    addAppointmentCallback={addAppointmentCallbackContinuousCase}
-                    removeAppointmentCallback={removeAppointmentCallbackContinuousCase}
-                    initialDay={date}
-                    days={days}
-                    maxReservableAppointments={1}
-                    visible
-                    selectedByDefault
-                    unitTime={3600000}
-                    loading={lodaing}
-                    continuous
-                />
-            );
+                    try {
+                        ConsultantService.CusSendTicket(newAppt)
+                        .then((res)=>{
+                            console.log("Send Ticket Success")
+                        }).catch((error)=>{
+                            console.log(error.response.data)
+                        })
+                    } catch (error) {
+                        console.log(error.response.data);
+                    }
+                }
+                return;
+            }
         }
-    }, [date, lodaing]);
-
-    // useEffect(() => {
-    //   console.log(appointments)
-    //   if (appointments.length > 0) {
-    //     setDays(appointments)
-    //   }
-    // }, [appointments])
-
-    async function addAppointmentCallbackContinuousCase({
-        addedAppointment: { day, number, time, id },
-        addCb,
-        removedAppointment: params,
-        removeCb
-    }) {
-        setLoading(true);
-        if (removeCb) {
-            //await removeAppointment({ params });
-            console.log(
-                `Removed appointment ${params.number}, day ${params.day}, time ${params.time}, id ${params.id}`
-            );
-            removeCb(params.day, params.number);
-        }
-
-        //await addAppointment({ id, number, day, time });
-        //console.log(error);
-        addCb(day, number, time, id);
-        setLoading(false);
-    }
-
-    async function removeAppointmentCallbackContinuousCase(
-        { day, number, time, id },
-        removeCb
-    ) {
-        setLoading(true);
-        let params = { id, number, day, time };
-        //await removeAppointment({ params });
-        console.log(
-            `Removed appointment ${number}, day ${day}, time ${time}, id ${id}`
-        );
-        removeCb(day, number);
-        setLoading(false);
-    }
-
-    const [inputValues, setInputValues] = useState({
-        field1: '',
-        field2: '',
-        field3: '',
-        field4: '',
-        field5: '',
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setInputValues((prevInputValues) => ({
-            ...prevInputValues,
-            [name]: value,
-        }));
     };
+
+    //Reset Button
+    const handleReset = () => {
+        setActiveStep(0);
+        setServiceId(null);
+        setSelectedTrainerId(null);
+    };
+
+
+    const steps = [
+        {
+            label: 'Select a service',
+            description: <Step1 getServiceId={getServiceId} />,
+        },
+        {
+            label: 'Which Trainer would you like to make an appointment with?',
+            description: <Step2 getTrainerId = {getTrainerId} />,
+        },
+        {
+            label: 'Select Date & Time',
+            description: <Step3 getAppointmentDate={getAppointmentDate} selectedTrainerId={selectedTrainerId} getSlotId={getSlotId} />,
+        },
+        {
+            label: 'Please enter Contact Information',
+            description: <Step4 getFormValues={getFormValues} getConsultingType = {getConsultingType} />
+        }
+    ];
 
 
     return (
-        <div className="booking-container">
-            <div className="booking_section booking_section-inputcontainer">
-                <div className="booking_section_input booking_section_input-input">
-                    <div className="booking_section_input_input">
-                        <input
-                            type="text"
-                            name="field1"
-                            placeholder="Name"
-                            value={inputValues.field1}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="field2"
-                            placeholder="Phone Number"
-                            value={inputValues.field2}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-                    <div className="booking_section_input_input">
-                        <input
-                            type="text"
-                            name="field3"
-                            placeholder="Your Needs"
-                            value={inputValues.field3}
-                            onChange={handleInputChange}
-                            required
-                        />
-                        <label for={inputValues.field4}>Choose your service</label>
-                        <select id={inputValues.field4}>
-                            <option value="inhome">In Home Consultation</option>
-                            <option value="online">Online Consultation</option>
-                        </select>
-                    </div>
-                    <div className="booking_section_input_input">
-                        <label for={inputValues.field5}>Choose Your Consultant</label>
-                        <select id={inputValues.field5}>
-                            <option value="inhome">Dr. Pham Nhat An</option>
-                            <option value="online">Dr. Nguyen Thanh Trung</option>
-                        </select>
-                    </div>
-                </div>
-                <div className="booking_section_input booking_section_input-appointment">
-                    {appointment}
-                </div>
-            </div>
-            <Container fluid className="booking_section booking_section-calendar">
-                <DatePickerCalendar
-                    date={date}
-                    onDateChange={setDate}
-                    modifiers={modifiers}
-                    className="booking_section_calendar-datepicker"
-                />
+        <Box sx={{ maxWidth: 400 }}>
+            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "15px", textAlign: "center" }}>{errorMessage}</Typography>
+            <Stepper activeStep={activeStep} orientation="vertical" >
+                {steps.map((step, index) => (
+                    <Step key={step.label} >
+                        <StepLabel 
+                            optional={
+                                index === 3 ? (
+                                    <Typography variant="caption">Last step</Typography>
+                                ) : null
+                            }
+                        >
+                            {step.label}
+                        </StepLabel>
+                        <StepContent>
+                            <Typography>{step.description}</Typography>
+                            <Box sx={{ mb: 2 }}>
+                                <div>
+                                    <Button
+                                        variant="contained"
+                                        onClick={() => handleNext(index)}
+                                        sx={{ mt: 1, mr: 1 }}
+                                    >
+                                        {index === steps.length - 1 ? 'Confirm' : 'Continue'}
+                                    </Button>
+                                    <Button
+                                        disabled={index === 0}
+                                        onClick={handleBack}
+                                        sx={{ mt: 1, mr: 1 }}
+                                    >
+                                        Back
+                                    </Button>
+                                </div>
+                            </Box>
+                        </StepContent>
+                    </Step>
+                ))}
+            </Stepper>
+            {activeStep === steps.length && (
+                <Paper square elevation={0} sx={{ p: 3 }} >
 
-                <div className="booking_section_calendar-button">
-                    <button>Submit your letter</button>
-                </div>
-            </Container>
-
-        </div>
-    );
+                    {duplicateCheck == 1 ?
+                        <Typography variant="h5" style={{ color: "#009688" }}>You&apos;re appointment on {apptDate} has been confirmed!</Typography> :
+                        <Typography variant="h5" style={{ color: "#ba000d" }}>We're sorry, that appointment time slot is taken. Please select another time.</Typography>
+                    }
+                    <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
+                        Create Another Appointment 
+                    </Button>
+                </Paper>
+            )}
+        </Box>
+    )
 }
 
 export default BookingComponent;

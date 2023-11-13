@@ -1,54 +1,90 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
-import workshopsData from '../assets/fakedb/workshops'
+import dateFormat from 'dateformat';
+// import workshopsData from '../assets/fakedb/workshops'
 import { Link } from 'react-router-dom';
-
-function getClassesForWorkshop(workshopid) {
-  const workshop = workshopsData.find((workshop) => workshop.workshopId === workshopid);
-  if (!workshop) {
-    return [];
-  }
-  return { name: workshop.title, classes: workshop.classes };
-}
-
+import WorkshopService from '../services/workshop.service';
+import { useNavigate } from 'react-router-dom';
 
 
 const WClassListPage = () => {
   //param
   const { workshopid } = useParams();
-  const { name, classes } = getClassesForWorkshop(workshopid);
+  const [workshopList, setWorkshopList] = useState([])
+  const [classData, setClassData] = useState([]);
+  const [classId, setClassId] = useState([]);
+  const [classNumberRegistered, setClassNumberRegistered] = useState([]);
 
-  //set open div
+
+
+  // API
+  useEffect(() => {
+    //get classes by WorkshopId
+
+    const apiFunction = async () => {
+      const apiorderhandler = await
+        // get class Data
+        WorkshopService
+          .getClasses({ id: workshopid })
+      setClassData(apiorderhandler.data)
+
+      //get workshop by WorkshopID
+      WorkshopService
+        .getWorkshopById({ id: workshopid })
+        .then((res) => {
+          // console.log("Success WorkShopByID Test:", res.data);
+          setWorkshopList(res.data);
+        })
+        .catch((e) => console.log("Fail WorkShopByID Test:", e));
+
+
+      // get class number registered
+      WorkshopService
+        .getClassNumberRegistered({ id: apiorderhandler?.data?.[0]?.id })
+        .then((res) => {
+          // console.log("Success Get Class Number Registered Test:", res.data);
+          setClassNumberRegistered(res.data);
+        })
+        .catch((e) => console.log("Fail Get Class Number Registered Test:", e));
+    }
+
+    //make the call
+    apiFunction();
+
+  }, []);
+
+
+  //Handler
+  //OPEN DIV
   const [isDivVisible, setIsDivVisible] = useState(false);
-  const handleButtonClick = () => {
+  const handleButtonOpenDivClick = () => {
     setIsDivVisible(true);
   };
   const handleCloseDiv = () => {
     setIsDivVisible(false);
   };
 
-  //set data
-  const [inputValues, setInputValues] = useState({
-    name: '',
-    phonenumber: '',
-  });
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setInputValues((prevInputValues) => ({
-      ...prevInputValues,
-      [name]: value,
-    }));
+
+  //Set Enroll
+  const navigate = useNavigate();
+  const handleEnroll = (event) =>{
+    console.log(event);
+    navigate(`/payment/${event}`)
+  }
+
+  //Select Class
+  const [selectedClass, setSelectedClass] = useState(null);
+
+  const handleWorkshopClick = (classesssss) => {
+    setSelectedClass(classesssss);
+    console.log(selectedClass)
   };
 
-  const handleSubmit = () => {
-    setIsDivVisible(false);
-    setInputValues({
-      name: '',
-      phonenumber: '',
-    });
-    alert('Data Has been sended');
-  };
+  const twoFunctionOnClick = (classesssss) => {
+    handleWorkshopClick(classesssss);
+    handleButtonOpenDivClick();
+  }
 
   return (
     <>
@@ -56,46 +92,38 @@ const WClassListPage = () => {
         {isDivVisible && (
           <div className='wclpdiv-background'>
             <div className='wclpdiv-container'>
-              <img className='wclpdiv_section-backgroundimg' src={require("../assets/pages/trainingacademy/backgroundimage.jpeg")} alt='' />
-              <p>Sign Up for class of Workshop: {name}</p>
-              <div className='wclpdiv_section-content'>
-                  <div className='wclpdiv_section_input'>
-                    <input
-                      type="text"
-                      name="name"
-                      placeholder="Name"
-                      value={inputValues.name}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    <input
-                      type="text"
-                      name="phonenumber"
-                      placeholder="Phone Number"
-                      value={inputValues.phonenumber}
-                      onChange={handleInputChange}
-                      required
-                    />
+              <h2 className='wclpdiv_section wclpdiv_section-title'>Class Detail: <span style={{ color: "red", fontSize: "35px" }}>{dateFormat(selectedClass.startTime, "mmmm dS, yyyy")}</span></h2>
+              <div className='wclpdiv_section wclpdiv_section-mapping'>
+                {selectedClass.classSlots.map((workshopClass) => (
+                  <div className='wclpdiv_section_mapping-content' key={workshopClass.id}>
+                    <p className='wclpdiv_content wclpdiv_content-detail '>Description: <span>{workshopClass.detail}</span></p>
+                    <p className='wclpdiv_content wclpdiv_content-registered'>Start-Time: {workshopClass.startTime}/End-Time: {workshopClass.endTime}</p>
+                    -----------------------
                   </div>
-                <button onClick={handleSubmit} className='wclpdiv_section_button-submit'>Submit</button>
-                <button className='wclpdiv_section_button-close' onClick={handleCloseDiv} >Close the Tab</button>
+                ))}
+              </div>
+              
+              <div className='wclpdiv_section wclpdiv_section-button'>
+                <button className='wclpdiv_section_button-close' onClick={handleCloseDiv}>Close</button>
+                <button className='wclpdiv_section_button-enroll' onClick={() => handleEnroll(selectedClass.id)}>ENROLL NOW</button>
               </div>
             </div>
           </div>
         )}
-        <h1 className='wclp_section wclp_section-title'>Classes for: {name} </h1>
+        <h1 className='wclp_section wclp_section-title'>Classes for: {workshopList.title}  </h1>
         <div className='wclp_section wclp_section-cards'>
-          {classes.map((classeses) => (
-            <Link key={classeses.classId} className='wclp_card-container' to="">
+          {classData.map((classeses, index) => (
+            <Link key={index} className='wclp_card-container' onClick={() => twoFunctionOnClick(classeses)}>
               <div className='wclp_card_section wclp_card_section-top'>
-                <img alt='' src={classeses.backgroundimage} className='wclp_card_section_top wclp_card_section_top-img' />
                 <div className='wclp_card_section_top wclp_card_section_top-button'>
-                  <button onClick={handleButtonClick} >ENROLL NOW</button>
+                  <button onClick={() => twoFunctionOnClick(classeses)} >Check For Class Here</button>
                 </div>
               </div>
               <div className='wclp_card_section wclp_card_section-bottom'>
-                <h2>{classeses.name}</h2>
-                <p>{classeses.descr}</p>
+                <h2>{dateFormat(classeses.startTime, "mmmm dS, yyyy")}</h2>
+                <p>Register End Date: <span> {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}</span></p><br />
+                {classeses.id === classNumberRegistered.classId ?
+                  <p>Registered: {classNumberRegistered.registered}/{classNumberRegistered.maximum}</p> : <></>}
               </div>
             </Link>
           ))}

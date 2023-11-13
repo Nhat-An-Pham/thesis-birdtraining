@@ -1,11 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
-const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price, }) => {
+const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => {
 
 
     return (
-
-        <section class="card_container">
+        <Link class="card_container" to={`/workshopslist/${id}`}>
             <article>
                 <div class="article-wrapper">
                     <figure>
@@ -13,8 +13,11 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price, }) =>
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
-                        <p>
+                        <p className='card_article-description'>
                             {shortdescr}
+                        </p>    
+                        <p>
+                            {price}$
                         </p>
                         <a href={`/workshopslist/${id}`} class="read-more">
                             Read more <span classz="sr-only"></span>
@@ -22,7 +25,7 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price, }) =>
                     </div>
                 </div>
             </article>
-        </section>
+        </Link>
     )
 }
 

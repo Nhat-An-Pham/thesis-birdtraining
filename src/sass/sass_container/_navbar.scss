@@ -21,6 +21,14 @@
 
     &-logo {
         flex-grow: 1;
+        cursor: pointer;
+        & a {
+            color: black;
+            transition: transform 0.5s;
+            &:hover{
+                transform: scale(1.02);
+            }
+        }
     }
 
     &-content {
@@ -56,7 +64,8 @@
     background-color: transparent;
     color: #96989B;
     transition: background-color 0.5s, transform 0.5s;
-    &:hover{
+
+    &:hover {
         color: black;
         transform: scale(1.1, 1.1)
     }
@@ -66,8 +75,9 @@
     background-color: #765827;
     color: white;
     transition: background-color 0.5s, transform 0.5s;
-    &:hover{
-        background-color: #C8AE7D ;
+
+    &:hover {
+        background-color: #C8AE7D;
         color: white;
         transform: scale(1.1, 1.1)
     }
@@ -79,7 +89,7 @@
         margin: 0 auto;
         padding: 0;
         list-style: none;
-        color: #96989B;
+        color: black;
     }
 
     & ul {
@@ -101,10 +111,6 @@
         color: #96989B;
     }
 
-    & a.nav_dropdown-arrow:after {
-        margin-left: 2px;
-    }
-
     & li a:hover {
         color: #765827;
         background: #F2F2F2;
@@ -119,6 +125,70 @@
         z-index: 3;
         display: none;
         border-radius: 10px;
+        opacity: 0.9;
+    }
+
+    & ul.nav_sub-menus li {
+        display: block;
+        width: 100%;
+    }
+
+    & ul.nav_sub-menus a {
+        color: #FFFFFF;
+    }
+
+    & li:hover ul.nav_sub-menus {
+        display: block
+    }
+
+    & ul.nav_sub-menus a:hover {
+        background: white;
+        color: #444444;
+    }
+}
+
+//after logged in
+.nav_elements-content-afterloggedin {
+    & ul li {
+        margin: 0 auto;
+        padding: 0;
+        list-style: none;
+        color: black;
+    }
+
+    & ul {
+        width: 100%;
+        margin: 0;
+    }
+
+    & li {
+        float: left;
+        display: inline;
+        position: relative;
+        cursor: pointer;
+    }
+
+    & a {
+        display: block;
+        line-height: 80px;
+        padding: 0 20px;
+        text-decoration: none;
+        color: black;
+    }
+
+    & li a:hover {
+        color: #765827;
+        background: #F2F2F2;
+    }
+
+    & ul.nav_sub-menus {
+        height: auto;
+        overflow: hidden;
+        width: 150px;
+        background: #765827;
+        position: relative;
+        z-index: 3;
+        display: none;
     }
 
     & ul.nav_sub-menus li {

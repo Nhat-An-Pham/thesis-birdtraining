@@ -36,7 +36,7 @@ const Consultation = () => {
         </div>
       </div>
       <div className='cons_section cons_section-booking'>
-        <h2>BOOKING ONLINE</h2>
+        <h1>BOOKING ONLINE</h1>
         <BookingComponent/>
       </div>
     </div>
