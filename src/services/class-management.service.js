@@ -37,6 +37,7 @@ class ClassManagementService {
       );
       // Handle the response and update the state
       // toast('Fetching workshops');
+      // console.log("response getSlots: ", response)
       return response;
     } catch (error) {
       console.error("Error fetching class details:", error);

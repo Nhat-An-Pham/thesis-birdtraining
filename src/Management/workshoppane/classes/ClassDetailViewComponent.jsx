@@ -14,16 +14,20 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  selectClasses,
 } from "@mui/material";
 import addonService from "../../../services/addon.service";
 
 export default function ClassDetailViewComponent({ selectedClassId }) {
+
   const [selectedClass, setSelectedClass] = useState();
   const [slot, setSlot] = useState();
+
+
   async function fetchClass() {
     try {
       let response = await classManagementService.GetClassById(selectedClassId);
-      console.log(response);
+      console.log("Check for fetchClass: ", response.data);
       setSelectedClass(response.data);
     } catch (error) {
       toast.error(JSON.stringify(error));
@@ -33,14 +37,14 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
     setSlot(slot);
   };
   useEffect(() => {
-    fetchClass();    
-    return () => {};
+    fetchClass();
+    return () => { };
   }, [selectedClassId]);
   function formatRegistrationAmount(inVal) {
     return `${inVal.registered}/${inVal.maximum}`;
   }
+
   function loadClass() {
-    
     return (
       <>
         <Grid container item xs={12} alignItems={"center"}>
@@ -50,7 +54,10 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                 <TableRow>
                   <TableCell align="center">Created Date</TableCell>
                   <TableCell align="center">Closed Registration</TableCell>
-                  <TableCell align="center">Registration</TableCell>
+                  <TableCell align="center">Slot Date Happen</TableCell>
+                  <TableCell align="center">Slot Start Time</TableCell>
+                  <TableCell align="center">Trainer</TableCell>
+                  <TableCell align="center">Registered</TableCell>
                   <TableCell align="center">Status</TableCell>
                 </TableRow>
               </TableHead>
@@ -61,6 +68,21 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                   </TableCell>
                   <TableCell align="center">
                     {addonService.formatDate(selectedClass.registerEndDate)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {slot ?
+                      addonService.formatDate(slot.date) : null
+                    }
+                  </TableCell>
+                  <TableCell align="center">
+                    {slot ?
+                      (slot.startTime.slice(0, -3)) : null
+                    }
+                  </TableCell>
+                  <TableCell align="center">
+                    {slot ?
+                      (slot.trainer.email) : null
+                    }
                   </TableCell>
                   <TableCell align="center">
                     <>
@@ -75,20 +97,24 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid container item spacing={3}>
-          <Grid item xs={3}>
-            <ClassSlotsPaneComponent
-              selectedClassId={selectedClassId}
-              callbackSelectSlot={onCallbackSlotSelect}
-            />
+        <div style={{marginTop: "10px"}}>
+          <Grid container item spacing={3} >
+            <Grid item xs={3}>
+              <ClassSlotsPaneComponent
+                selectedClassId={selectedClassId}
+                callbackSelectSlot={onCallbackSlotSelect}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <ClassSlotViewComponent slot={slot} selectedClass={selectedClass} />
+            </Grid>
           </Grid>
-          <Grid item xs={9}>
-            <ClassSlotViewComponent slot={slot}  selectedClassId={selectedClassId}/>
-          </Grid>
-        </Grid>
+        </div>
       </>
     );
   }
+
+
   return (
     <>
       {selectedClass ? (
