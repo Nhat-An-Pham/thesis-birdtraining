@@ -134,14 +134,14 @@ const HomePage = () => {
                 </div>
                 <div className='homeservice_section homeservice_section-cards'>
                     {service && service.map((services) => (
-                        <div key={services.id} className='homecardservice_container'>
+                        <Link key={services.id} className='homecardservice_container' to={services.link}>
                             <img src={services.image} alt={services.image}></img>
                             <h5>{services.name}</h5>
                             <p>{services.descr}</p>
                             <div className='homecardservice_button'>
                                 <Link to={services.link}>Learn More</Link>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

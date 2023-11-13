@@ -37,6 +37,7 @@
     &-services {
         background-color: #65451F;
         padding-bottom: 40px;
+        text-decoration: none;
 
     }
 
@@ -49,6 +50,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        margin-bottom: 100px;
     }
 
 }
@@ -234,6 +236,7 @@
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
+    text-decoration: none;
     width: 23%;
     border-radius: 5px;
     position: relative;
@@ -327,7 +330,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-        position: relative;
+        position: relative;   
     }
 }
 
