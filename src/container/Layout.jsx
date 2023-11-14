@@ -31,6 +31,7 @@ import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
+import { UserSettingPage } from '../pages/UserSettingPage';
 
 function Layout() {
 
@@ -57,6 +58,7 @@ function Layout() {
           <Route path="/workshopslist/:workshopid" element={<WClassListPage />} />
           <Route path="/workshopslist/:workshopid/classes/:wclassid" element={<WorkshopListPage />} />
           <Route path="/birdacademy" element={<TrainingAcademyPage />} />
+          <Route path="/setting" element={<UserSettingPage />} />
 
           {/* Payment */}
           <Route path="/payment/:wclassid" element={<Payment />} />
