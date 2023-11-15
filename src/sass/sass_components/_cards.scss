@@ -76,6 +76,13 @@
     & article a:focus {
         outline: 1px dotted #28666e;
     }
+    
+    & .article-body{
+        p{
+            height: 190px;
+            overflow: hidden;
+        }
+    }
 
 
     /* using the has() relational pseudo selector to update our custom properties */

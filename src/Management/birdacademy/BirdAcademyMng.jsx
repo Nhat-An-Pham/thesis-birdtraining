@@ -3,6 +3,7 @@ import Sidebar from '../component/sidebar/Sidebar'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainingSkillComponent from './TrainingSkillComponent';
+import ReworkSidebar from '../component/sidebar/ReworkSidebar';
 
 const BirdAcademyMng = () => {
 
@@ -46,7 +47,7 @@ const BirdAcademyMng = () => {
 
     return (
         <div className='workshop-container'>
-            <Sidebar />
+            <ReworkSidebar />
             <div className='workshop_section-wrapper'>
                 <div className='workshop_section_table workshop_section_table-workshop'>
                     <h2>Customers</h2>
