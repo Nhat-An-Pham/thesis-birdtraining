@@ -6,13 +6,53 @@ import './customerReq.scss'
 import ConsultantService from '../../services/consultant.service';
 
 export default function CustomerReqComponent() {
-    const [renderedIndex, setRenderedIndex] = useState(0);
-    const [dateValue, setDateValue] = useState();
-    const [slotValue, setSlotValue] = useState();
-    const [ticketIdForDetail, setTicketIdForDetail] = useState(0);
+    const [renderedIndex, setRenderedIndex] = useState(0); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
 
-    const [ticketDetail, setTicketDetail] = useState(0);
+    const [dateValue, setDateValue] = useState(null);
+    const [slotValue, setSlotValue] = useState(null);
+    const [ticketIdForDetail, setTicketIdForDetail] = useState(0);
+    const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
+    const [assignedTrainer, setAssignedTrainer] = useState(null);
+
+    function AssignTrainer() {
+        useEffect(() => {
+            ConsultantService
+                .assignTrainer({ trainerId: assignedTrainer.id, ticketId: ticketIdForDetail })
+                .then((res) => {
+                    console.log("success Assign Trainer test", res.data);
+                })
+                .catch((e) => console.log("fail Assign Trainer test", e));
+        }, []);
+    }
+
+
+    const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
+
+
+    // useEffect(() => {
+    //     ConsultantService
+    //         .getFreeTrainerOnSlotDate({ dateValue: dateValue, slotId: slotValue })
+    //         .then((res) => {
+    //             console.log("success Free Trainer list test", res.data);
+    //             setListOfFreeTrainer(res.data);
+    //         })
+    //         .catch((e) => console.log("fail Free Trainer list test", e));
+    // }, []);
+
+    const GetListFreeTrainers = (date, slot) => {
+        ConsultantService
+            .getFreeTrainerOnSlotDate({ dateValue: date, slotId: slot })
+            .then((res) => {
+                console.log("success Free Trainer list test", res.data);
+                setListOfFreeTrainer(res.data);
+            })
+            .catch((e) => console.log("fail Free Trainer list test", e));
+    }
+
+
+    const [ticketDetail, setTicketDetail] = useState(null);
     useEffect(() => {
+        // console.log(ticketIdForDetail);
         ConsultantService
             .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
             .then((res) => {
@@ -22,16 +62,7 @@ export default function CustomerReqComponent() {
             .catch((e) => console.log("fail Consulting Ticket Detail test", e));
     }, [ticketIdForDetail]);
 
-    const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
-    useEffect(() => {
-        ConsultantService
-            .getFreeTrainerOnSlotDate({ dateValue: dateValue, slotId: slotValue })
-            .then((res) => {
-                console.log("success Free Trainer list test", res.data);
-                setListOfFreeTrainer(res.data);
-            })
-            .catch((e) => console.log("fail Free Trainer list test", e));
-    }, []);
+
 
     const [listNotAssignedConsultingTicket, setlistNotAssignedConsultingTicket] = useState([]);
     useEffect(() => {
@@ -55,6 +86,7 @@ export default function CustomerReqComponent() {
             .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
     }, []);
 
+
     const [listHandledConsultingTicket, setListHandledConsultingTicket] = useState([]);
     useEffect(() => {
         ConsultantService
@@ -73,11 +105,11 @@ export default function CustomerReqComponent() {
                 <Grid container spacing={1} sx={{ margin: "15px" }}>
                     <Grid container item xs={5} justifyContent="flex-start">
                         {renderedIndex === 1 ? (
-                            <Button variant="contained" color="ochre" onClick={() => {setRenderedIndex(2); setTicketIdForDetail(0);}}>
+                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(2); setTicketIdForDetail(0); }}>
                                 View UnAssigned Ticket
                             </Button>
                         ) : (
-                            <Button variant="contained" color="ochre" onClick={() => {setRenderedIndex(1); setTicketIdForDetail(0);}}>
+                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(1); setTicketIdForDetail(0); }}>
                                 View Assigned Ticket
                             </Button>
                         )}
@@ -87,7 +119,7 @@ export default function CustomerReqComponent() {
                         {renderedIndex === 3 ? (
                             <></>
                         ) : (
-                            <Button variant="contained" color="ochre" onClick={() => {setRenderedIndex(3); setTicketIdForDetail(0);}}>
+                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(3); setTicketIdForDetail(0); }}>
                                 View Handled Ticket
                             </Button>
                         )}
@@ -105,19 +137,20 @@ export default function CustomerReqComponent() {
                                                 <TableCell>Online/Offline</TableCell>
                                                 <TableCell>Date</TableCell>
                                                 <TableCell>Slot</TableCell>
-                                                <TableCell>Detail</TableCell>
+                                                <TableCell></TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {listAssignedConsultingTicket.map((row, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline}</TableCell>
+                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
                                                     <TableCell>{row.appointmentDate}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
                                                             setTicketIdForDetail(row.id);
+                                                            setHaveAssignedTrainer(1);
                                                             setRenderedIndex(0);
                                                         }}>
                                                             Detail
@@ -140,19 +173,23 @@ export default function CustomerReqComponent() {
                                                 <TableCell>Online/Offline</TableCell>
                                                 <TableCell>Date</TableCell>
                                                 <TableCell>Slot</TableCell>
-                                                <TableCell>Detail</TableCell>
+                                                <TableCell></TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {listNotAssignedConsultingTicket.map((row, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline}</TableCell>
+                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
                                                     <TableCell>{row.appointmentDate}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
                                                             setTicketIdForDetail(row.id);
+                                                            // setDateValue(row.appointmentDate);
+                                                            // setSlotValue(row.actualSlotStart);
+                                                            GetListFreeTrainers(row.appointmentDate, row.actualSlotStart);
+                                                            setHaveAssignedTrainer(2);
                                                             setRenderedIndex(0);
                                                         }}>
                                                             Detail
@@ -175,19 +212,20 @@ export default function CustomerReqComponent() {
                                                 <TableCell>Online/Offline</TableCell>
                                                 <TableCell>Date</TableCell>
                                                 <TableCell>Slot</TableCell>
-                                                <TableCell>Detail</TableCell>
+                                                <TableCell></TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {listHandledConsultingTicket.map((row, index) => (
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline}</TableCell>
+                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
                                                     <TableCell>{row.appointmentDate}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
                                                             setTicketIdForDetail(row.id);
+                                                            setHaveAssignedTrainer(3);
                                                             setRenderedIndex(0);
                                                         }}>
                                                             Detail
@@ -201,10 +239,10 @@ export default function CustomerReqComponent() {
                             </div>
                         ) : renderedIndex === 0 && ticketIdForDetail === 0 ? (
                             setRenderedIndex(1)
-                        ) : renderedIndex === 0 && ticketIdForDetail != 0 ? (
+                        ) : renderedIndex === 0 && ticketIdForDetail !== 0 && ticketDetail ? (
                             <div>
                                 <h3>Ticket Detail</h3>
-                                {<TableContainer component={Paper}>
+                                <TableContainer component={Paper}>
                                     <Table>
                                         <TableHead>
                                             <TableRow>
@@ -228,10 +266,23 @@ export default function CustomerReqComponent() {
                                                 <TableCell>{ticketDetail.customerName}</TableCell>
                                                 <TableCell>{ticketDetail.addressDetail}</TableCell>
                                                 <TableCell>{ticketDetail.consultingType}</TableCell>
-                                                <TableCell>{ticketDetail.trainerName}</TableCell>
+                                                {haveAssignedTrainer === 1 ? (<TableCell>
+                                                    {ticketDetail.trainerName}
+                                                </TableCell>
+                                                ) :
+                                                    haveAssignedTrainer === 2 && listOfFreeTrainer ? (<TableCell>
+                                                        <select>
+                                                            {listOfFreeTrainer.map((trainer, idx) => (
+                                                                <option>{trainer.name}</option>
+                                                            ))}
+                                                        </select>
+                                                    </TableCell>) :
+                                                        haveAssignedTrainer === 3 ? (<TableCell>{ticketDetail.trainerName}</TableCell>) :
+                                                            (<></>)
+                                                }
                                                 <TableCell>{ticketDetail.consultingDetail}</TableCell>
                                                 <TableCell>{ticketDetail.distance}</TableCell>
-                                                <TableCell>{ticketDetail.onlineOrOffline}</TableCell>
+                                                <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
                                                 <TableCell>{ticketDetail.appointmentDate}</TableCell>
                                                 <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                                                 <TableCell>{ticketDetail.price}</TableCell>
@@ -239,7 +290,13 @@ export default function CustomerReqComponent() {
                                             </TableRow>
                                         </TableBody>
                                     </Table>
-                                </TableContainer>}
+                                </TableContainer>
+                                {haveAssignedTrainer === 1 ? (<div><Button>Confirm</Button>
+                                    <Button>Cancel</Button></div>) :
+                                    haveAssignedTrainer === 2 ? (<div><Button onClick={() => AssignTrainer()}>Assign</Button>
+                                        <Button>Cancel</Button></div>) :
+                                        haveAssignedTrainer === 3 ? (<></>) :
+                                            (<></>)}
                             </div>
                         ) : null}
                     </Grid>
