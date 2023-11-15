@@ -73,9 +73,9 @@ class ConsultantService {
         return response;
     }
 
-    async approveConsultingTicket({ticketId, trainerId, date, slotId}) {
+    async approveConsultingTicket({ticketId, date, slotId}) {
         const response = await axios
-            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&trainerId=${trainerId}&date=${date}&slotId=&${slotId}`)
+            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&date=${date}&slotId=${slotId}`)
         return response;
     }
 

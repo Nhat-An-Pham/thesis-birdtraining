@@ -7,13 +7,13 @@ import ConsultantService from '../../services/consultant.service';
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(0); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
-
+    const [dateValue, setDateValue] = useState(null);
+    const [slotValue, setSlotValue] = useState(0);
     const [ticketIdForDetail, setTicketIdForDetail] = useState(0);
     const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
     const [assignedTrainer, setAssignedTrainer] = useState(null);
 
     const AssignTrainer = (trainer, ticketId) => {
-        console.log("Trainer ne:::::::::::::::::::::",trainer);
         ConsultantService
             .assignTrainer({ trainerId: trainer, ticketId: ticketId })
             .then((res) => {
@@ -22,6 +22,23 @@ export default function CustomerReqComponent() {
             .catch((e) => console.log("fail Assign Trainer test", e));
     }
 
+    const CancelTicket = (ticketId) => {
+        ConsultantService
+            .cancelConsultingTicket({ ticketId })
+            .then((res) => {
+                console.log("succes Cancel Ticket test", res.data);
+            })
+            .catch((e) => console.log("fail Cancel Ticket tes", e));
+    }
+
+    const ConfirmTicket = (ticketId, date, slotId) => {
+        ConsultantService
+            .approveConsultingTicket({ ticketId, date, slotId })
+            .then((res) => {
+                console.log("succes Confirm Ticket test", res.data);
+            })
+            .catch((e) => console.log("fail Confirm Ticket tes", e));
+    }
 
     const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
 
@@ -147,6 +164,8 @@ export default function CustomerReqComponent() {
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
                                                             setTicketIdForDetail(row.id);
+                                                            setDateValue(row.appointmentDate);
+                                                            setSlotValue(row.actualSlotStart);
                                                             setHaveAssignedTrainer(1);
                                                             setRenderedIndex(0);
                                                         }}>
@@ -183,8 +202,6 @@ export default function CustomerReqComponent() {
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
                                                             setTicketIdForDetail(row.id);
-                                                            // setDateValue(row.appointmentDate);
-                                                            // setSlotValue(row.actualSlotStart);
                                                             GetListFreeTrainers(row.appointmentDate, row.actualSlotStart);
                                                             setHaveAssignedTrainer(2);
                                                             setRenderedIndex(0);
@@ -288,10 +305,10 @@ export default function CustomerReqComponent() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                {haveAssignedTrainer === 1 ? (<><Button>Confirm</Button>
-                                    <Button>Cancel</Button></>) :
+                                {haveAssignedTrainer === 1 ? (<><Button onClick={() => ConfirmTicket(ticketIdForDetail, dateValue, slotValue)}>Confirm</Button>
+                                    <Button onClick={() => CancelTicket(ticketIdForDetail)}>Cancel</Button></>) :
                                     haveAssignedTrainer === 2 ? (<><Button onClick={() => AssignTrainer(assignedTrainer, ticketIdForDetail)}>Assign</Button>
-                                        <Button>Cancel</Button></>) :
+                                        <Button onClick={() => CancelTicket(ticketIdForDetail)}>Cancel</Button></>) :
                                         haveAssignedTrainer === 3 ? (<></>) :
                                             (<></>)}
                             </div>
