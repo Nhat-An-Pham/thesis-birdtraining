@@ -70,7 +70,7 @@ const WClassListPage = () => {
   const navigate = useNavigate();
   const handleEnroll = (event) =>{
     console.log(event);
-    navigate(`/payment/${event}`)
+    navigate(`/payment/workshop/${event}`)
   }
 
   //Select Class

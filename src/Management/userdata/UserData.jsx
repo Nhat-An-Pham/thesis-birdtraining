@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import Sidebar from '../component/sidebar/Sidebar'
+import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import './userdata.scss'
 import users from '../../assets/fakedb/users'
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper } from "@mui/material";
@@ -51,7 +52,7 @@ const UserData = () => {
     return (
         <>
             <div className='userdata-container'>
-                <Sidebar />
+                <ReworkSidebar />
                 <div className='userdata-wrapper'>
                     <h1>User Data</h1>
                     ----------------------------------------------------------

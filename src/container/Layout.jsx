@@ -31,6 +31,7 @@ import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
+import OnlineCourseStudyPage from '../pages/OnlineCourseStudyPage';
 
 function Layout() {
 
@@ -51,16 +52,16 @@ function Layout() {
           <Route path='/courses' element={<OnlineCourse />} />
           <Route path='/courseslist' element={<CourseListPage />} />
           <Route path='/courseslist/:courseid' element={<CourseDetailPage />} />
+          <Route path='/onlinecourse/study/:courseid' element={<OnlineCourseStudyPage />} />
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/workshops" element={<Workshop />} />
           <Route path="/workshopslist" element={<WorkshopListPage />} />
           <Route path="/workshopslist/:workshopid" element={<WClassListPage />} />
-          <Route path="/workshopslist/:workshopid/classes/:wclassid" element={<WorkshopListPage />} />
           <Route path="/birdacademy" element={<TrainingAcademyPage />} />
 
           {/* Payment */}
-          <Route path="/payment/:wclassid" element={<Payment />} />
-          <Route path="/payment/:oclassid" element={<Payment />} />
+          <Route path="/payment/workshop/:wclassid" element={<Payment />} />
+          <Route path="/payment/online/:oclassid" element={<Payment />} />
           <Route path="/certificate" element={<Certificate />} />
 
           {/* login signup */}

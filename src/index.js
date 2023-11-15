@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './sass/index.scss';
 import Layout from './container/Layout';
 
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
