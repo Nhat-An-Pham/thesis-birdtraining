@@ -8,21 +8,18 @@ import ConsultantService from '../../services/consultant.service';
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(0); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
 
-    const [dateValue, setDateValue] = useState(null);
-    const [slotValue, setSlotValue] = useState(null);
     const [ticketIdForDetail, setTicketIdForDetail] = useState(0);
     const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
     const [assignedTrainer, setAssignedTrainer] = useState(null);
 
-    function AssignTrainer() {
-        useEffect(() => {
-            ConsultantService
-                .assignTrainer({ trainerId: assignedTrainer.id, ticketId: ticketIdForDetail })
-                .then((res) => {
-                    console.log("success Assign Trainer test", res.data);
-                })
-                .catch((e) => console.log("fail Assign Trainer test", e));
-        }, []);
+    const AssignTrainer = (trainer, ticketId) => {
+        console.log("Trainer ne:::::::::::::::::::::",trainer);
+        ConsultantService
+            .assignTrainer({ trainerId: trainer, ticketId: ticketId })
+            .then((res) => {
+                console.log("success Assign Trainer test", res.data);
+            })
+            .catch((e) => console.log("fail Assign Trainer test", e));
     }
 
 
@@ -69,22 +66,22 @@ export default function CustomerReqComponent() {
         ConsultantService
             .viewListNotAssignedConsultingTicket()
             .then((res) => {
-                console.log("success Not Assigned Consulting Ticket list test", res.data);
+                // console.log("success Not Assigned Consulting Ticket list test", res.data);
                 setlistNotAssignedConsultingTicket(res.data);
             })
             .catch((e) => console.log("fail Not Assigned Consulting Ticket list test", e));
-    }, []);
+    }, [renderedIndex]);
 
     const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
     useEffect(() => {
         ConsultantService
             .viewListAssignedConsultingTicket()
             .then((res) => {
-                console.log("success Assigned Consulting Ticket list test", res.data);
+                // console.log("success Assigned Consulting Ticket list test", res.data);
                 setListAssignedConsultingTicket(res.data);
             })
             .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
-    }, []);
+    }, [renderedIndex]);
 
 
     const [listHandledConsultingTicket, setListHandledConsultingTicket] = useState([]);
@@ -92,11 +89,11 @@ export default function CustomerReqComponent() {
         ConsultantService
             .viewListHandledConsultingTicket()
             .then((res) => {
-                console.log("success Handled Consulting Ticket list test", res.data);
+                // console.log("success Handled Consulting Ticket list test", res.data);
                 setListHandledConsultingTicket(res.data);
             })
             .catch((e) => console.log("fail Handled Consulting Ticket list test", e));
-    }, []);
+    }, [renderedIndex]);
 
     return (
         <div className="workshop-container">
@@ -271,9 +268,9 @@ export default function CustomerReqComponent() {
                                                 </TableCell>
                                                 ) :
                                                     haveAssignedTrainer === 2 && listOfFreeTrainer ? (<TableCell>
-                                                        <select>
+                                                        <select onChange={(e) => setAssignedTrainer(e.target.value)}>
                                                             {listOfFreeTrainer.map((trainer, idx) => (
-                                                                <option>{trainer.name}</option>
+                                                                <option key={idx} value={trainer.id}>{trainer.name}</option>
                                                             ))}
                                                         </select>
                                                     </TableCell>) :
@@ -291,10 +288,10 @@ export default function CustomerReqComponent() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                {haveAssignedTrainer === 1 ? (<div><Button>Confirm</Button>
-                                    <Button>Cancel</Button></div>) :
-                                    haveAssignedTrainer === 2 ? (<div><Button onClick={() => AssignTrainer()}>Assign</Button>
-                                        <Button>Cancel</Button></div>) :
+                                {haveAssignedTrainer === 1 ? (<><Button>Confirm</Button>
+                                    <Button>Cancel</Button></>) :
+                                    haveAssignedTrainer === 2 ? (<><Button onClick={() => AssignTrainer(assignedTrainer, ticketIdForDetail)}>Assign</Button>
+                                        <Button>Cancel</Button></>) :
                                         haveAssignedTrainer === 3 ? (<></>) :
                                             (<></>)}
                             </div>
