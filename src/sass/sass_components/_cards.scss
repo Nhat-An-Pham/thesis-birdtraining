@@ -62,7 +62,7 @@
     }
 
     & .article-body {
-        padding: 24px;
+        padding: 15px;
     }
 
     & article a {
@@ -76,10 +76,17 @@
     & article a:focus {
         outline: 1px dotted #28666e;
     }
-    
-    & .article-body{
-        p{
-            height: 190px;
+
+    & .article-body {
+        div {
+            font-size: 15px;
+            height: 90px;
+            overflow: hidden;
+            border-bottom: grey 0.5px solid;
+        }
+
+        p {
+            height: 60px;
             overflow: hidden;
         }
     }
@@ -105,7 +112,7 @@
         box-sizing: border-box;
     }
 
-    & .card_article-description{
+    & .card_article-description {
         width: 100%;
         height: 100px;
         overflow: hidden;

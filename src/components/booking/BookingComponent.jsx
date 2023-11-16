@@ -25,18 +25,17 @@ function BookingComponent() {
     const customerId = JSON.parse(localStorage.getItem("user-token"))
     //2
     const [selectedTrainerId, setSelectedTrainerId] = useState(null);
-    
+
     const [activeStep, setActiveStep] = useState(0);
     //3
     const [apptDate, setApptDate] = useState(dayjs())
-    const [slotId, setSlotId] =useState(null);
+    const [slotId, setSlotId] = useState(null);
     //4
-    const [consultingType, setConsultingType] =useState(null)
+    const [consultingType, setConsultingType] = useState(null)
     const [consultingDetail, setConsultingDetail] = useState(null);
     const [address, setAddress] = useState(null);
 
     //throw
-    const [duplicateCheck, setDuplicateCheck] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
 
 
@@ -52,11 +51,11 @@ function BookingComponent() {
     const getAppointmentDate = (appointmentDate) => {
         setApptDate(appointmentDate);
     }
-    const getSlotId = (slotId) =>{
+    const getSlotId = (slotId) => {
         setSlotId(slotId)
     }
     //4
-    const getConsultingType = (consultingType) =>{
+    const getConsultingType = (consultingType) => {
         setConsultingType(consultingType);
     }
     const getFormValues = (consultingDetail, address, consultingTypeId) => {
@@ -82,8 +81,8 @@ function BookingComponent() {
         }
     };
 
-    
-    
+
+
 
     const handleNext = async (index) => {
         if (serviceId === null) {
@@ -120,13 +119,13 @@ function BookingComponent() {
                     }
                     try {
                         ConsultantService.CusSendTicket(newAppt)
-                        .then((res)=>{
-                            console.log("Send Ticket Success")
-                        }).catch((error)=>{
-                            console.log(error.response.data)
-                        })
+                            .then((res) => {
+                                console.log("Send Ticket Success")
+                            }).catch((error) => {
+                                console.log(error.response.data)
+                            })
                     } catch (error) {
-                        console.log(error.response.data);
+                        setErrorMessage(error.response.data);
                     }
                 }
                 return;
@@ -149,7 +148,7 @@ function BookingComponent() {
         },
         {
             label: 'Which Trainer would you like to make an appointment with?',
-            description: <Step2 getTrainerId = {getTrainerId} />,
+            description: <Step2 getTrainerId={getTrainerId} />,
         },
         {
             label: 'Select Date & Time',
@@ -157,7 +156,7 @@ function BookingComponent() {
         },
         {
             label: 'Please enter Contact Information',
-            description: <Step4 getFormValues={getFormValues} getConsultingType = {getConsultingType} />
+            description: <Step4 getFormValues={getFormValues} getConsultingType={getConsultingType} />
         }
     ];
 
@@ -168,7 +167,7 @@ function BookingComponent() {
             <Stepper activeStep={activeStep} orientation="vertical" >
                 {steps.map((step, index) => (
                     <Step key={step.label} >
-                        <StepLabel 
+                        <StepLabel
                             optional={
                                 index === 3 ? (
                                     <Typography variant="caption">Last step</Typography>
@@ -203,13 +202,8 @@ function BookingComponent() {
             </Stepper>
             {activeStep === steps.length && (
                 <Paper square elevation={0} sx={{ p: 3 }} >
-
-                    {duplicateCheck == 1 ?
-                        <Typography variant="h5" style={{ color: "#009688" }}>You&apos;re appointment on {apptDate} has been confirmed!</Typography> :
-                        <Typography variant="h5" style={{ color: "#ba000d" }}>We're sorry, that appointment time slot is taken. Please select another time.</Typography>
-                    }
                     <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-                        Create Another Appointment 
+                        Create Another Appointment
                     </Button>
                 </Paper>
             )}

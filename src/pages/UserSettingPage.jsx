@@ -26,12 +26,23 @@ export const UserSettingPage = () => {
         setInputDisable(false);
     }
     function CancelClick() {
+        setName(null);
+        setEmail(null);
+        setPhoneNumber(null);
         setInputDisable(true);
     }
     function HandleImage(e) {
         console.log(e.target.files)
         setImage(e.target.files[0])
     }
+
+    function ClearFields() {
+        document.getElementById("fname").value = "";
+        document.getElementById("femail").value = "";
+        document.getElementById("fphone").value = "";
+        document.getElementById("fpassword").value = "";
+        document.getElementById("fconfpassword").value = "";
+   }
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -133,7 +144,7 @@ export const UserSettingPage = () => {
                                 :
                                 <div className='ustp-body-button'>
                                     <button className='ustp-body-button-save' onClick={handleSave}>SAVE</button>
-                                    <button className='ustp-body-button-cancel' onClick={CancelClick}>CANCEL</button>
+                                    <button className='ustp-body-button-cancel' onClick={()=>{CancelClick();ClearFields()}}>CANCEL</button>
                                 </div>
                             }
                         </div>
