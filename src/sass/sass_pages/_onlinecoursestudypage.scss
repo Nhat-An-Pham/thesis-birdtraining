@@ -72,12 +72,27 @@
     width: 70%;
     padding-top: 20px;
 
+    &-files{
+        border: 1px black solid;
+        display: flex;
+        margin: 0px 20px;
+        padding: 10px;
+        overflow: hidden;
+        & img{
+            width: 50px;
+        }
+        & h4{
+            padding: 10px;
+            overflow: hidden;
+        }
+    }
+
     &-description {
         padding: 20px;
     }
 
     &-button {
-        margin-top: 40px;
+        margin: 50px 0px;
         height: 60px;
         border-top: 0.5px grey solid;
         display: flex;

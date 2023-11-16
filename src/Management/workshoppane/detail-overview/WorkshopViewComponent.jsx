@@ -57,8 +57,8 @@ export default function WorkshopViewComponent({ workshopId }) {
   return (
     <div>
       <Grid container>
-        <Grid container item justifyContent="center" xs={12}>
-          <ImageList sx={{ width: 200, height: 200 }} cols={3} rowHeight={164}>
+        <Grid container item justifyContent="center" xs={12} style={{overflow: "scroll"}}>
+          <ImageList sx={{ width: 800, height: 200 }} cols={3} rowHeight={164}>
             {pictures.map((picture) => (
               <ImageListItem key={picture}>
                 <img
