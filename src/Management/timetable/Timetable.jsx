@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./timetable.scss";
 import Sidebar from "../component/sidebar/Sidebar";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import consultantService from "../../services/consultant.service";
 
 
 
@@ -16,6 +17,8 @@ function TimeTable() {
     const localizer = momentLocalizer(moment);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedEmployee, setSelectedEmployee] = useState([]);
+    const [trainerId, setTrainerId] = useState(0);
+
     const events = [
         {
             title: 'Sự kiện 1',
@@ -40,6 +43,19 @@ function TimeTable() {
     const handleEmployeeChange = (employee) => {
         setSelectedEmployee(employee);
     };
+
+    //Lấy list ticket mà Trainer được assign
+    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
+    useEffect(() => {
+        consultantService
+            .getListAssignedConsultingTicket({trainerId})
+            .then((res) => {
+                console.log("success Assigned Consulting Ticket list test", res.data);
+                setListAssignedConsultingTicket(res.data);
+            })
+            .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
+    }, [trainerId]);
+
     return (
         <>
             <div className="timetable-container">

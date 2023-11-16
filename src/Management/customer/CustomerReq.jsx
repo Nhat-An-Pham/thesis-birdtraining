@@ -4,6 +4,7 @@ import { ochreTheme } from "../themes/Theme";
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, ThemeProvider, Grid, Button } from "@mui/material";
 import './customerReq.scss'
 import ConsultantService from '../../services/consultant.service';
+import addonService from '../../services/addon.service';
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(0); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
@@ -66,7 +67,6 @@ export default function CustomerReqComponent() {
 
     const [ticketDetail, setTicketDetail] = useState(null);
     useEffect(() => {
-        // console.log(ticketIdForDetail);
         ConsultantService
             .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
             .then((res) => {
@@ -83,7 +83,7 @@ export default function CustomerReqComponent() {
         ConsultantService
             .viewListNotAssignedConsultingTicket()
             .then((res) => {
-                // console.log("success Not Assigned Consulting Ticket list test", res.data);
+                // console.log("success Not Assigned Trainer Consulting Ticket list test", res.data);
                 setlistNotAssignedConsultingTicket(res.data);
             })
             .catch((e) => console.log("fail Not Assigned Consulting Ticket list test", e));
@@ -94,7 +94,7 @@ export default function CustomerReqComponent() {
         ConsultantService
             .viewListAssignedConsultingTicket()
             .then((res) => {
-                // console.log("success Assigned Consulting Ticket list test", res.data);
+                // console.log("success Assigned Trainer Consulting Ticket list test", res.data);
                 setListAssignedConsultingTicket(res.data);
             })
             .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
@@ -159,7 +159,7 @@ export default function CustomerReqComponent() {
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
                                                     <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{row.appointmentDate}</TableCell>
+                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
@@ -197,7 +197,7 @@ export default function CustomerReqComponent() {
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
                                                     <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{row.appointmentDate}</TableCell>
+                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
@@ -234,7 +234,7 @@ export default function CustomerReqComponent() {
                                                 <TableRow key={index}>
                                                     <TableCell>{row.id}</TableCell>
                                                     <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{row.appointmentDate}</TableCell>
+                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
                                                     <TableCell>{row.actualSlotStart}</TableCell>
                                                     <TableCell>
                                                         <Button type='button' onClick={() => {
@@ -297,7 +297,7 @@ export default function CustomerReqComponent() {
                                                 <TableCell>{ticketDetail.consultingDetail}</TableCell>
                                                 <TableCell>{ticketDetail.distance}</TableCell>
                                                 <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                <TableCell>{ticketDetail.appointmentDate}</TableCell>
+                                                <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
                                                 <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                                                 <TableCell>{ticketDetail.price}</TableCell>
                                                 <TableCell>{ticketDetail.status}</TableCell>
@@ -305,10 +305,10 @@ export default function CustomerReqComponent() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-                                {haveAssignedTrainer === 1 ? (<><Button onClick={() => ConfirmTicket(ticketIdForDetail, dateValue, slotValue)}>Confirm</Button>
-                                    <Button onClick={() => CancelTicket(ticketIdForDetail)}>Cancel</Button></>) :
-                                    haveAssignedTrainer === 2 ? (<><Button onClick={() => AssignTrainer(assignedTrainer, ticketIdForDetail)}>Assign</Button>
-                                        <Button onClick={() => CancelTicket(ticketIdForDetail)}>Cancel</Button></>) :
+                                {haveAssignedTrainer === 1 ? (<><Button onClick={() => { ConfirmTicket(ticketIdForDetail, dateValue, slotValue); setRenderedIndex(1); }}>Confirm</Button>
+                                    <Button onClick={() => { CancelTicket(ticketIdForDetail); setRenderedIndex(1) }}>Cancel</Button></>) :
+                                    haveAssignedTrainer === 2 ? (<><Button onClick={() => { AssignTrainer(assignedTrainer, ticketIdForDetail); setRenderedIndex(1) }}>Assign</Button>
+                                        <Button onClick={() => { CancelTicket(ticketIdForDetail); setRenderedIndex(1) }}>Cancel</Button></>) :
                                         haveAssignedTrainer === 3 ? (<></>) :
                                             (<></>)}
                             </div>

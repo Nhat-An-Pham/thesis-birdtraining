@@ -3,6 +3,7 @@ const URL = process.env.REACT_APP_API;
 const API_URL_CUS = URL + "/api/AdviceConsultingCustomer/";
 const API_URL_AllROLE = URL + "/api/AdviceConsultingAllRoles/";
 const API_URL_STAFF = URL + "/api/AdviceConsultingStaff/";
+const API_URL_TRAINER  = URL + "/api/AdviceConsultingTrainer";
 class ConsultantService {
 
     async CusSendTicket({ customerId, address, consultingTypeId, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
@@ -88,6 +89,12 @@ class ConsultantService {
     async getConsultingTicketDetail({ticketId}) {
         const response = await axios
             .get(API_URL_AllROLE + `getConsultingTicketDetail?ticketId=${ticketId}`);
+        return response;
+    }
+
+    async getListAssignedConsultingTicket({trainerId}) {
+        const response = await axios
+            .get(API_URL_TRAINER + `getListAssignedConsultingTicket?trainerId=${trainerId}`);
         return response;
     }
 }
