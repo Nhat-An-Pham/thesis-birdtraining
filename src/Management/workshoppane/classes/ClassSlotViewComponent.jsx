@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import timetableService from "../../../services/timetable.service";
 import classManagementService from "../../../services/class-management.service";
 
-export default function ClassSlotViewComponent(slot, selectedClass) {
+export default function ClassSlotViewComponent(slot, selectedClass, callbackUpdateSlot) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [dateSlot, setDateSlot] = useState(null);
   const [slotTimes, setSlotTimes] = useState([]);
@@ -35,6 +35,7 @@ export default function ClassSlotViewComponent(slot, selectedClass) {
       };
       let response = await classManagementService.getSlots(params);
       setSelectedSlot(response.data[0]);
+      callbackUpdateSlot(response.data[0]);
       // setSelectedTrainer(response.data[0].trainer.name)
     } catch (error) {
       toast.error(error);
@@ -92,11 +93,13 @@ export default function ClassSlotViewComponent(slot, selectedClass) {
       // console.log(response); 
       if (response.status === 200) {
         toast.success('Assign successfully!');
+        // callbackUpdateSlot();
       } else {
-        toast.error(response.data);
+        toast.error('An error has occured!');
       }
     } catch (error) {
-      toast.error(JSON.stringify(error.response.data));
+      console.log(error);
+      toast.error(error.response?.data?.message);
       // console.log(error.response.data);
     }
   }
