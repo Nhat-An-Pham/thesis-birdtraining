@@ -139,7 +139,7 @@ const Payment = () => {
                                     {wclassid ? <p class="home-price">{billingInfo.workshopPrice} USD</p> : null}
                                     {oclassid ? <p class="home-price">{billingInfo.coursePrice} USD</p> : null}
                                     <p class="home-desc">
-                                        {wclassid ? <em>{dateFormat(item.startTime, "mmmm dS, yyyy")}</em> : null}
+                                        {wclassid ? <em>WorkShop Start On: <span style={{color:"gold"}}>{dateFormat(item.startTime, "mmmm dS, yyyy")}</span></em> : null}
                                     </p>
                                 </>}
                         </div>
