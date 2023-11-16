@@ -57,11 +57,8 @@ class OnlineCourseService {
     //CHECK LESSON
     async putCheckLesson({ lessonId }) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'))
-        var id = Number(lessonId)
         const response = await axios
-            .put(API_URL + "/check-lesson", {
-                id
-            },
+            .put(API_URL + "/check-lesson", { lessonId },
                 {
                     headers: {
                         "Authorization": `Bearer ${accessToken}`

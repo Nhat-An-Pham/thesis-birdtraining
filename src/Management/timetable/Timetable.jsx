@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./timetable.scss";
-import Sidebar from "../component/sidebar/Sidebar";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
