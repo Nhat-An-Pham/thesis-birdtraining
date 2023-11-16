@@ -70,24 +70,24 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                     {addonService.formatDate(selectedClass.registerEndDate)}
                   </TableCell>
                   <TableCell align="center">
-                    {slot ?
+                    {slot && slot.date ?
                       addonService.formatDate(slot.date) : null
                     }
                   </TableCell>
                   <TableCell align="center">
-                    {slot ?
+                    {slot && slot.startTime ?
                       (slot.startTime.slice(0, -3)) : null
                     }
                   </TableCell>
                   <TableCell align="center">
-                    {slot ?
+                    {slot && slot.trainer ?
                       (slot.trainer.email) : null
                     }
                   </TableCell>
                   <TableCell align="center">
                     <>
                       {formatRegistrationAmount(
-                        selectedClass.registered
+                        selectedClass.registrationAmount
                       )}
                     </>
                   </TableCell>
@@ -106,7 +106,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
               />
             </Grid>
             <Grid item xs={9}>
-              <ClassSlotViewComponent slot={slot} selectedClass={selectedClass} />
+              <ClassSlotViewComponent slot={slot} selectedClass={selectedClass} callbackUpdateSlot={onCallbackSlotSelect}/>
             </Grid>
           </Grid>
         </div>
