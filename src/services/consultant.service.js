@@ -2,8 +2,7 @@ import axios from "axios";
 const URL = process.env.REACT_APP_API;
 const API_URL_CUS = URL + "/api/AdviceConsultingCustomer/";
 const API_URL_AllROLE = URL + "/api/AdviceConsultingAllRoles/";
-const API_URL_STAFF = URL + "api/AdviceConsultingStaff/";
-
+const API_URL_STAFF = URL + "/api/AdviceConsultingStaff/";
 class ConsultantService {
 
     async CusSendTicket({ customerId, address, consultingTypeId, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
@@ -45,13 +44,14 @@ class ConsultantService {
 
     async getFreeTrainerOnSlotDate({dateValue, slotId}) {
         const response = await axios
-            .get(API_URL_AllROLE + `getFreeTrainerOnSlotDate?=date=${dateValue}&slotId=${slotId}`);
+            .get(API_URL_AllROLE + `getFreeTrainerOnSlotDate?date=${dateValue}&slotId=${slotId}`);
         return response
     }
 
     async viewListAssignedConsultingTicket() {
         const response = await axios
             .get(API_URL_STAFF + "viewListAssignedConsultingTicket");
+            console.log(response);
         return response;
     }
 
@@ -64,6 +64,30 @@ class ConsultantService {
     async viewListHandledConsultingTicket() {
         const response = await axios
             .get(API_URL_STAFF + "viewListHandledConsultingTicket");
+        return response;
+    }
+
+    async cancelConsultingTicket({ticketId}) {
+        const response = await axios
+            .put(API_URL_STAFF + `cancelConsultingTicket?ticketId=${ticketId}`);
+        return response;
+    }
+
+    async approveConsultingTicket({ticketId, date, slotId}) {
+        const response = await axios
+            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&date=${date}&slotId=${slotId}`)
+        return response;
+    }
+
+    async assignTrainer({trainerId, ticketId}) {
+        const  response = await axios
+            .put(API_URL_STAFF + `assignTrainer?trainerId=${trainerId}&ticketId=${ticketId}`);
+        return response;
+    }
+
+    async getConsultingTicketDetail({ticketId}) {
+        const response = await axios
+            .get(API_URL_AllROLE + `getConsultingTicketDetail?ticketId=${ticketId}`);
         return response;
     }
 }

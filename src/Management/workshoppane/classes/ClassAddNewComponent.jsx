@@ -46,7 +46,7 @@ export default function ClassAddNewComponent({
             toast.error('An error has occur');
         }
     } catch (error) {
-        console.log(error.data);
+      toast.error('An error has occur');
     }
   }
   const handleChangeDate = (value) => {

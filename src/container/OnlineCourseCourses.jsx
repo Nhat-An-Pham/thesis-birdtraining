@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Cards from '../components/cards/CoursesListCards'
-import courses from '../assets/fakedb/courses'
+import { useState } from 'react'
+import OnlinecourseService from '../services/onlinecourse.service'
 
 const OnlineCoursesCourses = () => {
+
+  const [onlineCourse, setOnlineCourse] = useState([]);
+
+  useEffect(()=>{
+    OnlinecourseService.getAllOnlineCourse()
+    .then((res)=>{
+      console.log("All Online Courses: ", res.data)
+      setOnlineCourse(res.data);
+    })
+    .catch((e)=>{
+      console.log("fail get all courses: ", e)
+    })
+  },[])
 
 
   return (
@@ -16,9 +30,9 @@ const OnlineCoursesCourses = () => {
         </h2>
       </div>
       <div className='ocpcourse_elements ocpcourse_elements-cards'>
-        {courses.map((course) => (
+        {onlineCourse.map((course) => (
             <Cards id={course.id} title={course.title} key={course.id}
-              thumbnail={course.coursethumbnail} shortdescr={course.shortdescr}
+              thumbnail={course.picture} shortdescr={course.shortDescription}
               price={course.price} />
         ))}
       </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./timetable.scss";
-import Sidebar from "../component/sidebar/Sidebar";
+import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import DatePicker from 'react-datepicker';
@@ -42,7 +42,7 @@ function TimeTable() {
     return (
         <>
             <div className="timetable-container">
-                <Sidebar />
+                <ReworkSidebar />
                 <div className="timetable-wrapper">
                     <div className="timetable_section timetable_section-center">
                         <h2>CENTER SCHEDULE</h2>

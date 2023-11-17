@@ -127,10 +127,11 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
               <TableHead>
                 <TableRow>
                   <TableCell align="center">Workshop</TableCell>
-                  <TableCell align="center">Created Date</TableCell>
+                  <TableCell align="center">Open Registration</TableCell>
                   <TableCell align="center">Closed Registration</TableCell>
                   <TableCell align="center">Registration</TableCell>
                   <TableCell align="center">Status</TableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody>

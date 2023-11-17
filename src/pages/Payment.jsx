@@ -1,12 +1,11 @@
 import { jwtDecode } from 'jwt-decode';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import WorkshopService from '../services/workshop.service';
 import dateFormat from 'dateformat';
-import { Navigator } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { color } from '@mui/system';
+import OnlinecourseService from '../services/onlinecourse.service';
 
 const Payment = () => {
     const token = localStorage.getItem("user-token")
@@ -20,29 +19,50 @@ const Payment = () => {
 
     const [err, setErr] = useState(null);
 
-    //Get Payment 
+    //GET PAYMENT 
     const { wclassid } = useParams();
     const { oclassid } = useParams();
     const [billingInfo, setBillingInfo] = useState(null);
     //Item
     const [item, setItem] = useState();
 
+
+    //API HANDLER
     useEffect(() => {
-        //get Bill
+        //GET BILL WORKSHOP
         if (wclassid) {
             WorkshopService.getBillingInformation({ wclassId: wclassid })
                 .then((res) => {
                     setBillingInfo(res.data);
-                    console.log(res.data)
+                    console.log("WORKSHOP", res.data)
                 })
+                .catch((e) => {
+                    console.log("WORKSHOP", e)
+                })
+
             WorkshopService.getClassById({ id: wclassid })
                 .then((res) => {
                     setItem(res.data)
                     console.log(res.data)
                 })
         }
-
+        // GET BILL ONLINE
+        if (oclassid) {
+            OnlinecourseService.getBillingInformation({ oclassid: oclassid })
+                .then((res) => {
+                    setBillingInfo(res.data);
+                    console.log("ONLINE COURSE", res.data)
+                })
+                .catch((e) => {
+                    console.log("ONLINE COURSE", e)
+                })
+        }
     }, [])
+
+
+
+
+
 
     //Set For UI
     const [name, setName] = useState('');
@@ -55,34 +75,60 @@ const Payment = () => {
     const navigate = useNavigate();
 
 
+    //SUBMIT PAYMENT
     const handlePaymentSubmit = () => {
+        if (wclassid) {
+            WorkshopService.postPurchaseWsClass({ wclassId: wclassid })
+                .then((res) => {
+                    toast.success('Successfully Paid', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        theme: "colored",
+                    });
+                    setTimeout(() => {
+                        navigate('/home')
+                    }, 3000);
+                })
+                .catch((err) => {
+                    console.log(err.response.data)
+                    toast.error("FAIL TO SUBMIT ORDER")
+                })
+        }
+        if (oclassid) {
 
-        WorkshopService.postPurchaseWsClass({wclassId: wclassid})
-        .then((res)=>{
-            toast.success('Successfully Paid', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: 0,
-                theme: "colored",
-            });
-            setTimeout(() => {
-                navigate('/home')
-            }, 3000);
-        })
-        .catch((err) =>{
-            console.log(err.response.data)
-            setErr(err.response.data)
-        })
+            OnlinecourseService.postSubmitPayment(billingInfo)
+                .then((res) => {
+                    toast.success('Successfully Paid', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        theme: "colored",
+                    });
+                    setTimeout(() => {
+                        navigate('/home')
+                    }, 3000);
+                })
+                .catch((err) => {
+                    console.log("False to submit Order: ",err.response)
+                    toast.error("FAIL TO SUBMIT ORDER")
+                })
+        }
     };
 
 
 
     return (
         <div className='paymentpage'>
+            {wclassid || oclassid ?
             <div className="paymentApp">
                 <div class="checkout-container">
                     <div class="left-side">
@@ -90,9 +136,10 @@ const Payment = () => {
                             {/* <h1 class="home-heading">{item.name}</h1> */}
                             {billingInfo &&
                                 <>
-                                    <p class="home-price">{billingInfo.workshopPrice} USD</p>
+                                    {wclassid ? <p class="home-price">{billingInfo.workshopPrice} USD</p> : null}
+                                    {oclassid ? <p class="home-price">{billingInfo.coursePrice} USD</p> : null}
                                     <p class="home-desc">
-                                        <em>{dateFormat(item.startTime, "mmmm dS, yyyy")}</em>
+                                        {wclassid ? <em>WorkShop Start On: <span style={{color:"gold"}}>{dateFormat(item.startTime, "mmmm dS, yyyy")}</span></em> : null}
                                     </p>
                                 </>}
                         </div>
@@ -106,7 +153,8 @@ const Payment = () => {
                                     <table class="table">
                                         <tr>
                                             <td>Price</td>
-                                            <td class="price">{billingInfo.workshopPrice} USD</td>
+                                            {wclassid ? <td class="price">{billingInfo.workshopPrice} USD</td> : null}
+                                            {oclassid ? <td class="price">{billingInfo.coursePrice} USD</td> : null}
                                         </tr>
                                         <tr>
                                             <td>Discount</td>
@@ -120,7 +168,7 @@ const Payment = () => {
                                             <td>Membership Name</td>
                                             <td class="price">{billingInfo.membershipName}</td>
                                         </tr>
-                                        
+
                                         <tr class="total">
                                             <td>Total Price</td>
                                             <td class="price">{billingInfo.totalPrice} USD</td>
@@ -162,7 +210,7 @@ const Payment = () => {
                                         id="credit-card-num"
                                         name="credit-card-num"
                                         placeholder="1111-2222-3333-4444"
-                                        required
+                                        // required
                                         type="text"
                                     />
                                 </div>
@@ -171,7 +219,9 @@ const Payment = () => {
                                     <p class="expires">Expires on:</p>
                                     <div class="card-experation">
                                         <label for="expiration-month">Month: </label>
-                                        <select id="expiration-month" name="expiration-month" required>
+                                        <select id="expiration-month" name="expiration-month" 
+                                        // required
+                                        >
                                             <option value="">Month</option>
                                             <option value="">January</option>
                                             <option value="">February</option>
@@ -188,7 +238,9 @@ const Payment = () => {
                                         </select>
 
                                         <label class="expiration-year">   Year: </label>
-                                        <select id="experation-year" name="experation-year" required>
+                                        <select id="experation-year" name="experation-year" 
+                                        // required
+                                        >
                                             <option value="">Year</option>
                                             <option value="">2023</option>
                                             <option value="">2024</option>
@@ -216,15 +268,16 @@ const Payment = () => {
 
                             <p class="footer-text">
                                 <i class="fa-solid fa-lock"></i>
-                                
+
                                 Your credit card information is encrypted
-                                <br/>
-                                {err && <i style={{color: "red"}}>{err}</i>}
+                                <br />
+                                {err && <i style={{ color: "red" }}>{err}</i>}
                             </p>
                         </div>
                     </div>
                 </div>
             </div>
+            : null}
         </div>
     );
 }

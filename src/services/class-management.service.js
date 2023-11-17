@@ -1,6 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const BASE_URL = process.env.REACT_APP_API;
+// const BASE_URL = 'https://localhost:7176';
 const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 class ClassManagementService {
   getCurrentUser() {
@@ -37,6 +38,7 @@ class ClassManagementService {
       );
       // Handle the response and update the state
       // toast('Fetching workshops');
+      // console.log("response getSlots: ", response)
       return response;
     } catch (error) {
       console.error("Error fetching class details:", error);
@@ -104,20 +106,73 @@ class ClassManagementService {
   }
   async GetClassById(classId){
     try {
-      const response = await axios.get(
-        `${BASE_URL}/api/workshop/class-by-id`,
-        {
-          params:{
-            workshopClassId: `${classId}`
-          }
-        }
-      );
+      let params = {
+        classId : classId
+      }
+      const response = await axios.get(`${BASE_URL}/api/workshop/staff-class-by-id`, {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+        params: params,
+      });
       // Handle the response and update the state
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error get class by id:", error);
+      console.error("Error fetching classes:", error);
       // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async SetClassOngoing(classId) {
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/on-going`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassComplete(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/complete`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassClosedRegistration(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/close-registration`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassCancelled(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/cancel`, classId, {
+        headers
+      });
+    } catch (error) {
       throw error;
     }
   }

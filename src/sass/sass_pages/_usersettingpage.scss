@@ -1,0 +1,114 @@
+.usersettingpage {
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.ustp-wrapper {
+    padding-top: 30px;
+    width: 1300px;
+}
+
+.ustp-header {
+    width: 100%;
+    border-bottom: 1px grey solid;
+}
+
+.ustp-body {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 100px;
+
+    & .ustp_body-left {
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & img {
+            width: 80%;
+            aspect-ratio: 1 / 1;
+            border: 1px #ccc solid;
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        input[type=file] {
+            width: 50%;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            display: inline-block;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        & button {
+            background-color: #65451F;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 200px;
+            padding: 10px;
+        }
+    }
+
+    & .ustp_body-right {
+        border-left: 1px #ccc solid;
+        width: 70%;
+    }
+
+}
+
+
+.ustp_body-right {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+
+    label {
+        margin-bottom: 10px;
+    }
+
+    input[type=text],
+    input[type=password] {
+        width: 50%;
+        padding: 12px 20px;
+        margin-bottom: 30px;
+        display: inline-block;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    span {
+        color: gold;
+    }
+}
+
+
+.ustp-body-button {
+
+    button {
+        width: 200px;
+        padding: 10px;
+        margin-right: 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    &-save {
+        color: white;
+        background-color: #4CAF50;
+    }
+
+    &-update {
+        background-color: #65451F;
+        color: white;
+    }
+}

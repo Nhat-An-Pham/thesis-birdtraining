@@ -18,52 +18,61 @@ import { toast } from "react-toastify";
 import timetableService from "../../../services/timetable.service";
 import classManagementService from "../../../services/class-management.service";
 
-export default function ClassSlotViewComponent(slot, selectedClassId) {
+export default function ClassSlotViewComponent( {slot, selectedClass, callbackUpdateSlot }) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [dateSlot, setDateSlot] = useState(null);
-  const [slots, setSlots] = useState([]);
+  const [slotTimes, setSlotTimes] = useState([]);
   const [trainers, setTrainers] = useState([]);
-  const [selectedSlotTime, setSelectedSlotTime] = useState(null);
-  const [selectedTrainer, setSelectedTrainer] = useState(null);
+  // const [selectedSlotTime, setSelectedSlotTime] = useState(dayjs(slot.selectedClass.startTime));
+  const [selectedSlotTime, setSelectedSlotTime] = useState();
+  const [selectedTrainer, setSelectedTrainer] = useState();
 
   async function fetchClassSlot() {
     try {
       let params = {
-        workshopClassId: slot.selectedClassId,
-        $filter: `id eq ${slot.slot.id}`,
+        workshopClassId: selectedClass.id,
+        $filter: `id eq ${slot.id}`,
       };
       let response = await classManagementService.getSlots(params);
       setSelectedSlot(response.data[0]);
-      console.log(response.data[0]);
+      // callbackUpdateSlot(response.data[0]);
+      // setSelectedTrainer(response.data[0].trainer.name)
     } catch (error) {
       toast.error(error);
     }
   }
+
+
   useEffect(() => {
-    fetchClassSlot();  
-    return () => {
-    }
-  }, [selectedClassId, slot]);
+    fetchClassSlot();
+    fetchSlot();
+  }, [slot]);
   
-  async function fetchSlots() {
+
+  async function fetchSlot() {
     try {
-      let response = await timetableService.getSlotTime();
-      setSlots(response.data);
-    } catch (error) {
-      toast.error(error);
+      let response = await classManagementService.getSlotTime()
+      setSlotTimes(response.data);
+
+    } catch (e) {
+      toast.error(e);
     }
   }
+
+
   async function fetchTrainers() {
     try {
       let params = {
         category: "workshop",
       };
+      console.log("selectedSlotTime", selectedSlotTime)
       let date = dateSlot.format("YYYY-MM-DD");
       let response = await timetableService.getFreeTrainerOnSlotDate(
         params,
         date,
         selectedSlotTime
       );
+      console.log('trainers: ',response.data)
       setTrainers(response.data);
     } catch (error) {
       toast.error(error);
@@ -72,52 +81,54 @@ export default function ClassSlotViewComponent(slot, selectedClassId) {
 
   const handleSaveChanges = async () => {
     try {
+      
       let model = {
-        id : selectedSlot.id,
+        classId: selectedSlot.id,
         trainerId : selectedTrainer,
-        slotId : selectedSlotTime,
-        date : dateSlot.format("YYYY-MM-DD"),
+        slotId: selectedSlotTime,
+        date: dateSlot.format("YYYY-MM-DD"),
       }
-      // console.log(model);
       var response = await classManagementService.AssignTrainer(model);
-      console.log(response);
-      if(response.status === 200){
+      // console.log(response); 
+      if (response.status === 200) {
         toast.success('Assign successfully!');
+        callbackUpdateSlot();
       } else {
-        toast.error(response.data);
+        toast.error('An error has occured!');
       }
     } catch (error) {
-      toast.error(JSON.stringify(error.response.data));
-      console.log(error.response.data);
+      toast.error(error.response?.data?.message);
+      // console.log(error.response.data);
     }
   }
-  const handleResetClick = async () => {    
-    if (selectedSlot) {
-      if (slots && slots.length > 0) {
-        slots.forEach((slotTime) => {
-          if (slotTime.startTime === selectedSlot.startTime) {
-            setSelectedSlotTime(slotTime.id);
-          }
-        });
-      }
-    }
-  }
+
   const handleChangeDate = (selectedDate) => {
     setDateSlot(selectedDate);
+    
     setSelectedSlotTime(null);
-    setSelectedTrainer(null);
+    // setSelectedTrainer(null);
     setTrainers([]);
   };
   const handleSelectSlotTime = (event) => {
     setSelectedSlotTime(event.target.value);
-    setSelectedTrainer(null);
-    setTrainers([]);
+    // setSelectedTrainer(null);
+    // fetchTrainers();
+
   };
-  const handleSelectTrainer = (event) => { 
+  useEffect(() => {
+    fetchTrainers();
+    return () => {
+      
+    }
+  }, [selectedSlotTime])
+  
+  const handleSelectTrainer = (event) => {
     setSelectedTrainer(event.target.value);
   };
+
   return (
     <>
+      <p>Update For The Slot</p>
       {selectedSlot ? (
         <>
           <Grid
@@ -131,7 +142,7 @@ export default function ClassSlotViewComponent(slot, selectedClassId) {
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  // minDate={dayjs(new Date())}
+                  minDate={dayjs(selectedClass.registerEndDate).add(1, 'day')}
                   label="Date"
                   value={dateSlot}
                   onChange={(value) => handleChangeDate(value)}
@@ -148,7 +159,7 @@ export default function ClassSlotViewComponent(slot, selectedClassId) {
                   onChange={handleSelectSlotTime}
                   value={selectedSlotTime}
                 >
-                  {slots.map((slot) => (
+                  {slotTimes.map((slot) => (
                     <MenuItem value={slot.id}>
                       {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
                     </MenuItem>
@@ -164,7 +175,7 @@ export default function ClassSlotViewComponent(slot, selectedClassId) {
                 <Select
                   labelId="selectLabel_ChooseTrainer"
                   label="Choose Trainer"
-                  value={selectedTrainer}
+                  // value={selectedTrainer}
                   onChange={handleSelectTrainer}
                 >
                   {trainers.map((trainer) => (
@@ -185,12 +196,6 @@ export default function ClassSlotViewComponent(slot, selectedClassId) {
                 <Button color="ochre" variant="contained" onClick={handleSaveChanges}>
                   <SaveOutlined />
                   Save
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button color="ochre" variant="contained" onClick={handleResetClick}>
-                  <HistoryOutlined />
-                  Reset
                 </Button>
               </Grid>
             </Grid>

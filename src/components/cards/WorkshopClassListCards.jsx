@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import RawHTMLRenderer from '../../Management/component/htmlRender/htmlRender';
 
 const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => {
 
@@ -13,9 +14,7 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => 
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
-                        <p className='card_article-description'>
-                            {shortdescr}
-                        </p>    
+                        <RawHTMLRenderer htmlContent={shortdescr} />
                         <p>
                             {price}$
                         </p>

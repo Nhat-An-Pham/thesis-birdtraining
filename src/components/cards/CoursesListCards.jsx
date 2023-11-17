@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import RawHTMLRenderer from '../../Management/component/htmlRender/htmlRender';
 
 const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => {
     return (
 
-        <section class="card_container">
+        <Link class="card_container" to={`/courseslist/${id}`}>
             <article>
                 <div class="article-wrapper">
                     <figure>
@@ -11,8 +13,9 @@ const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => 
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
+                        <RawHTMLRenderer htmlContent={shortdescr} />
                         <p>
-                            {shortdescr}
+                            {price}$
                         </p>
                         <a href={`/courseslist/${id}`} class="read-more">
                             Read more <span classz="sr-only"></span>
@@ -20,7 +23,7 @@ const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => 
                     </div>
                 </div>
             </article>
-        </section>
+        </Link>
     )
 }
 

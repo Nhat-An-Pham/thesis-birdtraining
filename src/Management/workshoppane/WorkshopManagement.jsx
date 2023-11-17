@@ -44,7 +44,7 @@ export default function WorkshopManagementComponent() {
   };
 
   const handleCloseModal = () => {
-    setSelectedWorkshop(null);
+    // setSelectedWorkshop(null);
     setOpen(false);
   };
   const callbackCreateClass= () => {
@@ -103,7 +103,7 @@ export default function WorkshopManagementComponent() {
             )}
           </Grid>
           <Grid container item spacing={0} xs={6} justifyContent="flex-end">
-            {renderedIndex === 1 ? (
+            {renderedIndex === 1 || renderedIndex === 3? (
               <></>
             ) : (
               // <Button

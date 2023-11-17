@@ -25,9 +25,8 @@ import { useEffect } from "react";
 import { groundTheme } from "../../themes/Theme";
 
 
-const logo = process.env.REACT_APP_LOGO;
-console.log(logo);
-const drawerWidth = 200;
+
+const drawerWidth = 250;
 const elements = [
   { route: "/management", icon: <SpaceDashboardOutlined />, name: "Dashboard" },
   {
@@ -61,7 +60,7 @@ export default function ReworkSidebar({ selectTab }) {
   }, [selectTab]);
 
   return (
-    <ThemeProvider theme={groundTheme}>
+    <ThemeProvider theme={groundTheme} >
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Drawer
@@ -74,12 +73,13 @@ export default function ReworkSidebar({ selectTab }) {
               backgroundColor: groundTheme.palette.ground.main,
               // justifyContent: "center", // Center horizontally
               // alignItems: "center", // Center vertically
+              border: "4px outset #4a2a2a"
             },
           }}
           variant="permanent"
           anchor="left"
         >
-          <Toolbar sx={{  }}>
+          <Toolbar sx={{}}>
             <Link
               to={"/home"}
               style={{
@@ -94,41 +94,43 @@ export default function ReworkSidebar({ selectTab }) {
                 alignItems="center"
                 spacing={2}
               > */}
-                <Avatar
-                  alt="logo"
-                  src={logo}
-                  sx={{ alignSelf: 'center', justifySelf: 'center', width: '100%', height: '100%'}}
-                  variant="rounded"                  
-                >
-                  B
-                </Avatar>
-                {/* <Typography sx={{ textDecoration: "none" }}>
+              <Avatar
+                alt="logo"
+                src={require("../../../assets/icons/klipartz.com.png")}
+                sx={{ alignSelf: 'center', justifySelf: 'center', width: '100%', height: '100%' }}
+                variant="rounded"
+              >
+              </Avatar>
+              {/* <Typography sx={{ textDecoration: "none" }}>
                   Bird Training
                 </Typography> */}
               {/* </Grid> */}
             </Link>
           </Toolbar>
-          
-          <List>
-          <Divider />
+
+          <List style={{marginTop: "20px"}}>
+            <Divider />
             {elements.map((element, index) => (
               <>
-                <ListItem disablePadding>
+                <ListItem disablePadding style={{ borderBottom: "1px grey solid" }}>
                   <ListItemButton
-                    selected={selectedIndex === index ? true : false}                    
-                  >
+                    selected={selectedIndex === index ? true : false}
+                    style={{ padding: "0px" }}>
                     <Link
                       to={element.route}
                       style={{
                         textDecoration: "none",
                         color: groundTheme.palette.ground.Link,
+                        width: "100%",
+                        height: "100%",
+                        padding: "10px"
                       }}
                     >
                       <Grid container
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={0}>
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={0}>
                         <ListItemIcon>{element.icon}</ListItemIcon>
                         <ListItemText primary={element.name} />
                       </Grid>
