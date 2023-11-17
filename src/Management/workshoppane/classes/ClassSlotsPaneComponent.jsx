@@ -16,27 +16,19 @@ import {
 import { InfoOutlined } from "@mui/icons-material";
 
 export default function ClassSlotsPaneComponent({
-  selectedClassId,
+  passedSlots,
   callbackSelectSlot,
 }) {
-  const [slots, setSlots] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState();
-  async function fetchSlots() {
-    try {
-      let params = {
-        workshopClassId: selectedClassId,
-      };
-      let response = await classManagementService.getSlots(params);
-      setSlots(response.data);
-    } catch (error) {
-      toast.error(error);
-    }
-  }
+  const [slots, setSlots] = useState(passedSlots);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  
   useEffect(() => {
-    fetchSlots();
-
-    return () => {};
-  }, [selectedClassId]);
+    setSlots(passedSlots);
+    return () => {
+      
+    }
+  }, [passedSlots]);
+  
   const handleSelectSlot = (index) => {
     setSelectedIndex(index);
     let slot = slots[index];
