@@ -124,6 +124,58 @@ class ClassManagementService {
       throw error;
     }
   }
+  async SetClassOngoing(classId) {
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/on-going`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassComplete(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/complete`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassClosedRegistration(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/close-registration`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+  async SetClassCancelled(classId){
+    try {
+      let headers = {
+        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        'Content-Type' : 'application/json',
+      }
+      await axios.put(`${BASE_URL}/api/workshop/cancel`, classId, {
+        headers
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new ClassManagementService();
