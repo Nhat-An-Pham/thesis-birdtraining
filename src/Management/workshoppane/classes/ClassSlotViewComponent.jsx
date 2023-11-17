@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import timetableService from "../../../services/timetable.service";
 import classManagementService from "../../../services/class-management.service";
 
-export default function ClassSlotViewComponent(slot, selectedClass, callbackUpdateSlot) {
+export default function ClassSlotViewComponent( {slot, selectedClass, callbackUpdateSlot }) {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [dateSlot, setDateSlot] = useState(null);
   const [slotTimes, setSlotTimes] = useState([]);
@@ -30,24 +30,24 @@ export default function ClassSlotViewComponent(slot, selectedClass, callbackUpda
   async function fetchClassSlot() {
     try {
       let params = {
-        workshopClassId: slot.selectedClass.id,
-        $filter: `id eq ${slot.slot.id}`,
+        workshopClassId: selectedClass.id,
+        $filter: `id eq ${slot.id}`,
       };
       let response = await classManagementService.getSlots(params);
       setSelectedSlot(response.data[0]);
-      callbackUpdateSlot(response.data[0]);
+      // callbackUpdateSlot(response.data[0]);
       // setSelectedTrainer(response.data[0].trainer.name)
     } catch (error) {
       toast.error(error);
     }
   }
 
-  console.log(slot)
 
   useEffect(() => {
     fetchClassSlot();
     fetchSlot();
   }, [slot]);
+  
 
   async function fetchSlot() {
     try {
@@ -83,22 +83,20 @@ export default function ClassSlotViewComponent(slot, selectedClass, callbackUpda
     try {
       
       let model = {
-        id: selectedSlot.id,
+        classId: selectedSlot.id,
         trainerId : selectedTrainer,
         slotId: selectedSlotTime,
         date: dateSlot.format("YYYY-MM-DD"),
       }
-      console.log(model);
       var response = await classManagementService.AssignTrainer(model);
       // console.log(response); 
       if (response.status === 200) {
         toast.success('Assign successfully!');
-        // callbackUpdateSlot();
+        callbackUpdateSlot();
       } else {
         toast.error('An error has occured!');
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response?.data?.message);
       // console.log(error.response.data);
     }
@@ -119,7 +117,6 @@ export default function ClassSlotViewComponent(slot, selectedClass, callbackUpda
   };
   useEffect(() => {
     fetchTrainers();
-    console.log('selected slot time change');
     return () => {
       
     }
@@ -145,7 +142,7 @@ export default function ClassSlotViewComponent(slot, selectedClass, callbackUpda
             <Grid item xs={4}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  minDate={dayjs(slot.selectedClass.registerEndDate)}
+                  minDate={dayjs(selectedClass.registerEndDate).add(1, 'day')}
                   label="Date"
                   value={dateSlot}
                   onChange={(value) => handleChangeDate(value)}
