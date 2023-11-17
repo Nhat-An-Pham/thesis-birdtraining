@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./timetable.scss";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
-
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
-
-
-
+import consultantService from "../../services/consultant.service";
 
 function TimeTable() {
     const localizer = momentLocalizer(moment);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedEmployee, setSelectedEmployee] = useState([]);
+
     const events = [
         {
             title: 'Sự kiện 1',
@@ -39,6 +37,19 @@ function TimeTable() {
     const handleEmployeeChange = (employee) => {
         setSelectedEmployee(employee);
     };
+
+    //Lấy list ticket mà Trainer được assign
+    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
+    useEffect(() => {
+        consultantService
+            .getListAssignedConsultingTicket()
+            .then((res) => {
+                console.log("success Assigned Consulting Ticket list test", res.data);
+                setListAssignedConsultingTicket(res.data);
+            })
+            .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
+    }, []);
+
     return (
         <>
             <div className="timetable-container">
@@ -84,6 +95,22 @@ function TimeTable() {
                         <div className="timetable_section_employee-button">
                             <button>Add New Event</button>
                         </div>
+                    </div>
+
+                    {/* Code này đang test khi nào Apply vào sẽ xóa */}
+                    <div className="timetable_section timetable_section-employee">
+                        <h2>TRAINER SCHEDULE</h2>
+                        <div>
+                            <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
+                        </div>
+                        <Calendar
+                            localizer={localizer}
+                            events={listAssignedConsultingTicket.map((item) => {
+                            })}
+                            startAccessor="start"
+                            endAccessor="end"
+                            style={{ height: 500 }}
+                        />
                     </div>
                 </div>
             </div>
