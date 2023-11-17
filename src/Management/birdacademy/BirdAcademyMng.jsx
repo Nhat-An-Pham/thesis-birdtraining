@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Sidebar from '../component/sidebar/Sidebar'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainingSkillComponent from './TrainingSkillComponent';

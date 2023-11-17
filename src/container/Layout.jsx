@@ -27,7 +27,6 @@ import Payment from '../pages/Payment';
 import CustomerReqComponent from '../Management/customer/CustomerReq';
 import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
-import WorkshopManagement from '../Management/workshop/Workshop'
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';

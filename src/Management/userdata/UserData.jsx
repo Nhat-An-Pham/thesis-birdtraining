@@ -1,5 +1,4 @@
 import { React, useState, useEffect } from 'react'
-import Sidebar from '../component/sidebar/Sidebar'
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import './userdata.scss'
 import users from '../../assets/fakedb/users'

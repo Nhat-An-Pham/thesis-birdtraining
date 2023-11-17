@@ -1,6 +1,5 @@
 import React from 'react'
 import './dashboard.scss'
-import Sidebar from '../component/sidebar/Sidebar'
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 
 const Dashboard = () => {
