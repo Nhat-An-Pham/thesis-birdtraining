@@ -3,7 +3,7 @@ const URL = process.env.REACT_APP_API;
 const API_URL_CUS = URL + "/api/AdviceConsultingCustomer/";
 const API_URL_AllROLE = URL + "/api/AdviceConsultingAllRoles/";
 const API_URL_STAFF = URL + "/api/AdviceConsultingStaff/";
-const API_URL_TRAINER  = URL + "/api/AdviceConsultingTrainer";
+const API_URL_TRAINER = URL + "/api/AdviceConsultingTrainer/";
 class ConsultantService {
 
     async CusSendTicket({ customerId, address, consultingTypeId, trainerId, consultingDetail, onlineOrOffline, appointmentDate, actualSlotStart }) {
@@ -16,7 +16,7 @@ class ConsultantService {
                 onlineOrOffline,
                 appointmentDate,
                 actualSlotStart,
-            },{
+            }, {
                 headers: {
                     'Authorization': `Bearer ${customerId}`
                 }
@@ -37,22 +37,33 @@ class ConsultantService {
         return response;
     }
 
-    async getTrainerFreeSlotOnDate({dateValue, selectedTrainerId}){
+    async getTrainerFreeSlotOnDate({ dateValue, selectedTrainerId }) {
         const response = await axios
             .get(API_URL_AllROLE + `getTrainerFreeSlotOnDate?date=${dateValue}&trainerId=${selectedTrainerId}`);
         return response;
-    } 
+    }
 
-    async getFreeTrainerOnSlotDate({dateValue, slotId}) {
+    async getFreeTrainerOnSlotDate({ dateValue, slotId }) {
         const response = await axios
             .get(API_URL_AllROLE + `getFreeTrainerOnSlotDate?date=${dateValue}&slotId=${slotId}`);
         return response
     }
 
+    async getListAssignedConsultingTicket() {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .get(API_URL_TRAINER + "getListAssignedConsultingTicket", {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
+
     async viewListAssignedConsultingTicket() {
         const response = await axios
             .get(API_URL_STAFF + "viewListAssignedConsultingTicket");
-            console.log(response);
+        console.log(response);
         return response;
     }
 
@@ -68,33 +79,53 @@ class ConsultantService {
         return response;
     }
 
-    async cancelConsultingTicket({ticketId}) {
+    async cancelConsultingTicket({ ticketId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .put(API_URL_STAFF + `cancelConsultingTicket?ticketId=${ticketId}`);
+            .put(API_URL_STAFF + `cancelConsultingTicket?ticketId=${ticketId}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
         return response;
     }
 
-    async approveConsultingTicket({ticketId, date, slotId}) {
+    async approveConsultingTicket({ ticketId, date, slotId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&date=${date}&slotId=${slotId}`)
+            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&date=${date}&slotId=${slotId}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
         return response;
     }
 
-    async assignTrainer({trainerId, ticketId}) {
-        const  response = await axios
-            .put(API_URL_STAFF + `assignTrainer?trainerId=${trainerId}&ticketId=${ticketId}`);
+    async assignTrainer({ trainerId, ticketId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .put(API_URL_STAFF + `assignTrainer?trainerId=${trainerId}&ticketId=${ticketId}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
         return response;
     }
 
-    async getConsultingTicketDetail({ticketId}) {
+    async getConsultingTicketDetail({ ticketId }) {
         const response = await axios
             .get(API_URL_AllROLE + `getConsultingTicketDetail?ticketId=${ticketId}`);
         return response;
     }
 
-    async getListAssignedConsultingTicket({trainerId}) {
+    async updateGooglemeetLink({ ticketId, ggmeetLink }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .get(API_URL_TRAINER + `getListAssignedConsultingTicket?trainerId=${trainerId}`);
+            .put(API_URL_TRAINER + `updateGooglemeetLink?ticketId=${ticketId}&ggmeetLink=${ggmeetLink}`, null, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
         return response;
     }
 }

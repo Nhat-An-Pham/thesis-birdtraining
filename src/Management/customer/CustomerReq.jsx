@@ -5,12 +5,13 @@ import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper
 import './customerReq.scss'
 import ConsultantService from '../../services/consultant.service';
 import addonService from '../../services/addon.service';
+import TicketStatus from './TicketStatus';
 
 export default function CustomerReqComponent() {
-    const [renderedIndex, setRenderedIndex] = useState(0); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
+    const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
     const [dateValue, setDateValue] = useState(null);
     const [slotValue, setSlotValue] = useState(0);
-    const [ticketIdForDetail, setTicketIdForDetail] = useState(0);
+    const [ticketIdForDetail, setTicketIdForDetail] = useState();
     const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
     const [assignedTrainer, setAssignedTrainer] = useState(null);
 
@@ -142,7 +143,7 @@ export default function CustomerReqComponent() {
                     <Grid item xs={12}>
                         {renderedIndex === 1 ? (
                             <div>
-                                <h3>Requests that have assigned trainers</h3>
+                                <h2>Requests that have assigned trainers</h2>
                                 {<TableContainer component={Paper}>
                                     <Table>
                                         <TableHead>
@@ -180,7 +181,7 @@ export default function CustomerReqComponent() {
                             </div>
                         ) : renderedIndex === 2 ? (
                             <div>
-                                <h3>Requests that have not assigned trainers</h3>
+                                <h2>Requests that have not assigned trainers</h2>
                                 {<TableContainer component={Paper}>
                                     <Table>
                                         <TableHead>
@@ -217,7 +218,7 @@ export default function CustomerReqComponent() {
                             </div>
                         ) : renderedIndex === 3 ? (
                             <div>
-                                <h3>Requests that have been handled</h3>
+                                <h2>Requests that have been handled</h2>
                                 {<TableContainer component={Paper}>
                                     <Table>
                                         <TableHead>
@@ -255,7 +256,8 @@ export default function CustomerReqComponent() {
                             setRenderedIndex(1)
                         ) : renderedIndex === 0 && ticketIdForDetail !== 0 && ticketDetail ? (
                             <div>
-                                <h3>Ticket Detail</h3>
+                                <Button onClick={() => (setRenderedIndex(1))}>Back To List Assigned</Button>
+                                <h2>Ticket Detail</h2>
                                 <TableContainer component={Paper}>
                                     <Table>
                                         <TableHead>
@@ -300,7 +302,10 @@ export default function CustomerReqComponent() {
                                                 <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
                                                 <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                                                 <TableCell>{ticketDetail.price}</TableCell>
-                                                <TableCell>{ticketDetail.status}</TableCell>
+                                                <TableCell>{ticketDetail.status === 0 ? TicketStatus[0] : 
+                                                            ticketDetail.status === 1 ? TicketStatus[1] :
+                                                            ticketDetail.status === 2 ? TicketStatus[2] :
+                                                            ticketDetail.status === 3 ? TicketStatus[3] : null}</TableCell>
                                             </TableRow>
                                         </TableBody>
                                     </Table>
