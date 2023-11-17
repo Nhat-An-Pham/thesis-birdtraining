@@ -9,6 +9,7 @@ import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
 import ClassAddNewComponent from "./classes/ClassAddNewComponent";
+import TrainerSlotDetailComponent from "./trainer/TrainerSlotDetailComponent";
 
 export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
@@ -60,6 +61,7 @@ export default function WorkshopManagementComponent() {
     <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
     <WorkshopDetailOverviewComponent workshop={selectedWorkshop} />,
     <ClassManagementComponent selectedWorkshop={selectedWorkshop} />,
+    <TrainerSlotDetailComponent entityId={28}/>
   ];
   return (
     <div className="workshop-container">
@@ -75,6 +77,13 @@ export default function WorkshopManagementComponent() {
 
       <ThemeProvider theme={ochreTheme}>
         <ReworkSidebar selectTab={3} />
+        <Button
+                variant="contained"
+                color="ochre"
+                onClick={() => setRenderedIndex(4)}
+              >
+                Test trainer slot
+              </Button>
         <Grid container spacing={1} sx={{ margin: "15px" }}>
           <Grid container item xs={6} justifyContent="flex-start">
             {renderedIndex === 0 ? (
