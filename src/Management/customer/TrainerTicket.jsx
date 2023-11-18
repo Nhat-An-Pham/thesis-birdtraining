@@ -8,6 +8,12 @@ export default function TrainerTicket() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned
     const [ticketIdForDetail, setTicketIdForDetail] = useState();
 
+    if (userRole === "Trainer") {
+        navigate("/trainerTicket");
+    } else if (userRole === "Staff" || userRole === "Manager") {
+        navigate("/consulting");
+    }
+
     //Lấy list ticket mà Trainer được assign
     const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
     useEffect(() => {
@@ -98,6 +104,7 @@ export default function TrainerTicket() {
                                     <TableCell>Date</TableCell>
                                     <TableCell>Slot</TableCell>
                                     <TableCell>Price</TableCell>
+                                    <TableCell>Update Meet Link</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -109,10 +116,11 @@ export default function TrainerTicket() {
                                     <TableCell>{ticketDetail.consultingDetail}</TableCell>
                                     <TableCell>{ticketDetail.distance}</TableCell>
                                     <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                    <TableCell>{ticketDetail.ggMeetLink}</TableCell>
+                                    <TableCell>{<input type="text" value={ticketDetail.ggMeetLink} onChange={setGgMeetLink(ticketDetail.ggMeetLink)} />}</TableCell>
                                     <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
                                     <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                                     <TableCell>{ticketDetail.price}</TableCell>
+                                    <TableCell>{<Button type="button" onClick={() => { UpdateGGMeetLink(ticketIdForDetail, ggMeetLink) }}>Update</Button>}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>

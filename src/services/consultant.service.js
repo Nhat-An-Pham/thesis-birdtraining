@@ -90,10 +90,10 @@ class ConsultantService {
         return response;
     }
 
-    async approveConsultingTicket({ ticketId, date, slotId }) {
+    async approveConsultingTicket({ticketId}) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&date=${date}&slotId=${slotId}`, null, {
+            .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}`, null, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
@@ -128,6 +128,23 @@ class ConsultantService {
             });
         return response;
     }
-}
 
+    async finishAppointment({ id, actualEndSlot, evidence, price, discountedPrice, status }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .put(API_URL_TRAINER + `finishAppointment`, {
+                id,
+                actualEndSlot,
+                evidence,
+                price,
+                discountedPrice,
+                status
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
+}
 export default new ConsultantService();
