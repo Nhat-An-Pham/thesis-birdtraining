@@ -10,8 +10,6 @@ const TicketDetailView = ({
     callBackHaveAssignedTrainer,
     ticketIdForDetail,
 }) => {
-    const [dateValue, setDateValue] = useState(null);
-    const [slotValue, setSlotValue] = useState(0);
     const [assignedTrainer, setAssignedTrainer] = useState(null);
     const [ticketDetail, setTicketDetail] = useState({});
     useEffect(() => {
@@ -59,9 +57,9 @@ const TicketDetailView = ({
             .catch((e) => console.log("fail Cancel Ticket tes", e));
     }
 
-    const ConfirmTicket = (ticketId, date, slotId) => {
+    const ConfirmTicket = (ticketId) => {
         ConsultantService
-            .approveConsultingTicket({ ticketId, date, slotId })
+            .approveConsultingTicket({ ticketId})
             .then((res) => {
                 console.log("succes Confirm Ticket test", res.data);
             })
@@ -98,7 +96,8 @@ const TicketDetailView = ({
                             <TableCell>{ticketDetail.customerName}</TableCell>
                             <TableCell>{ticketDetail.addressDetail}</TableCell>
                             <TableCell>{ticketDetail.consultingType}</TableCell>
-                            {haveAssignedTrainer === 1 ? (<TableCell>
+                            {haveAssignedTrainer === 1 ? (
+                            <TableCell>
                                 {ticketDetail.trainerName}
                             </TableCell>
                             ) :
@@ -123,10 +122,10 @@ const TicketDetailView = ({
                     </TableBody>
                 </Table>
             </TableContainer>
-            {haveAssignedTrainer === 1 ? (<><Button onClick={() => { ConfirmTicket(ticketIdForDetail, dateValue, slotValue); }}>Confirm</Button>
-                <Button onClick={() => { CancelTicket(ticketIdForDetail); }}>Cancel</Button></>) :
-                haveAssignedTrainer === 2 ? (<><Button onClick={() => { AssignTrainer(assignedTrainer, ticketIdForDetail); }}>Assign</Button>
-                    <Button onClick={() => { CancelTicket(ticketIdForDetail); }}>Cancel</Button></>) :
+            {haveAssignedTrainer === 1 ? (<><Button onClick={() => {ConfirmTicket(ticketIdForDetail); callBackRenderedIndex(1);}}>Confirm</Button>
+                <Button onClick={() => { CancelTicket(ticketIdForDetail); callBackRenderedIndex(1)}}>Cancel</Button></>) :
+                haveAssignedTrainer === 2 ? (<><Button onClick={() => { AssignTrainer(assignedTrainer, ticketIdForDetail); callBackRenderedIndex(1)}}>Assign</Button>
+                    <Button onClick={() => { CancelTicket(ticketIdForDetail); callBackRenderedIndex(1)}}>Cancel</Button></>) :
                     haveAssignedTrainer === 3 ? (<></>) :
                         (<></>)}
         </>
