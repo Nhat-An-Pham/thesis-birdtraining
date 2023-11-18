@@ -128,6 +128,23 @@ class ConsultantService {
             });
         return response;
     }
-}
 
+    async finishAppointment({ id, actualEndSlot, evidence, price, discountedPrice, status }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .put(API_URL_TRAINER + `finishAppointment`, {
+                id,
+                actualEndSlot,
+                evidence,
+                price,
+                discountedPrice,
+                status
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
+}
 export default new ConsultantService();
