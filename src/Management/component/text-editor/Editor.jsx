@@ -14,11 +14,11 @@ const Editor = ({ onGetHtmlValue, htmlValue }) => {
   if (Quill && !quill) {
     Quill.register('modules/blotFormatter', BlotFormatter);
   }
-
+  
   // Function to set the HTML content when the HTML value changes
   const setHtmlContent = (content) => {
     if (quillInstance.current) {
-      quillInstance.current.root.innerHTML = content;
+      quillInstance.current.root.innerHTML = content;      
     }
   };
 
