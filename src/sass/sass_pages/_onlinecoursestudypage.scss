@@ -72,16 +72,18 @@
     width: 70%;
     padding-top: 20px;
 
-    &-files{
+    &-files {
         border: 1px black solid;
         display: flex;
         margin: 0px 20px;
         padding: 10px;
         overflow: hidden;
-        & img{
+
+        & img {
             width: 50px;
         }
-        & h4{
+
+        & h4 {
             padding: 10px;
             overflow: hidden;
         }
@@ -107,6 +109,11 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+
+            &:hover {
+                transform: scale(1.1);
+                transition: transform 0.5s;
+            }
         }
     }
 }
