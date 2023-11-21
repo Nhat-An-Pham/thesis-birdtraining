@@ -13,21 +13,18 @@ import { Grid } from "@mui/material";
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
-    const [dateValue, setDateValue] = useState(null);
-    const [slotValue, setSlotValue] = useState(0);
     const [ticketIdForDetail, setTicketIdForDetail] = useState();
     const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
-    const [assignedTrainer, setAssignedTrainer] = useState(null);
 
-    // const navigate = useNavigate();
-    // const accessToken = JSON.parse(localStorage.getItem('user-token'));
-    // const userRole = jwtDecode(accessToken).role;
+    const navigate = useNavigate();
+    const accessToken = JSON.parse(localStorage.getItem('user-token'));
+    const userRole = jwtDecode(accessToken).role;
 
-    // if (userRole === "Staff" || userRole === "Manager") {
-    //     navigate("/management/customerreq");
-    // } else if (userRole === "Trainer") {
-    //     navigate("/management/customerreq");
-    // }
+    if (userRole === "Trainer") {
+        navigate("/management/trainerticket");
+    } else if (userRole === "Staff" || userRole === "Manager") {
+        navigate("/management/customerreq");
+    }
 
     const handleTicketIdForDetail = (ticketId) => {
         setTicketIdForDetail(ticketId);
