@@ -7,9 +7,10 @@ import { ThemeProvider } from "react-bootstrap";
 import TrainerTicketDetailView from "./TrainerTicketDetailView";
 import TrainerTicketListView from "./TrainerTicketListView";
 import { ochreTheme } from "../themes/Theme";
+import TrainerFinishTicketView from "./TrainerFinishTicketView";
 
 export default function TrainerTicketComponent() {
-    const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned
+    const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned, 2: Finish Ticket
     const [ticketIdForDetail, setTicketIdForDetail] = useState();
 
     const navigate = useNavigate();
@@ -36,6 +37,10 @@ export default function TrainerTicketComponent() {
         <TrainerTicketListView
             callBackRenderedIndex={onRenderedIndexSelect}
             callbackTicketIdForDetail={handleTicketIdForDetail}
+        />,
+        <TrainerFinishTicketView
+        callBackRenderedIndex={onRenderedIndexSelect}
+        ticketIdForDetail={ticketIdForDetail}
         />
     ]
 

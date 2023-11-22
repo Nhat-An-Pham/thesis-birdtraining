@@ -90,7 +90,7 @@ class ConsultantService {
         return response;
     }
 
-    async approveConsultingTicket({ticketId}) {
+    async approveConsultingTicket({ ticketId }) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
             .put(API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}`, null, {
@@ -129,16 +129,28 @@ class ConsultantService {
         return response;
     }
 
-    async finishAppointment({ id, actualEndSlot, evidence, price, discountedPrice, status }) {
+    async finishAppointment({ id, actualEndSlot, evidence }) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
             .put(API_URL_TRAINER + `finishAppointment`, {
                 id,
                 actualEndSlot,
-                evidence,
-                price,
-                discountedPrice,
-                status
+                evidence
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
+
+    async finishOnlineAppointment({ id, actualEndSlot, evidence }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .put(API_URL_TRAINER + `finishOnlineAppointment`, {
+                id,
+                actualEndSlot,
+                evidence
             }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`

@@ -21,7 +21,7 @@ const TrainerTicketDetailView = ({
             })
             .catch((e) => console.log("fail Consulting Ticket Detail test", e));
     }, []);
-    
+
     const [ggMeetLink, setGgMeetLink] = useState('');
     const UpdateTicket = (ticketId, link) => {
         consultantService
@@ -52,10 +52,13 @@ const TrainerTicketDetailView = ({
                                 <TableCell>Detail</TableCell>
                                 <TableCell>Distance</TableCell>
                                 <TableCell>Online/Offline</TableCell>
-                                <TableCell>Meet Link</TableCell>
+                                {ticketDetail.onlineOrOffline === true ? (
+                                    <TableCell>Meet Link</TableCell>
+                                ) : null}
                                 <TableCell>Date</TableCell>
                                 <TableCell>Slot</TableCell>
                                 <TableCell>Price</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
                         )}
                     </TableHead>
@@ -68,16 +71,18 @@ const TrainerTicketDetailView = ({
                             <TableCell>{ticketDetail.consultingDetail}</TableCell>
                             <TableCell>{ticketDetail.distance}</TableCell>
                             <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                            <TableCell>{<input type="text" defaultValue={ticketDetail.ggMeetLink} onChange={(e) => setGgMeetLink(e.target.value)} />}</TableCell>
+                            {ticketDetail.onlineOrOffline === true ? (
+                                <TableCell>{<input type="text" defaultValue={ticketDetail.ggMeetLink} onChange={(e) => setGgMeetLink(e.target.value)} />}</TableCell>
+                            ) : null}
                             <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
                             <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                             <TableCell>{ticketDetail.price}</TableCell>
-
+                            <TableCell><Button onClick={() => UpdateTicket(ticketDetail.id, ggMeetLink)}>Update</Button></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button onClick={() => UpdateTicket(ticketDetail.id, ggMeetLink) }>Update</Button>
+            <Button onClick={() => handleBackClick()}>Finish Appointment</Button>
         </>
     );
 };
