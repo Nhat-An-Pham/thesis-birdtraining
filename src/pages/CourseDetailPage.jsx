@@ -14,8 +14,9 @@ function CourseDetailPage() {
   const accessToken = JSON.parse(localStorage.getItem('user-token'))
   const userRole = jwtDecode(accessToken).role
 
-  if (userRole !== "Customer" && userRole !== null) {
-    navigate("/courses")
+  if (userRole === "Customer" || userRole === null) {
+  } else{
+    navigate('/courses')
   }
 
   //API Handler

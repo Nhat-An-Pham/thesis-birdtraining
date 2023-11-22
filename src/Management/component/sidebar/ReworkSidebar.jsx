@@ -35,6 +35,11 @@ const elements = [
     name: "Consultant",
   },
   {
+    route: "/management/onlinecourse",
+    icon: <SupportAgentOutlined />,
+    name: "Online Course",
+  },
+  {
     route: "/management/timetable",
     icon: <DateRangeOutlined />,
     name: "Timetable",
@@ -79,12 +84,13 @@ export default function ReworkSidebar({ selectTab }) {
           variant="permanent"
           anchor="left"
         >
-          <Toolbar sx={{}}>
+          <Toolbar sx={{width:"100%"}}>
             <Link
               to={"/home"}
               style={{
                 textDecoration: "none",
                 color: groundTheme.palette.ground.Link,
+                width: "100%"
               }}
             >
               {/* <Grid
@@ -94,13 +100,14 @@ export default function ReworkSidebar({ selectTab }) {
                 alignItems="center"
                 spacing={2}
               > */}
-              <Avatar
+              {/* <Avatar
                 alt="logo"
-                src={require("../../../assets/icons/klipartz.com.png")}
+                src={require("../../../assets/icons/Logo.jpeg")}
                 sx={{ alignSelf: 'center', justifySelf: 'center', width: '100%', height: '100%' }}
                 variant="rounded"
               >
-              </Avatar>
+              </Avatar> */}
+              <h1 style={{width: "100%", fontWeight:"bold", fontSize:"30px", textAlign:"center"}}>Bird Training Center Management</h1>
               {/* <Typography sx={{ textDecoration: "none" }}>
                   Bird Training
                 </Typography> */}

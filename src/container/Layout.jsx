@@ -32,7 +32,9 @@ import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 import OnlineCourseStudyPage from '../pages/OnlineCourseStudyPage';
 import { UserSettingPage } from '../pages/UserSettingPage';
+  import OnlineCourseManagement from '../Management/onlinecourse/OnlineCourseManagement';
 import TrainerTicketComponent from '../Management/customer/TrainerTicket';
+
 
 function Layout() {
 
@@ -79,6 +81,7 @@ function Layout() {
             <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
             <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
             <Route path="/management/userdata" exact element={<UserData />} />
+            <Route path="/management/onlinecourse" exact element={<OnlineCourseManagement />} />
           </Route>
         </Routes>
 

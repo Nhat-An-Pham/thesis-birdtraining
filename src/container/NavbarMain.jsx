@@ -39,7 +39,7 @@ function NavbarMain() {
           </li>
           <li><a className='nav_dropdown-arrow'>Setting</a>
             <ul className='nav_sub-menus'>
-              {decodeItemRole === "customer" ? (
+              {decodeItemRole === "Customer" ? (
                 <></>
               ) : (
                 <li><a href='/management'>Management</a></li>
