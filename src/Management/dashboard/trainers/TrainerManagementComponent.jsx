@@ -23,14 +23,13 @@ import dashboardService from "../../../services/dashboard.service";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import { useEffect } from "react";
-import BirdSpeciesAddComponent from "./BirdSkillAddComponent";
+
 import { ochreTheme } from "../../themes/Theme";
 import { Search } from "@mui/icons-material";
-import BirdSkillDetailComponent from "./BirdSkillDetailComponent";
-import BirdSkillUpdateComponent from "./BirdSkillUpdateComponent";
 import { Img } from "react-image";
+import TrainerDetailComponent from "./TrainerDetailComponent";
 
-const BirdSkillManagementComponent = ({}) => {
+const TrainerManagementComponent = ({}) => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -41,27 +40,16 @@ const BirdSkillManagementComponent = ({}) => {
   const handleOpenModal = () => {
     setOpen(true);
   };
-  const handleCloseModal = () => {
-    setOpen(false);
-  };
-  const handleOpenUpdateModal = (id) => {
-    setSelectedId(id);
-    setOpenUpdate(true);
-  };
-  const handleCloseUpdateModal = async () => {
-    await fetchSkills();
-    setOpenUpdate(false);
-  };
   useEffect(() => {
-    fetchSkills();
+    fetchTrainers();
     return () => {};
   }, [search]);
-  async function fetchSkills() {
+  async function fetchTrainers() {
     try {
       let params = {
         $filter: `contains(tolower(name), tolower('${search}'))`, // Replace 'speciesName' with the actual property you are searching
       };
-      let response = await dashboardService.GetListSkills(params);
+      let response = await dashboardService.GetListTrainers(params);
       console.log(response);
       let result = response.data.sort((a, b) => {
         const nameA = a.name.toUpperCase(); // ignore upper and lowercase
@@ -92,12 +80,6 @@ const BirdSkillManagementComponent = ({}) => {
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
-        <BirdSpeciesAddComponent open={open} handleClose={handleCloseModal} />
-        <BirdSkillUpdateComponent
-          open={openUpdate}
-          handleClose={handleCloseUpdateModal}
-          birdSkillId={selectedId}
-        />
         <Container sx={{ margin: "10px" }}>
           {renderIndex === 0 ? (
             <Grid container spacing={2}>
@@ -138,9 +120,8 @@ const BirdSkillManagementComponent = ({}) => {
                           <TableRow>
                             <TableCell>No</TableCell>
                             <TableCell>Picture</TableCell>
-                            <TableCell width={"25%"}>Name</TableCell>
-                            <TableCell width={"50%"}>Description</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Description</TableCell>
                             <TableCell>Detail</TableCell>
                           </TableRow>
                         </TableHead>
@@ -159,15 +140,6 @@ const BirdSkillManagementComponent = ({}) => {
                               </TableCell>
                               <TableCell>
                                 <Typography>{row.description}</Typography>
-                              </TableCell>
-                              <TableCell>
-                                <Button
-                                  color="ochre"
-                                  variant="contained"
-                                  onClick={() => handleOpenUpdateModal(row.id)}
-                                >
-                                  Update
-                                </Button>
                               </TableCell>
                               <TableCell>
                                 <Button
@@ -193,8 +165,8 @@ const BirdSkillManagementComponent = ({}) => {
             </Grid>
           ) : (
             <>
-              <BirdSkillDetailComponent
-                birdSkillId={selectedId}
+              <TrainerDetailComponent
+                trainerId={selectedId}
                 onClose={handleCloseDetail}
               />
             </>
@@ -204,4 +176,4 @@ const BirdSkillManagementComponent = ({}) => {
     </>
   );
 };
-export default BirdSkillManagementComponent;
+export default TrainerManagementComponent;
