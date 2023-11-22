@@ -3,7 +3,6 @@ import consultantService from "../../services/consultant.service";
 import { Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
-
 import addonService from "../../services/addon.service";
 
 const TrainerTicketDetailView = ({

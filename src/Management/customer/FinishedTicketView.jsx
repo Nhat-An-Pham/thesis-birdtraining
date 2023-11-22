@@ -3,37 +3,25 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Button, Table } from "react-bootstrap";
 import consultantService from "../../services/consultant.service";
-
 import addonService from "../../services/addon.service";
 
-const TrainerTicketListView = ({
-    callBackRenderedIndex,
-    callbackTicketIdForDetail
+const FinishedTicketView = ({
+    callBackRenderedIndex
 }) => {
-    //Lấy list ticket mà Trainer được assign
-    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
+    const [listFinishedTicket, setListFinishedTicket] = useState([]);
     useEffect(() => {
         consultantService
-            .getListAssignedConsultingTicket()
+            .getFinishedConsultingTicket()
             .then((res) => {
-                console.log("success Assigned Consulting Ticket list test", res.data);
-                setListAssignedConsultingTicket(res.data);
+                console.log("success Finished Consulting Ticket list test", res.data);
+                setListFinishedTicket(res.data);
             })
-            .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
+            .catch((e) => console.log("fail Finished Consulting Ticket list test", e));
     }, []);
 
-    const handleDetailClick = (ticketId) => {
-        callbackTicketIdForDetail(ticketId);
-        callBackRenderedIndex(0);
-    }
-
-    const handleFinishedView = (renderedIndex) => {
-        callBackRenderedIndex(renderedIndex)
-    }
     return (
         <>
-            <Button onClick={() => handleFinishedView(3)}>View List Finished Ticket</Button>
-            <h2>List Assigned Ticket</h2>
+            <h2>List Finished Ticket</h2>
             {<TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -41,20 +29,14 @@ const TrainerTicketListView = ({
                         <TableCell>Online/Offline</TableCell>
                         <TableCell>Date</TableCell>
                         <TableCell>Slot</TableCell>
-                        <TableCell></TableCell>
                     </TableHead>
                     <TableBody>
-                        {listAssignedConsultingTicket.map((row, index) => (
+                        {listFinishedTicket.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
                                 <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
                                 <TableCell>{row.actualSlotStart}</TableCell>
-                                <TableCell>
-                                    <Button onClick={() => {
-                                        handleDetailClick(row.id)
-                                    }}>Detail</Button>
-                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -64,4 +46,4 @@ const TrainerTicketListView = ({
     );
 };
 
-export default TrainerTicketListView;
+export default FinishedTicketView;

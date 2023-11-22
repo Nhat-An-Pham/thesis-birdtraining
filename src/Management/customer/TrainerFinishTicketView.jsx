@@ -1,6 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import consultantService from "../../services/consultant.service";
-import { Paper, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { MenuItem, Paper, Select, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import timetableService from "../../services/timetable.service";
@@ -31,7 +31,7 @@ const TrainerFinishTicketView = ({
             .catch((e) => console.log("fail Consulting Ticket Detail test", e));
     }, []);
 
-    const [selectedSLotTime, setSelectedSlotTime] = useState("");
+    const [selectedSLotTime, setSelectedSlotTime] = useState(-1);
     const [slotTime, setSlotTIme] = useState([]);
     useEffect(() => {
         timetableService
@@ -53,6 +53,9 @@ const TrainerFinishTicketView = ({
     }
 
     const FinishOnlineTicket = (id, actualEndSlot, evidence) => {
+        console.log("id", id);
+        console.log("actualEndSlot", actualEndSlot);
+        console.log("evidence", evidence);
         consultantService
             .finishOnlineAppointment({ id: id, actualEndSlot: actualEndSlot, evidence: evidence })
             .then((res) => {
@@ -60,6 +63,7 @@ const TrainerFinishTicketView = ({
             })
             .catch((e) => console.log("Fail Finish Ticket test", e));
     }
+
     const handleBackClick = (renderedIndex) => {
         callBackRenderedIndex(renderedIndex)
     }
@@ -68,8 +72,9 @@ const TrainerFinishTicketView = ({
         callBackRenderedIndex(renderedIndex)
     }
 
-    const handleFinishOnlineClick = (renderedIndex) => {
-        callBackRenderedIndex(renderedIndex)
+    const handleFinishOnlineClick = (renderedIndex, id, actualEndSlot, evidence) => {
+        FinishOnlineTicket(id, actualEndSlot, evidence);
+        callBackRenderedIndex(renderedIndex);
     }
     return (
         <>
@@ -90,14 +95,19 @@ const TrainerFinishTicketView = ({
                         <TableRow>
                             <TableCell>{ticketDetail.id}</TableCell>
                             <TableCell>
-                                <select onChange={(e) => setSelectedSlotTime(e.value)}>
+                                <Select
+                                    onChange={(e) => setSelectedSlotTime(e.target.value)}
+                                    value={selectedSLotTime}
+                                >
                                     {slotTime.map((slot) => (
-                                        <option value={slot.id}>{slot.startTime.slice(0, 5) + " - " + slot.endTime.slice(0, 5)}</option>
+                                        <MenuItem value={slot.id}>
+                                            {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
+                                        </MenuItem>
                                     ))}
-                                </select>
+                                </Select>
                             </TableCell>
                             {ticketDetail.onlineOrOffline === true ? (
-                                <input type="text" onChange={(e) => setOnlineEvidence(e)}/>
+                                <input type="text" onChange={(e) => setOnlineEvidence(e.target.value)} />
                             ) : ticketDetail.onlineOrOffline === false ? (
                                 <TableCell>Set Offline Evidence</TableCell>
                             ) : null}
@@ -106,9 +116,9 @@ const TrainerFinishTicketView = ({
                 </Table>
             </TableContainer>
             {ticketDetail.onlineOrOffline === true ? (
-                <Button onClick={() => handleFinishOnlineClick(0)}>Finish</Button>
+                <Button onClick={() => handleFinishOnlineClick(1, ticketDetail.id, selectedSLotTime, onlineEvidence)}>Finish</Button>
             ) : ticketDetail.onlineOrOffline === false ? (
-                <Button onClick={() => handleFinishClick(0)}>Finish</Button>
+                <Button onClick={() => handleFinishClick(1)}>Finish</Button>
             ) : null}
 
         </>
