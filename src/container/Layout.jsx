@@ -32,7 +32,9 @@ import PrivateRoutes from './PrivateRoutes';
 import WorkshopManagementComponent from '../Management/workshoppane/WorkshopManagement';
 import OnlineCourseStudyPage from '../pages/OnlineCourseStudyPage';
 import { UserSettingPage } from '../pages/UserSettingPage';
-import OnlineCourseManagement from '../Management/onlinecourse/OnlineCourseManagement';
+  import OnlineCourseManagement from '../Management/onlinecourse/OnlineCourseManagement';
+import TrainerTicketComponent from '../Management/customer/TrainerTicket';
+
 
 function Layout() {
 
@@ -74,6 +76,7 @@ function Layout() {
           <Route element={<PrivateRoutes/>} >
             <Route path="/management" exact element={<Dashboard />} />
             <Route path="/management/customerreq" exact element={<CustomerReqComponent />} />
+            <Route path="/management/trainerticket" exact element={<TrainerTicketComponent />} />
             <Route path="/management/timetable" exact element={<TimeTable />} />
             <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
             <Route path="/management/workshop" element={<WorkshopManagementComponent />} />

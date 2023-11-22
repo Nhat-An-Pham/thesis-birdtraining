@@ -1,126 +1,52 @@
 import { useState } from "react";
-import consultantService from "../../services/consultant.service";
-import { TableBody, TableCell, TableHead } from "@mui/material";
-import { Button } from "@coreui/coreui";
-import { useEffect } from "react";
+import { Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import ReworkSidebar from "../component/sidebar/ReworkSidebar";
+import { ThemeProvider } from "react-bootstrap";
+import TrainerTicketDetailView from "./TrainerTicketDetailView";
+import TrainerTicketListView from "./TrainerTicketListView";
+import { ochreTheme } from "../themes/Theme";
 
-export default function TrainerTicket() {
+export default function TrainerTicketComponent() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned
     const [ticketIdForDetail, setTicketIdForDetail] = useState();
 
-    //Lấy list ticket mà Trainer được assign
-    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
-    useEffect(() => {
-        consultantService
-            .getListAssignedConsultingTicket()
-            .then((res) => {
-                console.log("success Assigned Consulting Ticket list test", res.data);
-                setListAssignedConsultingTicket(res.data);
-            })
-            .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
-    }, []);
-
-    //Lấy ticket detail
-    const [ticketDetail, setTicketDetail] = useState(null);
-    useEffect(() => {
-        consultantService
-            .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
-            .then((res) => {
-                console.log("success Consulting Ticket Detail test", res.data);
-                setTicketDetail(res.data);
-            })
-            .catch((e) => console.log("fail Consulting Ticket Detail test", e));
-    }, [ticketIdForDetail]);
-
-    const [ggMeetLink, setGgMeetLink] = useState(null);
-
-    const UpdateGGMeetLink = (ticketId, ggmeetLink) => {
-        consultantService
-            .updateGooglemeetLink({ ticketId: ticketId, ggmeetLink: ggmeetLink })
-        then((res) => {
-            console.log("success Update GGMeetLink test", res.data);
-        })
-            .catch((e) => console.log("fail Update GGMeetLink test", e));
+    const navigate = useNavigate();
+    const accessToken = JSON.parse(localStorage.getItem('user-token'));
+    const userRole = jwtDecode(accessToken).role;
+    if (userRole === "Staff" || userRole === "Manager") {
+        navigate("/management/customerreq");
+    } else if (userRole === "Trainer") {
+        navigate("/management/trainerticket");
     }
 
-    return (
-        <>
-            {renderedIndex === 1 ? (
-                <div className="timetable-container">
-                    <ReworkSidebar />
-                    <div className="timetable-wrapper">
-                        <h2>List Assigned Ticket</h2>
-                        {<TableContainer component={Paper}>
-                            <Table>
-                                <TableHead>
-                                    <TableCell>Id</TableCell>
-                                    <TableCell>Online/Offline</TableCell>
-                                    <TableCell>Date</TableCell>
-                                    <TableCell>Slot</TableCell>
-                                    <TableCell></TableCell>
-                                </TableHead>
-                                <TableBody>
-                                    {listAssignedConsultingTicket.map((row, index) => (
-                                        <TableRow key={index}>
-                                            <TableCell>{row.id}</TableCell>
-                                            <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                            <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
-                                            <TableCell>{row.actualSlotStart}</TableCell>
-                                            <Button type='button' onClick={() => {
-                                                setTicketIdForDetail(row.id);
-                                                setRenderedIndex(0);
-                                            }}>
-                                                Detail
-                                            </Button>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>}
-                    </div>
-                </div>
-            ) : renderedIndex === 0 ? (
-                <div>
-                    <Button onClick={() => (setRenderedIndex(1))}>Back To List Assigned</Button>
-                    <h2>Ticket Detail</h2>
-                    <TableContainer component={Paper}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Id</TableCell>
-                                    <TableCell>Customer Name</TableCell>
-                                    <TableCell>Address</TableCell>
-                                    <TableCell>Type</TableCell>
-                                    <TableCell>Detail</TableCell>
-                                    <TableCell>Distance</TableCell>
-                                    <TableCell>Online/Offline</TableCell>
-                                    <TableCell>Meet Link</TableCell>
-                                    <TableCell>Date</TableCell>
-                                    <TableCell>Slot</TableCell>
-                                    <TableCell>Price</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell>{ticketDetail.id}</TableCell>
-                                    <TableCell>{ticketDetail.customerName}</TableCell>
-                                    <TableCell>{ticketDetail.addressDetail}</TableCell>
-                                    <TableCell>{ticketDetail.consultingType}</TableCell>
-                                    <TableCell>{ticketDetail.consultingDetail}</TableCell>
-                                    <TableCell>{ticketDetail.distance}</TableCell>
-                                    <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                    <TableCell>{ticketDetail.ggMeetLink}</TableCell>
-                                    <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
-                                    <TableCell>{ticketDetail.actualSlotStart}</TableCell>
-                                    <TableCell>{ticketDetail.price}</TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <Button onClick={() => (UpdateGGMeetLink(ticketIdForDetail, ggMeetLink))}>Update Meet Link</Button>
-                </div>
-            ) : null}
+    const handleTicketIdForDetail = (ticketId) => {
+        setTicketIdForDetail(ticketId);
+    }
+    const onRenderedIndexSelect = (renderedIndex) => {
+        setRenderedIndex(renderedIndex)
+    }
 
-        </>
+    let renderedComponents = [
+        <TrainerTicketDetailView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            ticketIdForDetail={ticketIdForDetail}
+        />,
+        <TrainerTicketListView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            callbackTicketIdForDetail={handleTicketIdForDetail}
+        />
+    ]
+
+    return (
+        <div className="workshop-container">
+            <ThemeProvider theme={ochreTheme}>
+                <ReworkSidebar selectTab={1} />
+                <Grid container spacing={1} sx={{ margin: "15px" }}>
+                    {renderedComponents[renderedIndex]}
+                </Grid>
+            </ThemeProvider>
+        </div>
     )
 }

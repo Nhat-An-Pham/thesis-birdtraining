@@ -61,7 +61,7 @@ export default function WorkshopManagementComponent() {
     <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
     <WorkshopDetailOverviewComponent workshop={selectedWorkshop} />,
     <ClassManagementComponent selectedWorkshop={selectedWorkshop} />,
-    <TrainerSlotDetailComponent entityId={28}/>
+    // <TrainerSlotDetailComponent entityId={28}/>
   ];
 
   
@@ -79,13 +79,13 @@ export default function WorkshopManagementComponent() {
 
       <ThemeProvider theme={ochreTheme}>
         <ReworkSidebar selectTab={3} />
-        <Button
+        {/* <Button
                 variant="contained"
                 color="ochre"
                 onClick={() => setRenderedIndex(4)}
               >
                 Test trainer slot
-              </Button>
+              </Button> */}
         <Grid container spacing={1} sx={{ margin: "15px" }}>
           <Grid container item xs={6} justifyContent="flex-start">
             {renderedIndex === 0 ? (

@@ -1,326 +1,103 @@
-import React, { useEffect, useState } from 'react'
-import ReworkSidebar from "../component/sidebar/ReworkSidebar";
+import { Button, ThemeProvider } from "react-bootstrap";
 import { ochreTheme } from "../themes/Theme";
-import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, ThemeProvider, Grid, Button } from "@mui/material";
-import './customerReq.scss'
-import ConsultantService from '../../services/consultant.service';
-import addonService from '../../services/addon.service';
-import TicketStatus from './TicketStatus';
+import ReworkSidebar from "../component/sidebar/ReworkSidebar";
+import AssignedTicketView from "./AssignedTicketView";
+import NotAssignedTicketView from "./NotAssignedTicketView";
+import HandledTicketView from "./HandledTicketView";
+import TicketDetailView from "./TicketDetailView";
+import { jwtDecode } from "jwt-decode";
+import './customerReq.scss';
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Grid } from "@mui/material";
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
-    const [dateValue, setDateValue] = useState(null);
-    const [slotValue, setSlotValue] = useState(0);
     const [ticketIdForDetail, setTicketIdForDetail] = useState();
     const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(1); //1: Assigned, 2: NotAssigned, 3: Handled
-    const [assignedTrainer, setAssignedTrainer] = useState(null);
 
-    const AssignTrainer = (trainer, ticketId) => {
-        ConsultantService
-            .assignTrainer({ trainerId: trainer, ticketId: ticketId })
-            .then((res) => {
-                console.log("success Assign Trainer test", res.data);
-            })
-            .catch((e) => console.log("fail Assign Trainer test", e));
+    const navigate = useNavigate();
+    const accessToken = JSON.parse(localStorage.getItem('user-token'));
+    const userRole = jwtDecode(accessToken).role;
+
+    if (userRole === "Trainer") {
+        navigate("/management/trainerticket");
+    } else if (userRole === "Staff" || userRole === "Manager") {
+        navigate("/management/customerreq");
     }
 
-    const CancelTicket = (ticketId) => {
-        ConsultantService
-            .cancelConsultingTicket({ ticketId })
-            .then((res) => {
-                console.log("succes Cancel Ticket test", res.data);
-            })
-            .catch((e) => console.log("fail Cancel Ticket tes", e));
+    const handleTicketIdForDetail = (ticketId) => {
+        setTicketIdForDetail(ticketId);
+        setHaveAssignedTrainer(1)
     }
 
-    const ConfirmTicket = (ticketId, date, slotId) => {
-        ConsultantService
-            .approveConsultingTicket({ ticketId, date, slotId })
-            .then((res) => {
-                console.log("succes Confirm Ticket test", res.data);
-            })
-            .catch((e) => console.log("fail Confirm Ticket tes", e));
+    const handleHaveAssignedTrainer = (haveAssignedTrainer) => {
+        setHaveAssignedTrainer(haveAssignedTrainer)
     }
 
-    const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
-
-
-    // useEffect(() => {
-    //     ConsultantService
-    //         .getFreeTrainerOnSlotDate({ dateValue: dateValue, slotId: slotValue })
-    //         .then((res) => {
-    //             console.log("success Free Trainer list test", res.data);
-    //             setListOfFreeTrainer(res.data);
-    //         })
-    //         .catch((e) => console.log("fail Free Trainer list test", e));
-    // }, []);
-
-    const GetListFreeTrainers = (date, slot) => {
-        ConsultantService
-            .getFreeTrainerOnSlotDate({ dateValue: date, slotId: slot })
-            .then((res) => {
-                console.log("success Free Trainer list test", res.data);
-                setListOfFreeTrainer(res.data);
-            })
-            .catch((e) => console.log("fail Free Trainer list test", e));
+    const onRenderedIndexSelect = (renderedIndex) => {
+        setRenderedIndex(renderedIndex)
     }
 
 
-    const [ticketDetail, setTicketDetail] = useState(null);
-    useEffect(() => {
-        ConsultantService
-            .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
-            .then((res) => {
-                console.log("success Consulting Ticket Detail test", res.data);
-                setTicketDetail(res.data);
-            })
-            .catch((e) => console.log("fail Consulting Ticket Detail test", e));
-    }, [ticketIdForDetail]);
-
-
-
-    const [listNotAssignedConsultingTicket, setlistNotAssignedConsultingTicket] = useState([]);
-    useEffect(() => {
-        ConsultantService
-            .viewListNotAssignedConsultingTicket()
-            .then((res) => {
-                // console.log("success Not Assigned Trainer Consulting Ticket list test", res.data);
-                setlistNotAssignedConsultingTicket(res.data);
-            })
-            .catch((e) => console.log("fail Not Assigned Consulting Ticket list test", e));
-    }, [renderedIndex]);
-
-    const [listAssignedConsultingTicket, setListAssignedConsultingTicket] = useState([]);
-    useEffect(() => {
-        ConsultantService
-            .viewListAssignedConsultingTicket()
-            .then((res) => {
-                // console.log("success Assigned Trainer Consulting Ticket list test", res.data);
-                setListAssignedConsultingTicket(res.data);
-            })
-            .catch((e) => console.log("fail Assigned Consulting Ticket list test", e));
-    }, [renderedIndex]);
-
-
-    const [listHandledConsultingTicket, setListHandledConsultingTicket] = useState([]);
-    useEffect(() => {
-        ConsultantService
-            .viewListHandledConsultingTicket()
-            .then((res) => {
-                // console.log("success Handled Consulting Ticket list test", res.data);
-                setListHandledConsultingTicket(res.data);
-            })
-            .catch((e) => console.log("fail Handled Consulting Ticket list test", e));
-    }, [renderedIndex]);
+    let renderedComponents = [
+        <TicketDetailView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            ticketIdForDetail={ticketIdForDetail}
+            callBackHaveAssignedTrainer={haveAssignedTrainer}
+        />,
+        <AssignedTicketView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            callbackTicketIdForDetail={handleTicketIdForDetail}
+            callBackHaveAssignedTrainer={handleHaveAssignedTrainer}
+        />,
+        <NotAssignedTicketView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            callbackTicketIdForDetail={handleTicketIdForDetail}
+            callBackHaveAssignedTrainer={handleHaveAssignedTrainer}
+        />,
+        <HandledTicketView
+            callBackRenderedIndex={onRenderedIndexSelect}
+            callbackTicketIdForDetail={handleTicketIdForDetail}
+            callBackHaveAssignedTrainer={handleHaveAssignedTrainer}
+        />
+    ];
 
     return (
         <div className="workshop-container">
             <ThemeProvider theme={ochreTheme}>
                 <ReworkSidebar selectTab={1} />
                 <Grid container spacing={1} sx={{ margin: "15px" }}>
-                    <Grid container item xs={5} justifyContent="flex-start">
-                        {renderedIndex === 1 ? (
-                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(2); setTicketIdForDetail(0); }}>
-                                View UnAssigned Ticket
-                            </Button>
-                        ) : (
-                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(1); setTicketIdForDetail(0); }}>
-                                View Assigned Ticket
-                            </Button>
-                        )}
-                    </Grid>
+                    {renderedIndex === 0 ? (<></>) : (
+                        <>
+                            <Grid container item xs={5} justifyContent="flex-start">
+                                {renderedIndex === 1 ? (
+                                    <Button variant="contained" color="ochre" onClick={() => { onRenderedIndexSelect(2) }}>
+                                        View Not Assigned Ticket
+                                    </Button>
+                                ) : (
+                                    <Button variant="contained" color="ochre" onClick={() => { onRenderedIndexSelect(1) }}>
+                                        View Assigned Ticket
+                                    </Button>
+                                )}
+                            </Grid>
 
-                    <Grid container item spacing={0} xs={5} justifyContent="flex-end">
-                        {renderedIndex === 3 ? (
-                            <></>
-                        ) : (
-                            <Button variant="contained" color="ochre" onClick={() => { setRenderedIndex(3); setTicketIdForDetail(0); }}>
-                                View Handled Ticket
-                            </Button>
-                        )}
-                    </Grid>
-
+                            <Grid container item spacing={0} xs={5} justifyContent="flex-end">
+                                {renderedIndex === 3 ? (
+                                    <></>
+                                ) : (
+                                    <Button variant="contained" color="ochre" onClick={() => { onRenderedIndexSelect(3) }}>
+                                        View Handled Ticket
+                                    </Button>
+                                )}
+                            </Grid>
+                        </>
+                    )}
                     <Grid item xs={12}>
-                        {renderedIndex === 1 ? (
-                            <div>
-                                <h2>Requests that have assigned trainers</h2>
-                                {<TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Id</TableCell>
-                                                <TableCell>Online/Offline</TableCell>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>Slot</TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {listAssignedConsultingTicket.map((row, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
-                                                    <TableCell>{row.actualSlotStart}</TableCell>
-                                                    <TableCell>
-                                                        <Button type='button' onClick={() => {
-                                                            setTicketIdForDetail(row.id);
-                                                            setDateValue(row.appointmentDate);
-                                                            setSlotValue(row.actualSlotStart);
-                                                            setHaveAssignedTrainer(1);
-                                                            setRenderedIndex(0);
-                                                        }}>
-                                                            Detail
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>}
-                            </div>
-                        ) : renderedIndex === 2 ? (
-                            <div>
-                                <h2>Requests that have not assigned trainers</h2>
-                                {<TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Id</TableCell>
-                                                <TableCell>Online/Offline</TableCell>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>Slot</TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {listNotAssignedConsultingTicket.map((row, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
-                                                    <TableCell>{row.actualSlotStart}</TableCell>
-                                                    <TableCell>
-                                                        <Button type='button' onClick={() => {
-                                                            setTicketIdForDetail(row.id);
-                                                            GetListFreeTrainers(row.appointmentDate, row.actualSlotStart);
-                                                            setHaveAssignedTrainer(2);
-                                                            setRenderedIndex(0);
-                                                        }}>
-                                                            Detail
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>}
-                            </div>
-                        ) : renderedIndex === 3 ? (
-                            <div>
-                                <h2>Requests that have been handled</h2>
-                                {<TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Id</TableCell>
-                                                <TableCell>Online/Offline</TableCell>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>Slot</TableCell>
-                                                <TableCell></TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {listHandledConsultingTicket.map((row, index) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{row.id}</TableCell>
-                                                    <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                    <TableCell>{addonService.formatDate(row.appointmentDate)}</TableCell>
-                                                    <TableCell>{row.actualSlotStart}</TableCell>
-                                                    <TableCell>
-                                                        <Button type='button' onClick={() => {
-                                                            setTicketIdForDetail(row.id);
-                                                            setHaveAssignedTrainer(3);
-                                                            setRenderedIndex(0);
-                                                        }}>
-                                                            Detail
-                                                        </Button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>}
-                            </div>
-                        ) : renderedIndex === 0 && ticketIdForDetail === 0 ? (
-                            setRenderedIndex(1)
-                        ) : renderedIndex === 0 && ticketIdForDetail !== 0 && ticketDetail ? (
-                            <div>
-                                <Button onClick={() => (setRenderedIndex(1))}>Back To List Assigned</Button>
-                                <h2>Ticket Detail</h2>
-                                <TableContainer component={Paper}>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Id</TableCell>
-                                                <TableCell>Customer Name</TableCell>
-                                                <TableCell>Address</TableCell>
-                                                <TableCell>Type</TableCell>
-                                                <TableCell>Trainer</TableCell>
-                                                <TableCell>Detail</TableCell>
-                                                <TableCell>Distance</TableCell>
-                                                <TableCell>Online/Offline</TableCell>
-                                                <TableCell>Date</TableCell>
-                                                <TableCell>Slot</TableCell>
-                                                <TableCell>Price</TableCell>
-                                                <TableCell>Status</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            <TableRow>
-                                                <TableCell>{ticketDetail.id}</TableCell>
-                                                <TableCell>{ticketDetail.customerName}</TableCell>
-                                                <TableCell>{ticketDetail.addressDetail}</TableCell>
-                                                <TableCell>{ticketDetail.consultingType}</TableCell>
-                                                {haveAssignedTrainer === 1 ? (<TableCell>
-                                                    {ticketDetail.trainerName}
-                                                </TableCell>
-                                                ) :
-                                                    haveAssignedTrainer === 2 && listOfFreeTrainer ? (<TableCell>
-                                                        <select onChange={(e) => setAssignedTrainer(e.target.value)}>
-                                                            {listOfFreeTrainer.map((trainer, idx) => (
-                                                                <option key={idx} value={trainer.id}>{trainer.name}</option>
-                                                            ))}
-                                                        </select>
-                                                    </TableCell>) :
-                                                        haveAssignedTrainer === 3 ? (<TableCell>{ticketDetail.trainerName}</TableCell>) :
-                                                            (<></>)
-                                                }
-                                                <TableCell>{ticketDetail.consultingDetail}</TableCell>
-                                                <TableCell>{ticketDetail.distance}</TableCell>
-                                                <TableCell>{ticketDetail.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
-                                                <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
-                                                <TableCell>{ticketDetail.actualSlotStart}</TableCell>
-                                                <TableCell>{ticketDetail.price}</TableCell>
-                                                <TableCell>{ticketDetail.status === 0 ? TicketStatus[0] : 
-                                                            ticketDetail.status === 1 ? TicketStatus[1] :
-                                                            ticketDetail.status === 2 ? TicketStatus[2] :
-                                                            ticketDetail.status === 3 ? TicketStatus[3] : null}</TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                                {haveAssignedTrainer === 1 ? (<><Button onClick={() => { ConfirmTicket(ticketIdForDetail, dateValue, slotValue); setRenderedIndex(1); }}>Confirm</Button>
-                                    <Button onClick={() => { CancelTicket(ticketIdForDetail); setRenderedIndex(1) }}>Cancel</Button></>) :
-                                    haveAssignedTrainer === 2 ? (<><Button onClick={() => { AssignTrainer(assignedTrainer, ticketIdForDetail); setRenderedIndex(1) }}>Assign</Button>
-                                        <Button onClick={() => { CancelTicket(ticketIdForDetail); setRenderedIndex(1) }}>Cancel</Button></>) :
-                                        haveAssignedTrainer === 3 ? (<></>) :
-                                            (<></>)}
-                            </div>
-                        ) : null}
+                        {renderedComponents[renderedIndex]}
                     </Grid>
                 </Grid>
             </ThemeProvider>
         </div>
-    );
+    )
 }
