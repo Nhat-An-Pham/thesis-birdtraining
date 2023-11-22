@@ -18,10 +18,10 @@ import { toast } from "react-toastify";
 import dashboardService from "../../../services/dashboard.service";
 import { useEffect } from "react";
 
-export default function AddTrainableSkillToBirdSkillComponent({
+export default function AddSkillToTrainerComponent({
   open,
   handleClose,
-  birdSkill,
+  trainer,
 }) {
   const [skillId, setSkillId] = useState("");
   const [skills, setSkills] = useState([]);
@@ -29,7 +29,7 @@ export default function AddTrainableSkillToBirdSkillComponent({
   async function fetchTrainableSkills() {
     try {
       let params = {
-        $filter: `birdSkillId eq ${birdSkill.id}`
+        $filter: `id eq ${trainer.id}`
       };
       let res = await dashboardService.GetListTrainableSkills(
         params
@@ -63,7 +63,7 @@ export default function AddTrainableSkillToBirdSkillComponent({
     try {
       let model = {
         skillId: skillId,
-        birdSkillId: birdSkill.id,
+        trainerId: trainer.id,
       };
       let res = await dashboardService.AddTrainableSkillToBirdSkill(model);
       if (res.status === 200) {
@@ -98,7 +98,7 @@ export default function AddTrainableSkillToBirdSkillComponent({
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add trainer skill to this bird skill: {birdSkill.name}</DialogTitle>
+        <DialogTitle>Add trainer skill to this bird skill: {trainer.name}</DialogTitle>
         <DialogContent>
           <FormControl required sx={{ m: 1, minWidth: 200 }}>
             <>

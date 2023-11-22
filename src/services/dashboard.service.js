@@ -245,6 +245,23 @@ class DashboardService {
       throw error;
     }
   }
+  //GetListTrainers
+  async GetListTrainers(params) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/trainer`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new DashboardService();

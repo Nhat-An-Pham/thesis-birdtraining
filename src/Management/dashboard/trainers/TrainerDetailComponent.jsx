@@ -21,18 +21,19 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Close, PlusOneOutlined, Search } from "@mui/icons-material";
-import AddTrainableSkillToBirdSkillComponent from "./AddTrainerSkillComponent.jsx";
-export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
-  const [birdSkill, setBirdSkill] = useState(null);
+import AddSkillToTrainerComponent from "./AddTrainerSkillComponent.jsx";
+
+export default function TrainerDetailComponent({ trainerId, onClose }) {
+  const [trainer, setTrainer] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [skills, setSkills] = useState([]);
   const [search, setSearch] = useState("");
   const [openAddSkill, setOpenAddSkill] = useState(false);
-  async function fetchTrainableSkillsByBirdSkill() {
+  async function fetchSkillsByTrainer() {
     try {
       let params = {
-        $filter: `contains(tolower(birdSkillName), tolower('${search}')) and birdSkillId eq ${birdSkillId}`
+        $filter: `contains(tolower(skillName), tolower('${search}')) and trainerId eq ${trainerId}`
       };
 
       let res = await dashboardService.GetListTrainableSkills(params);
@@ -42,16 +43,16 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
       toast.error(error.response.data.message);
     }
   }
-  async function fetchBirdSkill() {
+  async function fetchTrainer() {
     try {
       let params = {
-        $filter: `id eq ${birdSkillId}`
+        $filter: `id eq ${trainerId}`
       };
-      let response = await dashboardService.GetListSkills(params);
+      let response = await dashboardService.GetListTrainers(params);
       console.log(response);
       setName(response.data[0].name);
       setDescription(response.data[0].description);
-      setBirdSkill(response.data[0]);
+      setTrainer(response.data[0]);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -63,33 +64,33 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
         skillId: skill.skillId,
         birdSkillId: skill.birdSkillId,
       };
-      await dashboardService.DeleteTrainerSkillFromBirdSkill(model);
+      await dashboardService.DeleteTrainerSkillFromTrainer(model);
       toast.success("Remove successfully!");
-      fetchTrainableSkillsByBirdSkill();
+      fetchSkillsByTrainer();
     } catch (error) {
       toast.error("This species skill is currently in customer operation!");
     }
   }
   async function onCloseAddSkillModal() {
     setOpenAddSkill(false);
-    fetchTrainableSkillsByBirdSkill();
+    fetchSkillsByTrainer();
   }
   useEffect(() => {
-    fetchBirdSkill();
-    fetchTrainableSkillsByBirdSkill();
+    fetchTrainer();
+    fetchSkillsByTrainer();
     return () => {};
   }, []);
   useEffect(() => {
-    fetchTrainableSkillsByBirdSkill();
+    fetchSkillsByTrainer();
     return () => {};
   }, [search]);
 
   return (
     <>
-      {birdSkill ? (
+      {trainer ? (
         <>
-          <AddTrainableSkillToBirdSkillComponent
-            birdSkill={birdSkill}
+          <AddSkillToTrainerComponent
+            trainer={trainer}
             handleClose={() => onCloseAddSkillModal()}
             open={openAddSkill}
           />
@@ -110,7 +111,7 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
               >
-                Bird Skill: {birdSkill.name}
+                Trainer Detail
               </Typography>
             </Toolbar>
           </AppBar>
@@ -121,7 +122,7 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
                 <TextField
                   label="Short Detail"
                   multiline={false}
-                  value={birdSkill.description}
+                  value={trainer.description}
                   fullWidth
                   disabled={true}
                 />
