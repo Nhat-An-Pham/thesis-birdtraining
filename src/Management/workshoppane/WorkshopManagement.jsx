@@ -63,6 +63,8 @@ export default function WorkshopManagementComponent() {
     <ClassManagementComponent selectedWorkshop={selectedWorkshop} />,
     <TrainerSlotDetailComponent entityId={28}/>
   ];
+
+  
   return (
     <div className="workshop-container">
       <ToastContainer />

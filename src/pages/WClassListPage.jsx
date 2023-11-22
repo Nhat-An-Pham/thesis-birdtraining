@@ -105,7 +105,7 @@ const WClassListPage = () => {
 
               <div className='wclpdiv_section wclpdiv_section-button'>
                 <button className='wclpdiv_section_button-close' onClick={handleCloseDiv}>Close</button>
-                {!selectedClass.status ?
+                {selectedClass.status && selectedClass.status === "Unpaid" ?
                   <button className='wclpdiv_section_button-enroll' onClick={() => handleEnroll(selectedClass.id)}>ENROLL NOW</button>
                   : <p style={{color: "red"}}>You Have Enrolled This Class</p>}
               </div>

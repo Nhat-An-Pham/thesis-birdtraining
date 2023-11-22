@@ -38,6 +38,8 @@ function BookingComponent() {
     //throw
     const [errorMessage, setErrorMessage] = useState(null);
 
+    const [lastMessage, setLastMessage] = useState(null);
+
 
     //1
     const getServiceId = (id) => {
@@ -121,11 +123,12 @@ function BookingComponent() {
                         ConsultantService.CusSendTicket(newAppt)
                             .then((res) => {
                                 console.log("Send Ticket Success")
+                                setLastMessage("You Have Successfully Booked")
                             }).catch((error) => {
-                                console.log(error.response.data)
+                                console.log("Fail Booking: ", error.response.data)
+                                setLastMessage(error.response.data)
                             })
-                    } catch (error) {
-                        setErrorMessage(error.response.data);
+                    } catch (e) {
                     }
                 }
                 return;
@@ -200,6 +203,9 @@ function BookingComponent() {
                     </Step>
                 ))}
             </Stepper>
+            {lastMessage ?
+            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "20px", textAlign: "center", marginTop: "20px" }}>{lastMessage}</Typography>
+            :null}
             {activeStep === steps.length && (
                 <Paper square elevation={0} sx={{ p: 3 }} >
                     <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>

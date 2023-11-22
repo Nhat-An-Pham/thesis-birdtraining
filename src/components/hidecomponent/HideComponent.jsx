@@ -9,7 +9,7 @@ const HideComponent = ({ children }) => {
     useEffect(() => {
         if (location.pathname === "/management" || location.pathname === "/management/customerreq" || location.pathname === "/management/timetable"
      || location.pathname === "/management/birdacademy" || location.pathname === '/management/userdata' || location.pathname === '/login' || location.pathname === '/signup'
-     || location.pathname === '/payment' || location.pathname === "/management/workshop" ) {
+     || location.pathname === '/payment' || location.pathname === "/management/workshop" || location.pathname === "/management/onlinecourse" ) {
             setShow(false)
         } else {
             setShow(true)
