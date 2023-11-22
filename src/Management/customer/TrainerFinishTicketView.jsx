@@ -9,6 +9,17 @@ const TrainerFinishTicketView = ({
     callBackRenderedIndex,
     ticketIdForDetail
 }) => {
+    const [onlineEvidence, setOnlineEvidence] = useState(null);
+    const [evidence, setEvidence] = useState(null);
+    const [submittedEvidence, setSubmittedEvidence] = useState([]);
+
+    const handleFileChange = (e) => {
+        const file = Array.from(e.target.file);
+        setEvidence(file[0]);
+        const evidenceName = file.map((file) => file.name);
+        setSubmittedEvidence(evidenceName);
+    }
+
     const [ticketDetail, setTicketDetail] = useState({});
     useEffect(() => {
         consultantService
@@ -21,7 +32,7 @@ const TrainerFinishTicketView = ({
     }, []);
 
     const [selectedSLotTime, setSelectedSlotTime] = useState("");
-    const [slotTime, setSlotTIme] = useState({});
+    const [slotTime, setSlotTIme] = useState([]);
     useEffect(() => {
         timetableService
             .getSlotTime()
@@ -32,16 +43,33 @@ const TrainerFinishTicketView = ({
             .catch((e) => console.log("Fail Get Time SLot test", e));
     }, []);
 
+    const FinishTicket = (id, actualEndSlot, evidence) => {
+        consultantService
+            .finishAppointment({ id: id, actualEndSlot: actualEndSlot, evidence: evidence })
+            .then((res) => {
+                console.log("Success Finish Ticket test", res.data);
+            })
+            .catch((e) => console.log("Fail Finish Ticket test", e));
+    }
+
+    const FinishOnlineTicket = (id, actualEndSlot, evidence) => {
+        consultantService
+            .finishOnlineAppointment({ id: id, actualEndSlot: actualEndSlot, evidence: evidence })
+            .then((res) => {
+                console.log(("Success Finish Ticket test", res.data));
+            })
+            .catch((e) => console.log("Fail Finish Ticket test", e));
+    }
     const handleBackClick = (renderedIndex) => {
         callBackRenderedIndex(renderedIndex)
     }
 
     const handleFinishClick = (renderedIndex) => {
-
+        callBackRenderedIndex(renderedIndex)
     }
 
     const handleFinishOnlineClick = (renderedIndex) => {
-
+        callBackRenderedIndex(renderedIndex)
     }
     return (
         <>
@@ -61,25 +89,26 @@ const TrainerFinishTicketView = ({
                     <TableBody>
                         <TableRow>
                             <TableCell>{ticketDetail.id}</TableCell>
-                            <TableCell>{<select onChange={(e) => setSelectedSlotTime(e.value)}>
-                                {slotTime.map((slot) => (
-                                    <option value={slot.id}>{slot.startTime.slice(0, 5) + " - " + slot.endTime.slice(0, 5)}</option>
-                                ))}
-                            </select>}
+                            <TableCell>
+                                <select onChange={(e) => setSelectedSlotTime(e.value)}>
+                                    {slotTime.map((slot) => (
+                                        <option value={slot.id}>{slot.startTime.slice(0, 5) + " - " + slot.endTime.slice(0, 5)}</option>
+                                    ))}
+                                </select>
                             </TableCell>
                             {ticketDetail.onlineOrOffline === true ? (
-                                <TableCell></TableCell>
+                                <input type="text" onChange={(e) => setOnlineEvidence(e)}/>
                             ) : ticketDetail.onlineOrOffline === false ? (
-                                <TableCell></TableCell>
+                                <TableCell>Set Offline Evidence</TableCell>
                             ) : null}
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
             {ticketDetail.onlineOrOffline === true ? (
-                <Button>Finish</Button>
+                <Button onClick={() => handleFinishOnlineClick(0)}>Finish</Button>
             ) : ticketDetail.onlineOrOffline === false ? (
-                <Button>Finish</Button>
+                <Button onClick={() => handleFinishClick(0)}>Finish</Button>
             ) : null}
 
         </>

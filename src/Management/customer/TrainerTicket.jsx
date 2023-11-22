@@ -39,8 +39,8 @@ export default function TrainerTicketComponent() {
             callbackTicketIdForDetail={handleTicketIdForDetail}
         />,
         <TrainerFinishTicketView
-        callBackRenderedIndex={onRenderedIndexSelect}
-        ticketIdForDetail={ticketIdForDetail}
+            callBackRenderedIndex={onRenderedIndexSelect}
+            ticketIdForDetail={ticketIdForDetail}
         />
     ]
 

@@ -16,7 +16,7 @@ const TrainerTicketDetailView = ({
         consultantService
             .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
             .then((res) => {
-                // console.log("success Consulting Ticket Detail test", res.data);
+                console.log("success Consulting Ticket Detail test", res.data);
                 setTicketDetail(res.data);
             })
             .catch((e) => console.log("fail Consulting Ticket Detail test", e));
@@ -77,12 +77,16 @@ const TrainerTicketDetailView = ({
                             <TableCell>{addonService.formatDate(ticketDetail.appointmentDate)}</TableCell>
                             <TableCell>{ticketDetail.actualSlotStart}</TableCell>
                             <TableCell>{ticketDetail.price}</TableCell>
-                            <TableCell><Button onClick={() => UpdateTicket(ticketDetail.id, ggMeetLink)}>Update</Button></TableCell>
+                            <TableCell>
+                                {ticketDetail.onlineOrOffline === true ? (
+                                    <Button onClick={() => UpdateTicket(ticketDetail.id, ggMeetLink)}>Update</Button>
+                                ) : null}
+                            </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Button onClick={() => handleBackClick()}>Finish Appointment</Button>
+            <Button onClick={() => handleBackClick(2)}>Finish Appointment</Button>
         </>
     );
 };
