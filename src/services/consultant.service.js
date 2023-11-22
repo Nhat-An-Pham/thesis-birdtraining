@@ -158,5 +158,11 @@ class ConsultantService {
             });
         return response;
     }
+
+    async getFinishedConsultingTicket() {
+        const response = await axios
+            .get(API_URL_AllROLE + "getFinishedConsultingTicket");
+        return response;
+    }
 }
 export default new ConsultantService();

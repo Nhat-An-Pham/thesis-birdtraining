@@ -16,7 +16,7 @@ const TrainerTicketDetailView = ({
         consultantService
             .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
             .then((res) => {
-                console.log("success Consulting Ticket Detail test", res.data);
+                // console.log("success Consulting Ticket Detail test", res.data);
                 setTicketDetail(res.data);
             })
             .catch((e) => console.log("fail Consulting Ticket Detail test", e));
