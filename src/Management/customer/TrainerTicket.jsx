@@ -9,6 +9,7 @@ import TrainerTicketListView from "./TrainerTicketListView";
 import { ochreTheme } from "../themes/Theme";
 import TrainerFinishTicketView from "./TrainerFinishTicketView";
 import FinishedTicketView from "./FinishedTicketView";
+import { useEffect } from "react";
 
 export default function TrainerTicketComponent() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned, 2: Finish Ticket, 3: Finished View
@@ -18,6 +19,11 @@ export default function TrainerTicketComponent() {
     const accessToken = JSON.parse(localStorage.getItem('user-token'));
     const userRole = jwtDecode(accessToken).role;
 
+    useEffect(() => {
+        if (userRole === "Staff" || userRole === "Manager") {
+            navigate("/management/customerreq");
+        }
+    }, []);
     const handleTicketIdForDetail = (ticketId) => {
         setTicketIdForDetail(ticketId);
     }
