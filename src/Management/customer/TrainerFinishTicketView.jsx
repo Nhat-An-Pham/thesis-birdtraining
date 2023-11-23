@@ -5,12 +5,8 @@ import {
   MenuItem,
   Paper,
   Select,
-  Table,
-  TableBody,
-  TableCell,
+  Stack,
   TableContainer,
-  TableHead,
-  TableRow,
   ThemeProvider,
   Typography,
 } from "@mui/material";
@@ -60,6 +56,7 @@ const TrainerFinishTicketView = ({
   }, []);
 
   const FinishTicket = (id, actualEndSlot, evidence) => {
+    console.log("Evidence: " + evidence);
     consultantService
       .finishAppointment({
         id: id,
@@ -92,7 +89,8 @@ const TrainerFinishTicketView = ({
     callBackRenderedIndex(renderedIndex);
   };
 
-  const handleFinishClick = (renderedIndex) => {
+  const handleFinishClick = (renderedIndex, id, actualEndSlot, evidence) => {
+    FinishTicket(id, actualEndSlot, evidence);
     callBackRenderedIndex(renderedIndex);
   };
 
@@ -114,63 +112,53 @@ const TrainerFinishTicketView = ({
         </Button>
         <h2>Finish Appointment</h2>
         <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              {ticketDetail && (
-                <TableRow>
-                  <TableCell>Id</TableCell>
-                  <TableCell>End Slot</TableCell>
-                  <TableCell>Evidence</TableCell>
-                </TableRow>
-              )}
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell><Typography>ID: {ticketDetail.id}</Typography></TableCell>
-                <TableCell>
-                  <FormControl>
-                    <Select
-                      onChange={(e) => setSelectedSlotTime(e.target.value)}
-                      value={selectedSLotTime}
+          <Stack
+            direction="row"
+            justifyContent="space-around"
+            alignItems="flex-start"
+            spacing={1}
+          >
+            <Typography>ID: {ticketDetail.id}</Typography>
+            <FormControl>
+              End SLot:
+              <Select
+                onChange={(e) => setSelectedSlotTime(e.target.value)}
+                value={selectedSLotTime}
+              >
+                {slotTime.map((slot) => (
+                  <MenuItem value={slot.id}>
+                    {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Typography>
+              {ticketDetail.onlineOrOffline === true ? (
+                <input
+                  type="text"
+                  onChange={(e) => setOnlineEvidence(e.target.value)}
+                />
+              ) : ticketDetail.onlineOrOffline === false ? (
+                <FormControl required style={{ marginBottom: 15 }}>
+                  <Button variant="contained" color="ochre">
+                    <UploadComponent
+                      onChange={handleFileChange}
+                      accept="image/*"
+                      multiple={false}
                     >
-                      {slotTime.map((slot) => (
-                        <MenuItem value={slot.id}>
-                          {slot.startTime.slice(0, -3)}-
-                          {slot.endTime.slice(0, -3)}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </TableCell>
-                {ticketDetail.onlineOrOffline === true ? (
-                  <input
-                    type="text"
-                    onChange={(e) => setOnlineEvidence(e.target.value)}
-                  />
-                ) : ticketDetail.onlineOrOffline === false ? (
-                  <TableCell>
-                    <FormControl required style={{ marginBottom: 15 }}>
-                      <Button variant="contained" color="ochre">
-                        <UploadComponent
-                          onChange={handleFileChange}
-                          accept="image/*"
-                          multiple={false}
-                        >
-                          Upload evidence
-                        </UploadComponent>
-                      </Button>
-                      {/* Display submitted files here */}
-                      <div>
-                        {submittedEvidence.map((imageName, index) => (
-                          <div key={index}>{imageName}</div>
-                        ))}
-                      </div>
-                    </FormControl>
-                  </TableCell>
-                ) : null}
-              </TableRow>
-            </TableBody>
-          </Table>
+                      Upload evidence
+                    </UploadComponent>
+                  </Button>
+                  {/* Display submitted files here */}
+                  <div>
+                    {submittedEvidence.map((imageName, index) => (
+                      <div key={index}>{imageName}</div>
+                    ))}
+                  </div>
+                </FormControl>
+              ) : null}
+            </Typography>
+          </Stack>
         </TableContainer>
         {ticketDetail.onlineOrOffline === true ? (
           <Button
@@ -186,7 +174,13 @@ const TrainerFinishTicketView = ({
             Finish
           </Button>
         ) : ticketDetail.onlineOrOffline === false ? (
-          <Button onClick={() => handleFinishClick(1)}>Finish</Button>
+          <Button
+            onClick={() =>
+              handleFinishClick(1, ticketDetail.id, selectedSLotTime, evidence)
+            }
+          >
+            Finish
+          </Button>
         ) : null}
       </ThemeProvider>
     </>
