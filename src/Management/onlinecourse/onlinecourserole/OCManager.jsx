@@ -15,7 +15,7 @@ const OCManager = () => {
     }
 
     let renderedComponents = [
-        <ViewCourses setSelectedCourseCallBack={SelectedCourseIndex} />,
+        <ViewCourses setSelectedCourseCallBack={SelectedCourseIndex} renderIndex={renderIndex} />,
         <AddNewCourse />,
         <CourseDetail selectedCourse={selectedCourse} />
     ]

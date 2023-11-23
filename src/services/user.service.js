@@ -5,8 +5,76 @@ const API_PROFILE = URL + "/api/"
 
 class UserService {
 
-    //management
+    //Management
+    //CREATE User
+    async postCreateUser({ name, email, phoneNumber, password }) {
 
+        const response = await axios
+            .post(API_PROFILE + "auth/register", {
+                name, email, password, phoneNumber
+            })
+        return response
+    }
+    //Get  Roles
+    async getRoles() {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .get(API_UM_URL + "roles",
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+        return response;
+    }
+    async getCustomerStatuses() {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .get(API_UM_URL + "customer-statuses",
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+        return response;
+    }
+    async getTrainerStatuses() {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .get(API_UM_URL + "trainer-statuses",
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+        return response;
+    }
+
+    //UPDATE ROLE AND STATUS
+    async putChangeRole({ id, role }) {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .put(API_UM_URL + "update-role", { id, role }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+        return response;
+    }
+
+    async putChangeStatus({ id, status }) {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .put(API_UM_URL + "update-status", { id, status }, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+        return response;
+    }
+
+
+    // ------------------------
     // get all users
     async getUserList() {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
