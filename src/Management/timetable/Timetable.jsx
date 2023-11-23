@@ -7,6 +7,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import consultantService from "../../services/consultant.service";
+import Timetable_TicketDetailView from "./Timetable_TicketDetailView";
 
 function TimeTable() {
     const localizer = momentLocalizer(moment);
@@ -110,6 +111,10 @@ function TimeTable() {
                             startAccessor="start"
                             endAccessor="end"
                             style={{ height: 500 }}
+                        />
+                        <Timetable_TicketDetailView
+                        callBackRenderedIndex={0}
+                        ticketIdForDetail={15}
                         />
                     </div>
                 </div>
