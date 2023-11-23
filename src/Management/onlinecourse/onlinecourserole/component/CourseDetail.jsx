@@ -76,10 +76,10 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
     }
 
     const handleOpenDiv = (e) => {
-        setOpenDiv(e)
+        setOpenDiv(e);
     }
     const handleCloseDiv = () => {
-        setOpenDiv(0)
+        setOpenDiv(0);
     }
 
     const switchcourseStatus = (course) => {
@@ -102,7 +102,7 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
             {/* Course Detail */}
             {selectedSection && openDiv === 1 ?
                 <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} sectionId={selectedSection.id} courseId={selectedCourse.id} />
-                :
+      :
                 null
             }
             {!selectedSection && openDiv === 1 ?
@@ -121,6 +121,10 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                 :
                 null
             }
+                : 
+                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} courseId={selectedCourse.id} />
+                }
+
             <h1> COURSE DETAIL: {selectedCourse.title}</h1>
             <Grid item xs={12}>
                 <TableContainer component={Paper}>

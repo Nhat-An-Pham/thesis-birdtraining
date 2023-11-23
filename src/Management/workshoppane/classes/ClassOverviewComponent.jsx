@@ -75,7 +75,7 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
               // }}
               className={classItem.id === selectedClass ? "Mui-selected" : ""}
             >
-              <TableCell align="center">{workshop.title} </TableCell>
+              {/* <TableCell align="center">{workshop.title} </TableCell> */}
               <TableCell align="center">
                 {addonService.formatDate(classItem.startTime)}
               </TableCell>
@@ -126,7 +126,7 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell align="center">Workshop</TableCell>
+                  {/* <TableCell align="center">Workshop</TableCell> */}
                   <TableCell align="center">Open Registration</TableCell>
                   <TableCell align="center">Closed Registration</TableCell>
                   <TableCell align="center">Registration</TableCell>

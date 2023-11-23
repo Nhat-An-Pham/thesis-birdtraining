@@ -15,29 +15,51 @@ import {
   Drawer,
   Typography,
   Box,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { Img } from "react-image";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 import WorkshopManagementService from "../../../../services/workshop-management.service";
+import { AddBoxOutlined, InfoOutlined } from "@mui/icons-material";
 // import { toast } from 'react-toastify';
 
 const WorkshopPane = ({
-  callbackSelectWorkshop,
   statusFilter = "Active",
-  onRowClick,
+  onDetailRequest,
+  onClassesRequest,
+  onCreateClassRequest,
 }) => {
   // let BASE_URL = 'https://localhost:7176/api';
   const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+  const [contextMenus, setContextMenus] = useState([]);
+  const handleContextMenuForRow = (event, index) => {
+    event.preventDefault();
+    const newContextMenus = [...contextMenus];
+    newContextMenus[index] = {
+      mouseX: event.clientX - 2,
+      mouseY: event.clientY - 4,
+    };
+    setContextMenus(newContextMenus);
+  };
 
-  const handleWorkshopClick = (workshop) => {
-    // console.log(workshop);
-    // setSelectedWorkshop(workshop);
-    setSelectedWorkshop(workshop);
-    callbackSelectWorkshop(workshop);
-    onRowClick();
+  const handleCloseForRow = (index) => {
+    const newContextMenus = [...contextMenus];
+    newContextMenus[index] = null;
+    setContextMenus(newContextMenus);
   };
   const [workshops, setWorkshops] = useState([]);
-
+  const detailClick = (workshop) => {
+    onDetailRequest(workshop);
+  };
+  const classClick = (workshop) => {
+    onClassesRequest(workshop);
+  };
+  const createClassClick = (workshop) => {
+    onCreateClassRequest(workshop);
+  };
   useEffect(() => {
     // Fetch workshops and classes based on the status filter
     async function fetchData(statusFilter) {
@@ -54,6 +76,14 @@ const WorkshopPane = ({
     fetchData(statusFilter);
     // console.log(workshops);
   }, [statusFilter]);
+  useEffect(() => {
+    if (workshops) {
+      setContextMenus(new Array(workshops.length).fill(null));
+    }
+
+    return () => {};
+  }, [workshops]);
+
   return (
     <div>
       <Grid container spacing={2}>
@@ -83,16 +113,16 @@ const WorkshopPane = ({
               </TableHead>
               <TableBody>
                 {workshops && workshops.length > 0 ? (
-                  workshops.map((workshop) => (
+                  workshops.map((workshop, index) => (
                     <TableRow
                       hover
                       // selected
                       key={workshop.id}
-                      onClick={() => handleWorkshopClick(workshop)}
-                      // style={{
-                      //     // cursor: 'pointer',
-                      //     background: selectedWorkshop === workshop.id ? '#f0f0f0' : 'white',
-                      // }}
+                      // onClick={() => handleWorkshopClick(workshop)}
+                      onContextMenu={(event) =>
+                        handleContextMenuForRow(event, index)
+                      }
+                      style={{ cursor: "context-menu" }}
                       className={
                         workshop.id === selectedWorkshop ? "Mui-selected" : ""
                       }
@@ -114,7 +144,9 @@ const WorkshopPane = ({
                           px: 3,
                         }}
                       >
-                        <Typography><RawHTMLRenderer htmlContent={workshop.description}/></Typography>
+                        <Typography>
+                          <RawHTMLRenderer htmlContent={workshop.description} />
+                        </Typography>
                       </TableCell>
                       <TableCell style={{ width: 0.125 }} align="center">
                         {workshop.registerEnd}
@@ -132,6 +164,54 @@ const WorkshopPane = ({
                           sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                         />
                       </TableCell>
+                      <Menu
+                        open={contextMenus[index] !== null}
+                        onClose={() => handleCloseForRow(index)}
+                        anchorReference="anchorPosition"
+                        anchorPosition={
+                          contextMenus[index] !== null
+                            ? {
+                                top: contextMenus[index]?.mouseY,
+                                left: contextMenus[index]?.mouseX,
+                              }
+                            : undefined
+                        }
+                      >
+                        <MenuItem>Workshop: {workshop.title}</MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            detailClick(workshop);
+                            // handleCloseForRow(index);
+                          }}
+                        >
+                          <ListItemIcon>
+                            <InfoOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary={"Workshop detail"} />
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            classClick(workshop);
+                            // handleCloseForRow(index);
+                          }}
+                        >
+                          <ListItemIcon>
+                            <InfoOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary={"Classes"} />
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            createClassClick(workshop);
+                            // handleCloseForRow(index);
+                          }}
+                        >
+                          <ListItemIcon>
+                            <AddBoxOutlined />
+                          </ListItemIcon>
+                          <ListItemText primary={"New class"} />
+                        </MenuItem>
+                      </Menu>
                     </TableRow>
                   ))
                 ) : (

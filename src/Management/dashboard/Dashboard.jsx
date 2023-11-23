@@ -7,6 +7,8 @@ import BirdSkillManagementComponent from "./bird-skills/BirdSkillManagementCompo
 import { WidthFullOutlined } from "@mui/icons-material";
 import { ToastContainer } from "react-toastify";
 import TrainerSkillManagementComponent from "./trainer-skills/TrainerSkillManagementComponent";
+
+import TrainerManagementComponent from "./trainers/TrainerManagementComponent";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
@@ -32,6 +34,7 @@ const Dashboard = () => {
     { label: "Bird Species", component: <BirdSpeciesManagementComponent /> },
     { label: "Bird Skill", component: <BirdSkillManagementComponent /> },
     { label: "Trainer Skill", component: <TrainerSkillManagementComponent /> },
+    { label: "Trainer", component: <TrainerManagementComponent /> },
   ];
   return (
     <>

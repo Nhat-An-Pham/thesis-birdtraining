@@ -56,6 +56,7 @@ export default function BirdSpeciesAddComponent({ open, handleClose }) {
               <TextField
                 label="Description"
                 multiline={true}
+                inputProps={{ maxLength: 200 }}
                 maxRows={3}
                 fullWidth
                 disabled={false}

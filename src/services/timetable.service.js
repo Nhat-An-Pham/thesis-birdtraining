@@ -36,6 +36,28 @@ class TimetableService {
             throw error;
           }
       }
+      async getTrainerTimetable(trainerId, from, to, params = null){
+        try {
+          let data = {
+            "trainerId": trainerId,
+            "from": from,
+            "to": to
+          }
+          const response = await axios.post(`${BASE_URL}/api/timetable/trainer`, data, {
+            headers: {
+              'Authorization' : `Bearer ${ACCESS_TOKEN}`,
+            },
+            params: params,              
+          });
+          // Handle the response and update the state
+          // toast('Fetching workshops');
+          return response;
+        } catch (error) {
+          console.error("Error fetching trainers:", error);
+          // You might want to throw an error here or handle it as needed.
+          throw error;
+        }
+      }     
 }
 
 export default new TimetableService();
