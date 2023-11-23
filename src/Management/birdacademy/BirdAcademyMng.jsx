@@ -3,6 +3,7 @@ import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainingSkillComponent from './TrainingSkillComponent';
 import ReworkSidebar from '../component/sidebar/ReworkSidebar';
+import CustomerBirdComponent from './CustomerBirdComponent';
 
 const BirdAcademyMng = () => {
 
@@ -19,9 +20,14 @@ const BirdAcademyMng = () => {
         setSelectedUser(userId);
         setKeyParam(null);
     };
+    
+    const [showBirdList, setShowBirdList] = useState(false);
+    const handleShowBirdList = () => {
+        setShowBirdList(true);
+      };
 
     const users = [
-        { id: 1, name: "Pham Nhat An", address: "17 Pasteur", phoneNumber: "0904560264"},
+        { id: 8, name: "Pham Nhat An", address: "17 Pasteur", phoneNumber: "0904560264"},
         { id: 2, name: "Hoang Dinh Thong", address: "17 Pasteur", phoneNumber: "0904560264"},
         { id: 3, name: "Nguyen Thanh Trung", address: "17 Pasteur", phoneNumber: "0904560264"},
         
@@ -62,6 +68,7 @@ const BirdAcademyMng = () => {
                                     <TableCell>Customer Name</TableCell>
                                     <TableCell>Address</TableCell>
                                     <TableCell>Phone Number</TableCell>
+                                    <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -79,6 +86,11 @@ const BirdAcademyMng = () => {
                                     ))
                                 ) : null}
                             </TableBody>
+                            <Table>
+                                    {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
+
+                                    {selectedUser != null && <CustomerBirdComponent customerId={selectedUser}/>}
+                            </Table>
                         </Table>
                     </TableContainer>
                 </div>}
