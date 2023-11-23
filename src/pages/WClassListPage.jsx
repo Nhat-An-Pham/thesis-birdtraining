@@ -68,7 +68,7 @@ const WClassListPage = () => {
 
   //Set Enroll
   const navigate = useNavigate();
-  const handleEnroll = (event) =>{
+  const handleEnroll = (event) => {
     console.log(event);
     navigate(`/payment/workshop/${event}`)
   }
@@ -102,10 +102,12 @@ const WClassListPage = () => {
                   </div>
                 ))}
               </div>
-              
+
               <div className='wclpdiv_section wclpdiv_section-button'>
                 <button className='wclpdiv_section_button-close' onClick={handleCloseDiv}>Close</button>
-                <button className='wclpdiv_section_button-enroll' onClick={() => handleEnroll(selectedClass.id)}>ENROLL NOW</button>
+                {selectedClass.status && selectedClass.status === "Unpaid" ?
+                  <button className='wclpdiv_section_button-enroll' onClick={() => handleEnroll(selectedClass.id)}>ENROLL NOW</button>
+                  : <p style={{color: "red"}}>You Have Enrolled This Class</p>}
               </div>
             </div>
           </div>

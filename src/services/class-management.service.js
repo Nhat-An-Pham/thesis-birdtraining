@@ -13,6 +13,7 @@ class ClassManagementService {
       const response = await axios.get(`${BASE_URL}/api/workshop/get-classes`, {
         headers: {
           Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type":'application/json'
         },
         params: params,
       });

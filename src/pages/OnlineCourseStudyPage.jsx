@@ -28,8 +28,8 @@ const OnlineCourseStudyPage = () => {
   const handleLessonClick = (lessonId) => {
     if (lessonId) {
       const foundItem = selectedSection.lessons.find(item => item.id === lessonId);
-      console.log('Lesson: ', foundItem);
-      console.log('Lesson Status: ', foundItem.status);
+      // console.log('Lesson: ', foundItem);
+      // console.log('Lesson Status: ', foundItem.status);
       setSelectedLesson(foundItem);
       setLessonStatus(foundItem.status);
     }
@@ -37,6 +37,7 @@ const OnlineCourseStudyPage = () => {
 
   const FinishLesson = () => {
     setCheckLesson(selectedLesson.id);
+    setSelectedLesson(selectedLesson.id +1);
   }
 
 

@@ -2,13 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import OnlinecourseService from '../services/onlinecourse.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { jwtDecode } from 'jwt-decode';
 
 function CourseDetailPage() {
 
   const { courseid } = useParams();
   const [selectedCourse, setSelectedCourse] = useState();
   const navigate = useNavigate();
+
+  
   const accessToken = JSON.parse(localStorage.getItem('user-token'))
+  const userRole = jwtDecode(accessToken).role
+
+  if (userRole === "Customer" || userRole === null) {
+  } else{
+    navigate('/courses')
+  }
 
   //API Handler
   useEffect(() => {
@@ -44,12 +53,12 @@ function CourseDetailPage() {
     if (selectedCourse && accessToken) {
       const oclassid = selectedCourse.id;
       navigate(`/payment/online/${oclassid}`);
-    } else{
+    } else {
       navigate("/login")
     }
   }
 
-  const handleStudyButton = () =>{
+  const handleStudyButton = () => {
     navigate(`/onlinecourse/study/${courseid}`)
   }
 
@@ -63,8 +72,8 @@ function CourseDetailPage() {
             <div className='cdtp_sidebar'>
               <h3 className='cdtp_sidebar-title'>{selectedCourse.title} </h3>
               <p className='cdtp_sidebar-price'>{selectedCourse.price}$</p>
-              {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button> 
-              : null}
+              {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button>
+                : null}
               {selectedCourse.status === "Enrolled" ? <button onClick={handleStudyButton}>Study</button> : null}
               <div className='cdtp_sidebar-skill'>
                 <div className='cdtp_sidebar-skill-skillbox'>
@@ -104,7 +113,7 @@ function CourseDetailPage() {
                     <FontAwesomeIcon icon="fa-solid fa-check" style={{ color: "#2fda3a", }} />
                     <p> Use the numpy library to create and manipulate arrays.</p>
                   </div>
-                </section>  
+                </section>
               </div>
             </div>
 
