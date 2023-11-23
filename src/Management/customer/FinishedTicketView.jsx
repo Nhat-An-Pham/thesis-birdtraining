@@ -19,8 +19,12 @@ const FinishedTicketView = ({
             .catch((e) => console.log("fail Finished Consulting Ticket list test", e));
     }, []);
 
+    const handleListAssignCLick = (renderedIndex) => {
+        callBackRenderedIndex(renderedIndex)
+    }
     return (
         <>
+        <Button onClick={() => handleListAssignCLick(1)}>Return to list Assigned</Button>
             <h2>List Finished Ticket</h2>
             {<TableContainer component={Paper}>
                 <Table>
