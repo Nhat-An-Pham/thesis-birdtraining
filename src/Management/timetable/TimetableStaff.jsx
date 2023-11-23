@@ -7,9 +7,9 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
 import consultantService from "../../services/consultant.service";
-import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
 import dashboardService from "../../services/dashboard.service";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import timetableService from "../../services/timetable.service";
 import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 
@@ -22,20 +22,19 @@ function TimetableStaff() {
   const [lastDay, setLastDay] = useState("");
   const [occupied, setOccupied] = useState([]);
   const [selected, setSelected] = useState(null);
-const [renderedIndex, setRenderedIndex] = useState(0);
-
+  const [renderedIndex, setRenderedIndex] = useState(0);
 
   const handleSelected = (event) => {
     setSelected(event);
     console.info("[handleSelected - event]", event);
 
-    if(event.typeId === 3) {
-        setRenderedIndex(1);
+    if (event.typeId === 3) {
+      setRenderedIndex(1);
     }
   };
   const onCallbackToCalendar = () => {
     setRenderedIndex(0);
-  }
+  };
   async function fetchTrainers() {
     try {
       let response = await dashboardService.GetListTrainers(null);
@@ -170,12 +169,21 @@ const [renderedIndex, setRenderedIndex] = useState(0);
     );
   };
 
-  const renderComponents = [<CalendarRender/>, <TrainerSlotDetailComponent entityId={selected?.id} callbackToCalendar={onCallbackToCalendar}/>];
+  const renderComponents = [
+    <CalendarRender />,
+    <TrainerSlotDetailComponent
+      entityId={selected?.id}
+      callbackToCalendar={onCallbackToCalendar}
+    />,
+  ];
   return (
     <>
       <div className="workshop-container">
         <ReworkSidebar />
-        {renderComponents[renderedIndex]}
+        <ToastContainer />
+        <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+          {renderComponents[renderedIndex]}
+        </Box>
       </div>
     </>
   );
