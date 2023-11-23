@@ -12,8 +12,12 @@ import dashboardService from "../../services/dashboard.service";
 import { ToastContainer, toast } from "react-toastify";
 import timetableService from "../../services/timetable.service";
 import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
+import { jwtDecode } from "jwt-decode";
 
 function TimetableStaff() {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const localizer = momentLocalizer(moment);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [trainers, setTrainers] = useState([]);
@@ -37,22 +41,33 @@ function TimetableStaff() {
   };
   async function fetchTrainers() {
     try {
-      let response = await dashboardService.GetListTrainers(null);
-      let result = response.data.sort((a, b) => {
-        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
-        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
-        if (nameA < nameB) {
-          return -1;
+      let params = null;
+      if (userRole === "Trainer") {
+        let trainerId = jwtDecode(
+          JSON.parse(localStorage.getItem("user-token"))
+        ).id;
+        let trainer = {
+          id: trainerId,
         }
-        if (nameA > nameB) {
-          return 1;
-        }
+        setSelectedTrainer(trainer);
+      } else {
+        let response = await dashboardService.GetListTrainers(params);
+        let result = response.data.sort((a, b) => {
+          const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+          const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
 
-        // names must be equal
-        return 0;
-      });
-      setTrainers(result);
-      setSelectedTrainer(result[0]);
+          // names must be equal
+          return 0;
+        });
+        setTrainers(result);
+        setSelectedTrainer(result[0]);
+      }
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -117,20 +132,24 @@ function TimetableStaff() {
           <Typography variant="h6">TRAINER SCHEDULE</Typography>
         </Grid>
         <Grid item>
-          <Autocomplete
-            value={selectedTrainer}
-            onChange={(event, newValue) => {
-              setSelectedTrainer(newValue);
-            }}
-            inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-            }}
-            options={trainers}
-            getOptionLabel={(trainer) => trainer.email}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Trainer" />}
-          />
+          {userRole !== "Trainer" ? (
+            <Autocomplete
+              value={selectedTrainer}
+              onChange={(event, newValue) => {
+                setSelectedTrainer(newValue);
+              }}
+              inputValue={inputValue}
+              onInputChange={(event, newInputValue) => {
+                setInputValue(newInputValue);
+              }}
+              options={trainers}
+              getOptionLabel={(trainer) => trainer.email}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Trainer" />
+              )}
+            />
+          ) : null}
         </Grid>
         <Grid item>
           {selectedTrainer && (
