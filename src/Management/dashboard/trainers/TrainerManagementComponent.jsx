@@ -7,6 +7,7 @@ import {
   Grid,
   Input,
   InputAdornment,
+  Link,
   OutlinedInput,
   Table,
   TableBody,
@@ -32,14 +33,8 @@ import TrainerDetailComponent from "./TrainerDetailComponent";
 const TrainerManagementComponent = ({}) => {
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
-  const [open, setOpen] = useState(false);
-  const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedId, setSelectedId] = useState(1);
   const [renderIndex, setRenderIndex] = useState(0);
-
-  const handleOpenModal = () => {
-    setOpen(true);
-  };
   useEffect(() => {
     fetchTrainers();
     return () => {};
@@ -47,7 +42,7 @@ const TrainerManagementComponent = ({}) => {
   async function fetchTrainers() {
     try {
       let params = {
-        $filter: `contains(tolower(name), tolower('${search}'))`, // Replace 'speciesName' with the actual property you are searching
+        $filter: `contains(tolower(name), tolower('${search}')) or contains(tolower(email), tolower('${search}'))`, // Replace 'speciesName' with the actual property you are searching
       };
       let response = await dashboardService.GetListTrainers(params);
       console.log(response);
@@ -91,17 +86,10 @@ const TrainerManagementComponent = ({}) => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={handleOpenModal}
-                >
-                  Add
-                </Button>
                 <FormControl sx={{ marginLeft: "10px" }}>
                   <OutlinedInput
                     fullWidth
-                    placeholder="Search by name"
+                    placeholder="Search by name or email"
                     startAdornment={
                       <InputAdornment position="start">
                         <Search />
@@ -119,9 +107,11 @@ const TrainerManagementComponent = ({}) => {
                         <TableHead>
                           <TableRow>
                             <TableCell>No</TableCell>
-                            <TableCell>Picture</TableCell>
+                            <TableCell>Avatar</TableCell>
                             <TableCell>Name</TableCell>
-                            <TableCell>Description</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Phone Number</TableCell>
+                            <TableCell>Field</TableCell>
                             <TableCell>Detail</TableCell>
                           </TableRow>
                         </TableHead>
@@ -130,16 +120,27 @@ const TrainerManagementComponent = ({}) => {
                             <TableRow hover key={row.id}>
                               <TableCell>{index + 1}</TableCell>
                               <TableCell className="image-cell" sx={{minWidth: '200px'}}>
-                                <Img
-                                  src={row.picture}
+                                {!row.avatar || row.avatar === ''? <><Typography>None</Typography></> : <Img
+                                style={{minHeight: '180px', maxWidth: '180px'}}
+                                  src={row.avatar}
                                   unloader={<CircularProgress />}
-                                />
+                                />}
+                                
                               </TableCell>
                               <TableCell>
                                 <Typography>{row.name}</Typography>
                               </TableCell>
                               <TableCell>
-                                <Typography>{row.description}</Typography>
+                                <Link class="mailto" href={`mailto:${row.email}`}>
+                                <Typography >{row.email}</Typography>
+                                </Link>
+                                
+                              </TableCell>
+                              <TableCell>
+                                <Typography>+84 {row.phoneNumber}</Typography>
+                              </TableCell>
+                              <TableCell>
+                                <Typography>{row.category}</Typography>
                               </TableCell>
                               <TableCell>
                                 <Button
@@ -147,7 +148,7 @@ const TrainerManagementComponent = ({}) => {
                                   variant="contained"
                                   onClick={() => handleDetailClick(row.id)}
                                 >
-                                  Detail
+                                  Skills
                                 </Button>
                               </TableCell>
                             </TableRow>

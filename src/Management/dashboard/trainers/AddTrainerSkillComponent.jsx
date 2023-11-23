@@ -26,46 +26,61 @@ export default function AddSkillToTrainerComponent({
   const [skillId, setSkillId] = useState("");
   const [skills, setSkills] = useState([]);
   const [existingSkills, setExistingSkills] = useState([]);
-  async function fetchTrainableSkills() {
-    try {
-      let params = {
-        $filter: `id eq ${trainer.id}`
-      };
-      let res = await dashboardService.GetListTrainableSkills(
-        params
-      );
-      setExistingSkills(res.data);
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+  async function fetchExistingSkills() {
+      try {
+        let params = {
+          trainerId: trainer.id,
+        };
+  
+        let res = await dashboardService.GetListTrainerSkillsByTrainer(params);
+        console.log(res);
+        setExistingSkills(res.data);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
   }
 
   async function fetchTrainerSkills() {
     try {
       let params = {
-        // $filter: `birdSkillId ne ${birdSkill.id}`
+        // $filter: `trainerId ne ${trainer.id}`
       };
-      let res = await dashboardService.GetLisTrainerSkills(
+      let res = await dashboardService.GetListTrainerSkills(
         params
       );
-      let result = res.data.filter(
+      let result = res.data
+      .filter(
         (skill) =>
           !existingSkills.some(
             (existingSkill) => existingSkill.skillId === skill.id
           )
       );
+      
+      result = result.sort((a, b) => {
+        const nameA = a.name.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.name.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
       setSkills(result);
     } catch (error) {
       toast.error(error.response.data.message);
     }
   }
-  async function addTrainableSkill() {
+  async function addTrainerSkill() {
     try {
       let model = {
         skillId: skillId,
         trainerId: trainer.id,
       };
-      let res = await dashboardService.AddTrainableSkillToBirdSkill(model);
+      let res = await dashboardService.AddTrainerSkillToTrainer(model);
       if (res.status === 200) {
         handleClose();
       } else {
@@ -77,15 +92,14 @@ export default function AddSkillToTrainerComponent({
   }
 
   const handleCreateClick = async () => {
-    await addTrainableSkill();
+    await addTrainerSkill();
   };
   useEffect(() => {
-    fetchTrainableSkills();
+    fetchExistingSkills();
     return () => {};
   }, [open]);
   useEffect(() => {
-    fetchTrainerSkills();
-  
+    fetchTrainerSkills();  
     return () => {
       
     }
@@ -98,7 +112,7 @@ export default function AddSkillToTrainerComponent({
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add trainer skill to this bird skill: {trainer.name}</DialogTitle>
+        <DialogTitle>Add trainer skill to: {trainer.name}</DialogTitle>
         <DialogContent>
           <FormControl required sx={{ m: 1, minWidth: 200 }}>
             <>

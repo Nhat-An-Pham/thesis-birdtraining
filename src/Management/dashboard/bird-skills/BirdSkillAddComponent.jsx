@@ -70,6 +70,7 @@ export default function BirdSkillAddComponent({ open, handleClose }) {
               <TextField
                 label="Description"
                 multiline={true}
+                inputProps={{ maxLength: 200 }}
                 maxRows={3}
                 fullWidth
                 disabled={false}
@@ -84,7 +85,7 @@ export default function BirdSkillAddComponent({ open, handleClose }) {
               </Typography>
               <Button variant="contained" color="ochre">
                 <UploadComponent onChange={handleFileChange} accept="image/*" multiple={false}>
-                  Upload image(s)
+                  Upload image
                 </UploadComponent>
               </Button>
               {/* Display submitted files here */}

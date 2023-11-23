@@ -23,6 +23,7 @@ export default function AddTrainableSkillToBirdSkillComponent({
   handleClose,
   birdSkill,
 }) {
+  
   const [skillId, setSkillId] = useState("");
   const [skills, setSkills] = useState([]);
   const [existingSkills, setExistingSkills] = useState([]);
@@ -45,9 +46,9 @@ export default function AddTrainableSkillToBirdSkillComponent({
       let params = {
         // $filter: `birdSkillId ne ${birdSkill.id}`
       };
-      let res = await dashboardService.GetLisTrainerSkills(
+      let res = await dashboardService.GetListTrainerSkills(
         params
-      );
+      );      
       let result = res.data.filter(
         (skill) =>
           !existingSkills.some(
