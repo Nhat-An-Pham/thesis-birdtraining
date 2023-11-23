@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./birdacademymng.scss"
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainingSkillComponent from './TrainingSkillComponent';
@@ -25,35 +25,42 @@ const BirdAcademyMng = () => {
     const handleShowBirdList = () => {
         setShowBirdList(true);
       };
-
-    const users = [
-        { id: 8, name: "Pham Nhat An", address: "17 Pasteur", phoneNumber: "0904560264"},
-        { id: 2, name: "Hoang Dinh Thong", address: "17 Pasteur", phoneNumber: "0904560264"},
-        { id: 3, name: "Nguyen Thanh Trung", address: "17 Pasteur", phoneNumber: "0904560264"},
-        
-    ];
-
-    const birds = [
-        { id: 1, name: "Class 1", trainer: "Trainer A", currentClass: "Talking", classTaken: "Talking", userId: 1 },
-        { id: 2, name: "Class 2", trainer: "Trainer B", currentClass: "Talking",classTaken: "Talking", userId: 1 },
-        { id: 3, name: "Class 3", trainer: "Trainer C", currentClass: "Talking",classTaken: "Talking", userId: 2 },
-        { id: 4, name: "Class 4", trainer: "Trainer D", currentClass: "Talking",classTaken: "Talking", userId: 2 },
-    ];
-
-    const birdTrainingCourse = [
-        { id: 1, trainingCourseId: "1", birdName: "Bird 1", customerName: "Pham Nhat An", trainingCourseTitle: "Flying lv1", userId: 1, registeredDate:"registeredDate",status:"registered" },
-        { id: 2, trainingCourseId: "2", birdName: "Bird B", customerName: "Pham Nhat An",trainingCourseTitle: "Flying lv2 ", userId: 1, registeredDate:"registeredDate",status:"confirmed" },
-        { id: 3, trainingCourseId: "1", birdName: "Bird C", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking English", userId: 2, registeredDate:"registeredDate",status:"training" },
-        { id: 4, trainingCourseId: "4", birdName: "Bird D", customerName: "Hoang Dinh Thong",trainingCourseTitle: "Talking", userId: 2, registeredDate:"registeredDate",status:"checkin" },
-        { id: 5, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking Vietnamese", userId: 3, registeredDate:"registeredDate",status:"registered" },
-        { id: 6, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Flying circle", userId: 3, registeredDate:"registeredDate",status:"confirmed" },
-        { id: 7, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Fly-Racing", userId: 3, registeredDate:"registeredDate",status:"checkin" },
-        { id: 8, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Fly-Performing", userId: 3, registeredDate:"registeredDate",status:"checkout" },
-        { id: 9, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Talking Chinese", userId: 3, registeredDate:"registeredDate",status:"training" },
-        { id: 10, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Good behavior", userId: 3, registeredDate:"registeredDate",status:"trainingdone" },
-        { id: 11, trainingCourseId: "1", birdName: "Bird E", customerName: "Nguyen Thanh Trung",trainingCourseTitle: "Singing", userId: 3, registeredDate:"registeredDate",status:"complete" },
-    ];
+    const [users, setUsers] = useState([]);
+    useEffect(() => {
+        // Simulate fetching bird information based on customerId
+        // Replace this with your actual API call or data fetching logic
+        const fetchData = async () => {
+          try {
+            // Replace this URL with your actual API endpoint
+            const response = await fetch(`https://localhost:7176/api/trainingcourse/all-requested-users`);
+            const data = await response.json();
+            setUsers(data); // Assuming data is an array of bird information
+          } catch (error) {
+            console.error('Error fetching bird data:', error);
+          }
+        };
     
+        fetchData();
+      }, []);
+    
+    const [birdTrainingCourse, setBirdTrainingCourse] = useState([]);
+    useEffect(() => {
+        // Simulate fetching bird information based on customerId
+        // Replace this with your actual API call or data fetching logic
+        const fetchData = async () => {
+          try {
+            // Replace this URL with your actual API endpoint
+            const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`);
+            const data = await response.json();
+            console.log(data);
+            setBirdTrainingCourse(data); // Assuming data is an array of bird information
+          } catch (error) {
+            console.error('Error fetching bird data:', error);
+          }
+        };
+    
+        fetchData();
+      }, []);
 
     return (
         <div className='workshop-container'>
@@ -66,8 +73,9 @@ const BirdAcademyMng = () => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Customer Name</TableCell>
-                                    <TableCell>Address</TableCell>
+                                    <TableCell>Email</TableCell>
                                     <TableCell>Phone Number</TableCell>
+                                    <TableCell>Avatar</TableCell>
                                     <TableCell></TableCell>
                                 </TableRow>
                             </TableHead>
@@ -80,8 +88,13 @@ const BirdAcademyMng = () => {
                                             style={{ cursor: "pointer", background: selectedUser === user.id ? "#f0f0f0" : "white" }}
                                         >
                                             <TableCell>{user.name}</TableCell>
-                                            <TableCell>{user.address}</TableCell>
+                                            <TableCell>{user.email}</TableCell>
                                             <TableCell>{user.phoneNumber}</TableCell>
+                                            <TableCell>
+                                                <a href={user.avatar} target="_blank" rel="noopener noreferrer">
+                                                    <img src={user.avatar} alt="Description of the image" style={{ width: '200px', height: '150px' }}/>
+                                                </a>
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : null}
@@ -112,7 +125,7 @@ const BirdAcademyMng = () => {
                             <TableBody>
                                 {selectedUser !== null && birdTrainingCourse && birdTrainingCourse.length > 0
                                     ? birdTrainingCourse
-                                        .filter((cls) => cls.userId === selectedUser)
+                                        .filter((cls) => cls.customerId === selectedUser)
                                         .map((cls) => (
                                             <><TableRow key={cls.id}>
                                                 <TableCell>{cls.birdName}</TableCell>
@@ -120,7 +133,7 @@ const BirdAcademyMng = () => {
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
                                                 <TableCell>{cls.registeredDate}</TableCell>
                                                 <TableCell>{cls.status}</TableCell>
-                                                {cls.status === "registered" &&
+                                                {cls.status === "Registered" &&
                                                     <TableCell>
                                                         <button style={{marginRight:'18px'}} onClick={() => {
                                                             handleButtonClick(cls.id);
@@ -130,14 +143,15 @@ const BirdAcademyMng = () => {
                                                         </button>
                                                         <button>Cancel</button>
                                                     </TableCell>}
-                                                {cls.status === "confirmed" && (
+                                                {cls.status === "Confirmed" && (
                                                     <TableCell><button>Check In</button></TableCell>
                                                 )}
-                                                {cls.status === "checkin" && <TableCell><button>Check Out</button></TableCell>}
-                                                {cls.status === "training" && <TableCell><button>Check Out</button></TableCell>}
-                                                {cls.status === "trainingdone" && <TableCell><button>Check Out</button></TableCell>}
-                                                {cls.status === "checkout" && <TableCell><button>Payment</button></TableCell>}
-                                                {cls.status === "complete" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "CheckIn" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "Training" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "TrainingDone" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "Checkout" && <TableCell><button>Payment</button></TableCell>}
+                                                {cls.status === "Complete" && <TableCell><button>Check Out</button></TableCell>}
+                                                {cls.status === "Cancel" && <TableCell></TableCell>}
                                                 {/* <TableCell><button>Cancel</button></TableCell> */}
                                             </TableRow>
                                                     
