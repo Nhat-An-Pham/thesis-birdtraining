@@ -35,10 +35,12 @@ const Timetable_TicketDetailView = ({
 
   const handleBackToTimeTableClick = (renderedIndex) => {
     callBackRenderedIndex(renderedIndex);
-  }
+  };
   return (
     <ThemeProvider theme={ochreTheme}>
-      <Button onClick={() => handleBackToTimeTableClick(0)}>Back to Timetable</Button>
+      <Button onClick={() => handleBackToTimeTableClick(0)}>
+        Back to Timetable
+      </Button>
       <Typography variant="h3">Ticket Detail</Typography>
       <Stack
         direction="row"
@@ -47,15 +49,28 @@ const Timetable_TicketDetailView = ({
         spacing={1}
       >
         {ticketDetail && (
-            <><Typography>ID: {ticketDetail.id}</Typography>
+          <>
+            <Typography>ID: {ticketDetail.id}</Typography>
             <Typography>Customer Name: {ticketDetail.customerName}</Typography>
-            <Typography>Consulting Type: {ticketDetail.consultingType}</Typography>
+            {ticketDetail.onlineOrOffline ? (
+              <></>
+            ) : (
+              <Typography>Address: {ticketDetail.addressDetail}</Typography>
+            )}
+            <Typography>
+              Consulting Type: {ticketDetail.consultingType}
+            </Typography>
             <Typography>
               Consulting Detail: {ticketDetail.consultingDetail}
             </Typography>
-            <Typography>Distance: {ticketDetail.distance}km</Typography>
+            {ticketDetail.onlineOrOffline ? (
+              <></>
+            ) : (
+              <Typography>Distance: {ticketDetail.distance}km</Typography>
+            )}
             <Typography>
-              Online/Offline: {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
+              Online/Offline:{" "}
+              {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
             </Typography>
             {ticketDetail.onlineOrOffline ? (
               <Typography>
@@ -74,7 +89,6 @@ const Timetable_TicketDetailView = ({
             </Typography>
             <Typography>Slot Start: {ticketDetail.actualSlotStart}</Typography>
             <Typography>Price: {ticketDetail.price}VND</Typography>
-            <Typography>Status: {ticketDetail.status}</Typography>
             {ticketDetail.onlineOrOffline ? (
               <Button
                 onClick={() =>
@@ -83,7 +97,8 @@ const Timetable_TicketDetailView = ({
               >
                 Update New GoolgeMeet Link
               </Button>
-            ) : null}</>
+            ) : null}
+          </>
         )}
       </Stack>
     </ThemeProvider>

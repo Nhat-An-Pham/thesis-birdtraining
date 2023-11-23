@@ -112,10 +112,6 @@ function TimeTable() {
                             endAccessor="end"
                             style={{ height: 500 }}
                         />
-                        <Timetable_TicketDetailView
-                        callBackRenderedIndex={0}
-                        ticketIdForDetail={15}
-                        />
                     </div>
                 </div>
             </div>
