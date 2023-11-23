@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 
-const ViewCourses = ({ setSelectedCourseCallBack }) => {
+const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
 
     const [onlineCourses, setOnlineCourses] = useState([]);
     const [selectedcourse, setSelectedCourse] = useState();
@@ -39,12 +39,13 @@ const ViewCourses = ({ setSelectedCourseCallBack }) => {
             .catch((e) => {
                 console.log("Can't Get Online Courses", e);
             })
-    }, [])
+    }, [renderIndex])
+
 
 
     return (
         <>
-            <h1> ALL COURSES</h1>
+            <h1 style={{ borderBottom: "0.5px grey solid" }}> Courses</h1>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <TableContainer component={Paper}>
@@ -82,14 +83,7 @@ const ViewCourses = ({ setSelectedCourseCallBack }) => {
                                             <TableCell style={{ width: 0.125 }}>
                                                 {course.title}
                                             </TableCell>
-                                            <TableCell
-                                                style={{
-                                                    width: 0.25,
-                                                    flexGrow: 1,
-                                                    overflow: "hidden",
-                                                    px: 3,
-                                                }}
-                                            >
+                                            <TableCell  >
                                                 <Typography><RawHTMLRenderer htmlContent={course.shortDescription} /></Typography>
                                             </TableCell>
                                             <TableCell style={{ width: 0.125 }} align="center">
