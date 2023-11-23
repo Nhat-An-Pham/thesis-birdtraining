@@ -18,6 +18,7 @@ import {
 import { toast } from "react-toastify";
 
 const AttendancePaletteComponent = ({ slotId }) => {
+  // const userRole = jwtDecode(JSON.parse(localStorage.getItem('user-token'))).role;
   const [attendanceForm, setAttendanceForm] = useState([]);
   const [models, setModels] = useState([]);
   async function fetchList() {
