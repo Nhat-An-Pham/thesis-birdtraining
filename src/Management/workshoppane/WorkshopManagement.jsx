@@ -4,7 +4,6 @@ import CreateWorkshopComponent from "./workshop/create-workshop/CreateWorkshop";
 import { useState } from "react";
 import { ochreTheme } from "../themes/Theme";
 import WorkshopDetailOverviewComponent from "./detail-overview/detail/WorkshopDetailOverview";
-import WorkshopPaneDrawerItems from "./WorkshopPaneDrawerItems";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
@@ -15,32 +14,26 @@ export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState("Active"); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
-  const [drawerState, setDrawerState] = useState(false);
   const [open, setOpen] = useState(false);
 
   const handleFilterClick = () => {
     // Toggle between 'Active' and 'Deactive' status filter
     setStatusFilter(statusFilter === "Active" ? "Inactive" : "Active");
   };
-  const handleSelectWorkshop = (workshop) => {
+  const onDetailView = (workshop) => {
     setSelectedWorkshop(workshop);
-    // setRenderedIndex(2);
-  };
-  const onDetailView = () => {
     setRenderedIndex(2);
   };
-  const onClassView = () => {
+  const onClassView = (workshop) => {
+    setSelectedWorkshop(workshop);
     setRenderedIndex(3);
   };
-  const toggleDrawer = (isOpen) => {
-    return () => setDrawerState(isOpen);
-  };
-
   const handleCreateWorkshop = (workshop) => {
     setSelectedWorkshop(workshop);
     setRenderedIndex(2);
   };
-  const handleOpenModal = () => {
+  const handleOpenModal = (workshop) => {
+    setSelectedWorkshop(workshop);
     setOpen(true);
   };
 
@@ -55,8 +48,9 @@ export default function WorkshopManagementComponent() {
   let renderedComponents = [
     <WorkshopPane
       statusFilter={statusFilter}
-      callbackSelectWorkshop={handleSelectWorkshop}
-      onRowClick={toggleDrawer(true)}
+      onDetailRequest={onDetailView}
+      onClassesRequest={onClassView}
+      onCreateClassRequest={handleOpenModal}
     />,
     <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
     <WorkshopDetailOverviewComponent workshop={selectedWorkshop} />,
@@ -68,14 +62,6 @@ export default function WorkshopManagementComponent() {
   return (
     <div className="workshop-container">
       <ToastContainer />
-      <Drawer anchor={"right"} open={drawerState} onClose={toggleDrawer(false)}>
-        <WorkshopPaneDrawerItems
-          toggleEvent={toggleDrawer(true)}
-          onDetailRequest={onDetailView}
-          onClassesRequest={onClassView}
-          onCreateClassRequest={handleOpenModal}
-        />
-      </Drawer>
 
       <ThemeProvider theme={ochreTheme}>
         <ReworkSidebar selectTab={3} />

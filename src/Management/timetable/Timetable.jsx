@@ -56,7 +56,7 @@ function TimeTable() {
             <div className="timetable-container">
                 <ReworkSidebar />
                 <div className="timetable-wrapper">
-                    <div className="timetable_section timetable_section-center">
+                    {/* <div className="timetable_section timetable_section-center">
                         <h2>CENTER SCHEDULE</h2>
                         <Calendar
                             localizer={localizer}
@@ -68,12 +68,12 @@ function TimeTable() {
                         <div className="timetable_section_center-button">
                             <button>Add New Event</button>
                         </div>
-                    </div>
+                    </div> */}
                     <div className="timetable_section timetable_section-employee">
-                        <h2>EMPLOYEE SCHEDULE</h2>
-                        <div>
+                        <h2>TRAINER SCHEDULE</h2>
+                        {/* <div>
                             <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} />
-                        </div>
+                        </div> */}
                         <div className="timetable_section_employee-select">
                             <select onChange={(e) => handleEmployeeChange(e.target.value)}>
                                 <option value="">Employee</option>
