@@ -24,7 +24,6 @@ import { Img } from 'react-image';
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 import { AddCircleOutlineOutlined } from "@mui/icons-material";
 import onlinecourseManagement from '../../../../services/onlinecourse-management';
-import { FormControl, Input, InputLabel, Stack } from "@mui/material";
 import Editor from "../../../component/text-editor/Editor";
 import AddNewComponent from './AddNewComponent';
 import UpdateComponent from './UpdateComponent';
@@ -102,7 +101,7 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
             {/* Course Detail */}
             {selectedSection && openDiv === 1 ?
                 <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} sectionId={selectedSection.id} courseId={selectedCourse.id} />
-      :
+                :
                 null
             }
             {!selectedSection && openDiv === 1 ?
@@ -121,9 +120,6 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                 :
                 null
             }
-                : 
-                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} courseId={selectedCourse.id} />
-                }
 
             <h1> COURSE DETAIL: {selectedCourse.title}</h1>
             <Grid item xs={12}>
@@ -275,7 +271,7 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                                             <>
                                                 <TableRow>
                                                     <TableCell >
-                                                        {lesson.title}
+                                                        <p style={{ width: "100%", fontWeight: "bold" }}>{lesson.title}</p>
                                                     </TableCell>
                                                     <TableCell width="700px">
                                                         <Typography style={{ fontSize: "12px" }}><RawHTMLRenderer htmlContent={lesson.description} /></Typography>
@@ -293,6 +289,8 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                                                                 onClick={() => { handleUpdateLessonClick(lesson) }}>
                                                                 Update
                                                             </Button>
+                                                        </TableCell>
+                                                        <TableCell>
                                                             <Button
                                                                 color="ochre"
                                                                 variant="contained"
