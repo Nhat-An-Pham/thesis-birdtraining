@@ -22,8 +22,6 @@ export default function CustomerReqComponent() {
 
     if (userRole === "Trainer") {
         navigate("/management/trainerticket");
-    } else if (userRole === "Staff" || userRole === "Manager") {
-        navigate("/management/customerreq");
     }
 
     const handleTicketIdForDetail = (ticketId) => {
