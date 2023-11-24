@@ -93,7 +93,7 @@ const BirdSpeciesManagementComponent = ({}) => {
       <ThemeProvider theme={ochreTheme}>
         <BirdSpeciesAddComponent open={open} handleClose={handleCloseModal} />
         <BirdSpeciesUpdateComponent open={openUpdate} handleClose={handleCloseUpdateModal} birdSpeciesId={selectedId}/>
-        <Container sx={{ margin: "10px" }}>
+        <Container sx={{ padding: 2 }}>
           {renderIndex === 0 ? (
             <Grid container spacing={2}>
               <Grid

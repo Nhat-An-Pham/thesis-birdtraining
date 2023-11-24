@@ -75,7 +75,7 @@ const TrainerManagementComponent = ({}) => {
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
-        <Container sx={{ margin: "10px" }}>
+        <Container sx={{ padding: 2 }}>
           {renderIndex === 0 ? (
             <Grid container spacing={2}>
               <Grid

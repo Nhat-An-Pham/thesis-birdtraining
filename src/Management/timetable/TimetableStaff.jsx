@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./timetable.scss";
 import "../workshoppane/workshoppane.scss";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
@@ -22,12 +22,11 @@ function TimetableStaff() {
   const [selectedTrainer, setSelectedTrainer] = useState(null);
   const [trainers, setTrainers] = useState([]);
   const [inputValue, setInputValue] = React.useState("");
-  const [firstDay, setFirstDay] = useState("");
-  const [lastDay, setLastDay] = useState("");
+  // const [firstDay, setFirstDay] = useState("");
+  // const [lastDay, setLastDay] = useState("");
   const [occupied, setOccupied] = useState([]);
   const [selected, setSelected] = useState(null);
   const [renderedIndex, setRenderedIndex] = useState(0);
-
   const handleSelected = (event) => {
     setSelected(event);
     console.info("[handleSelected - event]", event);
@@ -48,7 +47,7 @@ function TimetableStaff() {
         ).id;
         let trainer = {
           id: trainerId,
-        }
+        };
         setSelectedTrainer(trainer);
       } else {
         let response = await dashboardService.GetListTrainers(params);
@@ -72,22 +71,29 @@ function TimetableStaff() {
       toast.error(error?.response?.data?.message);
     }
   }
-  const handleRangeChange = (range) => {
-    let start = new Date(range[0]);
-    let end = new Date(range[range.length - 1]);
-    setFirstDay(moment(start).format("YYYY-MM-DD"));
-    setLastDay(moment(end).format("YYYY-MM-DD"));
-  };
-  async function fetchTrainerTimetable() {
+  const handleRangeChange = useCallback(async (range) => {
+    // console.log(range);
+    // // let start = new Date(range[0]);
+    // // let end = new Date(range[range.length - 1]);
+    // // console.log('start: ', start, '\nend: ', end);
+    // // let from = moment(start).format("YYYY-MM-DD");
+    // // let to = moment(end).format("YYYY-MM-DD");
+    // await fetchTrainerTimetable(from, to);
+  }, []);
+  async function fetchTrainerTimetable(from, to) {
     try {
+      console.log("from: ", from);
+      console.log("to: ", to);
       let response = await timetableService.getTrainerTimetable(
         selectedTrainer.id,
-        firstDay,
-        lastDay,
+        from,
+        to,
         null
       );
+      // setOccupied(response.data);
       setOccupied(response.data);
       console.log(response.data);
+      console.log("re-fetch event");
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -99,25 +105,35 @@ function TimetableStaff() {
   };
   useEffect(() => {
     fetchTrainers();
+
+    return () => {};
+  }, []);
+  useEffect(() => {
     const currentDate = moment();
 
     // Get the current day of the week (0 is Sunday, 1 is Monday, ..., 6 is Saturday)
     const currentDayOfWeek = currentDate.day();
     // Calculate the difference between the current day and the first day of the week (Sunday)
-    const difference = currentDayOfWeek - 0; // Assuming Sunday is the first day of the week
+    let difference = currentDayOfWeek - 0; // Assuming Sunday is the first day of the week
     // Calculate the first day of the week
+    difference = 200;    
     const firstDayOfWeek = currentDate.subtract(difference, "day");
-    setFirstDay(firstDayOfWeek.format("YYYY-MM-DD"));
+    let from = firstDayOfWeek.format("YYYY-MM-DD");
     // Calculate the last day of the week
-    const lastDayOfWeek = firstDayOfWeek.add(6, "day");
+    const lastDayOfWeek = firstDayOfWeek.add(difference + 6, "day");
     // Format dates as YYYY-MM-DD
-    setLastDay(lastDayOfWeek.format("YYYY-MM-DD"));
+    let to = lastDayOfWeek.format("YYYY-MM-DD");
+
+    // const currentDate = moment();
+
+    // // Calculate from 300 days before the current date
+    // const from = currentDate.clone().subtract(3, "days").format("YYYY-MM-DD");
+
+    // // Calculate to 300 days after the current date
+    // const to = currentDate.clone().add(3, "days").format("YYYY-MM-DD");    
+    fetchTrainerTimetable(from, to);
     return () => {};
-  }, []);
-  useEffect(() => {
-    fetchTrainerTimetable();
-    return () => {};
-  }, [selectedTrainer, firstDay, lastDay]);
+  }, [selectedTrainer]);
 
   const CalendarRender = () => {
     return (
@@ -158,10 +174,10 @@ function TimetableStaff() {
               events={occupied}
               defaultView="week"
               views={{
-                //   agenda: false,
-                //   day: false,
+                agenda: true,
+                day: true,
                 week: true,
-                //   month: false,
+                month: true,
                 // work_week: true,
               }}
               startAccessor={(event) => {
