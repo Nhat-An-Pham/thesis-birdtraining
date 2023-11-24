@@ -67,9 +67,9 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
           className="form"
           encType="multipart/form-data"
         >
-          <Typography variant="h6" gutterBottom>
+          {/* <Typography variant="h6" gutterBottom>
             Receive bird form
-          </Typography>
+          </Typography> */}
           <FormControl fullWidth required style={{ marginBottom: 10 }}>
             <Typography variant="h6" gutterBottom>
               Receive Note
