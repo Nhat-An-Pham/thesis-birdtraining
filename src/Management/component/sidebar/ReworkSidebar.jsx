@@ -23,37 +23,53 @@ import { Avatar, Grid, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import { groundTheme } from "../../themes/Theme";
+import { jwtDecode } from "jwt-decode";
 
 
-
+const userRole = jwtDecode(JSON.parse(localStorage.getItem("user-token"))).role;
 const drawerWidth = 250;
 const elements = [
-  { route: "/management", icon: <SpaceDashboardOutlined />, name: "Dashboard" },
+  {
+    route: "/management",
+    icon: <SpaceDashboardOutlined />,
+    name: "Dashboard",
+    role: ["Trainer", "Staff", "Manager"]
+  },
   {
     route: "/management/customerreq",
     icon: <SupportAgentOutlined />,
     name: "Consultant",
+    role: ["Trainer", "Staff", "Manager"]
   },
   {
     route: "/management/onlinecourse",
     icon: <SupportAgentOutlined />,
     name: "Online Course",
+    role: ['Staff', 'Manager']
   },
   {
     route: "/management/timetable",
     icon: <DateRangeOutlined />,
     name: "Timetable",
+    role: ["Trainer", "Staff", "Manager"]
   },
-  { route: "/management/workshop", icon: <SchoolOutlined />, name: "Workshop" },
+  {
+    route: "/management/workshop",
+    icon: <SchoolOutlined />,
+    name: "Workshop",
+    role: ["Staff", "Manager"]
+  },
   {
     route: "/management/birdacademy",
     icon: <FeedOutlined />,
     name: "Academy",
+    role: ["Trainer", "Staff", "Manager"]
   },
   {
     route: "/management/userdata",
     icon: <PeopleAltOutlined />,
     name: "Admin",
+    role: ["Administrator"]
   },
 ];
 export default function ReworkSidebar({ selectTab }) {
@@ -84,7 +100,7 @@ export default function ReworkSidebar({ selectTab }) {
           variant="permanent"
           anchor="left"
         >
-          <Toolbar sx={{width:"100%"}}>
+          <Toolbar sx={{ width: "100%" }}>
             <Link
               to={"/home"}
               style={{
@@ -107,7 +123,7 @@ export default function ReworkSidebar({ selectTab }) {
                 variant="rounded"
               >
               </Avatar> */}
-              <h1 style={{width: "100%", fontWeight:"bold", fontSize:"30px", textAlign:"center"}}>Bird Training Center Management</h1>
+              <h1 style={{ width: "100%", fontWeight: "bold", fontSize: "30px", textAlign: "center" }}>Bird Training Center Management</h1>
               {/* <Typography sx={{ textDecoration: "none" }}>
                   Bird Training
                 </Typography> */}
@@ -115,36 +131,40 @@ export default function ReworkSidebar({ selectTab }) {
             </Link>
           </Toolbar>
 
-          <List style={{marginTop: "20px"}}>
+          <List style={{ marginTop: "20px" }}>
             <Divider />
             {elements.map((element, index) => (
               <>
-                <ListItem disablePadding style={{ borderBottom: "1px grey solid" }}>
-                  <ListItemButton
-                    selected={selectedIndex === index ? true : false}
-                    style={{ padding: "0px" }}>
-                    <Link
-                      to={element.route}
-                      style={{
-                        textDecoration: "none",
-                        color: groundTheme.palette.ground.Link,
-                        width: "100%",
-                        height: "100%",
-                        padding: "10px"
-                      }}
-                    >
-                      <Grid container
-                        direction="row"
-                        justifyContent="center"
-                        alignItems="center"
-                        spacing={0}>
-                        <ListItemIcon>{element.icon}</ListItemIcon>
-                        <ListItemText primary={element.name} />
-                      </Grid>
-                    </Link>
-                  </ListItemButton>
-                </ListItem>
-                <Divider />
+                {!element.role || element.role.includes(userRole) ?
+                  <>
+                    <ListItem disablePadding style={{ borderBottom: "1px grey solid" }}>
+                      <ListItemButton
+                        selected={selectedIndex === index ? true : false}
+                        style={{ padding: "0px" }}>
+                        <Link
+                          to={element.route}
+                          style={{
+                            textDecoration: "none",
+                            color: groundTheme.palette.ground.Link,
+                            width: "100%",
+                            height: "100%",
+                            padding: "10px"
+                          }}
+                        >
+                          <Grid container
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={0}>
+                            <ListItemIcon>{element.icon}</ListItemIcon>
+                            <ListItemText primary={element.name} />
+                          </Grid>
+                        </Link>
+                      </ListItemButton>
+                    </ListItem>
+                    <Divider />
+                  </>
+                  : null}
               </>
             ))}
           </List>

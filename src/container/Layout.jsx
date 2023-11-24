@@ -34,6 +34,7 @@ import OnlineCourseStudyPage from '../pages/OnlineCourseStudyPage';
 import { UserSettingPage } from '../pages/UserSettingPage';
   import OnlineCourseManagement from '../Management/onlinecourse/OnlineCourseManagement';
 import TrainerTicketComponent from '../Management/customer/TrainerTicket';
+import ReworkTimetableComponent from '../Management/timetable/ReworkTimetable';
 
 
 function Layout() {
@@ -77,7 +78,7 @@ function Layout() {
             <Route path="/management" exact element={<Dashboard />} />
             <Route path="/management/customerreq" exact element={<CustomerReqComponent />} />
             <Route path="/management/trainerticket" exact element={<TrainerTicketComponent />} />
-            <Route path="/management/timetable" exact element={<TimeTable />} />
+            <Route path="/management/timetable" exact element={<ReworkTimetableComponent />} />
             <Route path="/management/birdacademy" exact element={<BirdAcademyMng />} />
             <Route path="/management/workshop" element={<WorkshopManagementComponent />} />
             <Route path="/management/userdata" exact element={<UserData />} />

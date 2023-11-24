@@ -1,56 +1,44 @@
-.customerreq-container {
-    height: auto;
-    display: flex;
-    width: 100%;
-
-}
-
-.customerreq-wrapper {
-    margin-left: 200px;
-    width: 80%;
-}
-
-
-.customerreq_section {
-    &_notdone-button {
-        width: 100%;
+.csmanagement-ticketdetail {
+    &-container {
+        height: 600px;
+        margin-bottom: 10px;
         display: flex;
-        justify-content: end;
-        margin-top: 20px;
-        height: 50px;
-
-        & button {
-            cursor: pointer;
-            background-color: #C8AE7D;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.5s ease-in-out;
-            margin-right: 10px;
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
-    &_done-button {
-        width: 100%;
-        display: flex;
-        justify-content: end;
-        margin-top: 20px;
-        height: 50px;
-        
-        & button {
-            cursor: pointer;
-            background-color: #C8AE7D;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.5s ease-in-out;
-            margin-right: 10px;
-            &:hover {
-                transform: scale(1.05);
+
+    &-wrapper {
+        width: 40%;
+        margin-right: 30px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 2px groove #c8ae7d;
+        height: 250px;
+        box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+        -webkit-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+        -moz-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap: 0px 0px;
+
+
+
+        &-detail {
+            display: flex;
+            flex-direction: column;
+            min-height: 300px;
+            max-height: 400px;
+            margin-bottom: 0px;
+
+            p {
+                height: 100%;
+                width: 100%;
+                padding-left: 10px;
+                border-left: 0.3px grey solid;
+                overflow: scroll;
             }
         }
     }

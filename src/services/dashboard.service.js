@@ -12,7 +12,7 @@ class DashboardService {
         {
           params: params,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -56,7 +56,7 @@ class DashboardService {
         {
           params: params,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -107,7 +107,7 @@ class DashboardService {
         {
           params: data,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -170,7 +170,7 @@ class DashboardService {
         {
           params: params,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -187,7 +187,7 @@ class DashboardService {
         {
           params: params,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -196,7 +196,7 @@ class DashboardService {
       throw error;
     }
   }
-  
+
   async DeleteTrainerSkillFromBirdSkill(model) {
     try {
       console.log(model);
@@ -219,10 +219,11 @@ class DashboardService {
   async UpdateTrainerSkill(model) {
     try {
       let response = await axios.put(
-        `${BASE_URL}/api/trainingcourse-manager/skill-update`, model, 
+        `${BASE_URL}/api/trainingcourse-manager/skill-update`,
+        model,
         {
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
@@ -249,14 +250,65 @@ class DashboardService {
   async GetListTrainers(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/trainer`,
+        `${BASE_URL}/api/user-management/trainers`,
         {
           params: params,
           headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,            
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
       );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  //GetListTrainerSkillsByTrainer
+  async GetListTrainerSkillsByTrainer(params) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/trainerskill-trainerid`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async AddTrainerSkillToTrainer(model) {
+    try {
+      let response = await axios.post(
+        `${BASE_URL}/api/trainingcourse-manager/trainerskill-create`,
+        model,
+        {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  //DeleteTrainerSkillFromTrainer
+  async DeleteTrainerSkillFromTrainer(model) {
+    try {
+      console.log(model);
+      let response = await axios.delete(
+        `${BASE_URL}/api/training-skill/management/trainer-skill`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+          data: model,
+        }
+      );
+
       return response;
     } catch (error) {
       throw error;

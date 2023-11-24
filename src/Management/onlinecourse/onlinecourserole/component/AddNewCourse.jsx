@@ -12,6 +12,7 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse }) => {
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState(0)
     const [shortDescr, setShortDescr] = useState("")
+    const [tempDescr, setTempDescr] = useState('');
     const [picture, setPicture] = useState()
     const [submittedImages, setSubmittedImages] = useState();
 
@@ -19,11 +20,11 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse }) => {
 
     //handler
     const handleEditorChange = (value) => {
-        setShortDescr(value);
+        setTempDescr(value);
     };
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
-        setPicture(files);
+        setPicture(files[0]);
 
         // Create an array of image names from the selected files
         const imageNames = files.map((file) => file.name);
@@ -35,16 +36,17 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse }) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("Title", title);
-        formData.append("ShortDescription", shortDescr);
+        formData.append("ShortDescription", tempDescr);
         formData.append("Price", price)
         formData.append(`Picture`, picture)
 
         OnlinecourseManagement.postAddCourse(formData)
             .then((res) => {
                 console.log("Submit Successfully", res.data)
+                toast.success("Submit Successfully")
             })
             .catch((e) => {
-                setErrMessage(e.response.data.message)
+                // setErrMessage(e.response)
                 toast.error("Fail to Submit")
             })
     }

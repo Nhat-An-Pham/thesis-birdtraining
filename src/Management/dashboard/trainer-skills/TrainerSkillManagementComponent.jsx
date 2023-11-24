@@ -84,7 +84,7 @@ const TrainerSkillManagementComponent = ({}) => {
       <ThemeProvider theme={ochreTheme}>
         <TrainerSkillAddComponent open={open} handleClose={handleCloseModal} />
         <TrainerSkillUpdateComponent open={openUpdate} handleClose={handleCloseUpdateModal} trainerSkillId={selectedId}/>
-        <Container sx={{ margin: "10px" }}>
+        <Container sx={{padding: 2}}>
         <Grid container spacing={2}>
               <Grid
                 container
@@ -101,7 +101,7 @@ const TrainerSkillManagementComponent = ({}) => {
                 >
                   Add
                 </Button>
-                <FormControl sx={{ marginLeft: "10px" }}>
+                <FormControl>
                   <OutlinedInput
                     fullWidth
                     placeholder="Search by name"

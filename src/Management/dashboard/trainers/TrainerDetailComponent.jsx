@@ -12,6 +12,7 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Link,
   ListItem,
   OutlinedInput,
   Paper,
@@ -25,20 +26,31 @@ import AddSkillToTrainerComponent from "./AddTrainerSkillComponent.jsx";
 
 export default function TrainerDetailComponent({ trainerId, onClose }) {
   const [trainer, setTrainer] = useState(null);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
   const [skills, setSkills] = useState([]);
   const [search, setSearch] = useState("");
   const [openAddSkill, setOpenAddSkill] = useState(false);
   async function fetchSkillsByTrainer() {
     try {
       let params = {
-        $filter: `contains(tolower(skillName), tolower('${search}')) and trainerId eq ${trainerId}`
+        trainerId: trainerId,
+        $filter: `contains(tolower(skillName), tolower('${search}'))`,
       };
 
-      let res = await dashboardService.GetListTrainableSkills(params);
-      console.log(res);
-      setSkills(res.data);
+      let res = await dashboardService.GetListTrainerSkillsByTrainer(params);
+      let sorted = res.data.sort((a, b) => {
+        const nameA = a.skillName.toUpperCase(); // ignore upper and lowercase
+        const nameB = b.skillName.toUpperCase(); // ignore upper and lowercase
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        // names must be equal
+        return 0;
+      });
+      setSkills(sorted);
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -46,12 +58,10 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
   async function fetchTrainer() {
     try {
       let params = {
-        $filter: `id eq ${trainerId}`
+        $filter: `id eq ${trainerId}`,
       };
       let response = await dashboardService.GetListTrainers(params);
-      console.log(response);
-      setName(response.data[0].name);
-      setDescription(response.data[0].description);
+      console.log("Trainer: ", response.data[0]);
       setTrainer(response.data[0]);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -62,13 +72,13 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
     try {
       let model = {
         skillId: skill.skillId,
-        birdSkillId: skill.birdSkillId,
+        trainerId: trainer.id,
       };
       await dashboardService.DeleteTrainerSkillFromTrainer(model);
       toast.success("Remove successfully!");
       fetchSkillsByTrainer();
     } catch (error) {
-      toast.error("This species skill is currently in customer operation!");
+      toast.error("Trainer has working experience in this skill!");
     }
   }
   async function onCloseAddSkillModal() {
@@ -111,26 +121,29 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
               >
-                Trainer Detail
+                <>{trainer.name} : </>
+                <Link class="mailto" href={`mailto:${trainer.email}`}>
+                  {trainer.email}
+                </Link>
               </Typography>
+
+              <div>
+                <Typography
+                  variant="h6"
+                  noWrap
+                  justifyContent={"flex-end"}
+                  sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+                >
+                  Contact: +84 {trainer.phoneNumber}
+                </Typography>
+              </div>
             </Toolbar>
           </AppBar>
           <Divider />
           <Grid container spacing={3} marginTop={1}>
             <Grid item xs={12}>
-              <Paper elevation={3}>
-                <TextField
-                  label="Short Detail"
-                  multiline={false}
-                  value={trainer.description}
-                  fullWidth
-                  disabled={true}
-                />
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
               <OutlinedInput
-                placeholder="Existing trainable skills"
+                placeholder="Existing trainer skills"
                 startAdornment={
                   <InputAdornment position="start">
                     <Search />
@@ -139,32 +152,26 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </Grid>
-            <Grid item>
-              {skills ? (
+            <Grid container item>
+              {skills?.map((skill) => (
                 <>
-                  <Stack direction="row" spacing={1}>
-                    {skills.map((skill) => (
-                      <>
-                        <Chip
-                          color="ochre"
-                          label={skill.skillName}
-                          variant="contained"
-                          onDelete={() => onClickDeleteChip(skill)}
-                        />
-                      </>
-                    ))}
-                    <Chip
-                      color="ochre"
-                      label={"Add more"}
-                      variant="contained"
-                      icon={<Add />}
-                      onClick={() => setOpenAddSkill(true)}
-                    />
-                  </Stack>
+                  <Chip
+                    color="ochre"
+                    label={skill.skillName}
+                    variant="contained"
+                    onDelete={() => onClickDeleteChip(skill)}
+                    sx={{ margin: 1 }}
+                  />
                 </>
-              ) : (
-                <></>
-              )}
+              ))}
+              <Chip
+                color="ochre"
+                label={"Add more"}
+                variant="contained"
+                icon={<Add />}
+                onClick={() => setOpenAddSkill(true)}
+                sx={{ margin: 1 }}
+              />
             </Grid>
           </Grid>
         </>

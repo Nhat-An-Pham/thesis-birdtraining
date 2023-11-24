@@ -110,3 +110,49 @@
         }
     }
 }
+
+.timetable-consulting-trainer {
+    &-container {
+        height: 600px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    &-wrapper {
+        width: 40%;
+        margin-right: 30px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 2px groove #c8ae7d;
+        height: 250px;
+        box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+        -webkit-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+        -moz-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
+
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+        gap: 0px 0px;
+
+
+
+        &-detail {
+            display: flex;
+            flex-direction: column;
+            min-height: 300px;
+            max-height: 400px;
+            margin-bottom: 0px;
+
+            p {
+                height: 100%;
+                width: 100%;
+                padding-left: 10px;
+                border-left: 0.3px grey solid;
+                overflow: scroll;
+            }
+        }
+    }
+}

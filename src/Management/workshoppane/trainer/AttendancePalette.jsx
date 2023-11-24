@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import trainerWorkshopService from "../../../services/trainer-workshop.service";
 import {
+  Box,
+  Button,
   Checkbox,
   CircularProgress,
   Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -12,10 +15,10 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const AttendancePaletteComponent = ({ slotId }) => {
+  // const userRole = jwtDecode(JSON.parse(localStorage.getItem('user-token'))).role;
   const [attendanceForm, setAttendanceForm] = useState([]);
   const [models, setModels] = useState([]);
   async function fetchList() {
@@ -23,11 +26,13 @@ const AttendancePaletteComponent = ({ slotId }) => {
       let res = await trainerWorkshopService.getListAttendees(slotId);
       console.log(res.data);
       setAttendanceForm(res.data);
-      setModels(res.data.map((attendee) => ({
-        email: attendee.email,
-        phoneNumber: attendee.phoneNumber,
-        isPresent: attendee.status === "Attended",
-      })));
+      setModels(
+        res.data.map((attendee) => ({
+          email: attendee.email,
+          phoneNumber: attendee.phoneNumber,
+          isPresent: attendee.status === "Attended",
+        }))
+      );
     } catch (error) {}
   }
   const handleCheckboxChange = (index) => {
@@ -43,12 +48,12 @@ const AttendancePaletteComponent = ({ slotId }) => {
     updatedModels[index].isPresent = !updatedModels[index].isPresent;
     setModels(updatedModels);
   };
-  const handleSubmit = async () => {    
+  const handleSubmit = async () => {
     try {
       // Make the PUT request to update attendance
       await trainerWorkshopService.updateAttendance(models, slotId);
       // Optional: Notify the user or perform any other actions upon successful update
-      toast.success('Submitted!');
+      toast.success("Submitted!");
     } catch (error) {
       console.error("Error updating attendance:", error);
       // Optional: Handle errors (show error message, log, etc.)
@@ -64,7 +69,14 @@ const AttendancePaletteComponent = ({ slotId }) => {
     <>
       {attendanceForm ? (
         <>
-          <form encType="multipart/form-data">
+          <Stack
+            direction="column"
+            justifyContent="center"
+            alignItems="flex-end"
+            margin={5}
+            spacing={2}
+            width={'100%'}
+          >
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }}>
                 <TableHead>
@@ -94,7 +106,11 @@ const AttendancePaletteComponent = ({ slotId }) => {
                             onChange={() => handleCheckboxChange(index)}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                           />
-                          <Typography>{attendee.status === 'Attended'?'Present':'Not Yet'}</Typography>
+                          <Typography>
+                            {attendee.status === "Attended"
+                              ? "Present"
+                              : "Not Yet"}
+                          </Typography>
                         </TableCell>
                       </TableRow>
                     ))
@@ -108,10 +124,15 @@ const AttendancePaletteComponent = ({ slotId }) => {
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button
+              color="ochre"
+              variant="contained"
+              onClick={handleSubmit}
+              sx={{ width: "200px" }}
+            >
               Submit Attendance
             </Button>
-          </form>
+          </Stack>
         </>
       ) : (
         <div style={{ display: "flex", justifyContent: "center" }}>

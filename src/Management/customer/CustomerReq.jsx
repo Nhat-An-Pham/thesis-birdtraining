@@ -1,4 +1,4 @@
-import { Button, ThemeProvider } from "react-bootstrap";
+import { Button, ThemeProvider } from "@mui/material";
 import { ochreTheme } from "../themes/Theme";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import AssignedTicketView from "./AssignedTicketView";
@@ -10,6 +10,7 @@ import './customerReq.scss';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Grid } from "@mui/material";
+import { useEffect } from "react";
 
 export default function CustomerReqComponent() {
     const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: Assigned, 2: NotAssigned, 3: Handled
@@ -20,11 +21,12 @@ export default function CustomerReqComponent() {
     const accessToken = JSON.parse(localStorage.getItem('user-token'));
     const userRole = jwtDecode(accessToken).role;
 
-    if (userRole === "Trainer") {
-        navigate("/management/trainerticket");
-    } else if (userRole === "Staff" || userRole === "Manager") {
-        navigate("/management/customerreq");
-    }
+    useEffect(() => {
+        if (userRole === "Trainer") {
+            navigate("/management/trainerticket");
+        }
+    }, []);
+    
 
     const handleTicketIdForDetail = (ticketId) => {
         setTicketIdForDetail(ticketId);
@@ -60,6 +62,7 @@ export default function CustomerReqComponent() {
             callBackRenderedIndex={onRenderedIndexSelect}
             callbackTicketIdForDetail={handleTicketIdForDetail}
             callBackHaveAssignedTrainer={handleHaveAssignedTrainer}
+            
         />
     ];
 
@@ -93,7 +96,7 @@ export default function CustomerReqComponent() {
                             </Grid>
                         </>
                     )}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{paddingTop:"20px"}}>
                         {renderedComponents[renderedIndex]}
                     </Grid>
                 </Grid>

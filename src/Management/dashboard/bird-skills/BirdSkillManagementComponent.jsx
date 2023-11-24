@@ -29,8 +29,10 @@ import { Search } from "@mui/icons-material";
 import BirdSkillDetailComponent from "./BirdSkillDetailComponent";
 import BirdSkillUpdateComponent from "./BirdSkillUpdateComponent";
 import { Img } from "react-image";
+import { jwtDecode } from "jwt-decode";
 
 const BirdSkillManagementComponent = ({}) => {
+  const userRole = jwtDecode(JSON.parse(localStorage.getItem('user-token')));
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -98,7 +100,7 @@ const BirdSkillManagementComponent = ({}) => {
           handleClose={handleCloseUpdateModal}
           birdSkillId={selectedId}
         />
-        <Container sx={{ margin: "10px" }}>
+        <Container sx={{ padding: 2 }}>
           {renderIndex === 0 ? (
             <Grid container spacing={2}>
               <Grid
