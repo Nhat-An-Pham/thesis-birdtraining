@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 
 function NavbarMain() {
 
-  const decodeToken = localStorage.getItem("user-token");
+  const decodeToken = JSON.parse(localStorage.getItem("user-token"));
   const [decodeItemName, setDecodeItemName] = useState();
   const [decodeItemRole, setDecodeItemRole] = useState();
   const navigate = useNavigate();

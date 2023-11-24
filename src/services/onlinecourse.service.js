@@ -66,6 +66,18 @@ class OnlineCourseService {
                 })
         return response;
     }
+    //CHECK SECTION
+    async putCheckSection({ sectionId }) {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .put(API_URL + "/check-section", { sectionId },
+                {
+                    headers: {
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                })
+        return response;
+    }
 
 }
 

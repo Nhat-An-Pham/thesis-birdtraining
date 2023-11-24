@@ -7,13 +7,13 @@ const PrivateRoutes = () => {
     const [userTokenRole, setUserTokenRole] = useState("");
     const navigate = useNavigate();
     useEffect(() => {
-        
+
         const token = JSON.parse(localStorage.getItem('user-token'));
         if (token) {
             const decodedToken = jwtDecode(token);
             const newRole = decodedToken.role;
-            if(!(newRole && (newRole === "Trainer" || newRole === "Staff" || newRole === "Manager" ||
-            newRole === "Administrator"))){
+            if (!(newRole && (newRole === "Trainer" || newRole === "Staff" || newRole === "Manager" ||
+                newRole === "Administrator"))) {
                 navigate("/home")
             }
             setUserTokenRole(newRole);
@@ -21,7 +21,7 @@ const PrivateRoutes = () => {
     }, []);
 
     return (
- userTokenRole && (userTokenRole === "Trainer" || userTokenRole === "Staff" || userTokenRole === "Manager" ||
+        userTokenRole && (userTokenRole === "Trainer" || userTokenRole === "Staff" || userTokenRole === "Manager" ||
             userTokenRole === "Administrator") ?
             <Outlet /> : null
     )

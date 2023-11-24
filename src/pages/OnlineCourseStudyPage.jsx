@@ -37,7 +37,15 @@ const OnlineCourseStudyPage = () => {
 
   const FinishLesson = () => {
     setCheckLesson(selectedLesson.id);
-    setSelectedLesson(selectedLesson.id +1);
+  }
+
+  const FinishSectionWithResourceFile = () => {
+    if (selectedSection.resourceFiles) {
+      OnlinecourseService.putCheckSection({ sectionId: selectedSection.id })
+        .then(() => {
+          console.log("Finish Section")
+        })
+    }
   }
 
 
@@ -116,14 +124,14 @@ const OnlineCourseStudyPage = () => {
                   to={selectedSection.resourceFiles} target="_blank" download>Download</Link>
               </>
               : null}
-            {selectedLesson ?
+            {selectedLesson && !selectedSection.resourceFiles ?
               <>
                 {selectedLesson.video ?
                   <ReactPlayer controls={true} url={selectedLesson.video} width="100%" height="600px" />
                   : null}
               </>
               : null}
-            {selectedLesson ?
+            {selectedLesson && !selectedSection.resourceFiles ?
               <div className='ocsp-content-description'>
                 {selectedLesson.description ?
                   <RawHTMLRenderer htmlContent={selectedLesson.description} />
@@ -131,12 +139,21 @@ const OnlineCourseStudyPage = () => {
               </div>
               : null}
             <div className='ocsp-content-button'>
-              {selectedLesson && lessonStatus === "Studying" ?
-                <button onClick={FinishLesson} style={{ backgroundColor: "#C8AE7D" }}>FINISH</button>
-                : null}
-              {selectedLesson && lessonStatus === "Completed" ?
-                <button>Completed</button>
-                : null}
+              {!selectedSection.resourceFiles ?
+                <>
+                  {selectedLesson && lessonStatus === "Studying" ?
+                    <button onClick={FinishLesson} style={{ backgroundColor: "#C8AE7D" }}>FINISH</button>
+                    : null}
+                  {selectedLesson && lessonStatus === "Completed" ?
+                    <button>Completed</button>
+                    : null}
+                </>
+                : <>
+                  {!selectedSection.status ?
+                    // <button onClick={FinishSectionWithResourceFile} style={{ backgroundColor: "#C8AE7D" }}>FINISH</button>
+                    <button style={{ backgroundColor: "#C8AE7D" }}>FINISH</button>
+                    : <button>Completed</button>}
+                </>}
             </div>
           </div>
         </>
