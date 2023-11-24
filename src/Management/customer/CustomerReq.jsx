@@ -1,4 +1,4 @@
-import { Button, ThemeProvider } from "react-bootstrap";
+import { Button, ThemeProvider } from "@mui/material";
 import { ochreTheme } from "../themes/Theme";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import AssignedTicketView from "./AssignedTicketView";
@@ -62,6 +62,7 @@ export default function CustomerReqComponent() {
             callBackRenderedIndex={onRenderedIndexSelect}
             callbackTicketIdForDetail={handleTicketIdForDetail}
             callBackHaveAssignedTrainer={handleHaveAssignedTrainer}
+            
         />
     ];
 
@@ -95,7 +96,7 @@ export default function CustomerReqComponent() {
                             </Grid>
                         </>
                     )}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} style={{paddingTop:"20px"}}>
                         {renderedComponents[renderedIndex]}
                     </Grid>
                 </Grid>
