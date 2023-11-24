@@ -25,8 +25,11 @@ import { useEffect } from "react";
 import { groundTheme } from "../../themes/Theme";
 import { jwtDecode } from "jwt-decode";
 
-
-const userRole = jwtDecode(JSON.parse(localStorage.getItem("user-token"))).role;
+let token = localStorage.getItem("user-token");
+let userRole = null;
+if(token){
+  userRole = jwtDecode(JSON.parse(token)).role;
+}
 const drawerWidth = 250;
 const elements = [
   {
@@ -135,7 +138,7 @@ export default function ReworkSidebar({ selectTab }) {
             <Divider />
             {elements.map((element, index) => (
               <>
-                {!element.role || element.role.includes(userRole) ?
+                {(!element.role && userRole) || element.role.includes(userRole) ?
                   <>
                     <ListItem disablePadding style={{ borderBottom: "1px grey solid" }}>
                       <ListItemButton

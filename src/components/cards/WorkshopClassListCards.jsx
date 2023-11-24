@@ -14,7 +14,7 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => 
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
-                        <RawHTMLRenderer htmlContent={shortdescr} />
+                        <RawHTMLRenderer htmlContent={shortdescr}/>
                         <p>
                             {price}$
                         </p>

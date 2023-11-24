@@ -21,9 +21,20 @@ class WorkshopService {
 
     //get classes by workshop Id
     async getClasses({ id }) {
-        const response = await axios
-            .get(API_URL + `/class?workshopId=${id}`);
-        return response;
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        if (accessToken) {
+            const response = await axios
+                .get(API_URL + `/class?workshopId=${id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+            return response;
+        } else {
+            const response = await axios
+                .get(API_URL + `/class?workshopId=${id}`);
+            return response
+        }
     }
 
     //get class by classID
@@ -57,7 +68,7 @@ class WorkshopService {
     async postPurchaseWsClass({ wclassId }) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .post(API_URL + `/purchase?workshopClassId=${wclassId}`,null, {
+            .post(API_URL + `/purchase?workshopClassId=${wclassId}`, null, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

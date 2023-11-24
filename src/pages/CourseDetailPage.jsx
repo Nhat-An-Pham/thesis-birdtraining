@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import OnlinecourseService from '../services/onlinecourse.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { jwtDecode } from 'jwt-decode';
+import RawHTMLRenderer from '../Management/component/htmlRender/htmlRender';
 
 function CourseDetailPage() {
 
@@ -10,12 +11,16 @@ function CourseDetailPage() {
   const [selectedCourse, setSelectedCourse] = useState();
   const navigate = useNavigate();
 
-  
+
   const accessToken = JSON.parse(localStorage.getItem('user-token'))
-  const userRole = jwtDecode(accessToken).role
+  let userRole = null;
+  if (accessToken) {
+    userRole = jwtDecode(accessToken).role;
+  }
+
 
   if (userRole === "Customer" || userRole === null) {
-  } else{
+  } else {
     navigate('/courses')
   }
 
@@ -71,7 +76,7 @@ function CourseDetailPage() {
           <div className='cdtp_wrapper'>
             <div className='cdtp_sidebar'>
               <h3 className='cdtp_sidebar-title'>{selectedCourse.title} </h3>
-              <p className='cdtp_sidebar-price'>{selectedCourse.price}$</p>
+              <p className='cdtp_sidebar-price'>Price: {selectedCourse.price}$</p>
               {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button>
                 : null}
               {selectedCourse.status === "Enrolled" ? <button onClick={handleStudyButton}>Study</button> : null}
@@ -95,7 +100,7 @@ function CourseDetailPage() {
               <div className='cdtp_content-descr'>
                 <section className='cdpt_content_descr-box'>
                   <h4>What You'll Learn</h4>
-                  <p>{selectedCourse.shortDescription}</p>
+                  <p><RawHTMLRenderer htmlContent={selectedCourse.shortDescription} /></p>
                 </section>
                 <section className='cdpt_content_descr-box'>
                   <h4>Some Images Of The Course</h4>
