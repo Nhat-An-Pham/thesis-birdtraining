@@ -5,7 +5,7 @@ import TrainingSkillComponent from './TrainingSkillComponent';
 import ReworkSidebar from '../component/sidebar/ReworkSidebar';
 import CustomerBirdComponent from './CustomerBirdComponent';
 
-const BirdAcademyMng = () => {
+export default function BirdAcademyMng () {
 
     const [renderCustomer, setRenderCustomer] = useState(true);
     const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
@@ -24,6 +24,8 @@ const BirdAcademyMng = () => {
     const [showBirdList, setShowBirdList] = useState(false);
     const handleShowBirdList = () => {
         setShowBirdList(true);
+        setRenderCustomer(false);
+        setRenderCustomerRequest(false);
       };
     const [users, setUsers] = useState([]);
     useEffect(() => {
@@ -52,7 +54,7 @@ const BirdAcademyMng = () => {
             // Replace this URL with your actual API endpoint
             const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`);
             const data = await response.json();
-            console.log(data);
+            //console.log(data);
             setBirdTrainingCourse(data); // Assuming data is an array of bird information
           } catch (error) {
             console.error('Error fetching bird data:', error);
@@ -84,10 +86,9 @@ const BirdAcademyMng = () => {
                                     users.map((user) => (
                                         <TableRow
                                             key={user.id}
-                                            onClick={() => handleUserClick(user.id)}
                                             style={{ cursor: "pointer", background: selectedUser === user.id ? "#f0f0f0" : "white" }}
                                         >
-                                            <TableCell>{user.name}</TableCell>
+                                            <TableCell onClick={() => handleUserClick(user.id)}>{user.name}</TableCell>
                                             <TableCell>{user.email}</TableCell>
                                             <TableCell>{user.phoneNumber}</TableCell>
                                             <TableCell>
@@ -95,15 +96,13 @@ const BirdAcademyMng = () => {
                                                     <img src={user.avatar} alt="Description of the image" style={{ width: '200px', height: '150px' }}/>
                                                 </a>
                                             </TableCell>
+                                            <TableCell>
+                                                {selectedUser != null && <button onClick={() => handleShowBirdList()}>Show Bird List</button>}
+                                            </TableCell>
                                         </TableRow>
                                     ))
                                 ) : null}
                             </TableBody>
-                            <Table>
-                                    {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
-
-                                    {selectedUser != null && <CustomerBirdComponent customerId={selectedUser}/>}
-                            </Table>
                         </Table>
                     </TableContainer>
                 </div>}
@@ -133,7 +132,7 @@ const BirdAcademyMng = () => {
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
                                                 <TableCell>{cls.registeredDate}</TableCell>
                                                 <TableCell>{cls.status}</TableCell>
-                                                {cls.status === "Registered" &&
+                                                {cls.status === "Registered" &&  //Registered
                                                     <TableCell>
                                                         <button style={{marginRight:'18px'}} onClick={() => {
                                                             handleButtonClick(cls.id);
@@ -160,14 +159,17 @@ const BirdAcademyMng = () => {
                                     : null}
                             </TableBody>
                         </Table>
+                        {keyParam !== null  && (
+                            <TrainingSkillComponent keyParam={keyParam} />
+                        )}
                     </TableContainer>
                 </div>}
-                {keyParam !== null  && (
-                    <TrainingSkillComponent keyParam={keyParam} />
-                )}
+                <Table>
+                    {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
+
+                    {showBirdList && <CustomerBirdComponent customerId={selectedUser}/>}
+                </Table>
             </div>
         </div>
     )
 }
-
-export default BirdAcademyMng

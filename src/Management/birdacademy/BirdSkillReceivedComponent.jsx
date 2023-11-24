@@ -23,6 +23,7 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
 
   return (
     <div>
+        {birdSkillList != null && birdSkillList.length > 0 && 
         <TableContainer>
             <h2>Bird Skill Received For Bird {birdId}</h2>
             <Table>
@@ -34,20 +35,20 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
                     <TableCell>Bird Skill Picture</TableCell>
                 </TableHead>
                 {birdSkillList.map((rsl) => (
-                <TableRow key={rsl.id}>
-                    <TableCell>{rsl.birdName}</TableCell>
-                    <TableCell>{rsl.birdSkillName}</TableCell>
-                    <TableCell>{rsl.birdSkillDescription}</TableCell>
-                    <TableCell>{rsl.receivedDate}</TableCell>
-                    <TableCell>
-                      <a href={rsl.birdSkillPicture} target="_blank" rel="noopener noreferrer">
-                        <img src={rsl.birdSkillPicture} alt="Description of the image" style={{ width: '200px', height: '150px' }}/>
-                      </a>
-                    </TableCell>
-                </TableRow>
+                  <TableRow key={rsl.id}>
+                      <TableCell>{rsl.birdName}</TableCell>
+                      <TableCell>{rsl.birdSkillName}</TableCell>
+                      <TableCell>{rsl.birdSkillDescription}</TableCell>
+                      <TableCell>{rsl.receivedDate}</TableCell>
+                      <TableCell>
+                        <a href={rsl.birdSkillPicture} target="_blank" rel="noopener noreferrer">
+                          <img src={rsl.birdSkillPicture} alt="Description of the image" style={{ width: '200px', height: '150px' }}/>
+                        </a>
+                      </TableCell>
+                  </TableRow>
                 ))}
             </Table>
-        </TableContainer>
+        </TableContainer>}
     </div>
   );
 };

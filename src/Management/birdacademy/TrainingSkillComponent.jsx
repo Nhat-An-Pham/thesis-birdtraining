@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './trainingSkillComponent.scss';
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 
 const TrainingSkillComponent = ({ keyParam }) => { 
 
 const [renderTrainer, setRenderTrainer] = useState(false);
-const handleTrainerAssign = () => {
-  setRenderTrainer(true); // Đảo ngược trạng thái hiển thị danh sách
-};
 
 const [birdSkillId, setBirdSkillId] = useState(null);
-const handleButtonClick = (birdSkillId) => {
+const handleTrainerAssign = (birdSkillId) => {
       setBirdSkillId(birdSkillId);
+      setRenderTrainer(true);
 };
 
 const [selectedProgress, setSelectedProgress] = useState(null);
@@ -19,23 +17,42 @@ const handleUserProgressClick = (progressId) => {
       setSelectedProgress(progressId);
       setBirdSkillId(null);
 };
-const trainingProgress = [
-    { id: "1", birdTrainingCourseId: "1", birdSkillId: "1", birdSkillName: "Skill 1", status:"waiting for assign", trainerName:""},
-    { id: "2", birdTrainingCourseId: "1", birdSkillId: "2", birdSkillName: "SKill 2", status:"assigned", trainerName:""},
-    { id: "7", birdTrainingCourseId: "1", birdSkillId: "2", birdSkillName: "SKill 2", status:"assigned", trainerName:""},
-    { id: "3", birdTrainingCourseId: "5", birdSkillId: "1", birdSkillName: "Skill 1", status:"training", trainerName:""},
-    { id: "4", birdTrainingCourseId: "5", birdSkillId: "4", birdSkillName: "Skill 4", status:"notpass", trainerName:""},
-    { id: "5", birdTrainingCourseId: "5", birdSkillId: "5", birdSkillName: "Skill 5", status:"pass", trainerName:""},
-    { id: "6", birdTrainingCourseId: "5", birdSkillId: "6", birdSkillName: "Skill 6", status:"cancel", trainerName:""},
-    // ... more items
-  ];
+const [trainingProgress, setTrainingProgress ]= useState([]);
+  useEffect(() => {
+    // Simulate fetching bird information based on customerId
+    // Replace this with your actual API call or data fetching logic
+    const fetchData = async () => {
+      try {
+        // Replace this URL with your actual API endpoint
+        const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingprogress-requestedId?birdTrainingCourseId=${keyParam}`);
+        const data = await response.json();
+        console.log(data);
+        setTrainingProgress(data); // Assuming data is an array of bird information
+      } catch (error) {
+        console.error('Error fetching bird trainingProgress data:', error);
+      }
+    };
 
-  const trainers = [
-    {id: "1", name: "Trainer 1"},
-    {id: "2", name: "Trainer 2"},
-    {id: "3", name: "Trainer 3"},
-    {id: "4", name: "Trainer 4"},
-  ]
+    fetchData();
+  }, [birdSkillId]);
+  const [trainers, setTrainersByBirdSkill] = useState([]);
+  useEffect(() => {
+    // Simulate fetching bird information based on customerId
+    // Replace this with your actual API call or data fetching logic
+    const fetchData = async () => {
+      try {
+        // Replace this URL with your actual API endpoint
+        const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/trainer-birdskill?birdSkillId${birdSkillId}`);
+        const data = await response.json();
+        //console.log(data);
+        setTrainersByBirdSkill(data); // Assuming data is an array of bird information
+      } catch (error) {
+        console.error('Error fetching trainer by bird skill data:', error);
+      }
+    };
+
+    fetchData();
+  }, [birdSkillId]);
   return (
     <div>
     <TableContainer className='table-container' component={Paper}>
@@ -45,6 +62,8 @@ const trainingProgress = [
         <TableRow>
           <TableCell>Bird Skill Name</TableCell>
           <TableCell>Trainer Name</TableCell>
+          <TableCell>Training Progression</TableCell>
+          <TableCell>Total Training Slot</TableCell>
           <TableCell>Status</TableCell>
           <TableCell></TableCell>
         </TableRow>
@@ -56,9 +75,11 @@ const trainingProgress = [
                 <TableRow key={item.id}>
                   <TableCell>{item.birdSkillName}</TableCell>
                   <TableCell>{item.trainerName}</TableCell>
+                  <TableCell>{item.trainingProgression}</TableCell>
+                  <TableCell>{item.totalTrainingSlot}</TableCell>
                   <TableCell>{item.status}</TableCell>
-                  {item.status == "waiting for assign" && <TableCell><button onClick={handleTrainerAssign}>Assign trainer</button></TableCell>}
-                  {item.status == "assigned" && <TableCell><button onClick={handleTrainerAssign}>Re-assign trainer</button></TableCell>}
+                  {item.status == "WaitingForAssign" && <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId)}>Assign trainer</button></TableCell>}
+                  {item.status == "Assigned" && <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId)}>Re-assign trainer</button></TableCell>}
                 </TableRow>
             ))}
       </TableBody>
@@ -68,6 +89,7 @@ const trainingProgress = [
       <h2>Trainer</h2>
         <TableRow>
           <TableCell>Name</TableCell>
+          <TableCell>Email</TableCell>
           <TableCell></TableCell>
         </TableRow>
       </TableHead>
@@ -75,6 +97,7 @@ const trainingProgress = [
           {trainers.map((trainer) => (
               <TableRow key={trainer.id}>
                 <TableCell>{trainer.name}</TableCell>
+                <TableCell>{trainer.email}</TableCell>
                 <TableCell><button>Assign</button></TableCell>
               </TableRow>
           ))}
