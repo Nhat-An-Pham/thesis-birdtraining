@@ -25,51 +25,53 @@ import { useEffect } from "react";
 import { groundTheme } from "../../themes/Theme";
 import { jwtDecode } from "jwt-decode";
 
-
-const userRole = jwtDecode(JSON.parse(localStorage.getItem("user-token"))).role;
+let userRole = null;
+if (localStorage.getItem("user-token")) {
+  userRole = jwtDecode(JSON.parse(localStorage.getItem("user-token"))).role;
+}
 const drawerWidth = 250;
 const elements = [
   {
     route: "/management",
     icon: <SpaceDashboardOutlined />,
     name: "Dashboard",
-    role: ["Trainer", "Staff", "Manager"]
+    role: ["Trainer", "Staff", "Manager"],
   },
   {
     route: "/management/customerreq",
     icon: <SupportAgentOutlined />,
     name: "Consultant",
-    role: ["Trainer", "Staff", "Manager"]
+    role: ["Trainer", "Staff", "Manager"],
   },
   {
     route: "/management/onlinecourse",
     icon: <SupportAgentOutlined />,
     name: "Online Course",
-    role: ['Staff', 'Manager']
+    role: ["Staff", "Manager"],
   },
   {
     route: "/management/timetable",
     icon: <DateRangeOutlined />,
     name: "Timetable",
-    role: ["Trainer", "Staff", "Manager"]
+    role: ["Trainer", "Staff", "Manager"],
   },
   {
     route: "/management/workshop",
     icon: <SchoolOutlined />,
     name: "Workshop",
-    role: ["Staff", "Manager"]
+    role: ["Staff", "Manager"],
   },
   {
     route: "/management/birdacademy",
     icon: <FeedOutlined />,
     name: "Academy",
-    role: ["Trainer", "Staff", "Manager"]
+    role: ["Trainer", "Staff", "Manager"],
   },
   {
     route: "/management/userdata",
     icon: <PeopleAltOutlined />,
     name: "Admin",
-    role: ["Administrator"]
+    role: ["Administrator"],
   },
 ];
 export default function ReworkSidebar({ selectTab }) {
@@ -81,7 +83,7 @@ export default function ReworkSidebar({ selectTab }) {
   }, [selectTab]);
 
   return (
-    <ThemeProvider theme={groundTheme} >
+    <ThemeProvider theme={groundTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Drawer
@@ -94,7 +96,7 @@ export default function ReworkSidebar({ selectTab }) {
               backgroundColor: groundTheme.palette.ground.main,
               // justifyContent: "center", // Center horizontally
               // alignItems: "center", // Center vertically
-              border: "4px outset #4a2a2a"
+              border: "4px outset #4a2a2a",
             },
           }}
           variant="permanent"
@@ -106,7 +108,7 @@ export default function ReworkSidebar({ selectTab }) {
               style={{
                 textDecoration: "none",
                 color: groundTheme.palette.ground.Link,
-                width: "100%"
+                width: "100%",
               }}
             >
               {/* <Grid
@@ -123,7 +125,16 @@ export default function ReworkSidebar({ selectTab }) {
                 variant="rounded"
               >
               </Avatar> */}
-              <h1 style={{ width: "100%", fontWeight: "bold", fontSize: "30px", textAlign: "center" }}>Bird Training Center Management</h1>
+              <h1
+                style={{
+                  width: "100%",
+                  fontWeight: "bold",
+                  fontSize: "30px",
+                  textAlign: "center",
+                }}
+              >
+                Bird Training Center Management
+              </h1>
               {/* <Typography sx={{ textDecoration: "none" }}>
                   Bird Training
                 </Typography> */}
@@ -135,12 +146,16 @@ export default function ReworkSidebar({ selectTab }) {
             <Divider />
             {elements.map((element, index) => (
               <>
-                {!element.role || element.role.includes(userRole) ?
+                {!element.role || element.role.includes(userRole) ? (
                   <>
-                    <ListItem disablePadding style={{ borderBottom: "1px grey solid" }}>
+                    <ListItem
+                      disablePadding
+                      style={{ borderBottom: "1px grey solid" }}
+                    >
                       <ListItemButton
                         selected={selectedIndex === index ? true : false}
-                        style={{ padding: "0px" }}>
+                        style={{ padding: "0px" }}
+                      >
                         <Link
                           to={element.route}
                           style={{
@@ -148,14 +163,16 @@ export default function ReworkSidebar({ selectTab }) {
                             color: groundTheme.palette.ground.Link,
                             width: "100%",
                             height: "100%",
-                            padding: "10px"
+                            padding: "10px",
                           }}
                         >
-                          <Grid container
+                          <Grid
+                            container
                             direction="row"
                             justifyContent="center"
                             alignItems="center"
-                            spacing={0}>
+                            spacing={0}
+                          >
                             <ListItemIcon>{element.icon}</ListItemIcon>
                             <ListItemText primary={element.name} />
                           </Grid>
@@ -164,7 +181,7 @@ export default function ReworkSidebar({ selectTab }) {
                     </ListItem>
                     <Divider />
                   </>
-                  : null}
+                ) : null}
               </>
             ))}
           </List>

@@ -46,6 +46,7 @@ export default function TrainerTicketComponent() {
         />,
         <FinishedTicketView
             callBackRenderedIndex={onRenderedIndexSelect}
+            callbackTicketIdForDetail={handleTicketIdForDetail}
         />,
     ]
 
