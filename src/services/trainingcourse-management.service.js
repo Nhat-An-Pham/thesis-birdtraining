@@ -44,6 +44,78 @@ class TrainingCourseManagementService{
             throw error;
         }
     }
+    async markTrainingSlotDone(params = null){
+        try {
+            const response = await axios.put(
+                `${BASE_URL}/api/trainingcourse-trainer/mark-trainingslotdone`,null,
+                {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`,
+                    },
+                    params: params
+                }
+            );
+            return response;
+        }catch (error) {
+            console.error("Error mark training slot failed:", error);
+            // You might want to throw an error here or handle it as needed.
+            throw error;
+        }
+    }
+    async getTimetableReportView(params = null){
+        try {
+            const response = await axios.put(
+                `${BASE_URL}/api/trainingcourse-trainer/timetable-slot-itemdetail`,null,
+                {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`,
+                    },
+                    params: params
+                }
+            );
+            return response;
+        }catch (error) {
+            console.error("Error get training slot detail failed:", error);
+            // You might want to throw an error here or handle it as needed.
+            throw error;
+        }
+    }
+    async receiveBirdForm(formData){
+        try {
+            const response = await axios.put(
+                `${BASE_URL}/api/trainingcourse-staff/receive-bird`,formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            return response;
+        }catch (error) {
+            console.error("Error receive bird input failed:", error);
+            // You might want to throw an error here or handle it as needed.
+            throw error;
+        }
+    }
+    async returnBirdForm(formData){
+        try {
+            const response = await axios.put(
+                `${BASE_URL}/api/trainingcourse-staff/return-bird`,formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            return response;
+        }catch (error) {
+            console.error("Error return bird input failed:", error);
+            // You might want to throw an error here or handle it as needed.
+            throw error;
+        }
+    }
 }
 
 export default new TrainingCourseManagementService();
