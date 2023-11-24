@@ -20,7 +20,6 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
 
     fetchData();
   }, [birdId]);
-
   return (
     <div>
         {birdSkillList != null && birdSkillList.length > 0 && 

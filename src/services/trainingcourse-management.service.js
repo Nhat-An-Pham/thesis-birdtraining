@@ -11,7 +11,7 @@ class TrainingCourseManagementService{
     async confirmBirdTrainingCourse(params = null){
         try {
             const response = await axios.post(
-                `${BASE_URL}/api/trainingcourse-staff/birdtrainingcourse-confirm`,
+                `${BASE_URL}/api/trainingcourse-staff/birdtrainingcourse-confirm`, null,
                 {
                     headers: {
                         Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -24,6 +24,26 @@ class TrainingCourseManagementService{
             console.error("Error confirm bird training course:", error);
             // You might want to throw an error here or handle it as needed.
             throw error;
-          }
+        }
+    }
+    async assignTrainer(params = null){
+        try {
+            const response = await axios.put(
+                `${BASE_URL}/api/trainingcourse-staff/assigntrainertoprogress`,null,
+                {
+                    headers: {
+                        Authorization: `Bearer ${ACCESS_TOKEN}`,
+                    },
+                    params: params
+                }
+            );
+            return response;
+        }catch (error) {
+            console.error("Error assign trainer to course:", error);
+            // You might want to throw an error here or handle it as needed.
+            throw error;
+        }
     }
 }
+
+export default new TrainingCourseManagementService();

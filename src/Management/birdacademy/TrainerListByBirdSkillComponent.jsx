@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './trainingSkillComponent.scss';
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 
-const TrainerListByBirdSkill = ({birdSkillId}) => {
+const TrainerListByBirdSkill = ({selectedProgressId, birdSkillId, callbackAssigned}) => {
+    
+    //const [assignTrainerParam, setAssignTrainerParam] = useState(assignTrainerProps);
+    // console.log(assignTrainerProps);
+    // console.log("trainer list " + assignTrainerParam.selectedProgressId);
+    // console.log("trainer list " + assignTrainerParam.birdSkillId);
     const [trainers, setTrainersByBirdSkill] = useState([]);
     useEffect(() => {
     // Simulate fetching bird information based on customerId
@@ -10,7 +16,7 @@ const TrainerListByBirdSkill = ({birdSkillId}) => {
         const fetchData = async () => {
             try {
         // Replace this URL with your actual API endpoint
-                console.log(birdSkillId);
+                //console.log("trainer list" + assignTrainerParam.birdSkillId);
                 const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/trainer-birdskill?birdSkillId=${birdSkillId}`);
                 const data = await response.json();
                 console.log(data);
@@ -21,6 +27,27 @@ const TrainerListByBirdSkill = ({birdSkillId}) => {
         };
         fetchData();
     }, [birdSkillId]);
+
+    function handleAssignButton(trainerId){
+        console.log("trainer list " + selectedProgressId);
+        console.log("trainerid " + trainerId);
+        let params = {
+            progressId: selectedProgressId,
+            trainerId: trainerId,
+        };
+        trainingCourseManagementService
+            .assignTrainer(params)
+            .then(response => response.data)
+            .then(data => {
+              // Handle the response data
+              console.log('Success:', data);
+              callbackAssigned();
+            })
+            .catch(error => {
+              // Handle errors
+              console.error('Error:', error);
+            });
+    }
   return (
     <TableContainer>
         <Table className='table'>
@@ -37,7 +64,7 @@ const TrainerListByBirdSkill = ({birdSkillId}) => {
                 <TableRow key={trainer.id}>
                     <TableCell>{trainer.name}</TableCell>
                     <TableCell>{trainer.email}</TableCell>
-                    <TableCell><button>Assign</button></TableCell>
+                    <TableCell><button onClick={() => handleAssignButton(trainer.id)}>Assign</button></TableCell>
                 </TableRow>
                 ))}
             </TableBody>

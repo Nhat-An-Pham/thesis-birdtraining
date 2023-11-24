@@ -2,7 +2,7 @@ import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper
 import React, { useState, useEffect } from 'react';
 import BirdSkillReceivedComponent from "./BirdSkillReceivedComponent";
 
-const CustomerBirdComponent = ({ customerId }) => {
+const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   const [birdList, setBirdList] = useState([]);
   const [selectedBird, setSelectedBird] = useState(null);
 
@@ -28,6 +28,9 @@ const CustomerBirdComponent = ({ customerId }) => {
     fetchData();
   }, [customerId]);
 
+  function handleCallBackMainButton(){
+    callBackMainManagement();
+  }
   return (
     <div>
         <TableContainer>
@@ -64,6 +67,9 @@ const CustomerBirdComponent = ({ customerId }) => {
                 </Table>
             </Table>
         </TableContainer>
+        <div className="main-button-container">
+          <button className="button" onClick={() => handleCallBackMainButton()}>Back</button>
+        </div>
     </div>
   );
 };

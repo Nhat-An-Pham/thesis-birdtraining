@@ -2,44 +2,68 @@ import React, { useState, useEffect } from 'react';
 import './trainingSkillComponent.scss';
 import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper, } from "@mui/material";
 import TrainerListByBirdSkill from './TrainerListByBirdSkillComponent';
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+import BirdTrainingReportComponent from './BirdTrainingReportComponent';
 
-const TrainingSkillComponent = ({ keyParam }) => { 
+const TrainingSkillComponent = ({ keyParam, callBackMainManagement }) => { 
 
 const [renderTrainer, setRenderTrainer] = useState(false);
 const [renderReport, setRenderReport] = useState(false);
+const [renderProgress, setRenderProgress] = useState(true);
 
 const [selectedBirdSkillId, setSelectedBirdSkillId] = useState(null);
-const handleTrainerAssign = (birdSkillId) => {
+const [selectedProgressId, setSelectedProgressId] = useState(null);
+const handleTrainerAssign = (birdSkillId, progressId) => {
+      setSelectedProgressId(progressId);
+      console.log("progress " + progressId);
       setSelectedBirdSkillId(birdSkillId);
-      console.log(birdSkillId)
-      console.log(selectedBirdSkillId)
+      console.log("progress " + birdSkillId);
       setRenderTrainer(true);
+      setRenderReport(false);
 };
+const handleViewTrainingDetail = (progressId) => {
+  setSelectedProgressId(progressId);
+  setRenderReport(true);
+  setRenderTrainer(false);
+  setRenderProgress(false);
+}
 
-const [selectedProgress, setSelectedProgress] = useState(null);
-const handleUserProgressClick = (progressId) => {
-      setSelectedProgress(progressId);
-      setSelectedBirdSkillId(null);
-};
+// const [selectedProgress, setSelectedProgress] = useState(null);
+// const handleUserProgressClick = (progressId) => {
+//       setSelectedProgress(progressId);
+//       setSelectedBirdSkillId(null);
+// };
+
 const [trainingProgress, setTrainingProgress ]= useState([]);
+const fetchData = async () => {
+  try {
+    // Replace this URL with your actual API endpoint //https://localhost:7176
+    const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingprogress-requestedId?birdTrainingCourseId=${keyParam}`);
+    const data = await response.json();
+    console.log(data);
+    setTrainingProgress(data); // Assuming data is an array of bird information
+  } catch (error) {
+    console.error('Error fetching bird trainingProgress data:', error);
+  }
+};
   useEffect(() => {
     // Simulate fetching bird information based on customerId
     // Replace this with your actual API call or data fetching logic
-    const fetchData = async () => {
-      try {
-        // Replace this URL with your actual API endpoint //https://localhost:7176
-        const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingprogress-requestedId?birdTrainingCourseId=${keyParam}`);
-        const data = await response.json();
-        setTrainingProgress(data); // Assuming data is an array of bird information
-      } catch (error) {
-        console.error('Error fetching bird trainingProgress data:', error);
-      }
-    };
-
     fetchData();
   }, [keyParam]);
+  const onCallbackAssigned = async () => {
+    fetchData();
+    setRenderProgress(true);
+    setRenderTrainer(false);
+    setRenderReport(false);
+    console.log("onCallbackAssigned");
+  }
+function handleCallBackMainButton(){
+  callBackMainManagement();
+}
   return (
     <div>
+    {renderProgress && <>
     <TableContainer className='table-container' component={Paper}>
     <Table className='table'>
       <TableHead>
@@ -50,6 +74,7 @@ const [trainingProgress, setTrainingProgress ]= useState([]);
           <TableCell>Training Progression</TableCell>
           <TableCell>Total Training Slot</TableCell>
           <TableCell>Status</TableCell>
+          <TableCell></TableCell>
           <TableCell></TableCell>
         </TableRow>
       </TableHead>
@@ -75,20 +100,27 @@ const [trainingProgress, setTrainingProgress ]= useState([]);
                   </TableCell>
                   <TableCell>{item.totalTrainingSlot}</TableCell>
                   <TableCell>{item.status}</TableCell>
-                  {item.status == "Training" && //WaitingForAssign
-                    <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId)}>Assign trainer</button></TableCell>}
-                  {item.status == "Assigned" && <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId)}>Re-assign trainer</button></TableCell>}
+                  {item.status == "WaitingForAssign" && //WaitingForAssign
+                    <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId, item.id)}>Assign trainer</button></TableCell>}
+                  {item.status == "Assigned" && 
+                    <TableCell><button onClick={() => handleTrainerAssign(item.birdSkillId, item.id)}>Re-assign trainer</button></TableCell>}
+                  <TableCell><button onClick={() => handleViewTrainingDetail(item.id)}>View training details</button></TableCell>
                 </TableRow>
             ))}
       </TableBody>
     </Table>
-    {renderTrainer && 
-      <TrainerListByBirdSkill birdSkillId={selectedBirdSkillId}></TrainerListByBirdSkill>}
     </TableContainer>
     <div className="main-button-container">
-      <button className="button">Confirm</button>
-      <button className="button">Cancel</button>
+      <button className="button" onClick={() => handleCallBackMainButton()}>Confirm</button>
+      <button className="button" onClick={() => handleCallBackMainButton()}>Cancel</button>
     </div>
+    </>}
+    
+    {renderTrainer && 
+      <TrainerListByBirdSkill selectedProgressId={selectedProgressId} birdSkillId={selectedBirdSkillId} callbackAssigned={onCallbackAssigned}/>}
+    {renderReport &&
+      <BirdTrainingReportComponent progressId={selectedProgressId} callbackAssigned={onCallbackAssigned}/>}
+      
     </div>
   );
 };

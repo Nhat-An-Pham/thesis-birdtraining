@@ -4,7 +4,8 @@ import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper
 import TrainingSkillComponent from './TrainingSkillComponent';
 import ReworkSidebar from '../component/sidebar/ReworkSidebar';
 import CustomerBirdComponent from './CustomerBirdComponent';
-import trainingCourseManagementService from "../../../../thesis-birdtraining/src/services/trainingcourse-management.service"
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+//const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng () {
 
@@ -13,11 +14,46 @@ export default function BirdAcademyMng () {
     const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
 
     const [keyParam, setKeyParam] = useState(null);
-    const handleConfirmButtonClick = (key) => {
+
+    const handleConfirmButtonClick = async (key) => {
         setKeyParam(key);
-        setRenderTrainingSkill(true);
-        setRenderCustomer(false);
-        setRenderCustomerRequest(false);
+        let params = {
+            birdTrainingCourseId : key,
+        }
+        trainingCourseManagementService.
+            confirmBirdTrainingCourse(params)
+            .then(response => response.json())
+            .then(data => {
+              // Handle the response data
+              console.log('Success:', data);
+            })
+            .catch(error => {
+              // Handle errors
+              console.error('Error:', error);
+            });
+        console.log(keyParam);
+        // fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse-confirm?birdTrainingCourseId=${key}`, {
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       Authorization: `Bearer ${ACCESS_TOKEN}`,
+        //       // You may need to include additional headers depending on your API requirements
+        //     },
+        //     params: null,
+        //   })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //       // Handle the response data
+        //       console.log('Success:', data);
+        //     })
+        //     .catch(error => {
+        //       // Handle errors
+        //       console.error('Error:', error);
+        //     });
+        
+            setRenderTrainingSkill(true);
+            setRenderCustomer(false);
+            setRenderCustomerRequest(false);
       };
     const handleButtonClick = (key) => {
         setKeyParam(key);
@@ -39,42 +75,43 @@ export default function BirdAcademyMng () {
         setRenderCustomerRequest(false);
       };
     const [users, setUsers] = useState([]);
-    useEffect(() => {
-        // Simulate fetching bird information based on customerId
-        // Replace this with your actual API call or data fetching logic
-        const fetchData = async () => {
-          try {
-            // Replace this URL with your actual API endpoint
-            const response = await fetch(`http://13.214.85.41/api/trainingcourse/all-requested-users`);
-            const data = await response.json();
-            setUsers(data); // Assuming data is an array of bird information
-          } catch (error) {
-            console.error('Error fetching bird data:', error);
-          }
-        };
-    
-        fetchData();
-      }, []);
-    
     const [birdTrainingCourse, setBirdTrainingCourse] = useState([]);
-    useEffect(() => {
-        // Simulate fetching bird information based on customerId
+      // Simulate fetching bird information based on customerId
         // Replace this with your actual API call or data fetching logic
-        const fetchData = async () => {
-          try {
-            // Replace this URL with your actual API endpoint
-            const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`);
-            const data = await response.json();
-            //console.log(data);
-            setBirdTrainingCourse(data); // Assuming data is an array of bird information
-          } catch (error) {
-            console.error('Error fetching bird data:', error);
-          }
-        };
-    
-        fetchData();
+        const fetchBirdTrainingCourseData = async () => {
+            try {
+              // Replace this URL with your actual API endpoint
+              const response = await fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`);
+              const data = await response.json();
+              //console.log(data);
+              setBirdTrainingCourse(data); // Assuming data is an array of bird information
+            } catch (error) {
+              console.error('Error fetching bird data:', error);
+            }
+          };// Simulate fetching bird information based on customerId
+          // Replace this with your actual API call or data fetching logic
+          const fetchCustomerData = async () => {
+            try {
+              // Replace this URL with your actual API endpoint
+              const response = await fetch(`http://13.214.85.41/api/trainingcourse/all-requested-users`);
+              const data = await response.json();
+              setUsers(data); // Assuming data is an array of bird information
+            } catch (error) {
+              console.error('Error fetching bird data:', error);
+            }
+          };
+    useEffect(() => {
+        fetchCustomerData();
+        fetchBirdTrainingCourseData();
       }, []);
-
+      const onCallBackMainManagement = async () => {
+        fetchCustomerData();
+        fetchBirdTrainingCourseData();
+        setRenderCustomer(true);
+        setRenderCustomerRequest(true);
+        setRenderTrainingSkill(false);
+        setShowBirdList(false);
+      }
     return (
         <div className='workshop-container'>
             <ReworkSidebar />
@@ -127,6 +164,8 @@ export default function BirdAcademyMng () {
                                     <TableCell>Owner Name</TableCell>
                                     <TableCell>Course Title</TableCell>
                                     <TableCell>Date registered</TableCell>
+                                    <TableCell>Training start date</TableCell>
+                                    <TableCell>Training done date</TableCell>
                                     <TableCell>Status</TableCell>
                                     <TableCell></TableCell>
                                     <TableCell></TableCell>
@@ -144,6 +183,8 @@ export default function BirdAcademyMng () {
                                                 <TableCell>{cls.customerName}</TableCell>
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
                                                 <TableCell>{cls.registeredDate}</TableCell>
+                                                {/* <TableCell>{cls.startTrainingDate}</TableCell>
+                                                <TableCell>{cls.trainingDoneDate}</TableCell> */}
                                                 <TableCell>{cls.status}</TableCell>
                                                 {cls.status === "Registered" &&  //Registered
                                                     <TableCell>
@@ -177,8 +218,8 @@ export default function BirdAcademyMng () {
                 <Table>
                     {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
                     
-                    {renderTrainingSkill  && (<TrainingSkillComponent keyParam={keyParam} />)}
-                    {showBirdList && <CustomerBirdComponent customerId={selectedUser}/>}
+                    {renderTrainingSkill  && <TrainingSkillComponent keyParam={keyParam} callBackMainManagement={onCallBackMainManagement} />}
+                    {showBirdList && <CustomerBirdComponent customerId={selectedUser} callBackMainManagement={onCallBackMainManagement}/>}
                 </Table>
             </div>
         </div>
