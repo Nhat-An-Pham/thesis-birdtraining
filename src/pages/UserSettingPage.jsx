@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import UserService from '../services/user.service'
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Img } from 'react-image';
+import { Typography } from '@mui/material';
+import workshopService from '../services/workshop.service';
+import onlinecourseService from '../services/onlinecourse.service';
+import RawHTMLRenderer from '../Management/component/htmlRender/htmlRender';
+
 
 export const UserSettingPage = () => {
 
@@ -20,6 +26,9 @@ export const UserSettingPage = () => {
     const [err, setErr] = useState();
     const [image, setImage] = useState();
 
+    //set completed Data
+    const [completedCourses, setCompletedCourses] = useState([])
+    const [enrolledWorkshop, setEnrolledWorkshop] = useState([])
 
     //FUNCTION
     function UpdateClick() {
@@ -42,7 +51,7 @@ export const UserSettingPage = () => {
         document.getElementById("fphone").value = "";
         document.getElementById("fpassword").value = "";
         document.getElementById("fconfpassword").value = "";
-   }
+    }
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -64,7 +73,7 @@ export const UserSettingPage = () => {
     //SAVE HANDLER
     const handleSaveProfile = () => {
         if (image) {
-            UserService.putProfileImage({avatar: image})
+            UserService.putProfileImage({ avatar: image })
                 .then((res) => {
                     console.log('Success Change Avatar: ', res)
                     window.location.reload();
@@ -100,7 +109,18 @@ export const UserSettingPage = () => {
             .catch((e) => {
                 console.log(e);
             })
+        workshopService.getWorkshopList()
+            .then((res) => {
+                console.log(res.data)
+            })
 
+        onlinecourseService.getAllOnlineCourse()
+            .then((res) => {
+                console.log(res.data)
+                if (res.data.status === "Completed") {
+                    setCompletedCourses(res.data)
+                }
+            })
     }, [])
 
     return (
@@ -144,9 +164,41 @@ export const UserSettingPage = () => {
                                 :
                                 <div className='ustp-body-button'>
                                     <button className='ustp-body-button-save' onClick={handleSave}>SAVE</button>
-                                    <button className='ustp-body-button-cancel' onClick={()=>{CancelClick();ClearFields()}}>CANCEL</button>
+                                    <button className='ustp-body-button-cancel' onClick={() => { CancelClick(); ClearFields() }}>CANCEL</button>
                                 </div>
                             }
+                        </div>
+                    </div>
+                    <div className='ustp-participate-container'>
+                        <div className='ustp-participate-wrapper'>
+                            <h3>Finished Courses</h3>
+                            {completedCourses ?
+                                <>
+                                    {
+                                        completedCourses.map((course) => {
+                                            <div className='ustp-cards-container'>
+                                                <Img src={course.picture}></Img>
+                                                <div className='ustp-cards-content'>
+                                                    <h5>{course.title}</h5>
+                                                    <Typography><RawHTMLRenderer htmlContent={course.shortDescription}></RawHTMLRenderer></Typography>
+                                                    <Link>View Certificate</Link>
+                                                </div>
+                                            </div>
+                                        })
+                                    }
+                                </>
+                                : null}
+                        </div>
+                        <div className='ustp-participate-wrapper'>
+                            <h3>Participated Workshops</h3>
+                            <div className='ustp-cards-container'>
+                                <Img src={require("../assets/pages/ocp/ocp_carousel.jpg")}></Img>
+                                <div className='ustp-cards-content'>
+                                    <h5>Title</h5>
+                                    <Typography>Short description</Typography>
+                                    <Link>Read More</Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -31,7 +31,7 @@
 
     h3 {
         width: 90%;
-        font-size: 20px;
+        font-size: 25px;
     }
 
     &-price {
@@ -106,8 +106,11 @@
 .cdpt_content_descr-box {
     background-color: white;
     border-radius: 15px;
-    padding: 10px;
+    padding: 10px 25px;
     margin-bottom: 30px;
+    box-shadow: 7px 10px 25px -1px rgba(200, 174, 125, 0.75);
+    -webkit-box-shadow: 7px 10px 25px -1px rgba(200, 174, 125, 0.75);
+    -moz-box-shadow: 7px 10px 25px -1px rgba(200, 174, 125, 0.75);
 
     h4 {
         margin: 0px;
@@ -125,5 +128,7 @@
         width: 30%;
         border-radius: 15px;
         margin-top: 20px;
+        height: 300px;
+        object-fit: cover;
     }
 }

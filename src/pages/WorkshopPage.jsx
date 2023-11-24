@@ -11,13 +11,13 @@ const Workshop = () => {
     const [workshopList, setWorkshopList] = useState([]);
     //take first 4 workshops
     const sliceWorkshop = workshopList.slice(0, 4)
-    const token = localStorage.getItem("user-token")
-
+    const token = JSON.parse(localStorage.getItem("user-token")
+)
     useEffect(() => {
         WorkshopService
             .getWorkshopList()
             .then((res) => {
-                console.log("success workshop list test", res.data);
+                // console.log("success workshop list test", res.data);
                 setWorkshopList(res.data);
             })
             .catch((e) => console.log("fail workshop list test", e));
