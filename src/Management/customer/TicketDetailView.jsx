@@ -19,6 +19,9 @@ const TicketDetailView = ({
   callBackHaveAssignedTrainer,
   ticketIdForDetail,
 }) => {
+  const [dateValue, setDateValue] = useState();
+  const [slotValue, setSlotValue] = useState();
+  
   const [assignedTrainer, setAssignedTrainer] = useState(null);
   const [ticketDetail, setTicketDetail] = useState({});
   useEffect(() => {
@@ -26,22 +29,24 @@ const TicketDetailView = ({
       .then((res) => {
         console.log("success Consulting Ticket Detail test", res.data);
         setTicketDetail(res.data);
+        setDateValue(res.data.appointmentDate);
+        setSlotValue(res.data.slotStartId);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
   }, []);
 
   const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
-  const GetListFreeTrainers = (date, slot) => {
-    ConsultantService.getFreeTrainerOnSlotDate({
-      dateValue: date,
-      slotId: slot,
-    })
-      .then((res) => {
-        console.log("success Free Trainer list test", res.data);
-        setListOfFreeTrainer(res.data);
+    useEffect (() => {
+      ConsultantService.getFreeTrainerOnSlotDate({
+        dateValue: dateValue,
+        slotId: slotValue,
       })
-      .catch((e) => console.log("fail Free Trainer list test", e));
-  };
+        .then((res) => {
+          console.log("success Free Trainer list test", res.data);
+          setListOfFreeTrainer(res.data);
+        })
+        .catch((e) => console.log("fail Free Trainer list test", e));
+    }, [slotValue]);
 
   const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(
     callBackHaveAssignedTrainer

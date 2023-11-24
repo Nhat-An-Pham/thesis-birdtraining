@@ -84,7 +84,8 @@ const Timetable_TicketDetailView = ({
               <Typography>{ticketDetail.consultingType}</Typography>
             </div>
             <div className="timetable-consulting-trainer-wrapper timetable-consulting-trainer-wrapper-detail">
-              <p>More Detail{ticketDetail.consultingDetail}</p>
+              More Detail
+              <p>{ticketDetail.consultingDetail}</p>
             </div>
             <div className="timetable-consulting-trainer-wrapper">
               {ticketDetail.onlineOrOffline === false ? (
@@ -93,13 +94,14 @@ const Timetable_TicketDetailView = ({
                   <Typography>{ticketDetail.distance}km</Typography>
                 </>
               ) : null}
-              <Typography>Online/Offline: </Typography>
+              <Typography>Online/Offline </Typography>
               <Typography>
                 {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
               </Typography>
-              {ticketDetail.onlineOrOffline ? (
+              {ticketDetail.onlineOrOffline === true &&
+              ticketDetail.status !== "Finished" ? (
                 <>
-                  <Typography>Google Meet Link:</Typography>
+                  <Typography>Google Meet Link</Typography>
                   <Typography>
                     {
                       <input
@@ -110,18 +112,25 @@ const Timetable_TicketDetailView = ({
                     }
                   </Typography>
                 </>
+              ) : ticketDetail.status === "Finished" ? (
+                <>
+                  <Typography>Evidence</Typography>
+                  <Typography>{ticketDetail.evidencee}</Typography>
+                </>
               ) : null}
-              <Typography>Appointment Date:</Typography>
+              <Typography>Appointment Date</Typography>
               <Typography>{ticketDetail.appointmentDate}</Typography>
-              <Typography>Slot Start:</Typography>
+              <Typography>Slot Start</Typography>
               <Typography>{ticketDetail.actualSlotStart}</Typography>
-              <Typography>Price:</Typography>
+              <Typography>Price</Typography>
               <Typography>{ticketDetail.price}VND</Typography>
+              <Typography>Status</Typography>
+              <Typography>{ticketDetail.status}</Typography>
             </div>
           </div>
 
           <ThemeProvider theme={ochreTheme}>
-            {ticketDetail.onlineOrOffline ? (
+            {ticketDetail.onlineOrOffline === true && ticketDetail.status !== "Finished" ? (
               <Button
                 variant="contained"
                 color="ochre"
