@@ -1,0 +1,28 @@
+.table-container {
+    display: flex; /* Sử dụng flexbox để hiển thị bảng theo chiều ngang */
+  }
+  
+  .table {
+    border: 1px solid #000; /* Đường viền cho bảng */
+    margin: 10px; /* Khoảng cách giữa các bảng */
+    /* Thêm các thuộc tính CSS tùy chỉnh khác nếu cần */
+  }
+
+  .main-button-container {
+    text-align: right;
+  }
+  
+  button {
+    cursor: pointer;
+    margin: 10px;
+    background-color: #C8AE7D;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    color: white;
+    transition: all 0.5s ease-in-out;
+    margin-right: 10px;
+    // &:hover {
+    //       transform: scale(1.05);
+    // }
+  }
