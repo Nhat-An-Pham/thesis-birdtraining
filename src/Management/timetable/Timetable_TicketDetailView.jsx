@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import consultantService from "../../services/consultant.service";
-import { Stack, ThemeProvider } from "react-bootstrap";
 import { ochreTheme } from "../themes/Theme";
-import { Button, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+  ThemeProvider,
+} from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 const Timetable_TicketDetailView = ({
-  callBackRenderedIndex,
+  callbackToCalendar,
   ticketIdForDetail,
 }) => {
   const [ticketDetail, setTicketDetail] = useState();
@@ -33,64 +40,91 @@ const Timetable_TicketDetailView = ({
     UpdateTicket(ticketId, link);
   };
 
-  const handleBackToTimeTableClick = (renderedIndex) => {
-    callBackRenderedIndex(renderedIndex);
-  };
   return (
-    <ThemeProvider theme={ochreTheme}>
-      <Button onClick={() => handleBackToTimeTableClick(0)}>
-        Back to Timetable
-      </Button>
-      <Typography variant="h3">Ticket Detail</Typography>
-      <Stack
-        direction="row"
-        justifyContent="space-around"
-        alignItems="flex-start"
-        spacing={1}
-      >
-        {ticketDetail && (
-          <>
-            <Typography>ID: {ticketDetail.id}</Typography>
-            <Typography>Customer Name: {ticketDetail.customerName}</Typography>
-            {ticketDetail.onlineOrOffline ? (
-              <></>
-            ) : (
-              <Typography>Address: {ticketDetail.addressDetail}</Typography>
-            )}
-            <Typography>
-              Consulting Type: {ticketDetail.consultingType}
+    <>
+      <ThemeProvider theme={ochreTheme}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callbackToCalendar}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Ticket Detail
             </Typography>
-            <Typography>
-              Consulting Detail: {ticketDetail.consultingDetail}
-            </Typography>
-            {ticketDetail.onlineOrOffline ? (
-              <></>
-            ) : (
-              <Typography>Distance: {ticketDetail.distance}km</Typography>
-            )}
-            <Typography>
-              Online/Offline:{" "}
-              {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
-            </Typography>
-            {ticketDetail.onlineOrOffline ? (
+          </Toolbar>
+        </AppBar>
+      </ThemeProvider>
+
+      {ticketDetail && (
+        <>
+          <div className="timetable-consulting-trainer-container">
+            <div className="timetable-consulting-trainer-wrapper">
+              <Typography>ID </Typography>
+              <Typography>{ticketDetail.id}</Typography>
+              <Typography>Customer </Typography>
+              <Typography>{ticketDetail.customerName}</Typography>
+              {ticketDetail.onlineOrOffline === false ? (
+                <>
+                  <Typography>Address </Typography>
+                  <Typography>{ticketDetail.addressDetail}</Typography>
+                </>
+              ) : null}
+              <Typography>Type </Typography>
+              <Typography>{ticketDetail.consultingType}</Typography>
+            </div>
+            <div className="timetable-consulting-trainer-wrapper timetable-consulting-trainer-wrapper-detail">
+              <p>More Detail{ticketDetail.consultingDetail}</p>
+            </div>
+            <div className="timetable-consulting-trainer-wrapper">
+              {ticketDetail.onlineOrOffline === false ? (
+                <>
+                  <Typography>Distance</Typography>
+                  <Typography>{ticketDetail.distance}km</Typography>
+                </>
+              ) : null}
+              <Typography>Online/Offline: </Typography>
               <Typography>
-                Google Meet Link:
-                {
-                  <input
-                    type="text"
-                    defaultValue={ticketDetail.ggMeetLink}
-                    onChange={(e) => setGoogleMeetLink(e.target.value)}
-                  />
-                }
+                {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
               </Typography>
-            ) : null}
-            <Typography>
-              Appointment Date: {ticketDetail.appointmentDate}
-            </Typography>
-            <Typography>Slot Start: {ticketDetail.actualSlotStart}</Typography>
-            <Typography>Price: {ticketDetail.price}VND</Typography>
+              {ticketDetail.onlineOrOffline ? (
+                <>
+                  <Typography>Google Meet Link:</Typography>
+                  <Typography>
+                    {
+                      <input
+                        type="text"
+                        defaultValue={ticketDetail.ggMeetLink}
+                        onChange={(e) => setGoogleMeetLink(e.target.value)}
+                      />
+                    }
+                  </Typography>
+                </>
+              ) : null}
+              <Typography>Appointment Date:</Typography>
+              <Typography>{ticketDetail.appointmentDate}</Typography>
+              <Typography>Slot Start:</Typography>
+              <Typography>{ticketDetail.actualSlotStart}</Typography>
+              <Typography>Price:</Typography>
+              <Typography>{ticketDetail.price}VND</Typography>
+            </div>
+          </div>
+
+          <ThemeProvider theme={ochreTheme}>
             {ticketDetail.onlineOrOffline ? (
               <Button
+                variant="contained"
+                color="ochre"
                 onClick={() =>
                   handleUpdateLinkClick(ticketDetail.id, GoogleMeetLink)
                 }
@@ -98,10 +132,10 @@ const Timetable_TicketDetailView = ({
                 Update New GoolgeMeet Link
               </Button>
             ) : null}
-          </>
-        )}
-      </Stack>
-    </ThemeProvider>
+          </ThemeProvider>
+        </>
+      )}
+    </>
   );
 };
 
