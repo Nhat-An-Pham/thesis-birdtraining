@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import timetableService from "../../services/timetable.service";
 import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 import { jwtDecode } from "jwt-decode";
+import Timetable_TicketDetailView from "./Timetable_TicketDetailView";
 
 function TimetableStaff() {
   const userRole = jwtDecode(
@@ -33,6 +34,10 @@ function TimetableStaff() {
 
     if (event.typeId === 3) {
       setRenderedIndex(1);
+    }
+
+    else if (event.typeId === 2) {
+      setRenderedIndex(2);
     }
   };
   const onCallbackToCalendar = () => {
@@ -210,6 +215,10 @@ function TimetableStaff() {
       entityId={selected?.id}
       callbackToCalendar={onCallbackToCalendar}
     />,
+    <Timetable_TicketDetailView
+    callbackToCalendar={onCallbackToCalendar}
+    ticketIdForDetail={selected?.entityId}
+    />
   ];
   return (
     <>

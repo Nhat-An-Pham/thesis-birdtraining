@@ -77,10 +77,6 @@ const TicketDetailView = ({
 
   return (
     <>
-      {GetListFreeTrainers(
-        ticketDetail.appointmentDate,
-        ticketDetail.slotStartId
-      )}
       <Button
         variant="contained"
         color="ochre"
@@ -89,7 +85,16 @@ const TicketDetailView = ({
         Back To List Assigned
       </Button>
 
-      <h1 style={{color: "#65451F", textAlign:"left", marginBottom:"30px", borderBottom:"0.5px grey solid"}}>Ticket Detail</h1>
+      <h1
+        style={{
+          color: "#65451F",
+          textAlign: "left",
+          marginBottom: "30px",
+          borderBottom: "0.5px grey solid",
+        }}
+      >
+        Ticket Detail
+      </h1>
       <div className="csmanagement-ticketdetail-container">
         <div className="csmanagement-ticketdetail-wrapper">
           <Typography>ID </Typography>
@@ -100,10 +105,13 @@ const TicketDetailView = ({
           <Typography>Slot </Typography>
           <Typography> {ticketDetail.actualSlotStart}</Typography>
           <Typography>Date </Typography>
-          <Typography> {addonService.formatDate(ticketDetail.appointmentDate)}</Typography>
+          <Typography>
+            {" "}
+            {addonService.formatDate(ticketDetail.appointmentDate)}
+          </Typography>
           <Typography>Address </Typography>
           <Typography>{ticketDetail.addressDetail}</Typography>
-          <Typography>Type  </Typography>
+          <Typography>Type </Typography>
           <Typography> {ticketDetail.consultingType} </Typography>
           <Typography>Price </Typography>
           <Typography>{ticketDetail.price}</Typography>
@@ -143,9 +151,19 @@ const TicketDetailView = ({
           <Typography>Distance</Typography>
           <Typography>{ticketDetail.distance}</Typography>
           <Typography>Service</Typography>
-          <Typography>{ticketDetail.onlineOrOffline ? "Online" : "Offine"}</Typography>
+          <Typography>
+            {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+          </Typography>
           <Typography style={{ color: "red" }}>Status</Typography>
-          <Typography style={{ color: "red" }}>{ticketDetail.status}</Typography>
+          {ticketDetail.status === "Approved" ? (
+            <Typography style={{ color: "green" }}>
+              {ticketDetail.status}
+            </Typography>
+          ) : (
+            <Typography style={{ color: "red" }}>
+              {ticketDetail.status}
+            </Typography>
+          )}
         </div>
       </div>
 
@@ -207,7 +225,6 @@ const TicketDetailView = ({
       ) : (
         <></>
       )}
-
     </>
   );
 };
