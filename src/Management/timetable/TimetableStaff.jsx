@@ -14,6 +14,7 @@ import timetableService from "../../services/timetable.service";
 import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 import { jwtDecode } from "jwt-decode";
 import Timetable_TicketDetailView from "./Timetable_TicketDetailView";
+import TimetableTrainerSlotDetailComponent from "../birdacademy/TimetableTrainerSlotDetailComponent";
 
 function TimetableStaff() {
   const userRole = jwtDecode(
@@ -34,10 +35,10 @@ function TimetableStaff() {
 
     if (event.typeId === 3) {
       setRenderedIndex(1);
-    }
-
-    else if (event.typeId === 2) {
+    } else if (event.typeId === 2) {
       setRenderedIndex(2);
+    } else if (event.typeId === 5) {
+      setRenderedIndex(3);
     }
   };
   const onCallbackToCalendar = () => {
@@ -121,7 +122,7 @@ function TimetableStaff() {
     // Calculate the difference between the current day and the first day of the week (Sunday)
     let difference = currentDayOfWeek - 0; // Assuming Sunday is the first day of the week
     // Calculate the first day of the week
-    difference = 200;    
+    difference = 200;
     const firstDayOfWeek = currentDate.subtract(difference, "day");
     let from = firstDayOfWeek.format("YYYY-MM-DD");
     // Calculate the last day of the week
@@ -135,7 +136,7 @@ function TimetableStaff() {
     // const from = currentDate.clone().subtract(3, "days").format("YYYY-MM-DD");
 
     // // Calculate to 300 days after the current date
-    // const to = currentDate.clone().add(3, "days").format("YYYY-MM-DD");    
+    // const to = currentDate.clone().add(3, "days").format("YYYY-MM-DD");
     fetchTrainerTimetable(from, to);
     return () => {};
   }, [selectedTrainer]);
@@ -216,9 +217,13 @@ function TimetableStaff() {
       callbackToCalendar={onCallbackToCalendar}
     />,
     <Timetable_TicketDetailView
-    callbackToCalendar={onCallbackToCalendar}
-    ticketIdForDetail={selected?.entityId}
-    />
+      callbackToCalendar={onCallbackToCalendar}
+      ticketIdForDetail={selected?.entityId}
+    />,
+    <TimetableTrainerSlotDetailComponent
+      trainerSlotId={selected?.id}
+      callBackTimetable={onCallbackToCalendar}
+    />,
   ];
   return (
     <>
