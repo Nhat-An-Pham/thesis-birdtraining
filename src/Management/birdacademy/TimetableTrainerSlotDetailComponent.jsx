@@ -16,26 +16,45 @@ import {
   Box,
   ThemeProvider,
   AppBar,
+  IconButton,
+  Toolbar,
+  Divider,
+  Button,
 } from "@mui/material";
-import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+import { Img } from "react-image";
+import { Close } from "@mui/icons-material";
+import addonService from "../../services/addon.service";
+import timetableService from "../../services/timetable.service";
+import trainingCourseManagementService from "../../services/trainingcourse-management.service";
 import { ochreTheme } from "../themes/Theme";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
   callBackTimetable,
 }) => {
+  const [slotList, setSlotList] = useState([]);
   const [timetableDetail, setTimetableDetail] = useState(null);
-
   // Simulate fetching bird information based on customerId
   // Replace this with your actual API call or data fetching logic
   const fetchTimetableData = async () => {
     try {
+      //console.log(trainerSlotId);
       let params = {
         trainerSlotId: trainerSlotId,
       };
-      let response =
-        await trainingCourseManagementService.getTimetableReportView(params);
-      setTimetableDetail(response);
+      let res = await trainingCourseManagementService
+        .getTimetableReportView(params)
+        .then((response) => {
+          setTimetableDetail(response);
+        });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchSlotData = async () => {
+    try {
+      let res = await timetableService.getSlotTime();
+      setSlotList(res.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,7 +62,29 @@ const TimetableTrainerSlotDetailComponent = ({
 
   useEffect(() => {
     fetchTimetableData();
+    fetchSlotData();
   }, [trainerSlotId]);
+
+  const handleMarkSlotDone = (reportId) => {
+    console.log(reportId);
+    let params = {
+      birdTrainingReportId: reportId,
+    };
+    trainingCourseManagementService
+      .markTrainingSlotDone(params)
+      .then((response) => {
+        console.log("Success:", response);
+        if (response.status == 206) {
+          console.log("markskilldone");
+        }
+        callBackTimetable();
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
+  };
+
   return (
     <ThemeProvider theme={ochreTheme}>
       <AppBar position="static" color="ochre">
@@ -68,64 +109,88 @@ const TimetableTrainerSlotDetailComponent = ({
         </Toolbar>
       </AppBar>
       <Divider />
-      <div>
+      <div style={{ margin: "50px" }}>
         {timetableDetail != null && (
           <div>
-            <h2>Training slot detail</h2>
             <Grid container spacing={1}>
+              {slotList != null &&
+                slotList
+                  .filter((cls) => cls.id == timetableDetail.slotId)
+                  .map((cls) => (
+                    <>
+                      <Grid item xs={0.75}>
+                        <>Start Time</>
+                      </Grid>
+                      <Grid item xs={1.25}>
+                        <>{cls.startTime}</>
+                      </Grid>
+                      <Grid item xs={0.75}>
+                        <>End Time</>
+                      </Grid>
+                      <Grid item xs={1.25}>
+                        <>{cls.endTime}</>
+                      </Grid>
+                    </>
+                  ))}
               <Grid item xs={1}>
-                <Item>Slot</Item>
+                <>Training Date: </>
+              </Grid>
+              <Grid item xs={7}>
+                <>{addonService.formatDate(timetableDetail.trainingDate)}</>
+              </Grid>
+              <Grid item xs={2}>
+                <>Bird Skill Name: </>
               </Grid>
               <Grid item xs={10}>
-                <Item>{timetableDetail.slotId}</Item>
+                <>{timetableDetail.birdSkillName}</>
               </Grid>
-              <Grid item xs={1}>
-                <Item>Training Date</Item>
-              </Grid>
-              <Grid item xs={10}>
-                <Item>{timetableDetail.TrainingDate}</Item>
-              </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Skill Name</Item>
+              <Grid item xs={2}>
+                <>Bird Skill Description: </>
               </Grid>
               <Grid item xs={10}>
-                <Item>{timetableDetail.BirdSkillName}</Item>
+                <>{timetableDetail.birdSkillDescription}</>
               </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Skill Description</Item>
-              </Grid>
-              <Grid item xs={10}>
-                <Item>{timetableDetail.BirdSkillDescription}</Item>
-              </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Name</Item>
+              <Grid item xs={2}>
+                <>Bird Name: </>
               </Grid>
               <Grid item xs={10}>
-                <Item>{timetableDetail.BirdName}</Item>
+                <>{timetableDetail.birdName}</>
               </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Species</Item>
-              </Grid>
-              <Grid item xs={10}>
-                <Item>{timetableDetail.BirdSpeciesName}</Item>
-              </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Color</Item>
+              <Grid item xs={2}>
+                <>Bird Species: </>
               </Grid>
               <Grid item xs={10}>
-                <Item>{timetableDetail.BirdColor}</Item>
+                <>{timetableDetail.birdSpeciesName}</>
               </Grid>
-              <Grid item xs={1}>
-                <Item>Bird Picture</Item>
+              <Grid item xs={2}>
+                <>Bird Color: </>
+              </Grid>
+              <Grid item xs={10}>
+                <>{timetableDetail.birdColor}</>
+              </Grid>
+              <Grid item xs={2}>
+                <>Bird Picture: </>
               </Grid>
               <Grid item xs={10}>
                 <Img
-                  src={timetableDetail.BirdPicture}
+                  src={timetableDetail.birdPicture}
                   alt="Description of the image"
                   style={{ width: "200px", height: "150px" }}
                 />
               </Grid>
             </Grid>
+            {
+              //timetableDetail.status == "NotYet" &&
+              <ThemeProvider theme={ochreTheme}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => handleMarkSlotDone(timetableDetail.id)}
+                >
+                  Mark Training Done
+                </Button>
+              </ThemeProvider>
+            }
           </div>
         )}
       </div>

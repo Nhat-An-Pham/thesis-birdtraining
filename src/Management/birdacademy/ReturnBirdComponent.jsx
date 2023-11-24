@@ -1,92 +1,121 @@
 import React, { useState } from "react";
+import {
+  Button,
+  FormControl,
+  Input,
+  InputLabel,
+  Stack,
+  Typography,
+} from "@mui/material";
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+import { UploadComponent } from "../component/upload/Upload";
+import Editor from "../component/text-editor/Editor";
 
-const ReturnBirdComponent = () => {
-  const [formData, setFormData] = useState({
-    Id: 0,
-    ReturnStaffId: 0,
-    ReturnNote: "",
-    ReturnPicture: null,
-  });
+const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
+  const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
+  const [returnNote, setReturnNote] = useState("");
+  const [pictures, setPictures] = useState([]);
+  const [submittedImages, setSubmittedImages] = useState([]);
 
-  const [accessToken, setAccessToken] = useState(""); // Set the access token here
-
-  const handleInputChange = (e) => {
-    const { name, value, type } = e.target;
-    const inputValue = type === "file" ? e.target.files[0] : value;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: inputValue,
-    }));
+  const handleCancelClick = () => {
+    callBackMainManagement();
   };
 
+  const handleEditorChange = (value) => {
+    setReturnNote(value);
+  };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setPictures(files);
+
+    // Create an array of image names from the selected files
+    const imageNames = files.map((file) => file.name);
+    setSubmittedImages(imageNames);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Create a FormData object to hold the form data
+    const formData = new FormData();
+    formData.append("BirdTrainingCourseId", birdTrainingCourseId);
+    formData.append("ReturnNote", returnNote);
 
-    const formDataToSend = new FormData();
-    Object.entries(formData).forEach(([key, value]) => {
-      formDataToSend.append(key, value);
+    // Append each file separately
+    pictures.forEach((picture, index) => {
+      formData.append(`ReturnPictures`, picture);
     });
 
-    try {
-      const response = await fetch("your-api-endpoint", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`, // Include access token in the headers
-        },
-        body: formDataToSend,
+    trainingCourseManagementService
+      .returnBirdForm(formData)
+      .then((response) => {
+        // Handle the response data
+        console.log("Success:", response);
+        callBackMainManagement();
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
       });
-
-      // Handle the response as needed
-      console.log("Server Response:", response);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Id:
-        <input
-          type="number"
-          name="Id"
-          value={formData.Id}
-          onChange={handleInputChange}
-        />
-      </label>
-      <br />
+    <div>
+      <h2>Create return bird form</h2>
+      <div className="form-container">
+        <form
+          onSubmit={handleSubmit}
+          className="form"
+          encType="multipart/form-data"
+        >
+          <Typography variant="h6" gutterBottom>
+            Return bird form
+          </Typography>
+          <FormControl fullWidth required style={{ marginBottom: 10 }}>
+            <Typography variant="h6" gutterBottom>
+              Return Note
+            </Typography>
+            <Editor
+              onGetHtmlValue={handleEditorChange}
+              htmlValue={returnNote}
+            />
+          </FormControl>
+          <FormControl required style={{ marginBottom: 15 }}>
+            <Typography variant="h6" gutterBottom>
+              Pictures
+            </Typography>
+            <button variant="contained" color="ochre">
+              <UploadComponent onChange={handleFileChange} accept="image/*">
+                Upload image(s)
+              </UploadComponent>
+            </button>
+            {/* Display submitted files here */}
+            <div>
+              {submittedImages.map((imageName, index) => (
+                <div key={index}>{imageName}</div>
+              ))}
+            </div>
+          </FormControl>
+          <br />
+          <button
+            sx={{ float: "right", marginBottom: "20px" }}
+            variant="contained"
+            color="ochre"
+            type="submit"
+          >
+            Create return bird form
+          </button>
 
-      <label>
-        ReturnStaffId:
-        <input
-          type="number"
-          name="ReturnStaffId"
-          value={formData.ReturnStaffId}
-          onChange={handleInputChange}
-        />
-      </label>
-      <br />
-
-      <label>
-        ReturnNote:
-        <input
-          type="text"
-          name="ReturnNote"
-          value={formData.ReturnNote}
-          onChange={handleInputChange}
-        />
-      </label>
-      <br />
-
-      <label>
-        ReturnPicture:
-        <input type="file" name="ReturnPicture" onChange={handleInputChange} />
-      </label>
-      <br />
-
-      <button type="submit">Submit</button>
-    </form>
+          <button
+            sx={{ float: "right", marginBottom: "20px" }}
+            color="ochre"
+            onClick={() => handleCancelClick()}
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
+
 export default ReturnBirdComponent;

@@ -14,6 +14,7 @@ import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import CustomerBirdComponent from "./CustomerBirdComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import ReceivedBirdComponent from "./ReceivedBirdComponent";
+import ReturnBirdComponent from "./ReturnBirdComponent";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
@@ -21,9 +22,26 @@ export default function BirdAcademyMng() {
   const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
   const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
   const [renderReceiveBirdForm, setRenderReceiveBirdForm] = useState(false);
+  const [renderReturnBirdForm, setRenderReturnBirdForm] = useState(false);
 
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(null); //birdTrainingCourseId
-
+  const handleCancelButtonClick = async (key) => {
+    //setBirdTrainingCourseId(key); //setBirdTrainingCourseId
+    let params = {
+      birdTrainingCourseId: key,
+    };
+    trainingCourseManagementService
+      .cancelBirdTrainingCourse(params)
+      .then((response) => {
+        // Handle the response data
+        console.log("Success:", response);
+        onCallBackMainManagement();
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
+  };
   const handleConfirmButtonClick = async (key) => {
     setBirdTrainingCourseId(key); //setBirdTrainingCourseId
     let params = {
@@ -64,7 +82,7 @@ export default function BirdAcademyMng() {
     setRenderCustomer(false);
     setRenderCustomerRequest(false);
   };
-  const handleButtonClick = (key) => {
+  const handleTrainingSkillViewClick = (key) => {
     setBirdTrainingCourseId(key); //setBirdTrainingCourseId
     setRenderTrainingSkill(true);
     setRenderCustomer(false);
@@ -121,7 +139,15 @@ export default function BirdAcademyMng() {
   }, []);
   const handleCheckInButtonClick = (requestedId) => {
     setBirdTrainingCourseId(requestedId); //setBirdTrainingCourseId
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
     setRenderReceiveBirdForm(true);
+  };
+  const handleCheckOutButtonClick = (requestedId) => {
+    setBirdTrainingCourseId(requestedId); //setBirdTrainingCourseId
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
+    setRenderReturnBirdForm(true);
   };
   const onCallBackMainManagement = async () => {
     fetchCustomerData();
@@ -130,6 +156,8 @@ export default function BirdAcademyMng() {
     setRenderCustomerRequest(true);
     setRenderTrainingSkill(false);
     setShowBirdList(false);
+    setRenderReceiveBirdForm(false);
+    setRenderReturnBirdForm(false);
   };
   return (
     <div className="workshop-container">
@@ -222,14 +250,7 @@ export default function BirdAcademyMng() {
                         .map((cls) => (
                           <>
                             <TableRow key={cls.id}>
-                              <TableCell
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  handleButtonClick(cls.id);
-                                }}
-                              >
-                                {cls.birdName}
-                              </TableCell>
+                              <TableCell>{cls.birdName}</TableCell>
                               <TableCell>{cls.customerName}</TableCell>
                               <TableCell>{cls.trainingCourseTitle}</TableCell>
                               <TableCell>{cls.registeredDate}</TableCell>
@@ -253,43 +274,93 @@ export default function BirdAcademyMng() {
                               {cls.status === "Confirmed" && (
                                 <TableCell>
                                   <button
+                                    style={{ marginRight: "18px" }}
                                     onClick={() => {
                                       handleCheckInButtonClick(cls.id);
                                     }}
                                   >
                                     Check In
                                   </button>
+                                  <button
+                                    style={{ marginRight: "18px" }}
+                                    onClick={() => {
+                                      handleCancelButtonClick(cls.id);
+                                      // setRenderCustomerRequest(false);
+                                    }}
+                                  >
+                                    Cancel
+                                  </button>
                                 </TableCell>
                               )}
                               {cls.status === "CheckIn" && (
                                 <TableCell>
-                                  <button>Check Out</button>
+                                  <button
+                                    style={{ marginRight: "18px" }}
+                                    onClick={() => {
+                                      handleCheckOutButtonClick(cls.id);
+                                    }}
+                                  >
+                                    Check Out
+                                  </button>
                                 </TableCell>
                               )}
                               {cls.status === "Training" && (
                                 <TableCell>
-                                  <button>Check Out</button>
+                                  <button
+                                    style={{ marginRight: "18px" }}
+                                    onClick={() => {
+                                      handleCheckOutButtonClick(cls.id);
+                                    }}
+                                  >
+                                    Check Out
+                                  </button>
                                 </TableCell>
                               )}
                               {cls.status === "TrainingDone" && (
                                 <TableCell>
-                                  <button>Check Out</button>
+                                  <button
+                                    style={{ marginRight: "18px" }}
+                                    onClick={() => {
+                                      handleCheckOutButtonClick(cls.id);
+                                    }}
+                                  >
+                                    Check Out
+                                  </button>
                                 </TableCell>
                               )}
-                              {cls.status === "Checkout" && (
+                              {cls.status === "CheckOut" && (
                                 <TableCell>
                                   <button>Payment</button>
                                 </TableCell>
                               )}
                               {cls.status === "Complete" && (
                                 <TableCell>
-                                  <button>Check Out</button>
+                                  <button></button>
                                 </TableCell>
                               )}
                               {cls.status === "Cancel" && (
-                                <TableCell></TableCell>
+                                <button
+                                  style={{ marginRight: "18px" }}
+                                  onClick={() => {
+                                    handleConfirmButtonClick(cls.id);
+                                    // setRenderCustomerRequest(false);
+                                  }}
+                                >
+                                  Confirm
+                                </button>
                               )}
-                              {/* <TableCell><button>Cancel</button></TableCell> */}
+                              {cls.status != "Registered" &&
+                                cls.status != "Cancel" && (
+                                  <TableCell>
+                                    <button
+                                      onClick={() => {
+                                        handleTrainingSkillViewClick(cls.id);
+                                      }}
+                                    >
+                                      View Details
+                                    </button>
+                                  </TableCell>
+                                )}
                             </TableRow>
                           </>
                         ))
@@ -316,6 +387,12 @@ export default function BirdAcademyMng() {
           )}
           {renderReceiveBirdForm && (
             <ReceivedBirdComponent
+              requestedId={birdTrainingCourseId} //birdTrainingCourseId
+              callBackMainManagement={onCallBackMainManagement}
+            />
+          )}
+          {renderReturnBirdForm && (
+            <ReturnBirdComponent
               requestedId={birdTrainingCourseId} //birdTrainingCourseId
               callBackMainManagement={onCallBackMainManagement}
             />
