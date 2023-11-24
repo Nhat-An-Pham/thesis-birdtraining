@@ -4,16 +4,27 @@ import { Table, TableContainer, TableHead, TableBody, TableCell, TableRow, Paper
 import TrainingSkillComponent from './TrainingSkillComponent';
 import ReworkSidebar from '../component/sidebar/ReworkSidebar';
 import CustomerBirdComponent from './CustomerBirdComponent';
+import trainingCourseManagementService from "../../../../thesis-birdtraining/src/services/trainingcourse-management.service"
 
 export default function BirdAcademyMng () {
 
     const [renderCustomer, setRenderCustomer] = useState(true);
     const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
+    const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
 
     const [keyParam, setKeyParam] = useState(null);
+    const handleConfirmButtonClick = (key) => {
+        setKeyParam(key);
+        setRenderTrainingSkill(true);
+        setRenderCustomer(false);
+        setRenderCustomerRequest(false);
+      };
     const handleButtonClick = (key) => {
         setKeyParam(key);
-      };
+        setRenderTrainingSkill(true);
+        setRenderCustomer(false);
+        setRenderCustomerRequest(false);
+    };
     const [selectedUser, setSelectedUser] = useState(null);
 
     const handleUserClick = (userId) => {
@@ -34,7 +45,7 @@ export default function BirdAcademyMng () {
         const fetchData = async () => {
           try {
             // Replace this URL with your actual API endpoint
-            const response = await fetch(`https://localhost:7176/api/trainingcourse/all-requested-users`);
+            const response = await fetch(`http://13.214.85.41/api/trainingcourse/all-requested-users`);
             const data = await response.json();
             setUsers(data); // Assuming data is an array of bird information
           } catch (error) {
@@ -126,7 +137,9 @@ export default function BirdAcademyMng () {
                                     ? birdTrainingCourse
                                         .filter((cls) => cls.customerId === selectedUser)
                                         .map((cls) => (
-                                            <><TableRow key={cls.id}>
+                                            <><TableRow key={cls.id}
+                                                        style={{ cursor: "pointer" }}
+                                                        onClick={() => {handleButtonClick(cls.id)}}>
                                                 <TableCell>{cls.birdName}</TableCell>
                                                 <TableCell>{cls.customerName}</TableCell>
                                                 <TableCell>{cls.trainingCourseTitle}</TableCell>
@@ -135,7 +148,7 @@ export default function BirdAcademyMng () {
                                                 {cls.status === "Registered" &&  //Registered
                                                     <TableCell>
                                                         <button style={{marginRight:'18px'}} onClick={() => {
-                                                            handleButtonClick(cls.id);
+                                                            handleConfirmButtonClick(cls.id);
                                                             // setRenderCustomerRequest(false);
                                                             }}>
                                                             Confirm
@@ -159,14 +172,12 @@ export default function BirdAcademyMng () {
                                     : null}
                             </TableBody>
                         </Table>
-                        {keyParam !== null  && (
-                            <TrainingSkillComponent keyParam={keyParam} />
-                        )}
                     </TableContainer>
                 </div>}
                 <Table>
                     {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
-
+                    
+                    {renderTrainingSkill  && (<TrainingSkillComponent keyParam={keyParam} />)}
                     {showBirdList && <CustomerBirdComponent customerId={selectedUser}/>}
                 </Table>
             </div>
