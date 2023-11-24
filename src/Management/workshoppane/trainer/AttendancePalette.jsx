@@ -99,18 +99,18 @@ const AttendancePaletteComponent = ({ slotId }) => {
                         <TableCell>{index}</TableCell>
                         <TableCell>{attendee.email}</TableCell>
                         <TableCell>{attendee.customerName}</TableCell>
-                        <TableCell>{attendee.phoneNumber}</TableCell>
+                        <TableCell>+84 {attendee.phoneNumber}</TableCell>
                         <TableCell style={{ width: 0.125 }} align="center">
                           <Checkbox
                             checked={attendee.status === "Attended"}
                             onChange={() => handleCheckboxChange(index)}
                             sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                           />
-                          <Typography>
+                          {/* <Typography>
                             {attendee.status === "Attended"
                               ? "Present"
                               : "Not Yet"}
-                          </Typography>
+                          </Typography> */}
                         </TableCell>
                       </TableRow>
                     ))
