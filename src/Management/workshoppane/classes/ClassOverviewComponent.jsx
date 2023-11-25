@@ -19,7 +19,10 @@ import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
 import ClassAddNewComponent from "./ClassAddNewComponent";
 
-export default function ClassOverviewComponent({ workshop, callbackClassSelect }) {
+export default function ClassOverviewComponent({
+  workshop,
+  callbackClassSelect,
+}) {
   const [classes, setClasses] = useState([]); // Initialize as an empty array
   const [selectedWorkshop, setSelectedWorkshop] = useState(workshop);
   const [selectedClass, setSelectedClass] = useState();
@@ -36,7 +39,6 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
     }
   }
   useEffect(() => {
-    
     if (workshop) {
       fetchClasses();
     }
@@ -51,7 +53,7 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
   const callbackCreateClass = async () => {
     setOpen(false);
     await fetchClasses();
-  }
+  };
 
   function handleClassSelect(classItem) {
     callbackClassSelect(classItem.id);
@@ -85,7 +87,20 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
               <TableCell align="center">
                 <>{formatRegistrationAmount(classItem.registrationAmount)}</>
               </TableCell>
-              <TableCell align="center">{classItem.status}</TableCell>
+              {/* <TableCell align="center">{classItem.status}</TableCell> */}
+              {classItem.status === "Completed" ? (
+                <TableCell align="center">Completed</TableCell>
+              ) : classItem.status === "OpenRegistration" ? (
+                <TableCell align="center">Open</TableCell>
+              ) : classItem.status === "ClosedRegistration" ? (
+                <TableCell align="center">Closed</TableCell>
+              ) : classItem.status === "Cancelled" ? (
+                <TableCell align="center">Cancelled</TableCell>
+              ): classItem.status === "OnGoing" ? (
+                <TableCell align="center">On Going</TableCell>
+              ) : (
+                <TableCell></TableCell>
+              )}
             </TableRow>
           ))
         ) : (
@@ -100,11 +115,12 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
   }
   return (
     <>
-    <ClassAddNewComponent
+      <ClassAddNewComponent
         selectedWorkshop={selectedWorkshop}
         open={open}
         handleClose={handleCloseModal}
-        callbackCreateClass={callbackCreateClass}/>
+        callbackCreateClass={callbackCreateClass}
+      />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <WorkshopViewComponent workshopId={workshop.id} />
@@ -131,7 +147,6 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
                   <TableCell align="center">Closed Registration</TableCell>
                   <TableCell align="center">Registration</TableCell>
                   <TableCell align="center">Status</TableCell>
-                  
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -146,7 +161,6 @@ export default function ClassOverviewComponent({ workshop, callbackClassSelect }
               </TableBody>
             </Table>
           </TableContainer>
-          
         </Grid>
       </Grid>
     </>
