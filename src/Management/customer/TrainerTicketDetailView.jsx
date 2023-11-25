@@ -1,5 +1,6 @@
 import { Button, Table } from "react-bootstrap";
 import consultantService from "../../services/consultant.service";
+import { Link } from "react-router-dom";
 import {
   Paper,
   TableBody,
@@ -96,16 +97,35 @@ const TrainerTicketDetailView = ({
                   }
                 </TableCell>
               ) : ticketDetail.status === "Finished" ? (
-                <TableCell>{ticketDetail.evidence}</TableCell>
+                <>
+                  <TableCell>
+                    {ticketDetail.evidence.split(",").map((evidence) => (
+                      <Link
+                        style={{
+                          marginLeft: "20px",
+                          padding: "10px",
+                          color: "white",
+                          textDecoration: "none",
+                          backgroundColor: "#C8AE7D",
+                        }}
+                        to={evidence}
+                        target="_blank"
+                        download
+                      >
+                        {evidence.split("/").slice(-1)}
+                      </Link>
+                    ))}
+                  </TableCell>
+                </>
               ) : null}
               <TableCell>
                 {addonService.formatDate(ticketDetail.appointmentDate)}
               </TableCell>
               <TableCell>{ticketDetail.actualSlotStart}</TableCell>
-              <TableCell>{ticketDetail.price}</TableCell>
+              <TableCell>{ticketDetail.price}VND</TableCell>
               <TableCell>
                 {ticketDetail.onlineOrOffline === true &&
-              ticketDetail.status !== "Finished" ? (
+                ticketDetail.status !== "Finished" ? (
                   <Button
                     onClick={() => UpdateTicket(ticketDetail.id, ggMeetLink)}
                   >
@@ -120,7 +140,6 @@ const TrainerTicketDetailView = ({
       {ticketDetail.status !== "Finished" ? (
         <Button onClick={() => handleBackClick(2)}>Finish Appointment</Button>
       ) : null}
-      
     </>
   );
 };

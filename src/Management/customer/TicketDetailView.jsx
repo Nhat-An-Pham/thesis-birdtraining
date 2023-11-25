@@ -119,7 +119,7 @@ const TicketDetailView = ({
           <Typography>Type </Typography>
           <Typography> {ticketDetail.consultingType} </Typography>
           <Typography>Price </Typography>
-          <Typography>{ticketDetail.price}</Typography>
+          <Typography>{ticketDetail.price}VND</Typography>
         </div>
         <div className="csmanagement-ticketdetail-wrapper csmanagement-ticketdetail-wrapper-detail">
           <Typography>More Detail</Typography>
