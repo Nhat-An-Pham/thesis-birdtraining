@@ -27,7 +27,7 @@ import { jwtDecode } from "jwt-decode";
 
 let token = localStorage.getItem("user-token");
 let userRole = null;
-if(token){
+if (token) {
   userRole = jwtDecode(JSON.parse(token)).role;
 }
 const drawerWidth = 250;
@@ -147,7 +147,8 @@ export default function ReworkSidebar({ selectTab }) {
             <Divider />
             {elements.map((element, index) => (
               <>
-{(!element.role && userRole) || element.role.includes(userRole) ?
+                {(!element.role && userRole) ||
+                element.role.includes(userRole) ? (
                   <>
                     <ListItem
                       disablePadding
