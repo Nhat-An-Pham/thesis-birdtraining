@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import addOnService from "../../services/addon.service";
+import { Tab } from "@coreui/coreui";
 
 const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
   const [reportList, setReportList] = useState([]);
@@ -46,6 +47,7 @@ const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
               <TableCell>Date</TableCell>
               <TableCell>Trainer Id</TableCell>
               <TableCell>Trainer Name</TableCell>
+              <TableCell>Status</TableCell>
             </TableHead>
             {reportList.map((rsl) => (
               <TableRow key={rsl.reportId}>
@@ -53,6 +55,7 @@ const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
                 <TableCell>{addOnService.formatDate(rsl.date)}</TableCell>
                 <TableCell>{rsl.trainerId}</TableCell>
                 <TableCell>{rsl.trainerName}</TableCell>
+                <TableCell>{rsl.status}</TableCell>
               </TableRow>
             ))}
           </Table>

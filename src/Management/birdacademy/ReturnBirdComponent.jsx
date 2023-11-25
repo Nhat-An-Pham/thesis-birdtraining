@@ -5,11 +5,13 @@ import {
   Input,
   InputLabel,
   Stack,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
 import Editor from "../component/text-editor/Editor";
+import { ochreTheme } from "../themes/Theme";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
@@ -59,62 +61,64 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   };
 
   return (
-    <div>
-      <h2>Create return bird form</h2>
-      <div className="form-container">
-        <form
-          onSubmit={handleSubmit}
-          className="form"
-          encType="multipart/form-data"
-        >
-          {/* <Typography variant="h6" gutterBottom>
+    <ThemeProvider theme={ochreTheme}>
+      <div>
+        <h2>Create return bird form</h2>
+        <div className="form-container">
+          <form
+            onSubmit={handleSubmit}
+            className="form"
+            encType="multipart/form-data"
+          >
+            {/* <Typography variant="h6" gutterBottom>
             Return bird form
           </Typography> */}
-          <FormControl fullWidth required style={{ marginBottom: 10 }}>
-            <Typography variant="h6" gutterBottom>
-              Return Note
-            </Typography>
-            <Editor
-              onGetHtmlValue={handleEditorChange}
-              htmlValue={returnNote}
-            />
-          </FormControl>
-          <FormControl required style={{ marginBottom: 15 }}>
-            <Typography variant="h6" gutterBottom>
-              Pictures
-            </Typography>
-            <button variant="contained" color="ochre">
-              <UploadComponent onChange={handleFileChange} accept="image/*">
-                Upload image(s)
-              </UploadComponent>
-            </button>
-            {/* Display submitted files here */}
-            <div>
-              {submittedImages.map((imageName, index) => (
-                <div key={index}>{imageName}</div>
-              ))}
-            </div>
-          </FormControl>
-          <br />
-          <button
-            sx={{ float: "right", marginBottom: "20px" }}
-            variant="contained"
-            color="ochre"
-            type="submit"
-          >
-            Create return bird form
-          </button>
+            <FormControl fullWidth required style={{ marginBottom: 10 }}>
+              <Typography variant="h6" gutterBottom>
+                Return Note
+              </Typography>
+              <Editor
+                onGetHtmlValue={handleEditorChange}
+                htmlValue={returnNote}
+              />
+            </FormControl>
+            <FormControl required style={{ marginBottom: 15 }}>
+              <Typography variant="h6" gutterBottom>
+                Pictures
+              </Typography>
+              <Button variant="contained" color="ochre">
+                <UploadComponent onChange={handleFileChange} accept="image/*">
+                  Upload image(s)
+                </UploadComponent>
+              </Button>
+              {/* Display submitted files here */}
+              <div>
+                {submittedImages.map((imageName, index) => (
+                  <div key={index}>{imageName}</div>
+                ))}
+              </div>
+            </FormControl>
+            <br />
+            <Button
+              sx={{ float: "right", marginBottom: "20px" }}
+              variant="contained"
+              color="ochre"
+              type="submit"
+            >
+              Create return bird form
+            </Button>
 
-          <button
-            sx={{ float: "right", marginBottom: "20px" }}
-            color="ochre"
-            onClick={() => handleCancelClick()}
-          >
-            Cancel
-          </button>
-        </form>
+            <Button
+              sx={{ float: "right", marginBottom: "20px" }}
+              color="ochre"
+              onClick={() => handleCancelClick()}
+            >
+              Cancel
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 

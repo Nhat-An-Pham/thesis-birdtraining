@@ -162,7 +162,7 @@ export default function BirdAcademyMng() {
   return (
     <div className="workshop-container">
       <ReworkSidebar />
-      <div className="workshop_section-wrapper">
+      <div style={{ margin: "20px" }} className="workshop_section-wrapper">
         {renderCustomer && (
           <div className="workshop_section_table workshop_section_table-workshop">
             <h2>Customers</h2>
