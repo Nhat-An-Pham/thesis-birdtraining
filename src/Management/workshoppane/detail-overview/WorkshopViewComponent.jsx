@@ -68,22 +68,19 @@ export default function WorkshopViewComponent({ workshopId }) {
           item
           justifyContent="center"
           xs={12}
-          style={{ overflow: "scroll" }}
         >
-          <Carousel autoPlay swipeable>
-            {pictures.map((picture) => (
-              <div>
+           <Carousel autoPlay swipeable showThumbs={false}>
+              {pictures.map((picture) => (
                 <img
-                  srcSet={`${picture}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${picture}?w=164&h=164&fit=crop&auto=format`}
-                  alt="error"
-                  style={{ maxWidth: 800, maxHeight: 200 }}
-                  loading={<CircularProgress />
-                }
-                />
-              </div>
-            ))}
-          </Carousel>
+                // srcSet={`${picture}`}
+                src={`${picture}`}
+                alt="error"
+                style={{ height: 300, width: 'auto', maxWidth: '100%'}}
+                loading={<CircularProgress />
+              }
+              />
+              ))}
+            </Carousel>
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 const BASE_URL = process.env.REACT_APP_API;
+// const BASE_URL = 'https://localhost:7176';
 const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 class WorkshopManagementService {    
     getCurrentUser() {
