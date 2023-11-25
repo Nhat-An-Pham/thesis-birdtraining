@@ -101,7 +101,7 @@ export default function WorkshopManagementComponent() {
             )}
           </Grid>
           <Grid container item xs={6} justifyContent="flex-end" padding={3}>
-            {renderedIndex === 1 || renderedIndex === 3? (
+            {!(renderedIndex === 0) ? (
               <></>
             ) : (
               // <Button

@@ -118,7 +118,7 @@ const WorkshopPane = ({
                       hover
                       // selected
                       key={workshop.id}
-                      // onClick={() => handleWorkshopClick(workshop)}
+                      // onClick={() => onDetailRequest(workshop)}
                       onContextMenu={(event) =>
                         handleContextMenuForRow(event, index)
                       }
