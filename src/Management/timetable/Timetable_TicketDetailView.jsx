@@ -10,6 +10,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import addonService from "../../services/addon.service";
 
 const Timetable_TicketDetailView = ({
   callbackToCalendar,
@@ -119,7 +120,7 @@ const Timetable_TicketDetailView = ({
                 </>
               ) : null}
               <Typography>Appointment Date</Typography>
-              <Typography>{ticketDetail.appointmentDate}</Typography>
+              <Typography>{addonService.formatDate(ticketDetail.appointmentDate)}</Typography>
               <Typography>Slot Start</Typography>
               <Typography>{ticketDetail.actualSlotStart}</Typography>
               <Typography>Price</Typography>
