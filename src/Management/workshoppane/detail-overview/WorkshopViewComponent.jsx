@@ -15,6 +15,9 @@ import {
 import { useEffect, useState } from "react";
 import RawHTMLRenderer from "../../component/htmlRender/htmlRender";
 import WorkshopManagementService from "../../../services/workshop-management.service";
+import { toast } from "react-toastify";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export default function WorkshopViewComponent({ workshopId }) {
   const [pictures, setPictures] = useState([]);
@@ -40,9 +43,12 @@ export default function WorkshopViewComponent({ workshopId }) {
       );
       if (result) {
         await fetchWorkshopData();
+      } else {
+        toast.error("Cannot change this workshop's status");
       }
     } catch (error) {
       console.error("Error update staus:", error);
+      toast.error(error?.response?.data?.message);
     }
   };
   useEffect(() => {
@@ -57,19 +63,24 @@ export default function WorkshopViewComponent({ workshopId }) {
   return (
     <div>
       <Grid container>
-        <Grid container item justifyContent="center" xs={12} style={{overflow: "scroll"}}>
-          <ImageList sx={{ width: 800, height: 200 }} cols={3} rowHeight={164}>
-            {pictures.map((picture) => (
-              <ImageListItem key={picture}>
+        <Grid
+          container
+          item
+          justifyContent="center"
+          xs={12}
+        >
+           <Carousel autoPlay swipeable showThumbs={false}>
+              {pictures.map((picture) => (
                 <img
-                  srcSet={`${picture}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
-                  src={`${picture}?w=164&h=164&fit=crop&auto=format`}
-                  alt="error"
-                  loading={<CircularProgress />}
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
+                // srcSet={`${picture}`}
+                src={`${picture}`}
+                alt="error"
+                style={{ height: 300, width: 'auto', maxWidth: '100%'}}
+                loading={<CircularProgress />
+              }
+              />
+              ))}
+            </Carousel>
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>

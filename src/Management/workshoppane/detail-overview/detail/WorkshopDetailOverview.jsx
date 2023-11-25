@@ -37,7 +37,7 @@ export default function WorkshopDetailOverviewComponent({ workshop }) {
     // console.log('slot component: ' +selectedDetail);
   };
   return (
-    <Grid container spacing={2}>
+    <Grid container>
       <Grid item xs={12}>
         <WorkshopViewComponent workshopId={workshop.id} />
       </Grid>

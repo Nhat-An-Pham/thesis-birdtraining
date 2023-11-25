@@ -202,6 +202,14 @@ function TimetableStaff() {
               onSelectEvent={handleSelected}
               formats={formats}
               //   onNavigate={onNavigate}
+              eventPropGetter={(event) => {
+                return {
+                  style: {
+                    backgroundColor: event.typeId === 3 ? 'ocean' : event.typeId === 2 ? 'orange' : 'green',
+                    // Add more styles as needed
+                  },
+                };
+              }}
             />
           )}
         </Grid>
