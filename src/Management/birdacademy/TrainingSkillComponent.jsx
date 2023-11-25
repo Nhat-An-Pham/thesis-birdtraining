@@ -29,6 +29,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     setRenderReport(false);
   };
   const handleViewTrainingDetail = (progressId) => {
+    console.log(progressId);
     setSelectedProgressId(progressId);
     setRenderReport(true);
     setRenderTrainer(false);
@@ -45,12 +46,16 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const fetchData = async () => {
     try {
       // Replace this URL with your actual API endpoint //https://localhost:7176
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse-staff/birdtrainingprogress-requestedId?birdTrainingCourseId=${requestedId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setTrainingProgress(data); // Assuming data is an array of bird information
+      console.log(requestedId);
+      let params = {
+        birdTrainingCourseId: requestedId,
+      };
+      let response =
+        await trainingCourseManagementService.getBirdTrainingProgressByRequestId(
+          params
+        );
+      console.log(response);
+      setTrainingProgress(response);
     } catch (error) {
       console.error("Error fetching bird trainingProgress data:", error);
     }
@@ -66,6 +71,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     setRenderTrainer(false);
     setRenderReport(false);
     console.log("onCallbackAssigned");
+    setSelectedProgressId(null);
   };
   function handleCallBackMainButton() {
     callBackMainManagement();

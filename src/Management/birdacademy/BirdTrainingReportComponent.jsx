@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import addOnService from "../../services/addon.service";
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { Tab } from "@coreui/coreui";
 
 const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
@@ -18,14 +19,19 @@ const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
   // Replace this with your actual API call or data fetching logic
   const fetchReportData = async () => {
     try {
-      // Replace this URL with your actual API endpoint
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse-staff/birdtrainingreport-progressid?progressId=${progressId}`
-      );
-      const data = await response.json();
-      setReportList(data); // Assuming data is an array of bird information
+      // Replace this URL with your actual API endpoint //https://localhost:7176
+      console.log(progressId);
+      let params = {
+        progressId: progressId,
+      };
+      let response =
+        await trainingCourseManagementService.getBirdTrainingReportByProgressId(
+          params
+        );
+      console.log(response);
+      setReportList(response);
     } catch (error) {
-      console.error("Error fetching bird data:", error);
+      console.error("Error fetching bird trainingProgress data:", error);
     }
   };
 
@@ -52,7 +58,7 @@ const BirdTrainingReportComponent = ({ progressId, callbackAssigned }) => {
             {reportList.map((rsl) => (
               <TableRow key={rsl.reportId}>
                 <TableCell>{rsl.slotId}</TableCell>
-                <TableCell>{addOnService.formatDate(rsl.date)}</TableCell>
+                <TableCell>{rsl.date}</TableCell>
                 <TableCell>{rsl.trainerId}</TableCell>
                 <TableCell>{rsl.trainerName}</TableCell>
                 <TableCell>{rsl.status}</TableCell>

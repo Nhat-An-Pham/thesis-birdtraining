@@ -47,18 +47,17 @@ export default function BirdAcademyMng() {
     let params = {
       birdTrainingCourseId: key,
     };
-    trainingCourseManagementService
+    await trainingCourseManagementService
       .confirmBirdTrainingCourse(params)
-      .then((response) => response.json())
-      .then((data) => {
+      .then((response) => {
         // Handle the response data
-        console.log("Success:", data);
+        console.log("Success:", response.data);
       })
       .catch((error) => {
         // Handle errors
         console.error("Error:", error);
       });
-    console.log(birdTrainingCourseId); //birdTrainingCourseId
+    console.log(key); //birdTrainingCourseId
     // fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse-confirm?birdTrainingCourseId=${key}`, {
     //     method: 'POST',
     //     headers: {

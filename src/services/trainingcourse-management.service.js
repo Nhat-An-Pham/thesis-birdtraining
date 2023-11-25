@@ -102,6 +102,24 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async getAllBirdTrainingCourse(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-staff/birdtrainingcourses`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training slot detail failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async receiveBirdForm(formData) {
     try {
       const response = await axios.put(
@@ -141,6 +159,42 @@ class TrainingCourseManagementService {
       return response;
     } catch (error) {
       console.error("Error return bird input failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getBirdTrainingProgressByRequestId(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-staff/birdtrainingprogress-requestedId`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training slot detail failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getBirdTrainingReportByProgressId(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-staff/birdtrainingreport-progressid`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training slot detail failed:", error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }

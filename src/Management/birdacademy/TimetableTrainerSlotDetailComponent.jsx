@@ -179,8 +179,7 @@ const TimetableTrainerSlotDetailComponent = ({
                 />
               </Grid>
             </Grid>
-            {
-              //timetableDetail.status == "NotYet" && (
+            {timetableDetail.status == "NotYet" && (
               <ThemeProvider theme={ochreTheme}>
                 <Button
                   variant="contained"
@@ -190,7 +189,7 @@ const TimetableTrainerSlotDetailComponent = ({
                   Mark Training Done
                 </Button>
               </ThemeProvider>
-            }
+            )}
           </div>
         )}
       </div>

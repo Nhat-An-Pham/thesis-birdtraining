@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Button,
   FormControl,
+  Grid,
   Input,
   InputLabel,
   Stack,
@@ -12,9 +13,11 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import { UploadComponent } from "../component/upload/Upload";
 import Editor from "../component/text-editor/Editor";
 import { ochreTheme } from "../themes/Theme";
+import { useEffect } from "react";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
+  const [birdTrainingCourse, setBirdTrainingCourse] = useState(null);
   const [returnNote, setReturnNote] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
@@ -59,10 +62,34 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
         console.error("Error:", error);
       });
   };
-
+  async function fetchRequestedData() {
+    try {
+      let params = {
+        $filter: `id eq ${requestedId}`,
+      };
+      let response =
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      setBirdTrainingCourse(response[0]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  useEffect(() => {
+    fetchRequestedData();
+  }, [requestedId]);
   return (
     <ThemeProvider theme={ochreTheme}>
       <div>
+        {birdTrainingCourse != null && (
+          <Grid container spacing={1}>
+            <Grid item xs={2}>
+              <>Requested Id: </>
+            </Grid>
+            <Grid item xs={10}>
+              <>{birdTrainingCourse.id}</>
+            </Grid>
+          </Grid>
+        )}
         <h2>Create return bird form</h2>
         <div className="form-container">
           <form
@@ -70,9 +97,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
             className="form"
             encType="multipart/form-data"
           >
-            {/* <Typography variant="h6" gutterBottom>
-            Return bird form
-          </Typography> */}
+            <Typography variant="h6" gutterBottom>
+              Return bird form
+            </Typography>
             <FormControl fullWidth required style={{ marginBottom: 10 }}>
               <Typography variant="h6" gutterBottom>
                 Return Note
