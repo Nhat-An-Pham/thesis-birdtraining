@@ -64,7 +64,7 @@ export default function WorkshopManagementComponent() {
       <ToastContainer />
 
       <ThemeProvider theme={ochreTheme}>
-        <ReworkSidebar selectTab={3} />
+        <ReworkSidebar selectTab={4} />
         {/* <Button
                 variant="contained"
                 color="ochre"

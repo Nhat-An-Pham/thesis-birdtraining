@@ -223,7 +223,7 @@ function TimetableStaff() {
   return (
     <>
       <div className="workshop-container">
-        <ReworkSidebar />
+        <ReworkSidebar selectTab={3}/>
         <ToastContainer />
         <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
           {renderComponents[renderedIndex]}
