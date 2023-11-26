@@ -8,6 +8,12 @@ import {
   Toolbar,
   Typography,
   ThemeProvider,
+  TableContainer,
+  Paper,
+  TableHead,
+  TableBody,
+  TableCell,
+  Table,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import addonService from "../../services/addon.service";
@@ -65,73 +71,161 @@ const Timetable_TicketDetailView = ({
             </Typography>
           </Toolbar>
         </AppBar>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableCell>
+                <Typography>ID </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Customer </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Date </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Slot </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Address </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Distance</Typography>
+              </TableCell>
+            </TableHead>
+            {ticketDetail && (
+              <TableBody>
+                <TableCell>{ticketDetail.id}</TableCell>
+                <TableCell>{ticketDetail.customerName}</TableCell>
+                <TableCell>
+                  {addonService.formatDate(ticketDetail.appointmentDate)}
+                </TableCell>
+                <TableCell>{ticketDetail.actualSlotStart}</TableCell>
+                <TableCell>{ticketDetail.addressDetail}</TableCell>
+                <TableCell>{ticketDetail.distance}</TableCell>
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
+
+        <h1></h1>
+        <h1></h1>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableCell>
+                <Typography>More Detail</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Type </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Online/Offline</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Price </Typography>
+              </TableCell>
+              <TableCell>Status</TableCell>
+            </TableHead>
+            {ticketDetail && (
+              <TableBody>
+                <TableCell>
+                  <Typography>{ticketDetail.consultingDetail}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography> {ticketDetail.consultingType} </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>
+                    {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{ticketDetail.price}VND</Typography>
+                </TableCell>
+                <TableCell>
+                  {ticketDetail.status === "Approved" ? (
+                    <Typography style={{ color: "green" }}>
+                      {ticketDetail.status}
+                    </Typography>
+                  ) : (
+                    <Typography style={{ color: "red" }}>
+                      {ticketDetail.status}
+                    </Typography>
+                  )}
+                </TableCell>
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
+
+        <h1></h1>
+        <h1></h1>
+
+        <TableContainer component={Paper}>
+          <Table>
+            {ticketDetail && (
+              <TableHead>
+                {ticketDetail.onlineOrOffline === true &&
+                ticketDetail.status !== "Finished" ? (
+                  <TableCell>
+                    <Typography>Google Meet Link</Typography>
+                  </TableCell>
+                ) : ticketDetail.status === "Finished" ? (
+                  <TableCell>
+                    <Typography>Evidence</Typography>
+                  </TableCell>
+                ) : null}
+              </TableHead>
+            )}
+            {ticketDetail && (
+              <TableBody>
+                <TableCell>
+                  {ticketDetail.onlineOrOffline === true &&
+                  ticketDetail.status !== "Finished" ? (
+                    <Typography>
+                      {
+                        <input
+                          type="text"
+                          defaultValue={ticketDetail.ggMeetLink}
+                          onChange={(e) => setGoogleMeetLink(e.target.value)}
+                        />
+                      }
+                    </Typography>
+                  ) : ticketDetail.status === "Finished" ? (
+                    <Typography>{ticketDetail.evidence}</Typography>
+                  ) : null}
+                </TableCell>
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
+
+        {ticketDetail && (
+          <>
+            {ticketDetail.onlineOrOffline === true &&
+            ticketDetail.status !== "Finished" ? (
+              <Button
+                variant="contained"
+                color="ochre"
+                onClick={() =>
+                  handleUpdateLinkClick(ticketDetail.id, GoogleMeetLink)
+                }
+              >
+                Update New GoolgeMeet Link
+              </Button>
+            ) : null}
+          </>
+        )}
       </ThemeProvider>
 
       {ticketDetail && (
         <>
-          <div className="timetable-consulting-trainer-container">
-            <div className="timetable-consulting-trainer-wrapper">
-              <Typography>ID </Typography>
-              <Typography>{ticketDetail.id}</Typography>
-              <Typography>Customer </Typography>
-              <Typography>{ticketDetail.customerName}</Typography>
-              {ticketDetail.onlineOrOffline === false ? (
-                <>
-                  <Typography>Address </Typography>
-                  <Typography>{ticketDetail.addressDetail}</Typography>
-                </>
-              ) : null}
-              <Typography>Type </Typography>
-              <Typography>{ticketDetail.consultingType}</Typography>
-            </div>
-            <div className="timetable-consulting-trainer-wrapper timetable-consulting-trainer-wrapper-detail">
-              More Detail
-              <p>{ticketDetail.consultingDetail}</p>
-            </div>
-            <div className="timetable-consulting-trainer-wrapper">
-              {ticketDetail.onlineOrOffline === false ? (
-                <>
-                  <Typography>Distance</Typography>
-                  <Typography>{ticketDetail.distance}km</Typography>
-                </>
-              ) : null}
-              <Typography>Online/Offline </Typography>
-              <Typography>
-                {ticketDetail.onlineOrOffline ? "Online" : "Offline"}
-              </Typography>
-              {ticketDetail.onlineOrOffline === true &&
-              ticketDetail.status !== "Finished" ? (
-                <>
-                  <Typography>Google Meet Link</Typography>
-                  <Typography>
-                    {
-                      <input
-                        type="text"
-                        defaultValue={ticketDetail.ggMeetLink}
-                        onChange={(e) => setGoogleMeetLink(e.target.value)}
-                      />
-                    }
-                  </Typography>
-                </>
-              ) : ticketDetail.status === "Finished" ? (
-                <>
-                  <Typography>Evidence</Typography>
-                  <Typography>{ticketDetail.evidencee}</Typography>
-                </>
-              ) : null}
-              <Typography>Appointment Date</Typography>
-              <Typography>{addonService.formatDate(ticketDetail.appointmentDate)}</Typography>
-              <Typography>Slot Start</Typography>
-              <Typography>{ticketDetail.actualSlotStart}</Typography>
-              <Typography>Price</Typography>
-              <Typography>{ticketDetail.price}VND</Typography>
-              <Typography>Status</Typography>
-              <Typography>{ticketDetail.status}</Typography>
-            </div>
-          </div>
-
           <ThemeProvider theme={ochreTheme}>
-            {ticketDetail.onlineOrOffline === true && ticketDetail.status !== "Finished" ? (
+            {ticketDetail.onlineOrOffline === true &&
+            ticketDetail.status !== "Finished" ? (
               <Button
                 variant="contained"
                 color="ochre"

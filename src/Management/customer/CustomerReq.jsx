@@ -41,12 +41,16 @@ export default function CustomerReqComponent() {
         setRenderedIndex(renderedIndex)
     }
 
+    const handleCallBackToList = () => {
+        setRenderedIndex(1)
+    }
 
     let renderedComponents = [
         <TicketDetailView
             callBackRenderedIndex={onRenderedIndexSelect}
             ticketIdForDetail={ticketIdForDetail}
             callBackHaveAssignedTrainer={haveAssignedTrainer}
+            callBackToList={handleCallBackToList}
         />,
         <AssignedTicketView
             callBackRenderedIndex={onRenderedIndexSelect}
