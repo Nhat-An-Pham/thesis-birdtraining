@@ -105,7 +105,7 @@ class TrainingCourseManagementService {
   async getAllBirdTrainingCourse(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-staff/birdtrainingcourses`,
+        `${BASE_URL}/api/trainingcourse-staff/birdtrainingcourse`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -195,6 +195,44 @@ class TrainingCourseManagementService {
       return response.data;
     } catch (error) {
       console.error("Error get training slot detail failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getTrainersByBirdSkill(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-staff/trainer-birdskill`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training slot detail failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async modifyTrainerSlot(model) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-staff/trainerslot-modify`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }

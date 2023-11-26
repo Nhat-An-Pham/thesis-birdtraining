@@ -8,6 +8,7 @@ import {
   Stack,
   ThemeProvider,
   Typography,
+  Box,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
@@ -64,12 +65,10 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   };
   async function fetchRequestedData() {
     try {
-      let params = {
-        $filter: `id eq ${requestedId}`,
-      };
       let response =
-        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
-      setBirdTrainingCourse(response[0]);
+        await trainingCourseManagementService.getAllBirdTrainingCourse();
+      console.log(response);
+      setBirdTrainingCourse(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -79,18 +78,104 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   }, [requestedId]);
   return (
     <ThemeProvider theme={ochreTheme}>
+      <h2>Create return bird form</h2>
       <div>
-        {birdTrainingCourse != null && (
-          <Grid container spacing={1}>
-            <Grid item xs={2}>
-              <>Requested Id: </>
-            </Grid>
-            <Grid item xs={10}>
-              <>{birdTrainingCourse.id}</>
-            </Grid>
-          </Grid>
-        )}
-        <h2>Create return bird form</h2>
+        {birdTrainingCourse != null &&
+          birdTrainingCourse
+            .filter((request) => request.id == requestedId)
+            .map((request) => (
+              <Box sx={{ flexGrow: 1, p: 2 }}>
+                <Grid
+                  container
+                  spacing={1}
+                  sx={{
+                    "--Grid-borderWidth": "1px",
+                    borderTop: "var(--Grid-borderWidth) solid",
+                    borderLeft: "var(--Grid-borderWidth) solid",
+                    borderColor: "divider",
+                    "& > div": {
+                      borderRight: "var(--Grid-borderWidth) solid",
+                      borderBottom: "var(--Grid-borderWidth) solid",
+                      borderColor: "divider",
+                    },
+                  }}
+                >
+                  <Grid item xs={1}>
+                    <>Requested Id: </>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>{request.id}</>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <>Bird Name: </>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>{request.birdName}</>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <>Customer Name: </>
+                  </Grid>
+                  <Grid item xs={5}>
+                    <>{request.customerName}</>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>Training course title: </>
+                  </Grid>
+                  <Grid item xs={10.5}>
+                    <>{request.trainingCourseTitle}</>
+                  </Grid>
+                  <Grid item xs={1}></Grid>
+                  <Grid item xs={1.5}>
+                    <>Registered Date: </>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>{request.registeredDate}</>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>Start training Date: </>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>{request.startTrainingDate}</>
+                  </Grid>
+                  <Grid item xs={1.5}>
+                    <>Done training Date: </>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <>{request.trainingDoneDate}</>
+                  </Grid>
+                  <Grid margin-top={"1px"} item xs={2}>
+                    <>Base training price: </>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <>{request.totalPrice}</>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <>Training price apply member: </>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <>{request.discountedPrice}</>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <>Membership Rank: </>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <>{request.membershipRank}</>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <>Status: </>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <>{request.status}</>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <>Total payment: </>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <>{request.actualPrice}</>
+                  </Grid>
+                </Grid>
+              </Box>
+            ))}
         <div className="form-container">
           <form
             onSubmit={handleSubmit}
@@ -132,7 +217,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               color="ochre"
               type="submit"
             >
-              Create return bird form
+              Confirm check out
             </Button>
 
             <Button

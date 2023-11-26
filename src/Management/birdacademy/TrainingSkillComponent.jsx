@@ -20,6 +20,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
 
   const [selectedBirdSkillId, setSelectedBirdSkillId] = useState(null);
   const [selectedProgressId, setSelectedProgressId] = useState(null);
+  const [selectedProgress, setSelectedProgress] = useState(null);
   const handleTrainerAssign = (birdSkillId, progressId) => {
     setSelectedProgressId(progressId);
     console.log("progress " + progressId);
@@ -28,9 +29,13 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     setRenderTrainer(true);
     setRenderReport(false);
   };
-  const handleViewTrainingDetail = (progressId) => {
+  const handleViewTrainingDetail = (birdSkillId, progressId, item) => {
     console.log(progressId);
     setSelectedProgressId(progressId);
+    console.log(birdSkillId);
+    setSelectedBirdSkillId(birdSkillId);
+    console.log(item);
+    setSelectedProgress(item);
     setRenderReport(true);
     setRenderTrainer(false);
     setRenderProgress(false);
@@ -145,7 +150,15 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                       </TableCell>
                     )}
                     <TableCell>
-                      <button onClick={() => handleViewTrainingDetail(item.id)}>
+                      <button
+                        onClick={() =>
+                          handleViewTrainingDetail(
+                            item.birdSkillId,
+                            item.id,
+                            item
+                          )
+                        }
+                      >
                         View training details
                       </button>
                     </TableCell>
@@ -180,7 +193,8 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
       )}
       {renderReport && (
         <BirdTrainingReportComponent
-          progressId={selectedProgressId}
+          selectedProgress={selectedProgress}
+          birdSkillId={selectedBirdSkillId}
           callbackAssigned={onCallbackAssigned}
         />
       )}

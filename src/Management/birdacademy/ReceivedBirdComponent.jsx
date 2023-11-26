@@ -104,12 +104,11 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
               color="ochre"
               type="submit"
             >
-              Create receive bird form
+              Confirm check in
             </Button>
 
             <Button
               sx={{ float: "right", marginBottom: "20px" }}
-              variant="contained"
               color="ochre"
               onClick={() => handleCancelClick()}
             >

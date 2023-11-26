@@ -199,7 +199,7 @@ export default function BirdAcademyMng() {
                             >
                               <img
                                 src={user.avatar}
-                                alt="Description of the image"
+                                alt="Customer avatar"
                                 style={{ width: "200px", height: "150px" }}
                               />
                             </a>

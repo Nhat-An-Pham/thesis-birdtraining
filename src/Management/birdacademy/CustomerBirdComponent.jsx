@@ -69,7 +69,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
                 >
                   <img
                     src={bird.picture}
-                    alt="Description of the image"
+                    alt="Bird avatar"
                     style={{ width: "200px", height: "150px" }}
                   />
                 </a>
