@@ -46,7 +46,7 @@ const AssignedTicketView = ({
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {listAssignedConsultingTicket.map((row, index) => (
+                                    {listAssignedConsultingTicket.map((row, index) => (
                                     <TableRow key={index}>
                                         <TableCell>{row.id}</TableCell>
                                         <TableCell>{row.onlineOrOffline ? 'Online' : 'Offine'}</TableCell>
