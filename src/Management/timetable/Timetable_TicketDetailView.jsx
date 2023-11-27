@@ -220,25 +220,6 @@ const Timetable_TicketDetailView = ({
           </>
         )}
       </ThemeProvider>
-
-      {ticketDetail && (
-        <>
-          <ThemeProvider theme={ochreTheme}>
-            {ticketDetail.onlineOrOffline === true &&
-            ticketDetail.status !== "Finished" ? (
-              <Button
-                variant="contained"
-                color="ochre"
-                onClick={() =>
-                  handleUpdateLinkClick(ticketDetail.id, GoogleMeetLink)
-                }
-              >
-                Update New GoolgeMeet Link
-              </Button>
-            ) : null}
-          </ThemeProvider>
-        </>
-      )}
     </>
   );
 };

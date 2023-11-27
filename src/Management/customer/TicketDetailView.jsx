@@ -118,6 +118,9 @@ const TicketDetailView = ({
               <Typography>Customer </Typography>
             </TableCell>
             <TableCell>
+              <Typography>Email</Typography>
+            </TableCell>
+            <TableCell>
               <Typography>Date </Typography>
             </TableCell>
             <TableCell>
@@ -136,6 +139,9 @@ const TicketDetailView = ({
             </TableCell>
             <TableCell>
               <Typography> {ticketDetail.customerName}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{ticketDetail.customerEmail}</Typography>
             </TableCell>
             <TableCell>
               <Typography>
