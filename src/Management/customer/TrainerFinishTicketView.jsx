@@ -14,6 +14,7 @@ import {
   Toolbar,
   Typography,
   Table,
+  Paper,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -131,7 +132,7 @@ const TrainerFinishTicketView = ({
         </Toolbar>
       </AppBar>
 
-      <TableContainer>
+      <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableCell>
