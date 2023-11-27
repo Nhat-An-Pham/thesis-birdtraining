@@ -99,7 +99,7 @@ class UserService {
         return response;
     }
 
-    async putUserProfile({ name, email, phoneNumber, password }) {
+    async putUserProfile({ name, email, phoneNumber, password, gender = null, birthDay = null, ggMeetLink = null }) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
             .put(API_PROFILE + "profile/update-information", {
@@ -107,6 +107,9 @@ class UserService {
                 email,
                 phoneNumber,
                 password,
+                gender,
+                birthDay,
+                ggMeetLink
             }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
