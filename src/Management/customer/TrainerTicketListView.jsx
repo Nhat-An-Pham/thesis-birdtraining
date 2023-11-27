@@ -5,10 +5,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Button,
+  Table,
+  Typography,
+  Stack,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Button, Table } from "react-bootstrap";
 import consultantService from "../../services/consultant.service";
 
 import addonService from "../../services/addon.service";
@@ -42,10 +45,22 @@ const TrainerTicketListView = ({
   };
   return (
     <>
-      <Button onClick={() => handleFinishedView(3)}>
-        View List Finished Ticket
-      </Button>
-      <h2>List Assigned Ticket</h2>
+      <Stack
+        direction="column"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+        spacing={2}
+      >
+        <Button
+          variant="contained"
+          color="ochre"
+          onClick={() => handleFinishedView(3)}
+        >
+          View List Finished Ticket
+        </Button>
+        <Typography variant={"h4"}>List Assigned Ticket</Typography>
+      </Stack>
+
       {
         <TableContainer component={Paper}>
           <Table>
@@ -69,6 +84,8 @@ const TrainerTicketListView = ({
                   <TableCell>{row.actualSlotStart}</TableCell>
                   <TableCell>
                     <Button
+                      variant="contained"
+                      color="ochre"
                       onClick={() => {
                         handleDetailClick(row.id);
                       }}

@@ -284,6 +284,8 @@ const TrainerTicketDetailView = ({
             </Button>
           ) : ticketDetail.onlineOrOffline === false ? (
             <Button
+              variant="contained"
+              color="ochre"
               onClick={() =>
                 handleFinishClick(
                   1,
