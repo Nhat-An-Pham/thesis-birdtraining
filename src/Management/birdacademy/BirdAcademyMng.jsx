@@ -15,6 +15,7 @@ import CustomerBirdComponent from "./CustomerBirdComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import ReceivedBirdComponent from "./ReceivedBirdComponent";
 import ReturnBirdComponent from "./ReturnBirdComponent";
+import TrainingCourseMng from "./manager/TrainingCourseMng";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
@@ -23,6 +24,7 @@ export default function BirdAcademyMng() {
   const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
   const [renderReceiveBirdForm, setRenderReceiveBirdForm] = useState(false);
   const [renderReturnBirdForm, setRenderReturnBirdForm] = useState(false);
+  const [renderManager, setRenderManager] = useState(false);
 
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(null); //birdTrainingCourseId
   const handleCancelButtonClick = async (key) => {
@@ -157,6 +159,16 @@ export default function BirdAcademyMng() {
     setShowBirdList(false);
     setRenderReceiveBirdForm(false);
     setRenderReturnBirdForm(false);
+    setRenderManager(false);
+  };
+  const handleManagerClick = () => {
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
+    setRenderTrainingSkill(false);
+    setShowBirdList(false);
+    setRenderReceiveBirdForm(false);
+    setRenderReturnBirdForm(false);
+    setRenderManager(true);
   };
   return (
     <div className="workshop-container">
@@ -164,6 +176,9 @@ export default function BirdAcademyMng() {
       <div style={{ margin: "20px" }} className="workshop_section-wrapper">
         {renderCustomer && (
           <div className="workshop_section_table workshop_section_table-workshop">
+            <button onClick={() => handleManagerClick()}>
+              Training coursee management
+            </button>
             <h2>Customers</h2>
             <TableContainer component={Paper}>
               <Table>
@@ -398,6 +413,9 @@ export default function BirdAcademyMng() {
           )}
         </Table>
       </div>
+      {renderManager && (
+        <TrainingCourseMng callBackMainManagement={onCallBackMainManagement} />
+      )}
     </div>
   );
 }
