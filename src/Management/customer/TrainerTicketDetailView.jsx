@@ -61,10 +61,7 @@ const TrainerTicketDetailView = ({
                 <TableCell>Detail</TableCell>
                 <TableCell>Distance</TableCell>
                 <TableCell>Online/Offline</TableCell>
-                {ticketDetail.onlineOrOffline === true &&
-                ticketDetail.status !== "Finished" ? (
-                  <TableCell>Meet Link</TableCell>
-                ) : ticketDetail.status === "Finished" ? (
+                {ticketDetail.status === "Finished" ? (
                   <TableCell>Evidence</TableCell>
                 ) : null}
                 <TableCell>Date</TableCell>
@@ -85,18 +82,7 @@ const TrainerTicketDetailView = ({
               <TableCell>
                 {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
               </TableCell>
-              {ticketDetail.onlineOrOffline === true &&
-              ticketDetail.status !== "Finished" ? (
-                <TableCell>
-                  {
-                    <input
-                      type="text"
-                      defaultValue={ticketDetail.ggMeetLink}
-                      onChange={(e) => setGgMeetLink(e.target.value)}
-                    />
-                  }
-                </TableCell>
-              ) : ticketDetail.status === "Finished" ? (
+              {ticketDetail.status === "Finished" ? (
                 <>
                   <TableCell>
                     {ticketDetail.evidence.split(",").map((evidence) => (

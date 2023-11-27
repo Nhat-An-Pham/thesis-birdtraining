@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Grid } from "@mui/material";
+import { Grid, ThemeProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
-import { ThemeProvider } from "react-bootstrap";
 import TrainerTicketDetailView from "./TrainerTicketDetailView";
 import TrainerTicketListView from "./TrainerTicketListView";
 import { ochreTheme } from "../themes/Theme";
@@ -30,6 +29,10 @@ export default function TrainerTicketComponent() {
     const onRenderedIndexSelect = (renderedIndex) => {
         setRenderedIndex(renderedIndex)
     }
+    
+    const handleCallBackToDetail = () => {
+        setRenderedIndex(0);
+      };
 
     let renderedComponents = [
         <TrainerTicketDetailView
@@ -43,6 +46,7 @@ export default function TrainerTicketComponent() {
         <TrainerFinishTicketView
             callBackRenderedIndex={onRenderedIndexSelect}
             ticketIdForDetail={ticketIdForDetail}
+            callBackToDetail={handleCallBackToDetail}
         />,
         <FinishedTicketView
             callBackRenderedIndex={onRenderedIndexSelect}
