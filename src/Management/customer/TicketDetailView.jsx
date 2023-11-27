@@ -103,7 +103,7 @@ const TicketDetailView = ({
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Ticket Detail
+            Ticket Det0ail
           </Typography>
         </Toolbar>
       </AppBar>
