@@ -212,7 +212,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error("Error get trainers failed:", error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -226,6 +226,201 @@ class TrainingCourseManagementService {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+
+  async getAllTrainingCourse(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/basetrainingcourse`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training courses failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getAllTrainingCourseById(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/basetrainingcourse-id`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training course -id  failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getAllBirdSkill(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/birdskill`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get bird skills failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getAllBirdSpecies(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get bird skills failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async createTrainingCourse(model) {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/trainingcourse-manager/create-trainingcourse`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async editTrainingCourse(model) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/edit-trainingcourse`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async addTrainingSkill(model) {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/trainingcourse-manager/add-trainingskill`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async removeTrainingSkill(model) {
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/api/trainingcourse-manager/delete-trainingskill`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async activeTrainingCourse(params) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/active-trainingcourse`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async disableTrainingCourse(params) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/disable-trainingcourse`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
         }
       );
       // Handle the response and update the state
