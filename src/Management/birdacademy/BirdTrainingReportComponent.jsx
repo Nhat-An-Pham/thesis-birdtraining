@@ -81,8 +81,8 @@ const BirdTrainingReportComponent = ({
                 <TableCell>Slot</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Trainer Name</TableCell>
-                <TableCell></TableCell>
                 <TableCell>Status</TableCell>
+                <TableCell></TableCell>
                 <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (

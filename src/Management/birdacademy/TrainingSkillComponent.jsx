@@ -8,6 +8,7 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
@@ -101,7 +102,14 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               </TableHead>
               <TableBody>
                 {trainingProgress.map((item) => (
-                  <TableRow key={item.id}>
+                  <TableRow
+                    key={item.id}
+                    style={{
+                      cursor: "pointer",
+                      background:
+                        selectedProgressId === item.id ? "#f0f0f0" : "white",
+                    }}
+                  >
                     <TableCell>{item.birdSkillName}</TableCell>
                     <TableCell>{item.trainerName}</TableCell>
                     <TableCell>
@@ -129,28 +137,28 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                     <TableCell>{item.status}</TableCell>
                     {item.status == "WaitingForAssign" && ( //WaitingForAssign
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             handleTrainerAssign(item.birdSkillId, item.id)
                           }
                         >
                           Assign trainer
-                        </button>
+                        </Button>
                       </TableCell>
                     )}
                     {item.status == "Assigned" && (
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             handleTrainerAssign(item.birdSkillId, item.id)
                           }
                         >
                           Re-assign trainer
-                        </button>
+                        </Button>
                       </TableCell>
                     )}
                     <TableCell>
-                      <button
+                      <Button
                         onClick={() =>
                           handleViewTrainingDetail(
                             item.birdSkillId,
@@ -160,7 +168,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                         }
                       >
                         View training details
-                      </button>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -168,18 +176,22 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
             </Table>
           </TableContainer>
           <div className="main-button-container">
-            <button
+            <Button
+              sx={{ float: "right", marginBottom: "20px" }}
+              variant="contained"
+              color="ochre"
               className="button"
               onClick={() => handleCallBackMainButton()}
             >
               Confirm
-            </button>
-            <button
+            </Button>
+            <Button
+              sx={{ float: "right", marginRight: "10px", marginBottom: "20px" }}
               className="button"
               onClick={() => handleCallBackMainButton()}
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </>
       )}

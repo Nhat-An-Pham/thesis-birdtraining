@@ -8,6 +8,7 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 
@@ -79,9 +80,9 @@ const TrainerListByBirdSkill = ({
               <TableCell>{trainer.name}</TableCell>
               <TableCell>{trainer.email}</TableCell>
               <TableCell>
-                <button onClick={() => handleAssignButton(trainer.id)}>
+                <Button onClick={() => handleAssignButton(trainer.id)}>
                   Assign
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
