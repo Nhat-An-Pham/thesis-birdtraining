@@ -8,6 +8,24 @@ class TrainingCourseManagementService {
     const user = jwtDecode(ACCESS_TOKEN);
     return user;
   }
+  async getAllRequestedUser(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/all-requested-users`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training slot detail failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async confirmBirdTrainingCourse(params = null) {
     try {
       const response = await axios.post(

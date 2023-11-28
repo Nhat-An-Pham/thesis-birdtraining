@@ -115,12 +115,9 @@ export default function BirdAcademyMng() {
   const fetchBirdTrainingCourseData = async () => {
     try {
       // Replace this URL with your actual API endpoint
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`
-      );
-      const data = await response.json();
-      //console.log(data);
-      setBirdTrainingCourse(data); // Assuming data is an array of bird information
+      let response =
+        await trainingCourseManagementService.getAllBirdTrainingCourse();
+      setBirdTrainingCourse(response); // Assuming data is an array of bird information
     } catch (error) {
       console.error("Error fetching bird data:", error);
     }
@@ -129,11 +126,9 @@ export default function BirdAcademyMng() {
   const fetchCustomerData = async () => {
     try {
       // Replace this URL with your actual API endpoint
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse/all-requested-users`
-      );
-      const data = await response.json();
-      setUsers(data); // Assuming data is an array of bird information
+      let response =
+        await trainingCourseManagementService.getAllRequestedUser();
+      setUsers(response); // Assuming data is an array of bird information
     } catch (error) {
       console.error("Error fetching bird data:", error);
     }

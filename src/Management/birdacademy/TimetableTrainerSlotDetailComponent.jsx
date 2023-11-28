@@ -27,6 +27,7 @@ import addonService from "../../services/addon.service";
 import timetableService from "../../services/timetable.service";
 import trainingCourseManagementService from "../../services/trainingcourse-management.service";
 import { ochreTheme } from "../themes/Theme";
+import { toast } from "react-toastify";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
@@ -75,7 +76,7 @@ const TimetableTrainerSlotDetailComponent = ({
       .then((response) => {
         console.log("Success:", response);
         if (response.status == 206) {
-          console.log("markskilldone");
+          toast.log("markskilldone");
         }
         callBackTimetable();
       })
