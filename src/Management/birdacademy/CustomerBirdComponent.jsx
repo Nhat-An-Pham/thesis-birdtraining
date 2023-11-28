@@ -6,6 +6,7 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import BirdSkillReceivedComponent from "./BirdSkillReceivedComponent";
@@ -75,25 +76,28 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
                 </a>
               </TableCell>
               <TableCell>
-                <button
+                <Button
                   onClick={() => handleButtonBirdSkillReceivedClick(bird.id)}
                 >
                   View received bird skills
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
-          <Table>
-            {selectedBird != null && (
-              <BirdSkillReceivedComponent birdId={selectedBird} />
-            )}
-          </Table>
         </Table>
+        {selectedBird != null && (
+          <BirdSkillReceivedComponent birdId={selectedBird} />
+        )}
       </TableContainer>
       <div className="main-button-container">
-        <button className="button" onClick={() => handleCallBackMainButton()}>
+        <Button
+          sx={{ float: "right", marginBottom: "20px" }}
+          variant="contained"
+          color="ochre"
+          onClick={() => handleCallBackMainButton()}
+        >
           Back
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -76,7 +76,7 @@ const TimetableTrainerSlotDetailComponent = ({
       .then((response) => {
         console.log("Success:", response);
         if (response.status == 206) {
-          toast.log("markskilldone");
+          toast.log("Training skill have done!");
         }
         callBackTimetable();
       })
