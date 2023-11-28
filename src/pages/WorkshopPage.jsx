@@ -1,39 +1,27 @@
-import React, { useState } from 'react'
-import Cards from '../components/cards/Cards'
+import React from 'react'
+import Cards from '../components/cards/WorkshopClassListCards'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from "react"
+import WorkshopService from '../services/workshop.service'
+// import workshops from '../assets/fakedb/workshops'
 
 
 const Workshop = () => {
-    const [event, setEvent] = useState([
-        {
-            id: "1",
-            title: "Event 1",
-            shortdescr: "This is the first Event",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            status: "available"
-        }, {
-            id: "2",
-            title: "Event 2",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the second Event",
-            status: "available"
-        }, {
-            id: "3",
-            title: "Event 3",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the third Event",
-            price: "10",
-            status: "available"
-        }, {
-            id: "4",
-            title: "Event 4",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the fournth Event",
-            price: "10",
-            status: "available"
-        }
-    ])
 
+    const [workshopList, setWorkshopList] = useState([]);
+    //take first 4 workshops
+    const sliceWorkshop = workshopList.slice(0, 4)
+    const token = localStorage.getItem("user-token")
+
+    useEffect(() => {
+        WorkshopService
+            .getWorkshopList()
+            .then((res) => {
+                console.log("success workshop list test", res.data);
+                setWorkshopList(res.data);
+            })
+            .catch((e) => console.log("fail workshop list test", e));
+    }, []);
 
     return (
         <div className='workshopspage'>
@@ -47,7 +35,9 @@ const Workshop = () => {
                     <div class="workshoppage_carousel_section-curve"></div>
 
                     <div className='workshoppage_carousel_section workshoppage_carousel_section-button'>
-                        <button>Join for free</button>
+                        {!token &&
+                            <Link to='/signup'><button>Join for free</button></Link>
+                        }
                     </div>
                     <div className='workshoppage_carousel_section ocp_carousel_section-video'>
                         <img src={require("../assets/pages/ocp/ocp_carousel.jpg")} alt='' />
@@ -65,10 +55,10 @@ const Workshop = () => {
                     </h2>
                 </div>
                 <div className='workshoppageevents_elements workshoppageevents_elements-cards'>
-                    {event.map((events) => (
-                        <Cards id={events.id} title={events.title} key={events.id}
-                            thumbnail={events.backgroundimage} shortdescr={events.shortdescr}
-                            price={events.price} >
+                    {sliceWorkshop.map((workshop) => (
+                        <Cards id={workshop.id} title={workshop.title} key={workshop.id}
+                            thumbnail={workshop.picture.split(",")[0]} shortdescr={workshop.description}
+                            price={workshop.price} >
                         </Cards>
                     ))}
                 </div>

@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
 const HomePage = () => {
 
-    const [member, setMember] = useState([
+    const member = [
         {
             id: "1",
             name: "Nhat An Pham",
@@ -12,26 +12,26 @@ const HomePage = () => {
 
         }, {
             id: "2",
-            name: "Nhat An Pham",
+            name: "Nguyen Thanh Trung",
             descr: "avian behaviour and training consultant,general manager - cape sanctuary, Hawkes bay",
-            thumbnail: (require("../assets/pages/home/member/Nhat An Pham.jpeg")),
+            thumbnail: (require("../assets/pages/home/member/Thanh Trung.jpg")),
 
         }, {
             id: "3",
-            name: "Nhat An Pham",
+            name: "Hoang Dinh Thong",
             descr: "avian behaviour and training consultant,general manager - cape sanctuary, Hawkes bay",
-            thumbnail: (require("../assets/pages/home/member/Nhat An Pham.jpeg")),
+            thumbnail: (require("../assets/pages/home/member/Hoang Thong.jpg")),
 
         }, {
             id: "4",
-            name: "Nhat An Pham",
+            name: "Nguyen Tho Thai Bao",
             descr: "avian behaviour and training consultant,general manager - cape sanctuary, Hawkes bay",
-            thumbnail: (require("../assets/pages/home/member/Nhat An Pham.jpeg")),
+            thumbnail: (require("../assets/pages/home/member/Bao Nguyen.jpg")),
 
         },
-    ])
+    ]
 
-    const [service, setService] = useState([
+    const service = [
         {
             id: "1",
             name: "Private Consultation",
@@ -43,30 +43,30 @@ const HomePage = () => {
             id: "2",
             name: "Professional Workshops and Services",
             descr: "Customised workshops/presentations or consulting services for professional organisations such as vets, rescues, shelters, zoos and other animal related businesses.",
-            image: (require("../assets/pages/home/service/Parrot.avif")),
+            image: (require("../assets/pages/home/service/Parrot2.jpeg")),
             link: "/workshops",
         },
         {
             id: "3",
             name: "Online Courses, webinars and more",
             descr: "On-demand, self paced courses and webinars on parrot training, behaviour, husbandry, enrichment and more.",
-            image: (require("../assets/pages/home/service/Parrot.avif")),
+            image: (require("../assets/pages/home/service/Parrot3.jpeg")),
             link: "/courses",
         },
         {
             id: "4",
             name: "Parrot Training Academy",
             descr: "Our unique Parrot Training Academy workshop series aimed at parrot enthusiasts of all skill levels and knowledge! In-person, Virtual and On Demand!",
-            image: (require("../assets/pages/home/service/Parrot.avif")),
+            image: (require("../assets/pages/home/service/Parrot4.jpeg")),
             link: "/birdacademy",
         },
-    ])
+    ]
 
-    const [review, setReview] = useState({
+    const review = {
         img: (require("../assets/pages/home/review/review.jpeg")),
         name: "Nhat An Pham",
         review: ".... My bird has been better since I use ... service, hoping this site will improve and go further in the future",
-    })
+    }
 
     return (
         <div className='homepage'>
@@ -134,14 +134,14 @@ const HomePage = () => {
                 </div>
                 <div className='homeservice_section homeservice_section-cards'>
                     {service && service.map((services) => (
-                        <div key={services.id} className='homecardservice_container'
-                            style={{ backgroundImage: `url(${services.image}) ` }}>
+                        <Link key={services.id} className='homecardservice_container' to={services.link}>
+                            <img src={services.image} alt={services.image}></img>
                             <h5>{services.name}</h5>
                             <p>{services.descr}</p>
                             <div className='homecardservice_button'>
                                 <Link to={services.link}>Learn More</Link>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -157,7 +157,7 @@ const HomePage = () => {
                     </div>
                     <div className='homereviewbody homereviewbody-content'>
                         <h4>" REVIEW "</h4>
-                        <p1>{review.review}</p1>
+                        <p>{review.review}</p>
                         <p>- {review.name}</p>
                     </div>
                 </div>

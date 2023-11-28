@@ -1,0 +1,20 @@
+.userdetail-box-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        ". ."
+        ". ."
+        ". ."
+        ". ."
+        ". ."
+        ". .";
+    border: 0.7px grey solid;
+    div {
+        border: 0.3px grey solid;
+        padding: 10px;
+        margin: 0px;
+        width: 300px;
+    }
+}

@@ -1,0 +1,112 @@
+.timetable-container {
+    height: auto;
+    display: flex;
+    width: 100%;
+}
+
+.timetable-wrapper {
+    width: 100%;
+    margin-left: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.timetable_section {
+    width: 80%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    & h2 {
+        border-bottom: 1px black solid;
+        margin-bottom: 40px;
+    }
+
+    &-center {}
+
+    &-employee {
+        //date picking
+        & .react-datepicker-wrapper{
+            height: auto;
+            width: 250px;
+            & .react-datepicker__input-container{
+                height: 100%;
+                width: 100%;
+                & input{
+                    height: 70%;
+                    width: 70%;
+                    border-radius: 15px;
+                    border: 1px grey solid;
+                    padding: 10px;
+                }
+            }
+        }
+        & .react-datepicker-popper{
+            z-index: 20;
+        }
+    }
+
+}
+
+
+//Commons
+.timetable_section_center {
+    &-button {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin-top: 20px;
+        height: 50px;
+
+        & button {
+            cursor: pointer;
+            background-color: #C8AE7D;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+}
+
+.timetable_section_employee {
+    &-button {
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin-top: 20px;
+        height: 50px;
+
+        & button {
+            cursor: pointer;
+            background-color: #C8AE7D;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+    &-select{
+        margin-top: 10px;
+        margin-bottom: 20px;
+        height: auto;
+        & select{
+            height: 100%;
+            width: 40%;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: bisque;
+        }
+    }
+}

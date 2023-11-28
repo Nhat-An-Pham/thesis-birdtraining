@@ -1,38 +1,22 @@
-import React, { useState } from 'react'
-import Cards from '../components/cards/Cards'
-
+import React from 'react'
+import Cards from '../components/cards/WorkshopClassListCards'
+// import workshops from "../assets/fakedb/workshops"
+import WorkshopService from '../services/workshop.service'
+import {useState, useEffect} from "react"
 
 const WorkshopListPage = () => {
-    const [event, setEvent] = useState([
-        {
-            id: "1",
-            title: "Event 1",
-            shortdescr: "This is the first Event",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            status: "available"
-        }, {
-            id: "2",
-            title: "Event 2",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the second Event",
-            status: "available"
-        }, {
-            id: "3",
-            title: "Event 3",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the third Event",
-            price: "10",
-            status: "available"
-        }, {
-            id: "4",
-            title: "Event 4",
-            backgroundimage: (require("../assets/pages/ocp/ocp_carousel.jpg")),
-            shortdescr: "This is the fournth Event",
-            price: "10",
-            status: "available"
-        }
-    ])
 
+    const [workshopList, setWorkshopList] = useState([]);
+
+    useEffect(() => {
+        WorkshopService
+            .getWorkshopList()
+            .then((res) => {
+                console.log("success workshop list test", res.data);
+                setWorkshopList(res.data);
+            })
+            .catch((e) => console.log("fail workshop list test", e));
+    }, []);
 
     return (
         <div className='workshoplistpage'>
@@ -44,10 +28,10 @@ const WorkshopListPage = () => {
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-list'>
                 <div className='workshoplistpagelist_elements workshoplistpagelist_elements-cards'>
-                    {event.map((events) => (
-                        <Cards id={events.id} title={events.title} key={events.id}
-                            thumbnail={events.backgroundimage} shortdescr={events.shortdescr}
-                            price={events.price} >
+                    {workshopList.map((workshop) => (
+                        <Cards id={workshop.id} title={workshop.title} key={workshop.id}
+                            thumbnail={workshop.picture.split(",")[0]} shortdescr={workshop.description}
+                            price={workshop.price} >
                         </Cards>
                     ))}
                 </div>

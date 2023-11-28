@@ -1,0 +1,118 @@
+.booking-container {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px 6px 39px -6px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 10px 6px 39px -6px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 10px 6px 39px -6px rgba(0, 0, 0, 0.75);
+
+}
+
+.booking_section {
+    width: 50%;
+    height: 100%;
+
+    &-inputcontainer{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &-calendar {
+        padding-top: 20px;
+        width: 40%;
+        border-left: 1px #EAC696 solid;
+        
+    }
+    &_calendar{
+        &-button{
+            margin-top: 30px;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            & button{
+                padding: 12px;
+                border-radius: 10px;
+                background-color: #EAC696 ;
+                color: white;
+                border: 1px #EAC696 solid ;
+                &:hover{
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.booking_section_input{
+    width: 90%;
+    border-bottom: 1px solid #EAC696;
+    &-input{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        height: 55%;
+
+        & input{
+            width: 80%;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+    }
+    &_input{
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+
+        & select{
+            width: 85%;
+            height: 40px;
+            & option{
+                height: 40px;
+            }  
+        }
+    }
+    &-appointment{
+        height: 45%;
+        width: 90%;
+        & .appointment-content{
+            background-color: #F5F5F5;
+            width: 100%;
+            height: 100%;
+        }
+        & .appointment-picker{
+            width: 100%;
+            height: 100%;
+            &__col{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                align-items: flex-start;
+                &__name{
+                    display: block;
+                    width: 100%;
+                    margin: 0px;
+                }
+                & .appointment{
+                    display: block;
+                    margin: 0px;
+                    width: 100px;
+                    margin: 20px;
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+
+                }
+            }
+        }
+    }
+}
