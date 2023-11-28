@@ -12,9 +12,11 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import { UploadComponent } from "../component/upload/Upload";
 import Editor from "../component/text-editor/Editor";
 import { ochreTheme } from "../themes/Theme";
+import { toast } from "react-toastify";
 const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
   const [receiveNote, setReceiveNote] = useState("");
+  const [tmpNote, setTmpNote] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
 
@@ -37,26 +39,37 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a FormData object to hold the form data
-    const formData = new FormData();
-    formData.append("BirdTrainingCourseId", birdTrainingCourseId);
-    formData.append("ReceiveNote", receiveNote);
+    let check = true;
+    if (!pictures || pictures.length < 1) {
+      check = false;
+      toast.error("Please provide receive image");
+    }
+    if (!receiveNote || receiveNote.length < 1) {
+      check = false;
+      toast.error("Please provide receive note");
+    }
+    if (check) {
+      const formData = new FormData();
+      formData.append("BirdTrainingCourseId", birdTrainingCourseId);
+      formData.append("ReceiveNote", receiveNote);
 
-    // Append each file separately
-    pictures.forEach((picture, index) => {
-      formData.append(`ReceivePictures`, picture);
-    });
-
-    trainingCourseManagementService
-      .receiveBirdForm(formData)
-      .then((response) => {
-        // Handle the response data
-        console.log("Success:", response);
-        callBackMainManagement();
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error:", error);
+      // Append each file separately
+      pictures.forEach((picture, index) => {
+        formData.append(`ReceivePictures`, picture);
       });
+
+      trainingCourseManagementService
+        .receiveBirdForm(formData)
+        .then((response) => {
+          // Handle the response data
+          console.log("Success:", response);
+          callBackMainManagement();
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error:", error);
+        });
+    }
   };
 
   return (
@@ -76,10 +89,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
               <Typography variant="h6" gutterBottom>
                 Receive Note
               </Typography>
-              <Editor
-                onGetHtmlValue={handleEditorChange}
-                htmlValue={receiveNote}
-              />
+              <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
             <FormControl required style={{ marginBottom: 15 }}>
               <Typography variant="h6" gutterBottom>

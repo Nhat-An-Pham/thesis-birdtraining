@@ -86,32 +86,41 @@ const BirdTrainingReportComponent = ({
                 <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (
-                <TableRow key={rsl.reportId}>
-                  <TableCell>{rsl.slotId}</TableCell>
-                  <TableCell>{addOnService.formatDate(rsl.date)}</TableCell>
-                  <TableCell>{rsl.trainerName}</TableCell>
-                  <TableCell>{rsl.status}</TableCell>
-                  {rsl.status == "NotYet" && (
-                    <Button
-                      sx={{ float: "right", marginBottom: "20px" }}
-                      variant="contained"
-                      color="ochre"
-                      onClick={() => handleModifyClick(rsl.reportId)}
-                    >
-                      Modify
-                    </Button>
-                  )}
-                </TableRow>
+                <TableBody>
+                  <TableRow
+                    key={rsl.reportId}
+                    style={{
+                      cursor: "pointer",
+                      background:
+                        selectedReport === rsl.reportId ? "#f0f0f0" : "white",
+                    }}
+                  >
+                    <TableCell>{rsl.slotId}</TableCell>
+                    <TableCell>{addOnService.formatDate(rsl.date)}</TableCell>
+                    <TableCell>{rsl.trainerName}</TableCell>
+                    <TableCell>{rsl.status}</TableCell>
+                    {rsl.status == "NotYet" && (
+                      <Button
+                        sx={{ float: "right", marginBottom: "20px" }}
+                        variant="contained"
+                        color="ochre"
+                        onClick={() => handleModifyClick(rsl.reportId)}
+                      >
+                        Modify
+                      </Button>
+                    )}
+                  </TableRow>
+                </TableBody>
               ))}
             </Table>
 
             <div className="main-button-container">
-              <button
+              <Button
                 className="button"
                 onClick={() => handleCallBackSkillButton()}
               >
                 Back
-              </button>
+              </Button>
             </div>
           </TableContainer>
         )}

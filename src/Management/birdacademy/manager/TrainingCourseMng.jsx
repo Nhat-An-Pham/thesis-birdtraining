@@ -36,7 +36,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   const [renderAllTrainingCourse, setRenderAllTrainingCourse] = useState(true);
   const [renderCreateCourse, setRenderCreateCourse] = useState(false);
 
-  const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
+  //const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [contextMenus, setContextMenus] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState();
   const [trainingCourse, setTrainingCourse] = useState([]);
@@ -177,9 +177,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                           }
                           style={{ cursor: "context-menu" }}
                           className={
-                            course.id === selectedTrainingCourse
-                              ? "Mui-selected"
-                              : ""
+                            course.id === selectedCourse ? "Mui-selected" : ""
                           }
                         >
                           <TableCell className="image-cell">

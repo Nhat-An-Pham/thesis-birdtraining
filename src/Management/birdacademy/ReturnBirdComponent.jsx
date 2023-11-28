@@ -15,11 +15,13 @@ import { UploadComponent } from "../component/upload/Upload";
 import Editor from "../component/text-editor/Editor";
 import { ochreTheme } from "../themes/Theme";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
   const [birdTrainingCourse, setBirdTrainingCourse] = useState(null);
   const [returnNote, setReturnNote] = useState("");
+  const [tmpNote, setTmpNote] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
 
@@ -41,7 +43,16 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Create a FormData object to hold the form data
+    // Create a FormData object to hold the form datalet check = true;
+    let check = true;
+    if (!pictures || pictures.length < 1) {
+      check = false;
+      toast.error("Please provide return image");
+    }
+    if (!returnNote || returnNote.length < 1) {
+      check = false;
+      toast.error("Please provide return note");
+    }
     const formData = new FormData();
     formData.append("BirdTrainingCourseId", birdTrainingCourseId);
     formData.append("ReturnNote", returnNote);
@@ -100,7 +111,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                     },
                   }}
                 >
-                  <Grid item xs={1}>
+                  <Grid item xs={1.5}>
                     <>Requested Id: </>
                   </Grid>
                   <Grid item xs={1.5}>
@@ -115,13 +126,13 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   <Grid item xs={2}>
                     <>Customer Name: </>
                   </Grid>
-                  <Grid item xs={5}>
+                  <Grid item xs={4}>
                     <>{request.customerName}</>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs={2}>
                     <>Training course title: </>
                   </Grid>
-                  <Grid item xs={10.5}>
+                  <Grid item xs={10}>
                     <>{request.trainingCourseTitle}</>
                   </Grid>
                   <Grid item xs={1}></Grid>
@@ -137,7 +148,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   <Grid item xs={1.5}>
                     <>{request.startTrainingDate}</>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs={1.75}>
                     <>Done training Date: </>
                   </Grid>
                   <Grid item xs={3}>
@@ -149,10 +160,10 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   <Grid item xs={10}>
                     <>{request.totalPrice}</>
                   </Grid>
-                  <Grid item xs={2}>
-                    <>Training price apply member: </>
+                  <Grid item xs={2.75}>
+                    <>Training price apply membership: </>
                   </Grid>
-                  <Grid item xs={10}>
+                  <Grid item xs={9}>
                     <>{request.discountedPrice}</>
                   </Grid>
                   <Grid item xs={2}>
@@ -189,10 +200,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               <Typography variant="h6" gutterBottom>
                 Return Note
               </Typography>
-              <Editor
-                onGetHtmlValue={handleEditorChange}
-                htmlValue={returnNote}
-              />
+              <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
             <FormControl required style={{ marginBottom: 15 }}>
               <Typography variant="h6" gutterBottom>

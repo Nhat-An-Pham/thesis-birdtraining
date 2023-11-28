@@ -62,29 +62,44 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a FormData object to hold the form data
-    const formData = new FormData();
-    formData.append("BirdSpeciesId", selectedSpecies);
-    formData.append("Title", title);
-    formData.append("Description", description);
-    formData.append("TotalPrice", price);
+    let check = true;
+    if (!pictures || pictures.length < 1) {
+      check = false;
+      toast.error("Please provide course image");
+    }
+    if (!title || title.length < 1) {
+      check = false;
+      toast.error("Please provide course title");
+    }
+    if (!description || description.length < 1) {
+      check = false;
+      toast.error("Please provide course description");
+    }
+    if (check) {
+      const formData = new FormData();
+      formData.append("BirdSpeciesId", selectedSpecies);
+      formData.append("Title", title);
+      formData.append("Description", description);
+      formData.append("TotalPrice", price);
 
-    // Append each file separately
-    pictures.forEach((picture, index) => {
-      formData.append(`Pictures`, picture);
-    });
-
-    TrainingCourseManagement.createTrainingCourse(formData)
-      .then((response) => {
-        if (response.status === 200) {
-          toast.success("Create successfully!");
-          callbackCreateCourse();
-        } else {
-          toast.error("An error has occured!");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
+      // Append each file separately
+      pictures.forEach((picture, index) => {
+        formData.append(`Pictures`, picture);
       });
+
+      TrainingCourseManagement.createTrainingCourse(formData)
+        .then((response) => {
+          if (response.status === 200) {
+            toast.success("Create successfully!");
+            callbackCreateCourse();
+          } else {
+            toast.error("An error has occured!");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
   useEffect(() => {
     fetchBirdSpecies();
@@ -106,7 +121,6 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
               margin: "5px",
               marginBottom: "25px",
               width: "100%",
-              maxWidth: "350px",
             }}
           >
             <InputLabel id="selectLabel_ChooseSpecies">
@@ -123,12 +137,11 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
               ))}
             </Select>
           </FormControl>
-          <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
-            <FormControl fullWidth required style={{ marginBottom: 10 }}>
-              <InputLabel htmlFor="title">Title</InputLabel>
-              <Input type="text" onChange={(e) => setTitle(e.target.value)} />
-            </FormControl>
-            {/* <FormControl fullWidth required variant="outlined">
+          <FormControl fullWidth required style={{ marginBottom: 10 }}>
+            <InputLabel htmlFor="title">Title</InputLabel>
+            <Input type="text" onChange={(e) => setTitle(e.target.value)} />
+          </FormControl>
+          {/* <FormControl fullWidth required variant="outlined">
               <InputLabel>Total Slot</InputLabel>
               <Input
                 type="number"
@@ -147,16 +160,20 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
                 required
               />
             </FormControl> */}
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Price</InputLabel>
-              <Input
-                type="number"
-                step="0.01"
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </FormControl>
-          </Stack>
+          <FormControl
+            fullWidth
+            required
+            variant="outlined"
+            style={{ marginBottom: 25 }}
+          >
+            <InputLabel>Price</InputLabel>
+            <Input
+              type="number"
+              step="0.01"
+              onChange={(e) => setPrice(e.target.value)}
+              required
+            />
+          </FormControl>
           <FormControl fullWidth required style={{ marginBottom: 10 }}>
             <Typography variant="h6" gutterBottom>
               Description
@@ -193,7 +210,6 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
           </Button>
           <Button
             sx={{ float: "right", marginBottom: "20px", marginRight: "10px" }}
-            variant="contained"
             color="ochre"
             onClick={() => callbackCreateCourse()}
           >
