@@ -4,24 +4,32 @@ import Editor from "../../../component/text-editor/Editor";
 import { useEffect, useState } from "react";
 import workshopManagementService from "../../../../services/workshop-management.service";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
+import { toast } from "react-toastify";
 
-export default function WorkshopDetailTemplateComponent({ selectedDetail }) {
-  const [description, setDescription] = useState(selectedDetail.detail);
+export default function WorkshopDetailTemplateComponent({ selectedDetail, callbackUpdateDetail }) {
+  const [description, setDescription] = useState('');
   const [tempDescription, setTempDescription] = useState('');
   const [user, setUser] = useState(workshopManagementService.getCurrentUser);
   useEffect(() => {
     setDescription(selectedDetail.detail);
+    
   }, [selectedDetail]);
 
   const handleChanges = (value) => {
     setTempDescription(value);
   };
-
   const handleSaveChanges = () => {
-    workshopManagementService.modifyTemplateDetail(
-      selectedDetail.id,
-      tempDescription
-    );
+    try {
+      workshopManagementService.modifyTemplateDetail(
+        selectedDetail.id,
+        tempDescription
+      );
+      callbackUpdateDetail();
+      toast.success('Update successfully!');
+    } catch (error) {
+      toast.error("An error has occur!");
+    }
+    
   };
 
   return (

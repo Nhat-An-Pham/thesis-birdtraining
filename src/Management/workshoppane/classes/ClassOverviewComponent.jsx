@@ -99,7 +99,7 @@ export default function ClassOverviewComponent({
               ): classItem.status === "OnGoing" ? (
                 <TableCell align="center">On Going</TableCell>
               ) : (
-                <TableCell></TableCell>
+                <TableCell align="center">Pending</TableCell>
               )}
             </TableRow>
           ))

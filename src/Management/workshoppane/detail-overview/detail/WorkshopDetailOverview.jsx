@@ -32,6 +32,9 @@ export default function WorkshopDetailOverviewComponent({ workshop }) {
   useEffect(() => {
     fetchData(workshop);
   }, []);
+  const onCallbackUpdateDetail = async () => {
+    fetchData(workshop);
+  }
   const handleDetailClick = (detail) => {
     setSelectedDetail(detail);
     // console.log('slot component: ' +selectedDetail);
@@ -63,7 +66,7 @@ export default function WorkshopDetailOverviewComponent({ workshop }) {
       </Grid>
       <Grid item xs={10}>
         {selectedDetail ? (
-          <WorkshopDetailTemplateComponent selectedDetail={selectedDetail} />
+          <WorkshopDetailTemplateComponent selectedDetail={selectedDetail}  callbackUpdateDetail={onCallbackUpdateDetail}/>
         ) : (
           <Alert severity="info">No detail selected!</Alert>
         )}
