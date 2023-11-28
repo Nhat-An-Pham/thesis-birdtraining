@@ -55,6 +55,19 @@ const UpdateTrainingCourseComponent = ({
       console.error("Error fetching data:", error);
     }
   }
+  async function fetchTrainingCourseData() {
+    try {
+      let params = {
+        courseId: trainingCourseId,
+      };
+      let response = await TrainingCourseManagement.getAllTrainingCourseById(
+        params
+      );
+      setSelectedTrainingCourse(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   async function fetchBirdSpecies(id) {
     try {
       let response = await TrainingCourseManagement.getAllBirdSpecies();
@@ -107,6 +120,7 @@ const UpdateTrainingCourseComponent = ({
   };
   useEffect(() => {
     fetchBirdSpecies();
+    fetchTrainingCourseData();
   }, []);
   return (
     <div>
