@@ -29,6 +29,7 @@ import { Tab } from "@coreui/coreui";
 import { ochreTheme } from "../themes/Theme";
 
 const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
+  const ideal = dayjs(new Date()).add(2, "day");
   const [dateSlot, setDateSlot] = useState(null);
   const [slotTimes, setSlotTimes] = useState([]);
   const [trainers, setTrainers] = useState([]);
@@ -128,6 +129,7 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
         <Grid item xs={4}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              minDate={ideal}
               label="Date"
               value={dateSlot}
               onChange={(value) => handleChangeDate(value)}
