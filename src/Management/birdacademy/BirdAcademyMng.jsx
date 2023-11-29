@@ -115,8 +115,12 @@ export default function BirdAcademyMng() {
   const fetchBirdTrainingCourseData = async () => {
     try {
       // Replace this URL with your actual API endpoint
+      let params = {
+        $orderby: "registeredDate desc",
+      };
       let response =
-        await trainingCourseManagementService.getAllBirdTrainingCourse();
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      console.log(response);
       setBirdTrainingCourse(response); // Assuming data is an array of bird information
     } catch (error) {
       console.error("Error fetching bird data:", error);
@@ -269,11 +273,11 @@ export default function BirdAcademyMng() {
                       <TableCell>Training done date</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell
-                        style={{ width: 135 }}
+                        style={{ width: 75 }}
                         align="center"
                       ></TableCell>
                       <TableCell
-                        style={{ width: 100 }}
+                        style={{ width: 75 }}
                         align="center"
                       ></TableCell>
                     </TableRow>
@@ -297,6 +301,7 @@ export default function BirdAcademyMng() {
                                 {cls.status === "Registered" && ( //Registered
                                   <TableCell>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleConfirmButtonClick(cls.id);
                                         // setRenderCustomerRequest(false);
@@ -304,12 +309,15 @@ export default function BirdAcademyMng() {
                                     >
                                       Confirm
                                     </Button>
-                                    <Button>Cancel</Button>
+                                    <Button style={{ fontSize: 14 }}>
+                                      Cancel
+                                    </Button>
                                   </TableCell>
                                 )}
                                 {cls.status === "Confirmed" && (
                                   <TableCell>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleCheckInButtonClick(cls.id);
                                       }}
@@ -317,6 +325,7 @@ export default function BirdAcademyMng() {
                                       Check In
                                     </Button>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleCancelButtonClick(cls.id);
                                         // setRenderCustomerRequest(false);
@@ -329,6 +338,7 @@ export default function BirdAcademyMng() {
                                 {cls.status === "CheckIn" && (
                                   <TableCell>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleCheckOutButtonClick(cls.id);
                                       }}
@@ -340,6 +350,7 @@ export default function BirdAcademyMng() {
                                 {cls.status === "Training" && (
                                   <TableCell>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleCheckOutButtonClick(cls.id);
                                       }}
@@ -351,6 +362,7 @@ export default function BirdAcademyMng() {
                                 {cls.status === "TrainingDone" && (
                                   <TableCell>
                                     <Button
+                                      style={{ fontSize: 14 }}
                                       onClick={() => {
                                         handleCheckOutButtonClick(cls.id);
                                       }}
@@ -361,7 +373,9 @@ export default function BirdAcademyMng() {
                                 )}
                                 {cls.status === "CheckOut" && (
                                   <TableCell>
-                                    <Button>Payment</Button>
+                                    <Button style={{ fontSize: 14 }}>
+                                      Payment
+                                    </Button>
                                   </TableCell>
                                 )}
                                 {/* {cls.status === "Complete" && (
@@ -371,6 +385,7 @@ export default function BirdAcademyMng() {
                                 )} */}
                                 {cls.status === "Cancel" && (
                                   <Button
+                                    style={{ fontSize: 14 }}
                                     onClick={() => {
                                       handleConfirmButtonClick(cls.id);
                                       // setRenderCustomerRequest(false);
@@ -383,6 +398,7 @@ export default function BirdAcademyMng() {
                                   cls.status != "Cancel" && (
                                     <TableCell>
                                       <Button
+                                        style={{ fontSize: 14 }}
                                         onClick={() => {
                                           handleTrainingSkillViewClick(cls.id);
                                         }}
