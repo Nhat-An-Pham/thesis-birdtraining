@@ -119,13 +119,13 @@ const TimetableTrainerSlotDetailComponent = ({
                   .filter((cls) => cls.id == timetableDetail.slotId)
                   .map((cls) => (
                     <>
-                      <Grid item xs={0.75}>
+                      <Grid item xs={1}>
                         <>Start Time</>
                       </Grid>
                       <Grid item xs={1.25}>
                         <>{cls.startTime}</>
                       </Grid>
-                      <Grid item xs={0.75}>
+                      <Grid item xs={1}>
                         <>End Time</>
                       </Grid>
                       <Grid item xs={1.25}>
@@ -133,10 +133,10 @@ const TimetableTrainerSlotDetailComponent = ({
                       </Grid>
                     </>
                   ))}
-              <Grid item xs={1}>
+              <Grid item xs={2}>
                 <>Training Date: </>
               </Grid>
-              <Grid item xs={7}>
+              <Grid item xs={5}>
                 <>{addonService.formatDate(timetableDetail.trainingDate)}</>
               </Grid>
               <Grid item xs={2}>
