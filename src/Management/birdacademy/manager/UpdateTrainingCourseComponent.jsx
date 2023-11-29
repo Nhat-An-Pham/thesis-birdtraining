@@ -64,6 +64,8 @@ const UpdateTrainingCourseComponent = ({
         params
       );
       setSelectedTrainingCourse(response);
+      if (response.status === 200) {
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
