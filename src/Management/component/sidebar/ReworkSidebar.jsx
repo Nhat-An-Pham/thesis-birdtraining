@@ -36,7 +36,7 @@ const elements = [
     route: "/management",
     icon: <SpaceDashboardOutlined />,
     name: "Dashboard",
-    role: ["Trainer", "Staff", "Manager"],
+    role: [ "Staff", "Manager"],
   },
   {
     route: "/management/customerreq",
@@ -76,7 +76,7 @@ const elements = [
   },
 ];
 export default function ReworkSidebar({ selectTab }) {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(selectTab);
   useEffect(() => {
     return () => {
       setSelectedIndex(selectTab);
