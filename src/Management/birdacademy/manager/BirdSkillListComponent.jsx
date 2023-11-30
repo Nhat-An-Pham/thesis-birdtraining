@@ -97,15 +97,18 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
             </TableHead>
             <TableBody>
               {selectedCourse.birdSkills
-                .filter((skill) => skill.name !== "All")
+                .filter((skill) => skill.birdSkill.name !== "All")
                 .map((skill) => (
                   <TableRow>
                     <TableCell className="image-cell">
-                      <Img src={skill.picture} alt={skill.name} />
+                      <Img
+                        src={skill.birdSkill.picture}
+                        alt={skill.birdSkill.name}
+                      />
                     </TableCell>
-                    <TableCell>{skill.name}</TableCell>
-                    <TableCell>{skill.description}</TableCell>
-                    <TableCell>{skill.totalSlot}</TableCell>
+                    <TableCell>{skill.birdSkill.name}</TableCell>
+                    <TableCell>{skill.birdSkill.description}</TableCell>
+                    <TableCell>{skill.trainSlot}</TableCell>
                     <TableCell>
                       <Button
                         sx={{
@@ -115,7 +118,9 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
                         }}
                         variant="contained"
                         color="ochre"
-                        onClick={() => handleRemoveSkillClick(skill.id)}
+                        onClick={() =>
+                          handleRemoveSkillClick(skill.birdSkill.id)
+                        }
                       >
                         Remove
                       </Button>
@@ -146,14 +151,14 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
                   (skill) =>
                     skill.name !== "All" &&
                     !selectedCourse.birdSkills.some(
-                      (courseSkill) => courseSkill.id == skill.id
+                      (courseSkill) => courseSkill.birdSkill.id == skill.id
                     ) &&
                     acquirableSkills.some(
                       (acquirable) => acquirable.birdSkillId == skill.id
                     )
                 )
                 .map((skill) => (
-                  <TableRow>
+                  <TableRow key={skill.id}>
                     <TableCell className="image-cell">
                       <Img src={skill.picture} alt={skill.name} />
                     </TableCell>
