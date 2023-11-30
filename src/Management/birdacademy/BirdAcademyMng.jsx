@@ -279,10 +279,6 @@ export default function BirdAcademyMng() {
                         style={{ width: 75 }}
                         align="center"
                       ></TableCell>
-                      <TableCell
-                        style={{ width: 75 }}
-                        align="center"
-                      ></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
