@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import classManagementService from "../../../services/class-management.service";
 import {
+  Box,
   Button,
   Grid,
   Paper,
+  Tab,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tabs,
   Typography,
 } from "@mui/material";
 import addonService from "../../../services/addon.service";
@@ -27,10 +30,21 @@ export default function ClassOverviewComponent({
   const [selectedWorkshop, setSelectedWorkshop] = useState(workshop);
   const [selectedClass, setSelectedClass] = useState();
   const [open, setOpen] = useState(false);
+  const [statusFilterIndex, setStatusFilterIndex] = useState(0);
+  const statusFilter = [
+    { label: "Pending", value: "Pending" },
+    { label: "Open Registration", value: "OpenRegistration" },
+    { label: "Closed Registration", value: "ClosedRegistration" },
+    { label: "On Going", value: "OnGoing" },
+    { label: "Completed", value: "Completed" },
+    { label: "Cancelled", value: "Cancelled" },
+  ];
   async function fetchClasses() {
     try {
+      setClasses([]);
       let params = {
         workshopId: workshop.id,
+        $filter: `status eq '${statusFilter[statusFilterIndex].value}'`,
       };
       const response = await classManagementService.getClasses(params);
       setClasses(response.data);
@@ -42,7 +56,7 @@ export default function ClassOverviewComponent({
     if (workshop) {
       fetchClasses();
     }
-  }, [workshop]);
+  }, [workshop, statusFilterIndex]);
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -96,7 +110,7 @@ export default function ClassOverviewComponent({
                 <TableCell align="center">Closed</TableCell>
               ) : classItem.status === "Cancelled" ? (
                 <TableCell align="center">Cancelled</TableCell>
-              ): classItem.status === "OnGoing" ? (
+              ) : classItem.status === "OnGoing" ? (
                 <TableCell align="center">On Going</TableCell>
               ) : (
                 <TableCell align="center">Pending</TableCell>
@@ -121,7 +135,7 @@ export default function ClassOverviewComponent({
         handleClose={handleCloseModal}
         callbackCreateClass={callbackCreateClass}
       />
-      <Grid container spacing={2}>
+      <Grid container spacing={2} marginTop={1}>
         <Grid item xs={12}>
           <WorkshopViewComponent workshopId={workshop.id} />
         </Grid>
@@ -135,7 +149,32 @@ export default function ClassOverviewComponent({
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="h6">Classes (filter-bar-here)</Typography>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+            <Tabs
+              value={statusFilterIndex}
+              onChange={(event, newValue) => {
+                setStatusFilterIndex(newValue);
+              }}
+              variant="scrollable"
+              // TabIndicatorProps={{
+              //   style: {
+              //     backgroundColor: "#c8ae7d",
+              //   },
+              // }}
+              // sx={{
+              //   ".Mui-selected": {
+              //     color: "rgb(200, 174, 125)",
+              //   },
+              // }}
+              scrollButtons
+              allowScrollButtonsMobile
+              aria-label="scrollable force tabs example"
+            >
+              {statusFilter.map((statusTab) => (
+                <Tab label={statusTab.label} />
+              ))}
+            </Tabs>
+          </Box>
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
