@@ -68,6 +68,7 @@ const ExtendDialog = ({
         })
         .catch((error) => {
           console.log(error);
+          toast.error("Skill already training!");
         });
     }
   };
