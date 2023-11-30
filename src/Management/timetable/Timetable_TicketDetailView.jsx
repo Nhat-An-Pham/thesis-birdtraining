@@ -17,11 +17,15 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import addonService from "../../services/addon.service";
+import { jwtDecode } from "jwt-decode";
 
 const Timetable_TicketDetailView = ({
   callbackToCalendar,
   ticketIdForDetail,
 }) => {
+  const accessToken = JSON.parse(localStorage.getItem("user-token"));
+  const userRole = jwtDecode(accessToken).role;
+
   const [ticketDetail, setTicketDetail] = useState();
   useEffect(() => {
     consultantService
@@ -72,38 +76,84 @@ const Timetable_TicketDetailView = ({
           </Toolbar>
         </AppBar>
 
+        <Typography variant="h5"> Basic Infomation</Typography>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableCell>
-                <Typography>ID </Typography>
+                <Typography>Ticket ID</Typography>
               </TableCell>
               <TableCell>
-                <Typography>Customer </Typography>
+                <Typography>Service</Typography>
               </TableCell>
               <TableCell>
-                <Typography>Date </Typography>
+                <Typography>Date</Typography>
               </TableCell>
               <TableCell>
-                <Typography>Slot </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Address </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Distance</Typography>
+                <Typography>Time</Typography>
               </TableCell>
             </TableHead>
             {ticketDetail && (
               <TableBody>
                 <TableCell>{ticketDetail.id}</TableCell>
-                <TableCell>{ticketDetail.customerName}</TableCell>
                 <TableCell>
-                  {addonService.formatDate(ticketDetail.appointmentDate)}
+                  <Typography>
+                    {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                  </Typography>
                 </TableCell>
-                <TableCell>{ticketDetail.actualSlotStart}</TableCell>
-                <TableCell>{ticketDetail.addressDetail}</TableCell>
-                <TableCell>{ticketDetail.distance}</TableCell>
+                <TableCell>
+                  <Typography>
+                    {addonService.formatDate(ticketDetail.appointmentDate)}
+                  </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{ticketDetail.actualSlotStart}</Typography>
+                </TableCell>
+              </TableBody>
+            )}
+          </Table>
+        </TableContainer>
+
+        <h1></h1>
+        <h1></h1>
+
+        <Typography variant="h5"> Detail Infomation</Typography>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableCell>
+                <Typography>Customer </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Email</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Address </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Type </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>More Detail</Typography>
+              </TableCell>
+            </TableHead>
+            {ticketDetail && (
+              <TableBody>
+                <TableCell>
+                  <Typography> {ticketDetail.customerName}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{ticketDetail.customerEmail}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{ticketDetail.addressDetail}</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography> {ticketDetail.consultingType} </Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>{ticketDetail.consultingDetail}</Typography>
+                </TableCell>
               </TableBody>
             )}
           </Table>
@@ -116,31 +166,25 @@ const Timetable_TicketDetailView = ({
           <Table>
             <TableHead>
               <TableCell>
-                <Typography>More Detail</Typography>
+                <Typography>Trainer</Typography>
               </TableCell>
               <TableCell>
-                <Typography>Type </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Online/Offline</Typography>
+                <Typography>Distance</Typography>
               </TableCell>
               <TableCell>
                 <Typography>Price </Typography>
               </TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>
+                <Typography>Status</Typography>
+              </TableCell>
             </TableHead>
             {ticketDetail && (
               <TableBody>
                 <TableCell>
-                  <Typography>{ticketDetail.consultingDetail}</Typography>
+                  <Typography>{ticketDetail.trainerName}</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography> {ticketDetail.consultingType} </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
-                  </Typography>
+                  <Typography>{ticketDetail.distance}</Typography>
                 </TableCell>
                 <TableCell>
                   <Typography>{ticketDetail.price}VND</Typography>
@@ -164,49 +208,54 @@ const Timetable_TicketDetailView = ({
         <h1></h1>
         <h1></h1>
 
-        <TableContainer component={Paper}>
-          <Table>
-            {ticketDetail && (
-              <TableHead>
-                {ticketDetail.onlineOrOffline === true &&
-                ticketDetail.status !== "Finished" ? (
-                  <TableCell>
-                    <Typography>Google Meet Link</Typography>
-                  </TableCell>
-                ) : ticketDetail.status === "Finished" ? (
-                  <TableCell>
-                    <Typography>Evidence</Typography>
-                  </TableCell>
-                ) : null}
-              </TableHead>
-            )}
-            {ticketDetail && (
-              <TableBody>
-                <TableCell>
+        {userRole === "trainer" ? (
+          <TableContainer component={Paper}>
+            <Table>
+              {ticketDetail && (
+                <TableHead>
                   {ticketDetail.onlineOrOffline === true &&
                   ticketDetail.status !== "Finished" ? (
-                    <Typography>
-                      {
-                        <input
-                          type="text"
-                          defaultValue={ticketDetail.ggMeetLink}
-                          onChange={(e) => setGoogleMeetLink(e.target.value)}
-                        />
-                      }
-                    </Typography>
+                    <TableCell>
+                      <Typography>Google Meet Link</Typography>
+                    </TableCell>
                   ) : ticketDetail.status === "Finished" ? (
-                    <Typography>{ticketDetail.evidence}</Typography>
+                    <TableCell>
+                      <Typography>Evidence</Typography>
+                    </TableCell>
                   ) : null}
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
+                </TableHead>
+              )}
+              {ticketDetail && (
+                <TableBody>
+                  <TableCell>
+                    {ticketDetail.onlineOrOffline === true &&
+                    ticketDetail.status !== "Finished" ? (
+                      <Typography>
+                        {
+                          <input
+                            type="text"
+                            defaultValue={ticketDetail.ggMeetLink}
+                            onChange={(e) => setGoogleMeetLink(e.target.value)}
+                          />
+                        }
+                      </Typography>
+                    ) : ticketDetail.status === "Finished" ? (
+                      <Typography>{ticketDetail.evidence}</Typography>
+                    ) : null}
+                  </TableCell>
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        ) : (
+          <></>
+        )}
 
         {ticketDetail && (
           <>
             {ticketDetail.onlineOrOffline === true &&
-            ticketDetail.status !== "Finished" ? (
+            ticketDetail.status !== "Finished" &&
+            userRole === "trainer" ? (
               <Button
                 variant="contained"
                 color="ochre"

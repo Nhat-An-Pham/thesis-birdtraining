@@ -38,10 +38,10 @@ const AssignedTicketView = ({
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Ticket Id</TableCell>
+                                    <TableCell>Ticket ID</TableCell>
                                     <TableCell>Service</TableCell>
                                     <TableCell>Date</TableCell>
-                                    <TableCell>Slot</TableCell>
+                                    <TableCell>Time</TableCell>
                                     <TableCell>Detail</TableCell>
                                 </TableRow>
                             </TableHead>
