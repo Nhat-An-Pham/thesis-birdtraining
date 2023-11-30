@@ -11,9 +11,8 @@ import {
   Button,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
-import { toast } from "react-toastify";
 
-const TrainerListByBirdSkill = ({
+const BirdSkillListComponent = ({
   selectedProgressId,
   birdSkillId,
   callbackAssigned,
@@ -57,16 +56,15 @@ const TrainerListByBirdSkill = ({
       .then((data) => {
         // Handle the response data
         console.log("Success:", data);
-        toast.success("Assign trainer success");
         callbackAssigned();
       })
       .catch((error) => {
         // Handle errors
-        console.error("Error:", error.message);
+        console.error("Error:", error);
       });
   }
   return (
-    <TableContainer component={Paper}>
+    <TableContainer>
       <Table className="table">
         <TableHead>
           <h2>Trainer</h2>
@@ -94,4 +92,4 @@ const TrainerListByBirdSkill = ({
   );
 };
 
-export default TrainerListByBirdSkill;
+export default BirdSkillListComponent;
