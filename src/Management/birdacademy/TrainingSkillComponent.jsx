@@ -8,6 +8,7 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
@@ -20,6 +21,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
 
   const [selectedBirdSkillId, setSelectedBirdSkillId] = useState(null);
   const [selectedProgressId, setSelectedProgressId] = useState(null);
+  const [selectedProgress, setSelectedProgress] = useState(null);
   const handleTrainerAssign = (birdSkillId, progressId) => {
     setSelectedProgressId(progressId);
     console.log("progress " + progressId);
@@ -28,8 +30,13 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     setRenderTrainer(true);
     setRenderReport(false);
   };
-  const handleViewTrainingDetail = (progressId) => {
+  const handleViewTrainingDetail = (birdSkillId, progressId, item) => {
+    console.log(progressId);
     setSelectedProgressId(progressId);
+    console.log(birdSkillId);
+    setSelectedBirdSkillId(birdSkillId);
+    console.log(item);
+    setSelectedProgress(item);
     setRenderReport(true);
     setRenderTrainer(false);
     setRenderProgress(false);
@@ -45,12 +52,16 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const fetchData = async () => {
     try {
       // Replace this URL with your actual API endpoint //https://localhost:7176
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse-staff/birdtrainingprogress-requestedId?birdTrainingCourseId=${requestedId}`
-      );
-      const data = await response.json();
-      console.log(data);
-      setTrainingProgress(data); // Assuming data is an array of bird information
+      console.log(requestedId);
+      let params = {
+        birdTrainingCourseId: requestedId,
+      };
+      let response =
+        await trainingCourseManagementService.getBirdTrainingProgressByRequestId(
+          params
+        );
+      console.log(response);
+      setTrainingProgress(response);
     } catch (error) {
       console.error("Error fetching bird trainingProgress data:", error);
     }
@@ -66,6 +77,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     setRenderTrainer(false);
     setRenderReport(false);
     console.log("onCallbackAssigned");
+    setSelectedProgressId(null);
   };
   function handleCallBackMainButton() {
     callBackMainManagement();
@@ -90,7 +102,14 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               </TableHead>
               <TableBody>
                 {trainingProgress.map((item) => (
-                  <TableRow key={item.id}>
+                  <TableRow
+                    key={item.id}
+                    style={{
+                      cursor: "pointer",
+                      background:
+                        selectedProgressId === item.id ? "#f0f0f0" : "white",
+                    }}
+                  >
                     <TableCell>{item.birdSkillName}</TableCell>
                     <TableCell>{item.trainerName}</TableCell>
                     <TableCell>
@@ -118,30 +137,38 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                     <TableCell>{item.status}</TableCell>
                     {item.status == "WaitingForAssign" && ( //WaitingForAssign
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             handleTrainerAssign(item.birdSkillId, item.id)
                           }
                         >
                           Assign trainer
-                        </button>
+                        </Button>
                       </TableCell>
                     )}
                     {item.status == "Assigned" && (
                       <TableCell>
-                        <button
+                        <Button
                           onClick={() =>
                             handleTrainerAssign(item.birdSkillId, item.id)
                           }
                         >
                           Re-assign trainer
-                        </button>
+                        </Button>
                       </TableCell>
                     )}
                     <TableCell>
-                      <button onClick={() => handleViewTrainingDetail(item.id)}>
+                      <Button
+                        onClick={() =>
+                          handleViewTrainingDetail(
+                            item.birdSkillId,
+                            item.id,
+                            item
+                          )
+                        }
+                      >
                         View training details
-                      </button>
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -149,18 +176,22 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
             </Table>
           </TableContainer>
           <div className="main-button-container">
-            <button
+            <Button
+              sx={{ float: "right", marginBottom: "20px" }}
+              variant="contained"
+              color="ochre"
               className="button"
               onClick={() => handleCallBackMainButton()}
             >
               Confirm
-            </button>
-            <button
+            </Button>
+            <Button
+              sx={{ float: "right", marginRight: "10px", marginBottom: "20px" }}
               className="button"
               onClick={() => handleCallBackMainButton()}
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </>
       )}
@@ -174,7 +205,8 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
       )}
       {renderReport && (
         <BirdTrainingReportComponent
-          progressId={selectedProgressId}
+          selectedProgress={selectedProgress}
+          birdSkillId={selectedBirdSkillId}
           callbackAssigned={onCallbackAssigned}
         />
       )}

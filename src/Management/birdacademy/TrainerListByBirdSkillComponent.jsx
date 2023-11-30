@@ -8,8 +8,10 @@ import {
   TableCell,
   TableRow,
   Paper,
+  Button,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+import { toast } from "react-toastify";
 
 const TrainerListByBirdSkill = ({
   selectedProgressId,
@@ -28,12 +30,13 @@ const TrainerListByBirdSkill = ({
       try {
         // Replace this URL with your actual API endpoint
         //console.log("trainer list" + assignTrainerParam.birdSkillId);
-        const response = await fetch(
-          `http://13.214.85.41/api/trainingcourse-staff/trainer-birdskill?birdSkillId=${birdSkillId}`
-        );
-        const data = await response.json();
-        console.log(data);
-        setTrainersByBirdSkill(data); // Assuming data is an array of bird information
+        let params = {
+          birdSkillId: birdSkillId,
+        };
+        const response =
+          await trainingCourseManagementService.getTrainersByBirdSkill(params);
+        console.log(response);
+        setTrainersByBirdSkill(response); // Assuming data is an array of bird information
       } catch (error) {
         console.error("Error fetching trainer by bird skill data:", error);
       }
@@ -54,15 +57,16 @@ const TrainerListByBirdSkill = ({
       .then((data) => {
         // Handle the response data
         console.log("Success:", data);
+        toast.success("Assign trainer success");
         callbackAssigned();
       })
       .catch((error) => {
         // Handle errors
-        console.error("Error:", error);
+        console.error("Error:", error.message);
       });
   }
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table className="table">
         <TableHead>
           <h2>Trainer</h2>
@@ -78,9 +82,9 @@ const TrainerListByBirdSkill = ({
               <TableCell>{trainer.name}</TableCell>
               <TableCell>{trainer.email}</TableCell>
               <TableCell>
-                <button onClick={() => handleAssignButton(trainer.id)}>
+                <Button onClick={() => handleAssignButton(trainer.id)}>
                   Assign
-                </button>
+                </Button>
               </TableCell>
             </TableRow>
           ))}

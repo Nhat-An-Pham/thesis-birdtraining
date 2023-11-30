@@ -8,39 +8,63 @@ import {
   TableCell,
   TableRow,
   Paper,
+  ThemeProvider,
+  Button,
 } from "@mui/material";
 import TrainingSkillComponent from "./TrainingSkillComponent";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import CustomerBirdComponent from "./CustomerBirdComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import ReceivedBirdComponent from "./ReceivedBirdComponent";
+import ReturnBirdComponent from "./ReturnBirdComponent";
+import TrainingCourseMng from "./manager/TrainingCourseMng";
+import { ToastContainer } from "react-toastify";
+import { ochreTheme } from "../themes/Theme";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
+  const currentUser = trainingCourseManagementService.getCurrentUser();
   const [renderCustomer, setRenderCustomer] = useState(true);
   const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
   const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
   const [renderReceiveBirdForm, setRenderReceiveBirdForm] = useState(false);
+  const [renderReturnBirdForm, setRenderReturnBirdForm] = useState(false);
+  const [renderManager, setRenderManager] = useState(false);
 
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(null); //birdTrainingCourseId
-
-  const handleConfirmButtonClick = async (key) => {
-    setBirdTrainingCourseId(key); //setBirdTrainingCourseId
+  const handleCancelButtonClick = async (key) => {
+    //setBirdTrainingCourseId(key); //setBirdTrainingCourseId
     let params = {
       birdTrainingCourseId: key,
     };
     trainingCourseManagementService
-      .confirmBirdTrainingCourse(params)
-      .then((response) => response.json())
-      .then((data) => {
+      .cancelBirdTrainingCourse(params)
+      .then((response) => {
         // Handle the response data
-        console.log("Success:", data);
+        console.log("Success:", response);
+        onCallBackMainManagement();
       })
       .catch((error) => {
         // Handle errors
         console.error("Error:", error);
       });
-    console.log(birdTrainingCourseId); //birdTrainingCourseId
+  };
+  const handleConfirmButtonClick = async (key) => {
+    setBirdTrainingCourseId(key); //setBirdTrainingCourseId
+    let params = {
+      birdTrainingCourseId: key,
+    };
+    await trainingCourseManagementService
+      .confirmBirdTrainingCourse(params)
+      .then((response) => {
+        // Handle the response data
+        console.log("Success:", response.data);
+      })
+      .catch((error) => {
+        // Handle errors
+        console.error("Error:", error);
+      });
+    console.log(key); //birdTrainingCourseId
     // fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse-confirm?birdTrainingCourseId=${key}`, {
     //     method: 'POST',
     //     headers: {
@@ -64,7 +88,7 @@ export default function BirdAcademyMng() {
     setRenderCustomer(false);
     setRenderCustomerRequest(false);
   };
-  const handleButtonClick = (key) => {
+  const handleTrainingSkillViewClick = (key) => {
     setBirdTrainingCourseId(key); //setBirdTrainingCourseId
     setRenderTrainingSkill(true);
     setRenderCustomer(false);
@@ -92,12 +116,13 @@ export default function BirdAcademyMng() {
   const fetchBirdTrainingCourseData = async () => {
     try {
       // Replace this URL with your actual API endpoint
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse`
-      );
-      const data = await response.json();
-      //console.log(data);
-      setBirdTrainingCourse(data); // Assuming data is an array of bird information
+      let params = {
+        $orderby: "registeredDate desc",
+      };
+      let response =
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      console.log(response);
+      setBirdTrainingCourse(response); // Assuming data is an array of bird information
     } catch (error) {
       console.error("Error fetching bird data:", error);
     }
@@ -106,11 +131,9 @@ export default function BirdAcademyMng() {
   const fetchCustomerData = async () => {
     try {
       // Replace this URL with your actual API endpoint
-      const response = await fetch(
-        `http://13.214.85.41/api/trainingcourse/all-requested-users`
-      );
-      const data = await response.json();
-      setUsers(data); // Assuming data is an array of bird information
+      let response =
+        await trainingCourseManagementService.getAllRequestedUser();
+      setUsers(response); // Assuming data is an array of bird information
     } catch (error) {
       console.error("Error fetching bird data:", error);
     }
@@ -121,7 +144,15 @@ export default function BirdAcademyMng() {
   }, []);
   const handleCheckInButtonClick = (requestedId) => {
     setBirdTrainingCourseId(requestedId); //setBirdTrainingCourseId
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
     setRenderReceiveBirdForm(true);
+  };
+  const handleCheckOutButtonClick = (requestedId) => {
+    setBirdTrainingCourseId(requestedId); //setBirdTrainingCourseId
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
+    setRenderReturnBirdForm(true);
   };
   const onCallBackMainManagement = async () => {
     fetchCustomerData();
@@ -130,198 +161,297 @@ export default function BirdAcademyMng() {
     setRenderCustomerRequest(true);
     setRenderTrainingSkill(false);
     setShowBirdList(false);
+    setRenderReceiveBirdForm(false);
+    setRenderReturnBirdForm(false);
+    setRenderManager(false);
+  };
+  const handleManagerClick = () => {
+    setRenderCustomer(false);
+    setRenderCustomerRequest(false);
+    setRenderTrainingSkill(false);
+    setShowBirdList(false);
+    setRenderReceiveBirdForm(false);
+    setRenderReturnBirdForm(false);
+    setRenderManager(true);
   };
   return (
     <div className="workshop-container">
-      <ReworkSidebar />
-      <div className="workshop_section-wrapper">
-        {renderCustomer && (
-          <div className="workshop_section_table workshop_section_table-workshop">
-            <h2>Customers</h2>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Customer Name</TableCell>
-                    <TableCell>Email</TableCell>
-                    <TableCell>Phone Number</TableCell>
-                    <TableCell>Avatar</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {users && users.length > 0
-                    ? users.map((user) => (
-                        <TableRow
-                          key={user.id}
-                          style={{
-                            cursor: "pointer",
-                            background:
-                              selectedUser === user.id ? "#f0f0f0" : "white",
-                          }}
-                        >
-                          <TableCell>{user.name}</TableCell>
-                          <TableCell>{user.email}</TableCell>
-                          <TableCell>{user.phoneNumber}</TableCell>
-                          <TableCell>
-                            <a
-                              href={user.avatar}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              <img
-                                src={user.avatar}
-                                alt="Description of the image"
-                                style={{ width: "200px", height: "150px" }}
-                              />
-                            </a>
-                          </TableCell>
-                          <TableCell>
-                            <button onClick={() => handleUserClick(user.id)}>
-                              View Request
-                            </button>
-                          </TableCell>
-                          <TableCell>
-                            <button onClick={() => handleShowBirdList(user.id)}>
-                              Show Bird List
-                            </button>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    : null}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
-        {renderCustomerRequest && (
-          <div className="workshop_section_table workshop_section_table-classes">
-            <h2>Registered TrainingCourse</h2>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Bird Name</TableCell>
-                    <TableCell>Owner Name</TableCell>
-                    <TableCell>Course Title</TableCell>
-                    <TableCell>Date registered</TableCell>
-                    <TableCell>Training start date</TableCell>
-                    <TableCell>Training done date</TableCell>
-                    <TableCell>Status</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {selectedUser !== null &&
-                  birdTrainingCourse &&
-                  birdTrainingCourse.length > 0
-                    ? birdTrainingCourse
-                        .filter((cls) => cls.customerId === selectedUser)
-                        .map((cls) => (
-                          <>
-                            <TableRow key={cls.id}>
-                              <TableCell
-                                style={{ cursor: "pointer" }}
-                                onClick={() => {
-                                  handleButtonClick(cls.id);
-                                }}
+      <ToastContainer />
+      <ThemeProvider theme={ochreTheme}>
+        <ReworkSidebar selectTab={3} />
+        {/* <div style={{ margin: "20px" }} className="workshop_section-wrapper"> */}
+        <div style={{ margin: "20px" }}>
+          {renderCustomer && (
+            // <div className="workshop_section_table workshop_section_table-workshop">
+            <div style={{ margin: "20px" }}>
+              {currentUser.role == "Manager" && (
+                <Button
+                  sx={{ float: "right", marginBottom: "20px" }}
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => handleManagerClick()}
+                >
+                  Training course management
+                </Button>
+              )}
+              <h2>Customers</h2>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Customer Name</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Phone Number</TableCell>
+                      <TableCell>Avatar</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users && users.length > 0
+                      ? users.map((user) => (
+                          <TableRow
+                            key={user.id}
+                            style={{
+                              cursor: "pointer",
+                              background:
+                                selectedUser === user.id ? "#f0f0f0" : "white",
+                            }}
+                          >
+                            <TableCell>{user.name}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.phoneNumber}</TableCell>
+                            <TableCell className="image-cell">
+                              <a
+                                href={user.avatar}
+                                target="_blank"
+                                rel="noopener noreferrer"
                               >
-                                {cls.birdName}
-                              </TableCell>
-                              <TableCell>{cls.customerName}</TableCell>
-                              <TableCell>{cls.trainingCourseTitle}</TableCell>
-                              <TableCell>{cls.registeredDate}</TableCell>
-                              <TableCell>{cls.startTrainingDate}</TableCell>
-                              <TableCell>{cls.trainingDoneDate}</TableCell>
-                              <TableCell>{cls.status}</TableCell>
-                              {cls.status === "Registered" && ( //Registered
-                                <TableCell>
-                                  <button
-                                    style={{ marginRight: "18px" }}
+                                <img src={user.avatar} alt="Customer avatar" />
+                              </a>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => handleUserClick(user.id)}
+                              >
+                                View Request
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => handleShowBirdList(user.id)}
+                              >
+                                Show Bird List
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      : null}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          )}
+          {renderCustomerRequest && (
+            // <div className="workshop_section_table workshop_section_table-classes">
+            <div style={{ margin: "20px" }}>
+              <h2>Registered TrainingCourse</h2>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Bird Name</TableCell>
+                      <TableCell>Owner Name</TableCell>
+                      <TableCell>Course Title</TableCell>
+                      <TableCell>Registered</TableCell>
+                      <TableCell>Training start date</TableCell>
+                      <TableCell>Training done date</TableCell>
+                      <TableCell>Status</TableCell>
+                      <TableCell
+                        style={{ width: 75 }}
+                        align="center"
+                      ></TableCell>
+                      <TableCell
+                        style={{ width: 75 }}
+                        align="center"
+                      ></TableCell>
+                      <TableCell
+                        style={{ width: 75 }}
+                        align="center"
+                      ></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {selectedUser !== null &&
+                    birdTrainingCourse &&
+                    birdTrainingCourse.length > 0
+                      ? birdTrainingCourse
+                          .filter((cls) => cls.customerId === selectedUser)
+                          .map((cls) => (
+                            <>
+                              <TableRow key={cls.id}>
+                                <TableCell>{cls.birdName}</TableCell>
+                                <TableCell>{cls.customerName}</TableCell>
+                                <TableCell>{cls.trainingCourseTitle}</TableCell>
+                                <TableCell>{cls.registeredDate}</TableCell>
+                                <TableCell>{cls.startTrainingDate}</TableCell>
+                                <TableCell>{cls.trainingDoneDate}</TableCell>
+                                <TableCell>{cls.status}</TableCell>
+                                {cls.status === "Registered" && ( //Registered
+                                  <TableCell>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleConfirmButtonClick(cls.id);
+                                        // setRenderCustomerRequest(false);
+                                      }}
+                                    >
+                                      Confirm
+                                    </Button>
+                                    <Button style={{ fontSize: 14 }}>
+                                      Cancel
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {cls.status === "Confirmed" && (
+                                  <TableCell>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCheckInButtonClick(cls.id);
+                                      }}
+                                    >
+                                      Check In
+                                    </Button>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCancelButtonClick(cls.id);
+                                        // setRenderCustomerRequest(false);
+                                      }}
+                                    >
+                                      Cancel
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {cls.status === "CheckIn" && (
+                                  <TableCell>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCheckOutButtonClick(cls.id);
+                                      }}
+                                    >
+                                      Check Out
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {cls.status === "Training" && (
+                                  <TableCell>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCheckOutButtonClick(cls.id);
+                                      }}
+                                    >
+                                      Check Out
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {cls.status === "TrainingDone" && (
+                                  <TableCell>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCheckOutButtonClick(cls.id);
+                                      }}
+                                    >
+                                      Check Out
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {cls.status === "CheckOut" && (
+                                  <TableCell>
+                                    <Button style={{ fontSize: 14 }}>
+                                      Payment
+                                    </Button>
+                                  </TableCell>
+                                )}
+                                {/* {cls.status === "Complete" && (
+                                  <TableCell>
+                                    <button></button>
+                                  </TableCell>
+                                )} */}
+                                {cls.status === "Cancel" && (
+                                  <Button
+                                    style={{ fontSize: 14 }}
                                     onClick={() => {
                                       handleConfirmButtonClick(cls.id);
                                       // setRenderCustomerRequest(false);
                                     }}
                                   >
                                     Confirm
-                                  </button>
-                                  <button>Cancel</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "Confirmed" && (
-                                <TableCell>
-                                  <button
-                                    onClick={() => {
-                                      handleCheckInButtonClick(cls.id);
-                                    }}
-                                  >
-                                    Check In
-                                  </button>
-                                </TableCell>
-                              )}
-                              {cls.status === "CheckIn" && (
-                                <TableCell>
-                                  <button>Check Out</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "Training" && (
-                                <TableCell>
-                                  <button>Check Out</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "TrainingDone" && (
-                                <TableCell>
-                                  <button>Check Out</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "Checkout" && (
-                                <TableCell>
-                                  <button>Payment</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "Complete" && (
-                                <TableCell>
-                                  <button>Check Out</button>
-                                </TableCell>
-                              )}
-                              {cls.status === "Cancel" && (
-                                <TableCell></TableCell>
-                              )}
-                              {/* <TableCell><button>Cancel</button></TableCell> */}
-                            </TableRow>
-                          </>
-                        ))
-                    : null}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
-        )}
-        <Table>
-          {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
+                                  </Button>
+                                )}
+                                {cls.status != "Registered" &&
+                                  cls.status != "Cancel" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleTrainingSkillViewClick(cls.id);
+                                        }}
+                                      >
+                                        View Details
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                              </TableRow>
+                            </>
+                          ))
+                      : null}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          )}
+          <Table>
+            {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
 
-          {renderTrainingSkill && (
-            <TrainingSkillComponent
-              requestedId={birdTrainingCourseId} //birdTrainingCourseId
-              callBackMainManagement={onCallBackMainManagement}
-            />
-          )}
-          {showBirdList && (
-            <CustomerBirdComponent
-              customerId={selectedUser}
-              callBackMainManagement={onCallBackMainManagement}
-            />
-          )}
-          {renderReceiveBirdForm && (
-            <ReceivedBirdComponent
-              requestedId={birdTrainingCourseId} //birdTrainingCourseId
-              callBackMainManagement={onCallBackMainManagement}
-            />
-          )}
-        </Table>
-      </div>
+            {renderTrainingSkill && (
+              <TrainingSkillComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {showBirdList && (
+              <CustomerBirdComponent
+                customerId={selectedUser}
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {renderReceiveBirdForm && (
+              <ReceivedBirdComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {renderReturnBirdForm && (
+              <ReturnBirdComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+          </Table>
+        </div>
+      </ThemeProvider>
+      {renderManager && (
+        <TrainingCourseMng callBackMainManagement={onCallBackMainManagement} />
+      )}
     </div>
   );
 }

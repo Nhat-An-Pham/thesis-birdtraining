@@ -96,7 +96,7 @@ const WorkshopPane = ({
                     Image
                   </TableCell>
                   <TableCell style={{ width: 0.125 }}>Title</TableCell>
-                  <TableCell style={{ width: 0.25 }}>Description</TableCell>
+                  {/* <TableCell style={{ width: 0.25 }}>Description</TableCell> */}
                   <TableCell style={{ width: 0.125 }} align="center">
                     Register period
                   </TableCell>
@@ -104,7 +104,7 @@ const WorkshopPane = ({
                     Total Slot
                   </TableCell>
                   <TableCell style={{ width: 0.125 }} align="center">
-                    Price (USD)
+                    Price (VND)
                   </TableCell>
                   <TableCell style={{ width: 0.125 }} align="center">
                     Status
@@ -136,7 +136,7 @@ const WorkshopPane = ({
                       <TableCell style={{ width: 0.125 }}>
                         {workshop.title}
                       </TableCell>
-                      <TableCell
+                      {/* <TableCell
                         style={{
                           width: 0.25,
                           flexGrow: 1,
@@ -147,9 +147,9 @@ const WorkshopPane = ({
                         <Typography>
                           <RawHTMLRenderer htmlContent={workshop.description} />
                         </Typography>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell style={{ width: 0.125 }} align="center">
-                        {workshop.registerEnd}
+                        {workshop.registerEnd} day(s)
                       </TableCell>
                       <TableCell style={{ width: 0.125 }} align="center">
                         {workshop.totalSlot}

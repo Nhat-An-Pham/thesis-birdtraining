@@ -8,6 +8,7 @@ import {
   Paper,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import addOnService from "../../services/addon.service";
 
 const BirdSkillReceivedComponent = ({ birdId }) => {
   const [birdSkillList, setBirdSkillList] = useState([]);
@@ -48,7 +49,9 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
                 <TableCell>{rsl.birdName}</TableCell>
                 <TableCell>{rsl.birdSkillName}</TableCell>
                 <TableCell>{rsl.birdSkillDescription}</TableCell>
-                <TableCell>{rsl.receivedDate}</TableCell>
+                <TableCell>
+                  {addOnService.formatDate(rsl.receivedDate)}
+                </TableCell>
                 <TableCell>
                   <a
                     href={rsl.birdSkillPicture}
