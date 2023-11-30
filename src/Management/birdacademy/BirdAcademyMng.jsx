@@ -23,6 +23,7 @@ import { ochreTheme } from "../themes/Theme";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
+  const currentUser = trainingCourseManagementService.getCurrentUser();
   const [renderCustomer, setRenderCustomer] = useState(true);
   const [renderCustomerRequest, setRenderCustomerRequest] = useState(true);
   const [renderTrainingSkill, setRenderTrainingSkill] = useState(false);
@@ -183,14 +184,16 @@ export default function BirdAcademyMng() {
           {renderCustomer && (
             // <div className="workshop_section_table workshop_section_table-workshop">
             <div style={{ margin: "20px" }}>
-              <Button
-                sx={{ float: "right", marginBottom: "20px" }}
-                variant="contained"
-                color="ochre"
-                onClick={() => handleManagerClick()}
-              >
-                Training course management
-              </Button>
+              {currentUser.role == "Manager" && (
+                <Button
+                  sx={{ float: "right", marginBottom: "20px" }}
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => handleManagerClick()}
+                >
+                  Training course management
+                </Button>
+              )}
               <h2>Customers</h2>
               <TableContainer component={Paper}>
                 <Table>
@@ -218,17 +221,13 @@ export default function BirdAcademyMng() {
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>{user.phoneNumber}</TableCell>
-                            <TableCell>
+                            <TableCell className="image-cell">
                               <a
                                 href={user.avatar}
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                <img
-                                  src={user.avatar}
-                                  alt="Customer avatar"
-                                  style={{ width: "100px", height: "75px" }}
-                                />
+                                <img src={user.avatar} alt="Customer avatar" />
                               </a>
                             </TableCell>
                             <TableCell>
@@ -272,6 +271,10 @@ export default function BirdAcademyMng() {
                       <TableCell>Training start date</TableCell>
                       <TableCell>Training done date</TableCell>
                       <TableCell>Status</TableCell>
+                      <TableCell
+                        style={{ width: 75 }}
+                        align="center"
+                      ></TableCell>
                       <TableCell
                         style={{ width: 75 }}
                         align="center"

@@ -28,6 +28,7 @@ import { AddBoxOutlined, InfoOutlined } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
 import CreateTrainingCourseComponent from "./CreateTrainingCourseComponent";
+import UpdateTrainingCourseComponent from "./UpdateTrainingCourseComponent";
 // import { toast } from 'react-toastify';
 
 const TrainingCourseMng = ({ callBackMainManagement }) => {
@@ -35,30 +36,17 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
 
   const [renderAllTrainingCourse, setRenderAllTrainingCourse] = useState(true);
   const [renderCreateCourse, setRenderCreateCourse] = useState(false);
+  const [renderUpdateCourse, setRenderUpdateCourse] = useState(false);
 
   //const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [contextMenus, setContextMenus] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState();
   const [trainingCourse, setTrainingCourse] = useState([]);
-
-  const handleContextMenuForRow = (event, index) => {
-    event.preventDefault();
-    const newContextMenus = [...contextMenus];
-    newContextMenus[index] = {
-      mouseX: event.clientX - 2,
-      mouseY: event.clientY - 4,
-    };
-    setContextMenus(newContextMenus);
-  };
-
-  const handleCloseForRow = (index) => {
-    const newContextMenus = [...contextMenus];
-    newContextMenus[index] = null;
-    setContextMenus(newContextMenus);
-  };
   const detailClick = (trainingCourse) => {
     setSelectedCourse(trainingCourse);
+    setRenderUpdateCourse(true);
     setRenderAllTrainingCourse(false);
+    setRenderCreateCourse(false);
   };
   const createCourseClick = () => {
     setRenderCreateCourse(true);
@@ -67,7 +55,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   // Fetch workshops and classes based on the status filter
   async function fetchData() {
     try {
-      let response = await TrainingCourseManagement.getAllTrainingCourse();
+      let params = {
+        $orderby: `id desc`,
+      };
+      let response = await TrainingCourseManagement.getAllTrainingCourse(
+        params
+      );
       setTrainingCourse(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -76,7 +69,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   useEffect(() => {
     fetchData();
     // console.log(workshops);
-  }, [trainingCourse]);
+  }, []);
   useEffect(() => {
     if (trainingCourse) {
       setContextMenus(new Array(trainingCourse.length).fill(null));
@@ -85,11 +78,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
     return () => {};
   }, [trainingCourse]);
 
-  const handleActiveCourse = async (trainingCourseId) => {
+  const handleActiveCourse = async (trainingCourse) => {
+    setSelectedCourse(trainingCourse);
     try {
-      console.log(trainingCourseId);
+      console.log(trainingCourse);
       let params = {
-        trainingCourseId: trainingCourseId,
+        trainingCourseId: trainingCourse.id,
       };
       let response = await TrainingCourseManagement.activeTrainingCourse(
         params
@@ -105,11 +99,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
       // console.log(error.response.data);
     }
   };
-  const handleDisableCourse = async (trainingCourseId) => {
+  const handleDisableCourse = async (trainingCourse) => {
+    setSelectedCourse(trainingCourse);
     try {
-      console.log(trainingCourseId);
+      console.log(trainingCourse);
       let params = {
-        trainingCourseId: trainingCourseId,
+        trainingCourseId: trainingCourse.id,
       };
       let response = await TrainingCourseManagement.disableTrainingCourse(
         params
@@ -125,10 +120,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
       // console.log(error.response.data);
     }
   };
-  const onCallBackCourseManagement = async () => {
+  const onCallBackTrainingCourseManagement = async (selectedCourse) => {
     fetchData();
+    setSelectedCourse(selectedCourse);
     setRenderAllTrainingCourse(true);
     setRenderCreateCourse(false);
+    setRenderUpdateCourse(false);
   };
   return (
     <div>
@@ -156,6 +153,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                     <TableRow>
                       <TableCell>Image</TableCell>
                       <TableCell>Title</TableCell>
+                      <TableCell>Bird Species</TableCell>
                       <TableCell>Description</TableCell>
                       <TableCell>Total Slot</TableCell>
                       <TableCell>Price (USD)</TableCell>
@@ -171,13 +169,11 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                           hover
                           // selected
                           key={course.id}
-                          // onClick={() => handleWorkshopClick(workshop)}
-                          onContextMenu={(event) =>
-                            handleContextMenuForRow(event, index)
-                          }
-                          style={{ cursor: "context-menu" }}
                           className={
-                            course.id === selectedCourse ? "Mui-selected" : ""
+                            selectedCourse != null &&
+                            course.id === selectedCourse.id
+                              ? "Mui-selected"
+                              : ""
                           }
                         >
                           <TableCell className="image-cell">
@@ -189,6 +185,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                           <TableCell style={{ width: 300 }}>
                             {course.title}
                           </TableCell>
+                          <TableCell>{course.birdSpeciesName}</TableCell>
                           <TableCell
                             style={{
                               width: 500,
@@ -219,9 +216,9 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                               <Button
                                 variant="contained"
                                 color="ochre"
-                                onClick={() => handleDisableCourse(course.id)}
+                                onClick={() => handleDisableCourse(course)}
                               >
-                                Disable Course
+                                Disable
                               </Button>
                             </TableCell>
                           )}
@@ -230,9 +227,9 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                               <Button
                                 variant="contained"
                                 color="ochre"
-                                onClick={() => handleActiveCourse(course.id)}
+                                onClick={() => handleActiveCourse(course)}
                               >
-                                Active Course
+                                Active
                               </Button>
                             </TableCell>
                           )}
@@ -245,45 +242,6 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                               View Detail
                             </Button>
                           </TableCell>
-                          <Menu
-                            open={contextMenus[index] !== null}
-                            onClose={() => handleCloseForRow(index)}
-                            anchorReference="anchorPosition"
-                            anchorPosition={
-                              contextMenus[index] !== null
-                                ? {
-                                    top: contextMenus[index]?.mouseY,
-                                    left: contextMenus[index]?.mouseX,
-                                  }
-                                : undefined
-                            }
-                          >
-                            <MenuItem>TrainingCourse: {course.title}</MenuItem>
-                            <MenuItem
-                              onClick={() => {
-                                detailClick(course);
-                                // handleCloseForRow(index);
-                              }}
-                            >
-                              <ListItemIcon>
-                                <InfoOutlined />
-                              </ListItemIcon>
-                              <ListItemText
-                                primary={"Training course detail"}
-                              />
-                            </MenuItem>
-                            <MenuItem
-                              onClick={() => {
-                                createCourseClick(course);
-                                // handleCloseForRow(index);
-                              }}
-                            >
-                              <ListItemIcon>
-                                <AddBoxOutlined />
-                              </ListItemIcon>
-                              <ListItemText primary={"New class"} />
-                            </MenuItem>
-                          </Menu>
                         </TableRow>
                       ))
                     ) : (
@@ -301,7 +259,13 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
         )}
         {renderCreateCourse && (
           <CreateTrainingCourseComponent
-            callbackCreateCourse={onCallBackCourseManagement}
+            callbackCreateCourse={onCallBackTrainingCourseManagement}
+          />
+        )}
+        {renderUpdateCourse && (
+          <UpdateTrainingCourseComponent
+            trainingCourse={selectedCourse}
+            callbackUpdateCourse={onCallBackTrainingCourseManagement}
           />
         )}
       </ThemeProvider>

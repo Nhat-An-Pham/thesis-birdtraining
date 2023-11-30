@@ -20,6 +20,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
   const [selectedSpecies, setSelectedSpecies] = useState();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tmpDes, setTmpDes] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
   const [price, setPrice] = useState(0.0);
@@ -39,18 +40,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
   const handleSelectSpecies = (event) => {
     setSelectedSpecies(event.target.value);
   };
-  async function fetchCreatedData(id) {
-    try {
-      let params = {
-        $filter: `id eq ${id}`,
-      };
-      // let response = await workshopManagementService.getWorkshops(params);
-      // return response[0];
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-  async function fetchBirdSpecies(id) {
+  async function fetchBirdSpecies() {
     try {
       let response = await TrainingCourseManagement.getAllBirdSpecies();
       console.log(response);
@@ -121,6 +111,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
               margin: "5px",
               marginBottom: "25px",
               width: "100%",
+              maxWidth: "350px",
             }}
           >
             <InputLabel id="selectLabel_ChooseSpecies">
@@ -129,7 +120,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
             <Select
               labelId="selectLabel_ChooseSpecies"
               label="Choose Species"
-              // value={selectedTrainer}
+              value={selectedSpecies}
               onChange={handleSelectSpecies}
             >
               {birdSpecies.map((speciy) => (
@@ -137,7 +128,11 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
               ))}
             </Select>
           </FormControl>
-          <FormControl fullWidth required style={{ marginBottom: 10 }}>
+          <FormControl
+            fullWidth
+            required
+            style={{ margin: 10, marginBottom: 10 }}
+          >
             <InputLabel htmlFor="title">Title</InputLabel>
             <Input type="text" onChange={(e) => setTitle(e.target.value)} />
           </FormControl>
@@ -164,7 +159,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
             fullWidth
             required
             variant="outlined"
-            style={{ marginBottom: 25 }}
+            style={{ margin: 10, marginBottom: 25 }}
           >
             <InputLabel>Price</InputLabel>
             <Input
@@ -178,10 +173,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
             <Typography variant="h6" gutterBottom>
               Description
             </Typography>
-            <Editor
-              onGetHtmlValue={handleEditorChange}
-              htmlValue={description}
-            />
+            <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpDes} />
           </FormControl>
           <FormControl required style={{ marginBottom: 15 }}>
             <Typography variant="h6" gutterBottom>
