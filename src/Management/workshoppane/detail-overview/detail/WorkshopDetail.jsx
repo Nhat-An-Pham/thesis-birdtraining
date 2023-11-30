@@ -33,19 +33,23 @@ export default function WorkshopDetailTemplateComponent({ selectedDetail, callba
   };
 
   return (
-    <Grid item xs={8}>
-      <div className="right-side-content">
+    <Grid container item xs={12} >
+      <div>
         {user?.role === "Manager" ? (
-          <div>
-            <Editor onGetHtmlValue={handleChanges}  htmlValue={description} />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSaveChanges}
-            >
-              Save Changes
-            </Button>
-          </div>
+          <Grid container item xs={12} alignItems={'flex-end'} justifyContent={'flex-end'} spacing={2}>
+            <Grid item xs={12}>
+              <Editor onGetHtmlValue={handleChanges}  htmlValue={description}/>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="ochre"
+                onClick={handleSaveChanges}
+              >
+                Save Changes
+              </Button>
+            </Grid>
+          </Grid>
         ) : (
           <Typography>
             <RawHTMLRenderer htmlContent={description} />

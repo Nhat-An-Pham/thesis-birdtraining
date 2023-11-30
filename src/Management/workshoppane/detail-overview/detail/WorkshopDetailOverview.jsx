@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Paper,
 } from "@mui/material";
 // import { toast } from 'react-toastify';
 import WorkshopDetailTemplateComponent from "./WorkshopDetail";
@@ -40,11 +41,10 @@ export default function WorkshopDetailOverviewComponent({ workshop }) {
     // console.log('slot component: ' +selectedDetail);
   };
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item xs={12}>
         <WorkshopViewComponent workshopId={workshop.id} />
       </Grid>
-
       <Grid item xs={2}>
         <List>
           {details.map((detail, index) => (
