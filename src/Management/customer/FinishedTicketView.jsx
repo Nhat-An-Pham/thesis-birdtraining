@@ -62,33 +62,53 @@ const FinishedTicketView = ({
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
-              <TableCell>Id</TableCell>
-              <TableCell>Online/Offline</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Slot</TableCell>
-              <TableCell></TableCell>
+              <TableRow>
+                <TableCell>
+                  <Typography>Ticket ID</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Service</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Date</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Time</Typography>
+                </TableCell>
+                <TableCell></TableCell>
+              </TableRow>
             </TableHead>
             <TableBody>
               {listFinishedTicket.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.id}</TableCell>
                   <TableCell>
-                    {row.onlineOrOffline ? "Online" : "Offine"}
+                    <Typography>{row.id}</Typography>
                   </TableCell>
                   <TableCell>
-                    {addonService.formatDate(row.appointmentDate)}
+                    <Typography>
+                      {row.onlineOrOffline ? "Online" : "Offine"}{" "}
+                    </Typography>
                   </TableCell>
-                  <TableCell>{row.actualSlotStart}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="contained"
-                      color="ochre"
-                      onClick={() => {
-                        handleDetailClick(row.id);
-                      }}
-                    >
-                      Detail
-                    </Button>
+                    <Typography>
+                      {addonService.formatDate(row.appointmentDate)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>{row.actualSlotStart}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>
+                      <Button
+                        variant="contained"
+                        color="ochre"
+                        onClick={() => {
+                          handleDetailClick(row.id);
+                        }}
+                      >
+                        Detail
+                      </Button>
+                    </Typography>
                   </TableCell>
                 </TableRow>
               ))}

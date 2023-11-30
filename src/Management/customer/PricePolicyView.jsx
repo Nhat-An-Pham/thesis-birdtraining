@@ -107,7 +107,7 @@ const PricePolicyView = ({ callBackRenderedIndex, callBackToList }) => {
 
       <h3>Distance Price Policy</h3>
       {listDistancePricePolicy && (
-        <TableContainer>
+        <TableContainer component={Paper}>
           <Table>
             <TableHead>
               <TableCell>

@@ -14,6 +14,7 @@ import {
   AppBar,
   Toolbar,
   IconButton,
+  TableRow,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -108,55 +109,91 @@ const TicketDetailView = ({
         </Toolbar>
       </AppBar>
 
+      <Typography variant="h5"> Basic Infomation</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableCell>
-              <Typography>ID </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Customer </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Email</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Date </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Slot </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Address </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Distance</Typography>
-            </TableCell>
+            <TableRow>
+              <TableCell>
+                <Typography>Ticket ID</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Service</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Date</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Time</Typography>
+              </TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
-            <TableCell>
-              <Typography>{ticketDetail.id} </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography> {ticketDetail.customerName}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.customerEmail}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>
-                {addonService.formatDate(ticketDetail.appointmentDate)}
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography> {ticketDetail.actualSlotStart}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.addressDetail}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.distance}</Typography>
-            </TableCell>
+            <TableRow>
+              <TableCell>
+                <Typography>{ticketDetail.id} </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>
+                  {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>
+                  {addonService.formatDate(ticketDetail.appointmentDate)}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography> {ticketDetail.actualSlotStart}</Typography>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <h1></h1>
+      <h1></h1>
+
+      <Typography variant="h5"> Detail Infomation</Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <Typography>Customer </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Email</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Address </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Type </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>More Detail</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Typography> {ticketDetail.customerName}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>{ticketDetail.customerEmail}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>{ticketDetail.addressDetail}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography> {ticketDetail.consultingType} </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>{ticketDetail.consultingDetail}</Typography>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -167,91 +204,95 @@ const TicketDetailView = ({
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
-            <TableCell>
-              <Typography>Trainer</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>More Detail</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Type </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Online/Offline</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>Price </Typography>
-            </TableCell>
-            <TableCell>Status</TableCell>
+            <TableRow>
+              <TableCell>
+                <Typography>Trainer</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Distance</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Price </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Status</Typography>
+              </TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
-            <TableCell>
-              {haveAssignedTrainer === 1 || haveAssignedTrainer === 3 ? (
-                <Typography>{ticketDetail.trainerName}</Typography>
-              ) : haveAssignedTrainer === 2 && listOfFreeTrainer ? (
-                <FormControl>
-                  <Select
-                    onChange={(e) => setAssignedTrainer(e.target.value)}
-                    value={assignedTrainer}
-                  >
-                    {listOfFreeTrainer.map((trainer) => (
-                      <MenuItem value={trainer.id}>{trainer.name}</MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              ) : (
-                <></>
-              )}
-            </TableCell>
-            <TableCell>{ticketDetail.consultingDetail}</TableCell>
-            <TableCell>
-              <Typography> {ticketDetail.consultingType} </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>
-                {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
-              </Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.price}VND</Typography>
-            </TableCell>
-            <TableCell>
-              {ticketDetail.status === "Approved" ? (
-                <Typography style={{ color: "green" }}>
-                  {ticketDetail.status}
-                </Typography>
-              ) : (
-                <Typography style={{ color: "red" }}>
-                  {ticketDetail.status}
-                </Typography>
-              )}
-            </TableCell>
+            <TableRow>
+              <TableCell>
+                {haveAssignedTrainer === 1 || haveAssignedTrainer === 3 ? (
+                  <Typography>{ticketDetail.trainerName}</Typography>
+                ) : haveAssignedTrainer === 2 && listOfFreeTrainer ? (
+                  <FormControl>
+                    <Select
+                      onChange={(e) => setAssignedTrainer(e.target.value)}
+                      value={assignedTrainer}
+                    >
+                      {listOfFreeTrainer.map((trainer) => (
+                        <MenuItem value={trainer.id}>{trainer.name}</MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                ) : (
+                  <></>
+                )}
+              </TableCell>
+              <TableCell>
+                <Typography>{ticketDetail.distance}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>{ticketDetail.price}VND</Typography>
+              </TableCell>
+              <TableCell>
+                {ticketDetail.status === "Approved" ? (
+                  <Typography style={{ color: "green" }}>
+                    {ticketDetail.status}
+                  </Typography>
+                ) : (
+                  <Typography style={{ color: "red" }}>
+                    {ticketDetail.status}
+                  </Typography>
+                )}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
+
+      <h1></h1>
+      <h1></h1>
 
       {haveAssignedTrainer === 1 ? (
         <>
-          <Button
-            variant="contained"
-            color="ochre"
-            onClick={() => {
-              ConfirmTicket(ticketIdForDetail);
-              callBackRenderedIndex(1);
-            }}
+          <Stack
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            spacing={2}
           >
-            Confirm
-          </Button>
-          <Button
-            variant="contained"
-            color="ochre"
-            onClick={() => {
-              CancelTicket(ticketIdForDetail);
-              callBackRenderedIndex(1);
-            }}
-          >
-            Cancel
-          </Button>
+            <Button
+              variant="contained"
+              color="ochre"
+              onClick={() => {
+                ConfirmTicket(ticketIdForDetail);
+                callBackRenderedIndex(1);
+              }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="ochre"
+              onClick={() => {
+                CancelTicket(ticketIdForDetail);
+                callBackRenderedIndex(1);
+              }}
+            >
+              Cancel
+            </Button>
+          </Stack>
         </>
       ) : haveAssignedTrainer === 2 ? (
         <>

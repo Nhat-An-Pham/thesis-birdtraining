@@ -127,8 +127,11 @@ export default function CustomerReqComponent() {
             {renderedComponents[renderedIndex]}
           </Grid>
 
+          <h1></h1>
+          <h1></h1>
+          
           <Grid>
-            {renderedIndex === 0 || renderedIndex === 4  ? (
+            {renderedIndex === 0 || renderedIndex === 4 ? (
               <></>
             ) : (
               <Button
