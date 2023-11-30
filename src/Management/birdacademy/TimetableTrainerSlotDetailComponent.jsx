@@ -175,7 +175,7 @@ const TimetableTrainerSlotDetailComponent = ({
               <Grid item xs={10}>
                 <Img
                   src={timetableDetail.birdPicture}
-                  alt="Description of the image"
+                  alt="Bird Picture"
                   style={{ width: "200px", height: "150px" }}
                 />
               </Grid>

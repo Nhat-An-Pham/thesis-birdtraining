@@ -274,7 +274,7 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
-  async getAllTrainingCourseById(params = null) {
+  async getTrainingCourseById(params = null) {
     try {
       const response = await axios.get(
         `${BASE_URL}/api/trainingcourse-manager/basetrainingcourse-id`,
@@ -295,7 +295,7 @@ class TrainingCourseManagementService {
   async getAllBirdSkill(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/birdskill`,
+        `${BASE_URL}/api/trainingcourse/birdskill`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -310,10 +310,46 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async getAllAcquirableBirdSkill(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/accquirablebirdskill`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get accquirable bird skills failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async getAllAcquirableBirdSkillBySpecies(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/accquirablebirdskill-birdspecies`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get accquirable bird skills failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async getAllBirdSpecies(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
+        `${BASE_URL}/api/trainingcourse/birdspecies`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -375,6 +411,7 @@ class TrainingCourseManagementService {
         model,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
         }
@@ -392,11 +429,11 @@ class TrainingCourseManagementService {
     try {
       const response = await axios.delete(
         `${BASE_URL}/api/trainingcourse-manager/delete-trainingskill`,
-        model,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
           },
+          data: model,
         }
       );
       // Handle the response and update the state
