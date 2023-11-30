@@ -31,6 +31,7 @@ export const UserSettingPage = () => {
   //set completed Data
   const [completedCourses, setCompletedCourses] = useState([]);
   const [enrolledWorkshop, setEnrolledWorkshop] = useState([]);
+  const [enrolledWClasses, setEnrolledWClasses] = useState([]);
 
   //Get User Role
   const accessToken = JSON.parse(localStorage.getItem("user-token"));
@@ -124,13 +125,26 @@ export const UserSettingPage = () => {
       .catch((e) => {
         console.log(e);
       });
-    workshopService.getWorkshopList().then((res) => {
-      console.log(res.data);
-    });
+    workshopService.getRegisterdWorkshops().then((res) => {
+      // console.log("Enrolled Workshop: ", res.data);
+      setEnrolledWorkshop(res.data)
+      if (res.data.id) {
+        workshopService.getRegisterdClasses({ workshopId: res.data.id })
+          .then((res) => {
+            setEnrolledWClasses(res.data)
+          })
+          .catch((e) => {
+            console.log("Cannot Get Enrolled Workshop Class Data")
+          })
+      }
+    })
+      .catch((e) => {
+        console.log("Cannot Get Enrolled Workshop Data")
+      });
 
-    onlinecourseService.getAllOnlineCourse().then((res) => {
-      console.log(res.data);
-      if (res.data.status === "Completed") {
+    onlinecourseService.getCompletedOnlineCourse().then((res) => {
+      // console.log("Completed Online Courses:", res.data)
+      if (res.data) {
         setCompletedCourses(res.data);
       }
     });
@@ -218,12 +232,12 @@ export const UserSettingPage = () => {
                 <>
                   <label for="fGgMeetLink">Google Meet Link</label>
                   <input
-                  type="text"
-                  id="fGgMeetLink"
-                  placeholder={user.ggMeetLink}
-                  disabled={inputDisable}
-                  value={ggMeetLink}
-                  onChange={handleGgMeetLinkChange}>
+                    type="text"
+                    id="fGgMeetLink"
+                    placeholder={user.ggMeetLink}
+                    disabled={inputDisable}
+                    value={ggMeetLink}
+                    onChange={handleGgMeetLinkChange}>
                   </input>
                 </>
               ) : userRole === "Staff" || userRole === "Manager" ? (
@@ -266,7 +280,7 @@ export const UserSettingPage = () => {
               <h3>Finished Courses</h3>
               {completedCourses ? (
                 <>
-                  {completedCourses.map((course) => {
+                  {completedCourses.map((course) => (
                     <div className="ustp-cards-container">
                       <Img src={course.picture}></Img>
                       <div className="ustp-cards-content">
@@ -276,12 +290,12 @@ export const UserSettingPage = () => {
                             htmlContent={course.shortDescription}
                           ></RawHTMLRenderer>
                         </Typography>
-                        <Link>View Certificate</Link>
+                        <Link to={`/onlinecourse/certificate/${course.id}`}>View Certificate</Link>
                       </div>
-                    </div>;
-                  })}
+                    </div>
+                  ))}
                 </>
-              ) : null}
+              ) : <>You Have No Completed Course</>}
             </div>
             <div className="ustp-participate-wrapper">
               <h3>Participated Workshops</h3>

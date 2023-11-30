@@ -79,6 +79,30 @@ class OnlineCourseService {
         return response;
     }
 
+    // GET Completed Course
+    async getCompletedOnlineCourse() {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'))
+        const response = await axios
+            .get(API_URL + `/completed-courses`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+        return response;
+    }
+
+
+    //GET Certificate
+    async getCertificate({ courseId }) {
+        const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        const response = await axios
+            .get(API_URL + `/certificate-base64?courseId=${courseId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            })
+        return response;
+    }
 }
 
 export default new OnlineCourseService();
