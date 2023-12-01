@@ -110,7 +110,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
     fetchBirdSpecies();
   }, []);
   return (
-    <div>
+    <div padding={20}>
       <h2>Create Training Course</h2>
       <div className="form-container">
         <form

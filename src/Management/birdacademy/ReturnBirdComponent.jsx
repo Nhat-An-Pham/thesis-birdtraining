@@ -128,7 +128,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
     setActualPrice(finalPrice);
   };
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <h2>Create return bird form</h2>
       <div>
         {/* {birdTrainingCourse != null &&

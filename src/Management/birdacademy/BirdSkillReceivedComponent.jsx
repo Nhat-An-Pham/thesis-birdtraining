@@ -34,7 +34,7 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
   return (
     <div>
       {birdSkillList != null && birdSkillList.length > 0 && (
-        <TableContainer>
+        <TableContainer padding={20}>
           <h2>Bird Skill Received For Bird {birdId}</h2>
           <Table>
             <TableHead>

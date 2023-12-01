@@ -91,7 +91,7 @@ const TimetableTrainerSlotDetailComponent = ({
   };
 
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <ToastContainer />
       <AppBar position="static" color="ochre">
         <Toolbar>

@@ -73,7 +73,7 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
     callbackUpdate();
   };
   return (
-    <Grid>
+    <Grid padding={20}>
       {renderDialog != 0 && (
         <ExtendDialog
           trainingCourse={selectedCourse}

@@ -20,11 +20,14 @@ import {
   ListItemText,
   Button,
   ThemeProvider,
+  AppBar,
+  Toolbar,
+  IconButton,
 } from "@mui/material";
 import { Img } from "react-image";
 import RawHTMLRenderer from "../../component/htmlRender/htmlRender";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
-import { AddBoxOutlined, InfoOutlined } from "@mui/icons-material";
+import { AddBoxOutlined, Close, InfoOutlined } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
 import CreateTrainingCourseComponent from "./CreateTrainingCourseComponent";
@@ -141,8 +144,29 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
     setRenderUpdateCourse(true);
   };
   return (
-    <div>
+    <div padding={20}>
       <ThemeProvider theme={ochreTheme}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callBackMainManagement}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Training Course Management
+            </Typography>
+          </Toolbar>
+        </AppBar>
         {renderAllTrainingCourse && (
           <Grid marginTop={1} container spacing={1}>
             <Button
@@ -153,12 +177,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
             >
               Create new training course
             </Button>
-            <Button
+            {/* <Button
               sx={{ float: "right", margin: "20px" }}
               onClick={() => callBackMainManagement()}
             >
               Back
-            </Button>
+            </Button> */}
             <Grid item xs={12}>
               <TableContainer component={Paper}>
                 <Table>

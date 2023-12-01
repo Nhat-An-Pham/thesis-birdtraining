@@ -144,7 +144,7 @@ const UpdateTrainingCourseComponent = ({
     <>
       {selectedTrainingCourse ? (
         <>
-          <div>
+          <div padding={20}>
             <h2>Training Course Detail</h2>
             <div className="form-container">
               <form

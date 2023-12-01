@@ -67,7 +67,7 @@ const TrainerListByBirdSkill = ({
       });
   }
   return (
-    <TableContainer component={Paper}>
+    <TableContainer padding={20} component={Paper}>
       <Table className="table">
         <TableHead>
           <h2>Trainer</h2>
