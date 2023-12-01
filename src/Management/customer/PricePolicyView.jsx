@@ -2,21 +2,16 @@ import { useEffect } from "react";
 import { useState } from "react";
 import consultantService from "../../services/consultant.service";
 import {
-  AppBar,
-  IconButton,
   Paper,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  Toolbar,
   Typography,
   Table,
   TableRow,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
-
-const PricePolicyView = ({ callBackRenderedIndex, callBackToList }) => {
+const PricePolicyView = () => {
   const [listConsultantPricePolicy, setListConsultantPricePolicy] = useState(
     []
   );
@@ -47,28 +42,6 @@ const PricePolicyView = ({ callBackRenderedIndex, callBackToList }) => {
 
   return (
     <>
-      <AppBar position="static" color="ochre">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            sx={{ mr: 2 }}
-            onClick={callBackToList}
-          >
-            <Close />
-          </IconButton>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            Consultant Price Table
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
       <h3>Consultant Price Policy</h3>
       {listConsultantPricePolicy && (
         <TableContainer component={Paper}>

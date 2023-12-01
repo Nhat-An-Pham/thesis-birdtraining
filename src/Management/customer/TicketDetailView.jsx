@@ -1,20 +1,14 @@
 import {
   Button,
   Typography,
-  Stack,
   Select,
   FormControl,
   MenuItem,
-  TableContainer,
   Paper,
-  Table,
-  TableHead,
-  TableCell,
-  TableBody,
   AppBar,
   Toolbar,
   IconButton,
-  TableRow,
+  Grid,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -22,12 +16,7 @@ import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
 
-const TicketDetailView = ({
-  callBackRenderedIndex,
-  callBackHaveAssignedTrainer,
-  ticketIdForDetail,
-  callBackToList,
-}) => {
+const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
   const [dateValue, setDateValue] = useState();
   const [slotValue, setSlotValue] = useState();
 
@@ -42,7 +31,7 @@ const TicketDetailView = ({
         setSlotValue(res.data.slotStartId);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
-  }, []);
+  }, [ticketIdForDetail]);
 
   const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
   useEffect(() => {
@@ -56,10 +45,6 @@ const TicketDetailView = ({
       })
       .catch((e) => console.log("fail Free Trainer list test", e));
   }, [slotValue]);
-
-  const [haveAssignedTrainer, setHaveAssignedTrainer] = useState(
-    callBackHaveAssignedTrainer
-  ); //1: Assigned, 2: NotAssigned, 3: Handled
 
   const AssignTrainer = (trainer, ticketId) => {
     ConsultantService.assignTrainer({ trainerId: trainer, ticketId: ticketId })
@@ -94,7 +79,7 @@ const TicketDetailView = ({
             edge="start"
             color="inherit"
             sx={{ mr: 2 }}
-            onClick={callBackToList}
+            onClick={onClose}
           >
             <Close />
           </IconButton>
@@ -109,226 +94,178 @@ const TicketDetailView = ({
         </Toolbar>
       </AppBar>
 
-      <Typography variant="h5"> Basic Infomation</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Ticket ID</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Service</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Date</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Time</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <Typography>{ticketDetail.id} </Typography>
-              </TableCell>
-              <TableCell>
+      <Grid container>
+        <Grid container xs={12} spacing={2} component={Paper}>
+          <Grid item xs={12}>
+            <Typography variant="h5"> Basic Information</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Ticket ID:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            {ticketDetail.id}
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Service:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>
+              {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Date:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>
+              {addonService.formatDate(ticketDetail.appointmentDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Time:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography> {ticketDetail.actualSlotStart}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h5"> Detail Information</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Customer:
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerName}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Email:
+            </Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerEmail}
+            </Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Address:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>{ticketDetail.addressDetail}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Distance:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>{ticketDetail.distance}Km</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Trainer:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            {isAssigned === 1 || isAssigned === 3 ? (
+              <Typography>{ticketDetail.trainerName}</Typography>
+            ) : isAssigned === 2 && listOfFreeTrainer ? (
+              <FormControl>
                 <Typography>
-                  {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                  <Select
+                    onChange={(e) => setAssignedTrainer(e.target.value)}
+                    value={assignedTrainer}
+                  >
+                    {listOfFreeTrainer.map((trainer) => (
+                      <MenuItem value={trainer.id}>{trainer.name}</MenuItem>
+                    ))}
+                  </Select>
                 </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>
-                  {addonService.formatDate(ticketDetail.appointmentDate)}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography> {ticketDetail.actualSlotStart}</Typography>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      <Typography variant="h5"> Detail Infomation</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Customer </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Email</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Address </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Type </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>More Detail</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <Typography> {ticketDetail.customerName}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>{ticketDetail.customerEmail}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>{ticketDetail.addressDetail}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography> {ticketDetail.consultingType} </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>{ticketDetail.consultingDetail}</Typography>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Trainer</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Distance</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Price </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Status</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                {haveAssignedTrainer === 1 || haveAssignedTrainer === 3 ? (
-                  <Typography>{ticketDetail.trainerName}</Typography>
-                ) : haveAssignedTrainer === 2 && listOfFreeTrainer ? (
-                  <FormControl>
-                    <Select
-                      onChange={(e) => setAssignedTrainer(e.target.value)}
-                      value={assignedTrainer}
-                    >
-                      {listOfFreeTrainer.map((trainer) => (
-                        <MenuItem value={trainer.id}>{trainer.name}</MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                ) : (
-                  <></>
-                )}
-              </TableCell>
-              <TableCell>
-                <Typography>{ticketDetail.distance}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>{ticketDetail.price}VND</Typography>
-              </TableCell>
-              <TableCell>
-                {ticketDetail.status === "Approved" ? (
-                  <Typography style={{ color: "green" }}>
-                    {ticketDetail.status}
-                  </Typography>
-                ) : (
-                  <Typography style={{ color: "red" }}>
-                    {ticketDetail.status}
-                  </Typography>
-                )}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      {haveAssignedTrainer === 1 ? (
-        <>
-          <Stack
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            spacing={2}
-          >
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() => {
-                ConfirmTicket(ticketIdForDetail);
-                callBackRenderedIndex(1);
-              }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() => {
-                CancelTicket(ticketIdForDetail);
-                callBackRenderedIndex(1);
-              }}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </>
-      ) : haveAssignedTrainer === 2 ? (
-        <>
-          <Stack
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            spacing={2}
-          >
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() => {
-                AssignTrainer(assignedTrainer, ticketIdForDetail);
-                callBackRenderedIndex(1);
-              }}
-            >
-              Assign
-            </Button>
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() => {
-                CancelTicket(ticketIdForDetail);
-                callBackRenderedIndex(1);
-              }}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </>
-      ) : haveAssignedTrainer === 3 ? (
-        <></>
-      ) : (
-        <></>
-      )}
+              </FormControl>
+            ) : (
+              <></>
+            )}
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Type:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>{ticketDetail.consultingType}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Price:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography>Price: {ticketDetail.price}VND</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <Typography fontWeight={"bold"}>Status:</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            {ticketDetail.status === "Approved" ? (
+              <Typography style={{ color: "green" }}>
+                {ticketDetail.status}
+              </Typography>
+            ) : (
+              <Typography style={{ color: "red" }}>
+                {ticketDetail.status}
+              </Typography>
+            )}
+          </Grid>
+          {isAssigned === 1 ? (
+            <>
+              <Grid item xs={1}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => {
+                    ConfirmTicket(ticketIdForDetail);
+                  }}
+                >
+                  Confirm
+                </Button>
+              </Grid>
+              <Grid item xs={1}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => {
+                    CancelTicket(ticketIdForDetail);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </>
+          ) : isAssigned === 2 ? (
+            <>
+              <Grid item xs={1}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => {
+                    AssignTrainer(assignedTrainer, ticketIdForDetail);
+                  }}
+                >
+                  Assign
+                </Button>
+              </Grid>
+              <Grid item xs={1}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => {
+                    CancelTicket(ticketIdForDetail);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </>
+          ) : (
+            <></>
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 };
