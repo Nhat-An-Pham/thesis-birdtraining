@@ -116,7 +116,7 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
   };
 
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <p>Update For Trainer Slot</p>
       <Grid
         container

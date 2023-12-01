@@ -83,7 +83,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     callBackMainManagement();
   }
   return (
-    <div>
+    <div padding={20}>
       {renderProgress && (
         <>
           <TableContainer className="table-container" component={Paper}>

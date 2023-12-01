@@ -73,7 +73,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
   };
 
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <div>
         <h2>Create receive bird form</h2>
         <div className="form-container">

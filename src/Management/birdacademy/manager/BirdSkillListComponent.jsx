@@ -22,6 +22,7 @@ import TrainingCourseManagement from "../../../services/trainingcourse-managemen
 import ExtendDialog from "./ExtendDialog";
 
 const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
+  console.log(selectedCourse);
   const [selectedBirdSkillId, setSelectedBirdSkillId] = useState();
   const [birdSkills, setBirdSkills] = useState([]);
   const [acquirableSkills, setAcquirableSkills] = useState([]);
@@ -29,7 +30,7 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
   async function fetchBirdSkills() {
     try {
       let response = await TrainingCourseManagement.getAllBirdSkill();
-      console.log(response);
+      console.log("fetchBirdSkills: ", response);
       setBirdSkills(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -45,7 +46,7 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
         await TrainingCourseManagement.getAllAcquirableBirdSkillBySpecies(
           params
         );
-      console.log(response);
+      console.log("fetchAcquirableBirdSkills: ", response);
       setAcquirableSkills(response);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -54,7 +55,7 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
   useEffect(() => {
     fetchBirdSkills();
     fetchAcquirableBirdSkills();
-  }, [selectedCourse.birdSkills]);
+  }, [selectedCourse]);
 
   const handleAddSkillClick = (selectedBirdSkillId) => {
     console.log(selectedBirdSkillId);
@@ -67,11 +68,12 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
     setRenderDialog(2);
   };
   const onCallBackDialog = async (selectedCourse) => {
+    console.log("turn off dialog");
     setRenderDialog(0);
-    callbackUpdate(selectedCourse);
+    callbackUpdate();
   };
   return (
-    <Grid>
+    <Grid padding={20}>
       {renderDialog != 0 && (
         <ExtendDialog
           trainingCourse={selectedCourse}
@@ -96,7 +98,7 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {selectedCourse.birdSkills
+              {selectedCourse?.birdSkills
                 .filter((skill) => skill.birdSkill.name !== "All")
                 .map((skill) => (
                   <TableRow>
@@ -147,13 +149,13 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
             </TableHead>
             <TableBody>
               {birdSkills
-                .filter(
+                ?.filter(
                   (skill) =>
                     skill.name !== "All" &&
-                    !selectedCourse.birdSkills.some(
+                    !selectedCourse?.birdSkills?.some(
                       (courseSkill) => courseSkill.birdSkill.id == skill.id
                     ) &&
-                    acquirableSkills.some(
+                    acquirableSkills?.some(
                       (acquirable) => acquirable.birdSkillId == skill.id
                     )
                 )

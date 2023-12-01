@@ -27,7 +27,7 @@ import addonService from "../../services/addon.service";
 import timetableService from "../../services/timetable.service";
 import trainingCourseManagementService from "../../services/trainingcourse-management.service";
 import { ochreTheme } from "../themes/Theme";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
@@ -76,18 +76,23 @@ const TimetableTrainerSlotDetailComponent = ({
       .then((response) => {
         console.log("Success:", response);
         if (response.status == 206) {
-          toast.log("Training skill have done!");
+          toast.success("Training skill have done!");
+        }
+        if (response.status == 200) {
+          toast.success("Mark slot done!");
         }
         callBackTimetable();
       })
       .catch((error) => {
         // Handle errors
-        console.error("Error:", error);
+        toast.error(error.response.data.message);
+        console.log(error.response);
       });
   };
 
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
+      <ToastContainer />
       <AppBar position="static" color="ochre">
         <Toolbar>
           <IconButton

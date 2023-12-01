@@ -486,6 +486,23 @@ class TrainingCourseManagementService {
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
+  }async getAllTrainingPricePolicies(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/trainingcourse-checkoutpolicies`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get training price policies failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
   }
 }
 

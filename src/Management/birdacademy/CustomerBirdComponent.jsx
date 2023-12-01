@@ -43,7 +43,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   }
   return (
     <div>
-      <TableContainer>
+      <TableContainer padding={20}>
         <h2>Bird Information for Customer {customerId}</h2>
         <Table>
           <TableHead>

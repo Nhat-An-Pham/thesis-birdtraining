@@ -9,6 +9,10 @@ import {
   ThemeProvider,
   Typography,
   Box,
+  Card,
+  CardContent,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
@@ -18,7 +22,10 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
-  const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
+  const [trainingPricePolicies, setTrainingPricePolicies] = useState([]);
+  const [selectedPolicyId, setSelectedPolicyId] = useState();
+  const [actualPrice, setActualPrice] = useState();
+
   const [birdTrainingCourse, setBirdTrainingCourse] = useState(null);
   const [returnNote, setReturnNote] = useState("");
   const [tmpNote, setTmpNote] = useState("");
@@ -54,8 +61,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
       toast.error("Please provide return note");
     }
     const formData = new FormData();
-    formData.append("BirdTrainingCourseId", birdTrainingCourseId);
+    formData.append("BirdTrainingCourseId", requestedId);
     formData.append("ReturnNote", returnNote);
+    formData.append("TrainingPricePolicyId", selectedPolicyId);
 
     // Append each file separately
     pictures.forEach((picture, index) => {
@@ -84,14 +92,46 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
       console.error("Error fetching data:", error);
     }
   }
+  async function fetchPolicyData() {
+    try {
+      let response =
+        await trainingCourseManagementService.getAllTrainingPricePolicies();
+      console.log(response);
+      setTrainingPricePolicies(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   useEffect(() => {
     fetchRequestedData();
+    fetchPolicyData();
   }, [requestedId]);
+  useEffect(() => {
+    if (birdTrainingCourse != null) {
+      const current = birdTrainingCourse.find((e) => e.id == requestedId);
+      console.log(current);
+      if (current != null) {
+        setActualPrice(current.actualPrice);
+        if (current.status == "TrainingDone") {
+          setSelectedPolicyId(3);
+        }
+      }
+    }
+  }, [birdTrainingCourse]);
+  const handleSelectPolicy = (event) => {
+    console.log(event.target.value);
+    setSelectedPolicyId(event.target.value.id);
+    const finalPrice =
+      birdTrainingCourse.find((e) => e.id == requestedId).discountedPrice *
+      event.target.value.chargeRate;
+    console.log(finalPrice);
+    setActualPrice(finalPrice);
+  };
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <h2>Create return bird form</h2>
       <div>
-        {birdTrainingCourse != null &&
+        {/* {birdTrainingCourse != null &&
           birdTrainingCourse
             .filter((request) => request.id == requestedId)
             .map((request) => (
@@ -186,6 +226,111 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   </Grid>
                 </Grid>
               </Box>
+            ))} */}
+        {birdTrainingCourse != null &&
+          birdTrainingCourse
+            .filter((request) => request.id == requestedId)
+            .map((request) => (
+              <Card
+                style={{
+                  maxWidth: 500,
+                  margin: "auto",
+                  marginTop: 4,
+                }}
+              >
+                <CardContent>
+                  <Grid
+                    style={{
+                      fontSize: 24,
+                      fontWeight: "bold",
+                      marginBottom: 2,
+                    }}
+                    color="textPrimary"
+                  >
+                    Billing Details
+                  </Grid>
+                  <Grid
+                    style={{
+                      fontSize: 20,
+                      marginBottom: 2,
+                    }}
+                    color="textSecondary"
+                  >
+                    Requested Id: {request.id}
+                  </Grid>
+                  <Grid
+                    style={{
+                      fontSize: 20,
+                      marginBottom: 2,
+                    }}
+                    color="textSecondary"
+                  >
+                    Customer: {request.customerName}
+                  </Grid>
+
+                  <Grid
+                    style={{
+                      fontSize: 20,
+                      marginBottom: 2,
+                    }}
+                    color="textSecondary"
+                  >
+                    Course: {request.trainingCourseTitle}
+                  </Grid>
+
+                  <Grid
+                    style={{
+                      fontSize: 20,
+                      marginBottom: 2,
+                    }}
+                    color="textSecondary"
+                  >
+                    Status: {request.status}
+                  </Grid>
+
+                  <div
+                    style={{
+                      marginTop: 2,
+                    }}
+                  >
+                    <Grid
+                      style={{
+                        fontSize: 20,
+                        marginBottom: 2,
+                      }}
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      Total Price: {request.totalPrice.toFixed(2)}
+                    </Grid>
+
+                    <Grid
+                      style={{
+                        fontSize: 20,
+                        marginBottom: 2,
+                      }}
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      Discounted Price: {request.discountedPrice.toFixed(2)}
+                    </Grid>
+
+                    <Grid
+                      style={{
+                        fontSize: 20,
+                        marginBottom: 2,
+                      }}
+                      variant="body1"
+                      color="textPrimary"
+                    >
+                      Actual Price:{" "}
+                      {actualPrice != null
+                        ? actualPrice
+                        : request.actualPrice.toFixed(2)}
+                    </Grid>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
         <div className="form-container">
           <form
@@ -196,6 +341,37 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
             <Typography variant="h6" gutterBottom>
               Return bird form
             </Typography>
+            <FormControl
+              sx={{
+                margin: "5px",
+                marginBottom: "25px",
+                width: "100%",
+                maxWidth: "350px",
+              }}
+            >
+              <InputLabel id="selectLabel_ChoosePolicy">
+                Choose Policy
+              </InputLabel>
+              <Select
+                labelId="selectLabel_ChoosePolicy"
+                label="Choose Policy"
+                value={selectedPolicyId}
+                onChange={handleSelectPolicy}
+              >
+                {selectedPolicyId == null &&
+                  trainingPricePolicies
+                    .filter((policy) => policy.name != "Success Requested")
+                    .map((policy) => (
+                      <MenuItem value={policy}>{policy.name}</MenuItem>
+                    ))}
+                {selectedPolicyId != null &&
+                  trainingPricePolicies
+                    .filter((policy) => policy.name == "Success Requested")
+                    .map((policy) => (
+                      <MenuItem value={policy}>{policy.name}</MenuItem>
+                    ))}
+              </Select>
+            </FormControl>
             <FormControl fullWidth required style={{ marginBottom: 10 }}>
               <Typography variant="h6" gutterBottom>
                 Return Note

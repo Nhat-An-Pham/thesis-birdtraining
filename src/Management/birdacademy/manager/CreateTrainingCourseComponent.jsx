@@ -49,6 +49,20 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
       console.error("Error fetching data:", error);
     }
   }
+  async function fetchCreatedData() {
+    try {
+      let params = {
+        $orderby: `id desc`,
+      };
+      let response = await TrainingCourseManagement.getAllTrainingCourse(
+        params
+      );
+      console.log(response[0]);
+      return response[0];
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a FormData object to hold the form data
@@ -76,26 +90,27 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
       pictures.forEach((picture, index) => {
         formData.append(`Pictures`, picture);
       });
-
-      TrainingCourseManagement.createTrainingCourse(formData)
-        .then((response) => {
-          if (response.status === 200) {
-            toast.success("Create successfully!");
-            callbackCreateCourse();
-          } else {
-            toast.error("An error has occured!");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      try {
+        let response = await TrainingCourseManagement.createTrainingCourse(
+          formData
+        );
+        if (response.status === 200) {
+          let courseCreated = await fetchCreatedData();
+          toast.success("Create successfully!");
+          callbackCreateCourse(courseCreated);
+        } else {
+          toast.error("An error has occured!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   useEffect(() => {
     fetchBirdSpecies();
   }, []);
   return (
-    <div>
+    <div padding={20}>
       <h2>Create Training Course</h2>
       <div className="form-container">
         <form
