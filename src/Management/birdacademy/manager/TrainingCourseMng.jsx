@@ -74,7 +74,6 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
     if (trainingCourse) {
       setContextMenus(new Array(trainingCourse.length).fill(null));
     }
-
     return () => {};
   }, [trainingCourse]);
 
@@ -126,6 +125,20 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
     setRenderAllTrainingCourse(true);
     setRenderCreateCourse(false);
     setRenderUpdateCourse(false);
+  };
+  const onCallBackUpdateSkillManagement = async (selectedCourse) => {
+    fetchData();
+    setSelectedCourse(selectedCourse);
+    setRenderAllTrainingCourse(false);
+    setRenderCreateCourse(false);
+    setRenderUpdateCourse(true);
+  };
+  const onCallBackCreateCourse = async (selectedCourse) => {
+    fetchData();
+    setSelectedCourse(selectedCourse);
+    setRenderAllTrainingCourse(false);
+    setRenderCreateCourse(false);
+    setRenderUpdateCourse(true);
   };
   return (
     <div>
@@ -259,13 +272,14 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
         )}
         {renderCreateCourse && (
           <CreateTrainingCourseComponent
-            callbackCreateCourse={onCallBackTrainingCourseManagement}
+            callbackCreateCourse={onCallBackCreateCourse}
           />
         )}
         {renderUpdateCourse && (
           <UpdateTrainingCourseComponent
             trainingCourse={selectedCourse}
             callbackUpdateCourse={onCallBackTrainingCourseManagement}
+            callbackUpdateSkil={onCallBackUpdateSkillManagement}
           />
         )}
       </ThemeProvider>

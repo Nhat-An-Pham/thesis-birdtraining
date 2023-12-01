@@ -180,7 +180,7 @@ export default function BirdAcademyMng() {
     <div className="workshop-container">
       <ToastContainer />
       <ThemeProvider theme={ochreTheme}>
-        <ReworkSidebar selectTab={3} />
+        <ReworkSidebar selectTab={5} />
         {/* <div style={{ margin: "20px" }} className="workshop_section-wrapper"> */}
         <div style={{ margin: "20px" }}>
           {renderCustomer && (
