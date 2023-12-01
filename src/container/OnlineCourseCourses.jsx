@@ -10,7 +10,7 @@ const OnlineCoursesCourses = () => {
   useEffect(()=>{
     OnlinecourseService.getAllOnlineCourse()
     .then((res)=>{
-      console.log("All Online Courses: ", res.data)
+      // console.log("All Online Courses: ", res.data)
       setOnlineCourse(res.data);
     })
     .catch((e)=>{

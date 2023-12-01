@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: #F7F7F7;
 }
 
 .wclp_section {
@@ -27,7 +28,7 @@
 //cards
 .wclp_card {
     &-container {
-        height: 250px;
+        height: 200px;
         width: 400px;
         display: flex;
         flex-direction: column;
@@ -38,9 +39,10 @@
         color: black;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -webkit-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
-        -moz-box-shadow: 10px 10px 40px 0px rgba(0, 0, 0, 0.75);
+        border: 0.5px rgba(200, 174, 125, 0.75) solid ;
+        box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
+        -webkit-box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
+        -moz-box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
         margin-left: 20px;
         margin-right: 20px;
     }
@@ -51,7 +53,7 @@
         height: 40%;
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
     }
 
     &-bottom {
@@ -62,7 +64,6 @@
 
 .wclp_card_section {
     &_top {
-
         &-img {
             width: 60%;
             height: 100%;
@@ -77,15 +78,13 @@
             align-items: center;
 
             & button {
-                padding: 20px;
+                padding: 13px;
                 border-radius: 10px;
                 border: none;
                 font-weight: bold;
-
-                &:hover {
-                    background-color: orange;
-                    cursor: pointer;
-                }
+                background-color: #C8AE7D;
+                color: white;
+                cursor: pointer;
             }
         }
     }
@@ -129,11 +128,12 @@
     }
 
     &-container {
-        background: white;
+        background-image: url("../../assets/pages/payment/pexels-sergio-souza-3250454.jpg");
+        color: white;
         width: 900px;
         height: auto;
         padding: 20px;
-        border-radius: 5px;
+        border-radius: 20px;
         border: 1px grey solid;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         overflow: hidden;
@@ -141,44 +141,62 @@
     }
 }
 
-.wclpdiv_section{
+.wclpdiv_section {
     display: block;
     margin: 0px;
     margin-bottom: 30px;
-    &-mapping{
+    &-title{
+        margin-bottom: 0px;
+    }
+
+    &-mapping {
         width: 100%;
     }
+
     //wclpdiv_section-button
-    &-button{
+    &-button {
         height: 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        & button{
+
+        & button {
             padding: 10px;
+            height: 50px;
         }
     }
-    &_button{
-        &-close{
-            
+
+    &_button {
+        &-close {
+            width: 100px;
+            border-radius: 10px;
+            border: 0.2px white solid;
         }
-        &-enroll{
-            width: 120px;
+
+        &-enroll {
+            width: 150px;
+            border-radius: 10px;
+            border: 0.2px white solid;
+            background-color: #C8AE7D;
+            color: white;
         }
     }
 }
 
 //wclpdiv_section-mapping
-.wclpdiv_section_mapping-content{
-    & .wclpdiv_content{
+.wclpdiv_section_mapping-content {
+    & .wclpdiv_content {
         width: 100%;
-        &-detail{
+
+        &-detail {
             font-weight: bold;
-            & span{
+
+            & span {
                 font-weight: normal;
             }
         }
-        &-registered{
+
+        &-registered {
             font-size: 15px;
             text-align: right;
             margin-top: 30px;

@@ -16,7 +16,7 @@ const OnlineCourseManagement = () => {
         <div className='workshop-container'>
             <ToastContainer />
             <ThemeProvider theme={ochreTheme}>
-                <ReworkSidebar />
+                <ReworkSidebar selectTab={2} />
                 <Grid container spacing={1} sx={{ margin: "15px" }}>
                     {userRole === "Manager" ?
                         <OCManager /> : <OCStaff />}

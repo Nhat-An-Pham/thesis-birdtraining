@@ -33,7 +33,7 @@ const UserData = () => {
             <div className='workshop-container'>
                 <ToastContainer />
                 <ThemeProvider theme={ochreTheme}>
-                    <ReworkSidebar />
+                    <ReworkSidebar selectTab={6}/>
                     <Grid container spacing={1} sx={{ margin: "15px" }}>
                         
                         <Grid container item xs={6} justifyContent="flex-start">

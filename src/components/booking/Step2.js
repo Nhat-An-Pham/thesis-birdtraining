@@ -22,7 +22,7 @@ export default function Step2({getTrainerId}) {
         .catch((e) => console.log("fail Trainer list test", e));
 }, []);
 
-  const handleListItemClick = (trainerId, index) => {
+  const handleListItemClick = (trainerId, trainerName, index) => {
     //this function sets business id into state
     getTrainerId(trainerId);
     setSelectedIndex(index);
@@ -54,7 +54,7 @@ export default function Step2({getTrainerId}) {
             <>
               <ListItemButton
                 selected={selectedIndex === idx}
-                onClick={(event) => handleListItemClick(trainer.id, idx)}
+                onClick={(event) => handleListItemClick(trainer.id, trainer.name, idx)}
               >
                 <ListItemText primary={trainer.name} />
               </ListItemButton>

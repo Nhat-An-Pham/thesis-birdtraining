@@ -11,6 +11,7 @@ import "./create-workshop.scss";
 import Editor from "../../../component/text-editor/Editor";
 import { UploadComponent } from "../../../component/upload/Upload";
 import workshopManagementService from "../../../../services/workshop-management.service";
+import { toast } from "react-toastify";
 
 const CreateWorkshopComponent = ({ callbackCreateWorkshop }) => {
   const [title, setTitle] = useState("");
@@ -18,11 +19,12 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop }) => {
   const [registerEnd, setRegisterEnd] = useState(0);
   const [price, setPrice] = useState(0.0);
   const [description, setDescription] = useState("");
+  const [tempDesc, setTempDesc] = useState("");
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
 
   const handleEditorChange = (value) => {
-    setDescription(value);
+    setTempDesc(value);
   };
 
   const handleFileChange = (e) => {
@@ -47,29 +49,41 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a FormData object to hold the form data
-    const formData = new FormData();
-    formData.append("Title", title);
-    formData.append("Description", description);
-    formData.append("RegisterEnd", registerEnd);
-    formData.append("Price", price);
-    formData.append("TotalSlot", totalSlot);
+    let check = true;
+    if (!pictures || pictures.length < 1) {
+      check = false;
+      toast.error("Please provide workshop image");
+    }
+    if(!tempDesc || tempDesc.length < 1){
+      check = false;
+      toast.error("Please provide workshop description");
+    }
+    if (check) {
+      const formData = new FormData();
+      formData.append("Title", title);
+      formData.append("Description", tempDesc);
+      formData.append("RegisterEnd", registerEnd);
+      formData.append("Price", price);
+      formData.append("TotalSlot", totalSlot);
 
-    // Append each file separately
-    pictures.forEach((picture, index) => {
-      formData.append(`Pictures`, picture);
-    });
-
-    workshopManagementService
-      .createWorkshop(formData)
-      .then((response) => {
-        let id = response.data;
-        fetchCreatedData(id).then((workshop) => {
-          callbackCreateWorkshop(workshop);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
+      // Append each file separately
+      pictures.forEach((picture, index) => {
+        formData.append(`Pictures`, picture);
       });
+
+      workshopManagementService
+        .createWorkshop(formData)
+        .then((response) => {
+          let id = response.data;
+          fetchCreatedData(id).then((workshop) => {
+            toast.success("Create successfully!");
+            callbackCreateWorkshop(workshop);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (

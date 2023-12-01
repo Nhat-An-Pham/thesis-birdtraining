@@ -201,5 +201,24 @@ class ConsultantService {
     );
     return response;
   }
+
+  async GetConsultingTicketPricePolicy() {
+    const response = await axios.get(
+      API_URL_AllROLE + "GetConsultingTicketPricePolicy"
+    );
+    return response;
+  }
+
+  async GetDistnacePricePolicy() {
+    const response = await axios.get(
+      API_URL_AllROLE + "GetDistnacePricePolicy"
+    );
+    return response;
+  }
+
+  async GetConsultingType() {
+    const response = await axios.get(API_URL_AllROLE + "GetConsultingType");
+    return response;
+  }
 }
 export default new ConsultantService();

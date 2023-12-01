@@ -16,6 +16,7 @@
     margin-right: 20px;
     text-decoration: none;
     color: black;
+    height: 500px;
 
     & article {
         --img-scale: 1.001;
@@ -41,10 +42,11 @@
     /* basic article elements styling */
     & article h2 {
         margin: 0 0 18px 0;
-        font-size: 1.9rem;
-        letter-spacing: 0.06em;
-        color: var(--title-color);
+        font-size: 20px;
+        color: #65451F;
         transition: color 0.3s ease-out;
+        height: 70px;
+        overflow: hidden;
     }
 
     & figure {
@@ -80,14 +82,14 @@
     & .article-body {
         div {
             font-size: 15px;
-            height: 90px;
+            height: 100px;
             overflow: hidden;
             border-bottom: grey 0.5px solid;
         }
 
         p {
             height: 60px;
-            overflow: hidden;
+            overflow: scroll;
         }
     }
 

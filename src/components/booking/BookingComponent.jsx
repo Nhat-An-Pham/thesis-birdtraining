@@ -13,6 +13,7 @@ import Step3 from "./Step3";
 import Step4 from './Step4';
 // import moment from "moment";z
 import dayjs from 'dayjs';
+import { useEffect } from 'react';
 
 import "./booking.scss"
 import ConsultantService from '../../services/consultant.service';
@@ -143,14 +144,24 @@ function BookingComponent() {
         setSelectedTrainerId(null);
     };
 
+    //Change Service Name
+    const [serviceName, setServiceName] = useState("")
+    useEffect(() => {
+        if (serviceId === true) {
+            setServiceName("(Online Consultation)")
+        } else {
+            setServiceName("(In-Home Consultation)")
+        }
+    }, [serviceId])
+
 
     const steps = [
         {
-            label: 'Select a service',
+            label: `Select a service ${serviceName}`,
             description: <Step1 getServiceId={getServiceId} />,
         },
         {
-            label: 'Which Trainer would you like to make an appointment with?',
+            label: `Which Trainer would you like to make an appointment with? `,
             description: <Step2 getTrainerId={getTrainerId} />,
         },
         {
@@ -158,15 +169,14 @@ function BookingComponent() {
             description: <Step3 getAppointmentDate={getAppointmentDate} selectedTrainerId={selectedTrainerId} getSlotId={getSlotId} />,
         },
         {
-            label: 'Please enter Contact Information',
+            label: 'Please enter contact information',
             description: <Step4 getFormValues={getFormValues} getConsultingType={getConsultingType} />
         }
     ];
 
 
     return (
-        <Box sx={{ maxWidth: 400 }}>
-            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "15px", textAlign: "center" }}>{errorMessage}</Typography>
+        <Box sx={{ maxWidth: 600 }}>
             <Stepper activeStep={activeStep} orientation="vertical" >
                 {steps.map((step, index) => (
                     <Step key={step.label} >
@@ -203,9 +213,10 @@ function BookingComponent() {
                     </Step>
                 ))}
             </Stepper>
+            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "15px", textAlign: "center" }}>{errorMessage}</Typography>
             {lastMessage ?
-            <Typography variant="h6" style={{ color: '#ba000d', fontSize: "20px", textAlign: "center", marginTop: "20px" }}>{lastMessage}</Typography>
-            :null}
+                <Typography variant="h6" style={{ color: '#ba000d', fontSize: "20px", textAlign: "center", marginTop: "20px" }}>{lastMessage}</Typography>
+                : null}
             {activeStep === steps.length && (
                 <Paper square elevation={0} sx={{ p: 3 }} >
                     <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>

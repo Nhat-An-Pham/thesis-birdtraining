@@ -3,7 +3,7 @@ import { useState } from 'react';
 import BookingComponent from '../components/booking/BookingComponent';
 
 const Consultation = () => {
-  
+
 
   return (
     <div className='consultationpage'>
@@ -37,7 +37,7 @@ const Consultation = () => {
       </div>
       <div className='cons_section cons_section-booking'>
         <h1>BOOKING ONLINE</h1>
-        <BookingComponent/>
+        <BookingComponent />
       </div>
     </div>
   )

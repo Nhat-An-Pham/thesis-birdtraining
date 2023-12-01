@@ -30,6 +30,7 @@ export default function WorkshopManagementComponent() {
   };
   const handleCreateWorkshop = (workshop) => {
     setSelectedWorkshop(workshop);
+    setStatusFilter("Inactive");
     setRenderedIndex(2);
   };
   const handleOpenModal = (workshop) => {
@@ -41,10 +42,13 @@ export default function WorkshopManagementComponent() {
     // setSelectedWorkshop(null);
     setOpen(false);
   };
-  const callbackCreateClass= () => {
+  const handleCallbackBack = () => {
+    setRenderedIndex(0);
+  };
+  const callbackCreateClass = () => {
     setOpen(false);
     setRenderedIndex(3);
-  }
+  };
   let renderedComponents = [
     <WorkshopPane
       statusFilter={statusFilter}
@@ -53,18 +57,20 @@ export default function WorkshopManagementComponent() {
       onCreateClassRequest={handleOpenModal}
     />,
     <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
-    <WorkshopDetailOverviewComponent workshop={selectedWorkshop} />,
-    <ClassManagementComponent selectedWorkshop={selectedWorkshop} />,
+    <WorkshopDetailOverviewComponent
+      workshop={selectedWorkshop}
+      callbackBack={handleCallbackBack}
+    />,
+    <ClassManagementComponent selectedWorkshop={selectedWorkshop} callbackBack={handleCallbackBack}/>,
     // <TrainerSlotDetailComponent entityId={28}/>
   ];
 
-  
   return (
     <div className="workshop-container">
       <ToastContainer />
 
       <ThemeProvider theme={ochreTheme}>
-        <ReworkSidebar selectTab={3} />
+        <ReworkSidebar selectTab={4} />
         {/* <Button
                 variant="contained"
                 color="ochre"
@@ -72,8 +78,8 @@ export default function WorkshopManagementComponent() {
               >
                 Test trainer slot
               </Button> */}
-        <Grid container spacing={1} sx={{ margin: "15px" }}>
-          <Grid container item xs={6} justifyContent="flex-start">
+        <Grid container spacing={1}>
+          {/* <Grid container item xs={6} justifyContent="flex-start" padding={3}>
             {renderedIndex === 0 ? (
               // <Button
               //   color="ochre"
@@ -90,17 +96,18 @@ export default function WorkshopManagementComponent() {
                 Add new workshop
               </Button>
             ) : (
-              <Button
-                color="ochre"
-                variant="contained"
-                onClick={() => setRenderedIndex(0)}
-              >
-                Back
-              </Button>
+              // <Button
+              //   color="ochre"
+              //   variant="contained"
+              //   onClick={() => setRenderedIndex(0)}
+              // >
+              //   Back
+              // </Button>
+              null
             )}
           </Grid>
-          <Grid container item spacing={0} xs={6} justifyContent="flex-end">
-            {renderedIndex === 1 || renderedIndex === 3? (
+          <Grid container item xs={6} justifyContent="flex-end" padding={3}>
+            {!(renderedIndex === 0) ? (
               <></>
             ) : (
               // <Button
@@ -118,17 +125,30 @@ export default function WorkshopManagementComponent() {
                 {statusFilter}
               </Button>
             )}
-          </Grid>
+          </Grid> */}
+          {renderedIndex === 0 ? (
+            <Grid item margin={3}>
+              <Button
+                variant="contained"
+                color="ochre"
+                onClick={() => setRenderedIndex(1)}
+              >
+                Add new workshop
+              </Button>
+            </Grid>
+          ) : (
+            <></>
+          )}
           <Grid item xs={12}>
             {renderedComponents[renderedIndex]}
           </Grid>
         </Grid>
         <ClassAddNewComponent
-        selectedWorkshop={selectedWorkshop}
-        open={open}
-        handleClose={handleCloseModal}
-        callbackCreateClass={callbackCreateClass}
-      />
+          selectedWorkshop={selectedWorkshop}
+          open={open}
+          handleClose={handleCloseModal}
+          callbackCreateClass={callbackCreateClass}
+        />
       </ThemeProvider>
     </div>
   );

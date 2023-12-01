@@ -25,7 +25,6 @@ import TimeTable from '../Management/timetable/Timetable';
 import SignUp from '../pages/SignUp';
 import Payment from '../pages/Payment';
 import CustomerReqComponent from '../Management/customer/CustomerReq';
-import Certificate from '../components/certificate/Certificate';
 import WClassListPage from '../pages/WClassListPage';
 import BirdAcademyMng from '../Management/birdacademy/BirdAcademyMng';
 import PrivateRoutes from './PrivateRoutes';
@@ -35,6 +34,7 @@ import { UserSettingPage } from '../pages/UserSettingPage';
   import OnlineCourseManagement from '../Management/onlinecourse/OnlineCourseManagement';
 import TrainerTicketComponent from '../Management/customer/TrainerTicket';
 import ReworkTimetableComponent from '../Management/timetable/ReworkTimetable';
+import CertificatePage from '../pages/CertificatePage';
 
 
 function Layout() {
@@ -57,6 +57,7 @@ function Layout() {
           <Route path='/courseslist' element={<CourseListPage />} />
           <Route path='/courseslist/:courseid' element={<CourseDetailPage />} />
           <Route path='/onlinecourse/study/:courseid' element={<OnlineCourseStudyPage />} />
+          <Route path="/onlinecourse/certificate/:courseId" element={<CertificatePage />} />
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/workshops" element={<Workshop />} />
           <Route path="/workshopslist" element={<WorkshopListPage />} />
@@ -67,7 +68,6 @@ function Layout() {
           {/* Payment */}
           <Route path="/payment/workshop/:wclassid" element={<Payment />} />
           <Route path="/payment/online/:oclassid" element={<Payment />} />
-          <Route path="/certificate" element={<Certificate />} />
 
           {/* login signup */}
           <Route path="/login" element={<Login />} />

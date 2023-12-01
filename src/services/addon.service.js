@@ -4,6 +4,9 @@ class AddonService {
         let result = new Date(date).toLocaleString('en-GB', options);
         return  result;
       }
+    formatCurrency(num) {
+        return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+     }
 }
 
 export default new AddonService();

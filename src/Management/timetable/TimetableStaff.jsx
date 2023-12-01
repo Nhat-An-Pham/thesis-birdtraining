@@ -203,6 +203,14 @@ function TimetableStaff() {
               onSelectEvent={handleSelected}
               formats={formats}
               //   onNavigate={onNavigate}
+              eventPropGetter={(event) => {
+                return {
+                  style: {
+                    backgroundColor: event.typeId === 3 ? 'ocean' : event.typeId === 2 ? 'orange' : 'green',
+                    // Add more styles as needed
+                  },
+                };
+              }}
             />
           )}
         </Grid>
@@ -228,7 +236,7 @@ function TimetableStaff() {
   return (
     <>
       <div className="workshop-container">
-        <ReworkSidebar />
+        <ReworkSidebar selectTab={3}/>
         <ToastContainer />
         <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
           {renderComponents[renderedIndex]}
