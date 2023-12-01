@@ -18,7 +18,7 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import ReceivedBirdComponent from "./ReceivedBirdComponent";
 import ReturnBirdComponent from "./ReturnBirdComponent";
 import TrainingCourseMng from "./manager/TrainingCourseMng";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { ochreTheme } from "../themes/Theme";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
@@ -33,7 +33,8 @@ export default function BirdAcademyMng() {
 
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(null); //birdTrainingCourseId
   const handleCancelButtonClick = async (key) => {
-    //setBirdTrainingCourseId(key); //setBirdTrainingCourseId
+    setBirdTrainingCourseId(key); //setBirdTrainingCourseId
+    console.log(key);
     let params = {
       birdTrainingCourseId: key,
     };
@@ -42,11 +43,12 @@ export default function BirdAcademyMng() {
       .then((response) => {
         // Handle the response data
         console.log("Success:", response);
+        toast.success("Cancel success!");
         onCallBackMainManagement();
       })
       .catch((error) => {
         // Handle errors
-        console.error("Error:", error);
+        console.log("Error:" + error.response);
       });
   };
   const handleConfirmButtonClick = async (key) => {
@@ -308,7 +310,13 @@ export default function BirdAcademyMng() {
                                     >
                                       Confirm
                                     </Button>
-                                    <Button style={{ fontSize: 14 }}>
+                                    <Button
+                                      style={{ fontSize: 14 }}
+                                      onClick={() => {
+                                        handleCancelButtonClick(cls.id);
+                                        // setRenderCustomerRequest(false);
+                                      }}
+                                    >
                                       Cancel
                                     </Button>
                                   </TableCell>
