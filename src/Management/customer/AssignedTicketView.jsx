@@ -7,6 +7,7 @@ import {
   TableRow,
   Grid,
   ThemeProvider,
+  Container,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -48,6 +49,7 @@ const AssignedTicketView = ({}) => {
 
   return (
     <ThemeProvider theme={"ochreTheme"}>
+      <Container sx={{padding: 2}}>
       {renderIndex === 0 ? (
         <>
           <TicketDetailView
@@ -69,8 +71,14 @@ const AssignedTicketView = ({}) => {
           >
             Tickets that have assigned trainer
           </h1>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={2}
+          >
+            <Grid item xs={12}>
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
@@ -115,6 +123,7 @@ const AssignedTicketView = ({}) => {
       ) : (
         <></>
       )}
+      </Container>
     </ThemeProvider>
   );
 };

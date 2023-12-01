@@ -14,6 +14,8 @@ import {
   TableBody,
   TableCell,
   Table,
+  Divider,
+  Grid,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import addonService from "../../services/addon.service";
@@ -35,7 +37,7 @@ const Timetable_TicketDetailView = ({
         setTicketDetail(res.data);
       })
       .catch((e) => console.log("Fail Get List Ticket Detail test", e));
-  }, []);
+  }, [ticketIdForDetail]);
 
   const [GoogleMeetLink, setGoogleMeetLink] = useState();
   const UpdateTicket = (ticketId, link) => {
@@ -75,121 +77,111 @@ const Timetable_TicketDetailView = ({
             </Typography>
           </Toolbar>
         </AppBar>
-
-        <Typography variant="h5"> Basic Infomation</Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableCell>
-                <Typography>Ticket ID</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Service</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Date</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Time</Typography>
-              </TableCell>
-            </TableHead>
+        <Divider />
+        <Grid container marginTop={3} component={Paper}>
+          <Grid container item xs={12} padding={2} spacing={2}>
             {ticketDetail && (
-              <TableBody>
-                <TableCell>{ticketDetail.id}</TableCell>
-                <TableCell>
+              <>
+                <Grid item xs={12}>
+                  <Typography variant="h5"> Basic Infomation</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Ticket ID:</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  {ticketDetail.id}
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Service:</Typography>
+                </Grid>
+                <Grid item xs={3}>
                   <Typography>
                     {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
                   </Typography>
-                </TableCell>
-                <TableCell>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Date:</Typography>
+                </Grid>
+                <Grid item xs={3}>
                   <Typography>
                     {addonService.formatDate(ticketDetail.appointmentDate)}
                   </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{ticketDetail.actualSlotStart}</Typography>
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-
-        <h1></h1>
-        <h1></h1>
-
-        <Typography variant="h5"> Detail Infomation</Typography>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableCell>
-                <Typography>Customer </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Email</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Address </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Type </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>More Detail</Typography>
-              </TableCell>
-            </TableHead>
-            {ticketDetail && (
-              <TableBody>
-                <TableCell>
-                  <Typography> {ticketDetail.customerName}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{ticketDetail.customerEmail}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{ticketDetail.addressDetail}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography> {ticketDetail.consultingType} </Typography>
-                </TableCell>
-                <TableCell>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Time:</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography> {ticketDetail.actualSlotStart}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h5"> Detail Information</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography style={{ fontWeight: "bold", color: "blue" }}>
+                    Customer:
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography style={{ color: "blue" }}>
+                    {ticketDetail.customerName}
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography style={{ fontWeight: "bold", color: "blue" }}>
+                    Email:
+                  </Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography style={{ color: "blue" }}>
+                    {ticketDetail.customerEmail}
+                  </Typography>
+                </Grid>
+                {ticketDetail.onlineOrOffline ? (
+                  <></>
+                ) : (
+                  <>
+                    <Grid item xs={3}>
+                      <Typography fontWeight={"bold"}>Address:</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography>{ticketDetail.addressDetail}</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography fontWeight={"bold"}>Distance:</Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography>{ticketDetail.distance}Km</Typography>
+                    </Grid>
+                  </>
+                )}
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>More Detail</Typography>
+                </Grid>
+                <Grid item xs={9}>
                   <Typography>{ticketDetail.consultingDetail}</Typography>
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
-
-        <h1></h1>
-        <h1></h1>
-
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableCell>
-                <Typography>Trainer</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Distance</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Price </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Status</Typography>
-              </TableCell>
-            </TableHead>
-            {ticketDetail && (
-              <TableBody>
-                <TableCell>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Trainer:</Typography>
+                </Grid>
+                <Grid item xs={3}>
                   <Typography>{ticketDetail.trainerName}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{ticketDetail.distance}</Typography>
-                </TableCell>
-                <TableCell>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Type:</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography>{ticketDetail.consultingType}</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Price:</Typography>
+                </Grid>
+                <Grid item xs={3}>
                   <Typography>{ticketDetail.price}VND</Typography>
-                </TableCell>
-                <TableCell>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography fontWeight={"bold"}>Status:</Typography>
+                </Grid>
+                <Grid item xs={3}>
                   {ticketDetail.status === "Approved" ? (
                     <Typography style={{ color: "green" }}>
                       {ticketDetail.status}
@@ -199,75 +191,53 @@ const Timetable_TicketDetailView = ({
                       {ticketDetail.status}
                     </Typography>
                   )}
-                </TableCell>
-              </TableBody>
-            )}
-          </Table>
-        </TableContainer>
+                </Grid>
 
-        <h1></h1>
-        <h1></h1>
-
-        {userRole === "trainer" ? (
-          <TableContainer component={Paper}>
-            <Table>
-              {ticketDetail && (
-                <TableHead>
-                  {ticketDetail.onlineOrOffline === true &&
-                  ticketDetail.status !== "Finished" ? (
-                    <TableCell>
-                      <Typography>Google Meet Link</Typography>
-                    </TableCell>
-                  ) : ticketDetail.status === "Finished" ? (
-                    <TableCell>
-                      <Typography>Evidence</Typography>
-                    </TableCell>
-                  ) : null}
-                </TableHead>
-              )}
-              {ticketDetail && (
-                <TableBody>
-                  <TableCell>
+                {userRole === "Trainer" ? (
+                  <>
                     {ticketDetail.onlineOrOffline === true &&
                     ticketDetail.status !== "Finished" ? (
-                      <Typography>
-                        {
-                          <input
-                            type="text"
-                            defaultValue={ticketDetail.ggMeetLink}
-                            onChange={(e) => setGoogleMeetLink(e.target.value)}
-                          />
-                        }
-                      </Typography>
+                      <>
+                        <Grid item xs={3}>
+                          <Typography fontWeight={"bold"}>
+                            Google Meet Link
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Typography>
+                            {
+                              <input
+                                type="text"
+                                width="500px"
+                                defaultValue={ticketDetail.ggMeetLink}
+                                onChange={(e) =>
+                                  setGoogleMeetLink(e.target.value)
+                                }
+                              />
+                            }
+                          </Typography>
+                        </Grid>
+                      </>
                     ) : ticketDetail.status === "Finished" ? (
-                      <Typography>{ticketDetail.evidence}</Typography>
-                    ) : null}
-                  </TableCell>
-                </TableBody>
-              )}
-            </Table>
-          </TableContainer>
-        ) : (
-          <></>
-        )}
-
-        {ticketDetail && (
-          <>
-            {ticketDetail.onlineOrOffline === true &&
-            ticketDetail.status !== "Finished" &&
-            userRole === "trainer" ? (
-              <Button
-                variant="contained"
-                color="ochre"
-                onClick={() =>
-                  handleUpdateLinkClick(ticketDetail.id, GoogleMeetLink)
-                }
-              >
-                Update New GoolgeMeet Link
-              </Button>
-            ) : null}
-          </>
-        )}
+                      <>
+                        <Grid item xs={3}>
+                          <Typography fontWeight={"bold"}>Evidence</Typography>
+                        </Grid>
+                        <Grid item xs={9}>
+                          <Typography>{ticketDetail.evidence}</Typography>
+                        </Grid>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            )}
+          </Grid>
+        </Grid>
       </ThemeProvider>
     </>
   );

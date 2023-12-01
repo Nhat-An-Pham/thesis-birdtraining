@@ -1,4 +1,5 @@
 import {
+  Container,
   Paper,
   TableBody,
   TableCell,
@@ -42,70 +43,72 @@ const HandledTicketView = ({}) => {
 
   return (
     <ThemeProvider theme={"ochreTheme"}>
-      {renderIndex === 0 ? (
-        <>
-          <TicketDetailView
-            ticketIdForDetail={ticketIdForDetail}
-            isAssigned={haveAssignedTrainer}
-            onClose={handleCloseDetail}
-          />
-        </>
-      ) : renderIndex === 1 ? (
-        <>
-          <h1
-            style={{
-              color: "green",
-              textAlign: "center",
-              paddingBottom: "20px",
-              marginBottom: "30px",
-              borderBottom: "0.5px grey solid",
-            }}
-          >
-            Tickets that have handled
-          </h1>
+      <Container sx={{ padding: 2 }}>
+        {renderIndex === 0 ? (
+          <>
+            <TicketDetailView
+              ticketIdForDetail={ticketIdForDetail}
+              isAssigned={haveAssignedTrainer}
+              onClose={handleCloseDetail}
+            />
+          </>
+        ) : renderIndex === 1 ? (
+          <>
+            <h1
+              style={{
+                color: "green",
+                textAlign: "center",
+                paddingBottom: "20px",
+                marginBottom: "30px",
+                borderBottom: "0.5px grey solid",
+              }}
+            >
+              Tickets that have handled
+            </h1>
 
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Ticket ID</TableCell>
-                  <TableCell>Service</TableCell>
-                  <TableCell>Date</TableCell>
-                  <TableCell>Time</TableCell>
-                  <TableCell>Detail</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {listHandledConsultingTicket.map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>
-                      {row.onlineOrOffline ? "Online" : "Offine"}
-                    </TableCell>
-                    <TableCell>
-                      {addonService.formatDate(row.appointmentDate)}
-                    </TableCell>
-                    <TableCell>{row.actualSlotStart}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="ochre"
-                        onClick={() => {
-                          handleDetailClick(row.id);
-                        }}
-                      >
-                        Detail
-                      </Button>
-                    </TableCell>
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Ticket ID</TableCell>
+                    <TableCell>Service</TableCell>
+                    <TableCell>Date</TableCell>
+                    <TableCell>Time</TableCell>
+                    <TableCell>Detail</TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
-      ) : (
-        <></>
-      )}
+                </TableHead>
+                <TableBody>
+                  {listHandledConsultingTicket.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>
+                        {row.onlineOrOffline ? "Online" : "Offine"}
+                      </TableCell>
+                      <TableCell>
+                        {addonService.formatDate(row.appointmentDate)}
+                      </TableCell>
+                      <TableCell>{row.actualSlotStart}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="contained"
+                          color="ochre"
+                          onClick={() => {
+                            handleDetailClick(row.id);
+                          }}
+                        >
+                          Detail
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        ) : (
+          <></>
+        )}
+      </Container>
     </ThemeProvider>
   );
 };
