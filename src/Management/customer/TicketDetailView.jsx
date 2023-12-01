@@ -9,6 +9,7 @@ import {
   Toolbar,
   IconButton,
   Grid,
+  Divider,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -93,79 +94,91 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-
-      <Grid container>
-        <Grid container xs={12} spacing={2} component={Paper}>
+      <Divider />
+      <Grid container marginTop={3} component={Paper}>
+        <Grid container item xs={12} padding={2} spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h5"> Basic Information</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Ticket ID:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {ticketDetail.id}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Service:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>
               {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Date:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>
               {addonService.formatDate(ticketDetail.appointmentDate)}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Time:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography> {ticketDetail.actualSlotStart}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5"> Detail Information</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography style={{ fontWeight: "bold", color: "blue" }}>
               Customer:
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerName}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography style={{ fontWeight: "bold", color: "blue" }}>
               Email:
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerEmail}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
-            <Typography fontWeight={"bold"}>Address:</Typography>
+          {ticketDetail.onlineOrOffline ? (
+            <></>
+          ) : (
+            <>
+              <Grid item xs={3}>
+                <Typography fontWeight={"bold"}>Address:</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>{ticketDetail.addressDetail}</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography fontWeight={"bold"}>Distance:</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>{ticketDetail.distance}Km</Typography>
+              </Grid>
+            </>
+          )}
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>More Detail</Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography>{ticketDetail.addressDetail}</Typography>
+          <Grid item xs={9}>
+            <Typography>{ticketDetail.consultingDetail}</Typography>
           </Grid>
-          <Grid item xs={1}>
-            <Typography fontWeight={"bold"}>Distance:</Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>{ticketDetail.distance}Km</Typography>
-          </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Trainer:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {isAssigned === 1 || isAssigned === 3 ? (
               <Typography>{ticketDetail.trainerName}</Typography>
             ) : isAssigned === 2 && listOfFreeTrainer ? (
@@ -185,22 +198,22 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               <></>
             )}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Type:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>{ticketDetail.consultingType}</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Price:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>Price: {ticketDetail.price}VND</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Status:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {ticketDetail.status === "Approved" ? (
               <Typography style={{ color: "green" }}>
                 {ticketDetail.status}
@@ -213,27 +226,29 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           </Grid>
           {isAssigned === 1 ? (
             <>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    ConfirmTicket(ticketIdForDetail);
-                  }}
-                >
-                  Confirm
-                </Button>
-              </Grid>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    CancelTicket(ticketIdForDetail);
-                  }}
-                >
-                  Cancel
-                </Button>
+              <Grid container item spacing={15}>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      ConfirmTicket(ticketIdForDetail);
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                </Grid>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      CancelTicket(ticketIdForDetail);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
               </Grid>
             </>
           ) : isAssigned === 2 ? (
