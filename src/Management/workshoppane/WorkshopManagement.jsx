@@ -1,4 +1,12 @@
-import { Button, Drawer, Grid, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Button,
+  Drawer,
+  Grid,
+  Tab,
+  Tabs,
+  ThemeProvider,
+} from "@mui/material";
 import WorkshopPane from "./workshop/workshop-pane/WorkshopPane";
 import CreateWorkshopComponent from "./workshop/create-workshop/CreateWorkshop";
 import { useState } from "react";
@@ -12,14 +20,11 @@ import TrainerSlotDetailComponent from "./trainer/TrainerSlotDetailComponent";
 
 export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
-  const [statusFilter, setStatusFilter] = useState("Active"); // State for status filter
+  const [statusFilter, setStatusFilter] = useState(0); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
   const [open, setOpen] = useState(false);
 
-  const handleFilterClick = () => {
-    // Toggle between 'Active' and 'Deactive' status filter
-    setStatusFilter(statusFilter === "Active" ? "Inactive" : "Active");
-  };
+  const tabStatusFilter = ["Active", "Inactive"];
   const onDetailView = (workshop) => {
     setSelectedWorkshop(workshop);
     setRenderedIndex(2);
@@ -30,7 +35,6 @@ export default function WorkshopManagementComponent() {
   };
   const handleCreateWorkshop = (workshop) => {
     setSelectedWorkshop(workshop);
-    setStatusFilter("Inactive");
     setRenderedIndex(2);
   };
   const handleOpenModal = (workshop) => {
@@ -51,98 +55,79 @@ export default function WorkshopManagementComponent() {
   };
   let renderedComponents = [
     <WorkshopPane
-      statusFilter={statusFilter}
+      statusFilter={tabStatusFilter[statusFilter]}
       onDetailRequest={onDetailView}
       onClassesRequest={onClassView}
       onCreateClassRequest={handleOpenModal}
     />,
-    <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} />,
+    <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} callbackBack={handleCallbackBack}/>,
     <WorkshopDetailOverviewComponent
       workshop={selectedWorkshop}
       callbackBack={handleCallbackBack}
     />,
-    <ClassManagementComponent selectedWorkshop={selectedWorkshop} callbackBack={handleCallbackBack}/>,
+    <ClassManagementComponent
+      selectedWorkshop={selectedWorkshop}
+      callbackBack={handleCallbackBack}
+    />,
     // <TrainerSlotDetailComponent entityId={28}/>
   ];
-
+  const handleChange = (event, newValue) => {
+    setStatusFilter(newValue);
+  };
   return (
     <div className="workshop-container">
       <ToastContainer />
 
       <ThemeProvider theme={ochreTheme}>
         <ReworkSidebar selectTab={4} />
-        {/* <Button
-                variant="contained"
-                color="ochre"
-                onClick={() => setRenderedIndex(4)}
-              >
-                Test trainer slot
-              </Button> */}
-        <Grid container spacing={1}>
-          {/* <Grid container item xs={6} justifyContent="flex-start" padding={3}>
-            {renderedIndex === 0 ? (
-              // <Button
-              //   color="ochre"
-              //   variant="contained"
-              //   onClick={handleFilterClick}
-              // >
-              //   {statusFilter}
-              // </Button>
-              <Button
-                variant="contained"
-                color="ochre"
-                onClick={() => setRenderedIndex(1)}
-              >
-                Add new workshop
-              </Button>
-            ) : (
-              // <Button
-              //   color="ochre"
-              //   variant="contained"
-              //   onClick={() => setRenderedIndex(0)}
-              // >
-              //   Back
-              // </Button>
-              null
-            )}
-          </Grid>
-          <Grid container item xs={6} justifyContent="flex-end" padding={3}>
-            {!(renderedIndex === 0) ? (
-              <></>
-            ) : (
-              // <Button
-              //   variant="contained"
-              //   color="ochre"
-              //   onClick={() => setRenderedIndex(1)}
-              // >
-              //   Add new workshop
-              // </Button>
-              <Button
-                color="ochre"
-                variant="contained"
-                onClick={handleFilterClick}
-              >
-                {statusFilter}
-              </Button>
-            )}
-          </Grid> */}
+        <Box sx={{ width: "100%" }}>
           {renderedIndex === 0 ? (
-            <Grid item margin={3}>
-              <Button
-                variant="contained"
-                color="ochre"
-                onClick={() => setRenderedIndex(1)}
+            <>
+              <Box
+                sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}
               >
-                Add new workshop
-              </Button>
-            </Grid>
+                <Grid container justifyContent={'space-between'} alignItems={'center'} padding={2}>
+                  <Grid item>
+                    <Tabs
+                      value={statusFilter}
+                      onChange={handleChange}
+                      variant="scrollable"
+                      TabIndicatorProps={{
+                        style: {
+                          backgroundColor: "#c8ae7d",
+                        },
+                      }}
+                      sx={{
+                        ".Mui-selected": {
+                          color: "rgb(200, 174, 125)",
+                        },
+                      }}
+                      scrollButtons
+                      allowScrollButtonsMobile
+                      aria-label="scrollable force tabs example"
+                    >
+                      {tabStatusFilter.map((tab) => (
+                        <Tab label={tab} />
+                      ))}
+                    </Tabs>
+                  </Grid>
+                  <Grid item>
+                    <Button color="ochre" variant="contained" onClick={() => setRenderedIndex(1)}>
+                      Create workshop
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Box>
+            </>
           ) : (
             <></>
           )}
-          <Grid item xs={12}>
-            {renderedComponents[renderedIndex]}
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              {renderedComponents[renderedIndex]}
+            </Grid>
           </Grid>
-        </Grid>
+        </Box>
         <ClassAddNewComponent
           selectedWorkshop={selectedWorkshop}
           open={open}

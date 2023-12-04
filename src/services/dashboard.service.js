@@ -27,7 +27,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -41,7 +43,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -71,7 +75,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdskill-update`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -85,7 +91,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -122,7 +130,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/acquirablebirdskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -155,7 +165,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/trainableskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -286,7 +298,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/trainerskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
