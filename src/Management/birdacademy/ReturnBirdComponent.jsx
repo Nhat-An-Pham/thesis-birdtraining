@@ -60,34 +60,39 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
       check = false;
       toast.error("Please provide return note");
     }
-    const formData = new FormData();
-    formData.append("BirdTrainingCourseId", requestedId);
-    formData.append("ReturnNote", returnNote);
-    formData.append("TrainingPricePolicyId", selectedPolicyId);
+    if (check) {
+      const formData = new FormData();
+      formData.append("BirdTrainingCourseId", requestedId);
+      formData.append("ReturnNote", returnNote);
+      formData.append("TrainingPricePolicyId", selectedPolicyId);
 
-    // Append each file separately
-    pictures.forEach((picture, index) => {
-      formData.append(`ReturnPictures`, picture);
-    });
-
-    trainingCourseManagementService
-      .returnBirdForm(formData)
-      .then((response) => {
-        // Handle the response data
-        console.log("Success:", response);
-        callBackMainManagement();
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error:", error);
+      // Append each file separately
+      pictures.forEach((picture, index) => {
+        formData.append(`ReturnPictures`, picture);
       });
+
+      trainingCourseManagementService
+        .returnBirdForm(formData)
+        .then((response) => {
+          // Handle the response data
+          console.log("Success:", response);
+          callBackMainManagement();
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("Error:", error);
+        });
+    }
   };
   async function fetchRequestedData() {
     try {
+      let params = {
+        $filter: `id eq ${requestedId}`,
+      };
       let response =
-        await trainingCourseManagementService.getAllBirdTrainingCourse();
-      console.log(response);
-      setBirdTrainingCourse(response);
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      console.log(response[0]);
+      setBirdTrainingCourse(response[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -106,18 +111,18 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
     fetchRequestedData();
     fetchPolicyData();
   }, [requestedId]);
-  useEffect(() => {
-    if (birdTrainingCourse != null) {
-      const current = birdTrainingCourse.find((e) => e.id == requestedId);
-      console.log(current);
-      if (current != null) {
-        setActualPrice(current.actualPrice);
-        if (current.status == "TrainingDone") {
-          setSelectedPolicyId(3);
-        }
-      }
-    }
-  }, [birdTrainingCourse]);
+  // useEffect(() => {
+  //   if (birdTrainingCourse != null) {
+  //     const current = birdTrainingCourse.find((e) => e.id == requestedId);
+  //     console.log(current);
+  //     if (current != null) {
+  //       setActualPrice(current.actualPrice);
+  //       if (current.status == "TrainingDone") {
+  //         setSelectedPolicyId(3);
+  //       }
+  //     }
+  //   }
+  // }, [birdTrainingCourse]);
   const handleSelectPolicy = (event) => {
     console.log(event.target.value);
     setSelectedPolicyId(event.target.value.id);
@@ -355,21 +360,18 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               <Select
                 labelId="selectLabel_ChoosePolicy"
                 label="Choose Policy"
-                value={selectedPolicyId}
+                value={
+                  birdTrainingCourse?.status != "TrainingDone"
+                    ? selectedPolicyId
+                    : 3
+                }
                 onChange={handleSelectPolicy}
               >
-                {selectedPolicyId == null &&
-                  trainingPricePolicies
-                    .filter((policy) => policy.name != "Success Requested")
-                    .map((policy) => (
-                      <MenuItem value={policy}>{policy.name}</MenuItem>
-                    ))}
-                {selectedPolicyId != null &&
-                  trainingPricePolicies
-                    .filter((policy) => policy.name == "Success Requested")
-                    .map((policy) => (
-                      <MenuItem value={policy}>{policy.name}</MenuItem>
-                    ))}
+                {trainingPricePolicies
+                  .filter((policy) => policy.name != "Success Requested")
+                  .map((policy) => (
+                    <MenuItem value={policy}>{policy.name}</MenuItem>
+                  ))}
               </Select>
             </FormControl>
             <FormControl fullWidth required style={{ marginBottom: 10 }}>
