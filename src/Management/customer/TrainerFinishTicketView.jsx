@@ -178,21 +178,20 @@ const TrainerFinishTicketView = ({
                     </FormControl>
                   ) : ticketDetail.onlineOrOffline === false ? (
                     <FormControl required style={{ marginBottom: 15 }}>
-                      <Button variant="contained" color="ochre">
-                        <UploadComponent
-                          onChange={handleFileChange}
-                          accept="image/*"
-                          multiple={false}
-                        >
-                          Upload evidence
-                        </UploadComponent>
-                      </Button>
+                      <UploadComponent
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        multiple={true}
+                      >
+                        Upload evidence(s)
+                      </UploadComponent>
+
                       {/* Display submitted files here */}
-                      <div>
+                      {/* <div>
                         {submittedEvidence.map((imageName, index) => (
                           <div key={index}>{imageName}</div>
                         ))}
-                      </div>
+                      </div> */}
                     </FormControl>
                   ) : null}
                 </Typography>
