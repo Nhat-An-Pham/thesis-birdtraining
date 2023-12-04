@@ -66,7 +66,7 @@ export default function WorkshopViewComponent({ workshopId }) {
     <div>
       <Grid container>
         <Grid container item justifyContent="center" xs={6}>
-          <Carousel width={600} autoPlay swipeable showThumbs={true}>
+          <Carousel width={500} autoPlay swipeable showThumbs={true}>
             {pictures?.map((picture) => (
               <div style={{ height: 300}}>
                 <img

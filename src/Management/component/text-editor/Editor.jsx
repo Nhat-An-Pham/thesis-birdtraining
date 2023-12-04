@@ -41,8 +41,8 @@ const Editor = ({ onGetHtmlValue, htmlValue }) => {
   }, [quill]);
 
   return (
-    <div>
-      <div ref={quillRef} />
+    <div className="editor-container">
+      <div className="editor" ref={quillRef} />
     </div>
   );
 };
