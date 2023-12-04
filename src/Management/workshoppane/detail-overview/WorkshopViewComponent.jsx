@@ -68,12 +68,12 @@ export default function WorkshopViewComponent({ workshopId }) {
         <Grid container item justifyContent="center" xs={6}>
           <Carousel width={500} autoPlay swipeable showThumbs={true}>
             {pictures?.map((picture) => (
-              <div style={{ height: 300}}>
+              <div style={{ height: 300 }}>
                 <img
                   // srcSet={`${picture}`}
                   src={`${picture}`}
                   alt="error"
-                  style={{ height: '100%'}}
+                  style={{ height: "100%" }}
                   loading={<CircularProgress />}
                 />
               </div>
@@ -81,12 +81,15 @@ export default function WorkshopViewComponent({ workshopId }) {
           </Carousel>
         </Grid>
         <Grid container xs={6} spacing={2} component={Paper}>
-          <Grid item xs={4}>
-            <Typography fontWeight={"bold"}>Title:</Typography>
+          <Grid container item xs={12}>
+            <Grid item xs={2}>
+              <Typography fontWeight={"bold"}>Title:</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Typography>{workshop.title}</Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={8}>
-            <Typography>{workshop.title}</Typography>
-          </Grid>
+
           <Grid item xs={4}>
             <Typography fontWeight={"bold"}>Description:</Typography>
           </Grid>

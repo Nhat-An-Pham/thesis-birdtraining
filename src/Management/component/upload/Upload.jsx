@@ -57,7 +57,7 @@ export const UploadComponent = ({
         </label>
       </Button>
 
-      <div>
+      <div style={{border: '1px solid black', margin: 10}}>
         {/* Display file previews */}
         {filePreviews.map((preview) => (
           <img
