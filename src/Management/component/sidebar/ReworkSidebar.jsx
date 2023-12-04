@@ -36,7 +36,7 @@ const elements = [
     route: "/management",
     icon: <SpaceDashboardOutlined />,
     name: "Dashboard",
-    role: [ "Staff", "Manager"],
+    role: [ "Staff", "Manager","Trainer"],
   },
   {
     route: "/management/customerreq",
