@@ -15,6 +15,7 @@ import {
   Typography,
   Table,
   Paper,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -171,7 +172,8 @@ const TrainerFinishTicketView = ({
                 <Typography>
                   {ticketDetail.onlineOrOffline === true ? (
                     <FormControl>
-                      <input
+                      <TextField
+                        label={"Record"}
                         type="text"
                         onChange={(e) => setOnlineEvidence(e.target.value)}
                       />

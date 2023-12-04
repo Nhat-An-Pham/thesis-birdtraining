@@ -220,7 +220,7 @@ class ConsultantService {
     const response = await axios.get(API_URL_AllROLE + "GetConsultingType");
     return response;
   }
-    
+
   async UpdateConsultantPricePolicy({ id, price }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
@@ -228,6 +228,23 @@ class ConsultantService {
       {
         id,
         price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response;
+  }
+
+  async UpdateDisntacePricePolicy({ id, pricePerKm }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
+    const response = await axios.put(
+      API_URL_STAFF + `updateDistancePricePolicy`,
+      {
+        id,
+        pricePerKm,
       },
       {
         headers: {

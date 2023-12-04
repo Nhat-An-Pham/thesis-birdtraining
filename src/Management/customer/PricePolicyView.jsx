@@ -75,7 +75,9 @@ const PricePolicyView = () => {
     setRenderDistancePriceIndex(1);
   };
 
-  const handleConfirmUpdateDistanceOnCLick = () => {};
+  const handleConfirmUpdateDistanceOnCLick = () => {
+    UpdateDistancePricePolicy();
+  };
 
   const handleCancelUpdateDistanceOnClick = () => {
     setRenderDistancePriceIndex(0);
@@ -88,10 +90,23 @@ const PricePolicyView = () => {
         price: changeConsultantPrice,
       })
       .then((res) => {
-        toast.success("Update Successfully");
+        toast.success("Update Consultant Price Successfully");
         setRenderConsultantPriceIndex(0);
       })
-      .catch((e) => toast.error(e.response.data.message));
+      .catch((e) => toast.error(e));
+  };
+
+  const UpdateDistancePricePolicy = () => {
+    consultantService
+      .UpdateDisntacePricePolicy({
+        id: selectedDistanceId,
+        pricePerKm: changeDistancePrice,
+      })
+      .then((res) => {
+        toast.success("Update Distance Price Successfully");
+        setRenderDistancePriceIndex(0);
+      })
+      .catch((e) => toast.error(e));
   };
 
   return (
