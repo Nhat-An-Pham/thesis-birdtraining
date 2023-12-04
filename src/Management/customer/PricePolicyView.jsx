@@ -21,14 +21,19 @@ import { ochreTheme } from "../themes/Theme";
 import { toast } from "react-toastify";
 
 const PricePolicyView = () => {
+  const [selectedPriceId, setSelectedPriceId] = useState(null);
+  const [selectedDistanceId, setSelectedDistanceId] = useState(null);
+
+  const [changeConsultantPrice, setChangeConsultantPrice] = useState(null);
+  const [changeDistancePrice, setChangeDistancePrice] = useState(null);
+
+  const [renderConsultantPriceIndex, setRenderConsultantPriceIndex] =
+    useState(0); // 0: Default, 1: Update
+  const [renderDistancePriceIndex, setRenderDistancePriceIndex] = useState(0); // 0: Default, 1: Update
+
   const [listConsultantPricePolicy, setListConsultantPricePolicy] = useState(
     []
   );
-
-  const [selectedId, setSelectedId] = useState(null);
-  const [changePrice, setChangePrice] = useState(null);
-  const [renderIndex, setRenderIndex] = useState(0); //0: Default, 1: ConsultantPrice, 2: DistancePrice
-
   useEffect(() => {
     consultantService
       .GetConsultingTicketPricePolicy()
@@ -39,10 +44,9 @@ const PricePolicyView = () => {
       .catch((e) =>
         console.log("Fail Get Consultant Price Policy list test", e)
       );
-  }, [renderIndex]);
+  }, [renderConsultantPriceIndex]);
 
   const [listDistancePricePolicy, setListDistancePricePolicy] = useState([]);
-
   useEffect(() => {
     consultantService
       .GetDistnacePricePolicy()
@@ -51,26 +55,45 @@ const PricePolicyView = () => {
         setListDistancePricePolicy(res.data);
       })
       .catch((e) => console.log("Fail Get Distance Price Policy list test", e));
-  }, [renderIndex]);
+  }, [renderDistancePriceIndex]);
 
-  const handleUpdateOnClick = (rowId) => {
-    setSelectedId(rowId);
-    setRenderIndex(1);
+  const handleUpdateConsultantOnClick = (rowId) => {
+    setSelectedPriceId(rowId);
+    setRenderConsultantPriceIndex(1);
   };
 
-  const handleUpdateConsultantOnClick = () => {
+  const handleConfirmUpdateConsultantOnClick = () => {
     UpdateConsultantPricePolicy();
+  };
+
+  const handleCancelUpdatePricePolicyOnClick = () => {
+    setRenderConsultantPriceIndex(0);
+  };
+
+  const handleUpdateDistanceOnClick = (rowId) => {
+    setSelectedDistanceId(rowId);
+    setRenderDistancePriceIndex(1);
+  };
+
+  const handleConfirmUpdateDistanceOnCLick = () => {};
+
+  const handleCancelUpdateDistanceOnClick = () => {
+    setRenderDistancePriceIndex(0);
   };
 
   const UpdateConsultantPricePolicy = () => {
     consultantService
-      .UpdateConsultantPricePolicy({ id: selectedId, price: changePrice })
+      .UpdateConsultantPricePolicy({
+        id: selectedPriceId,
+        price: changeConsultantPrice,
+      })
       .then((res) => {
         toast.success("Update Successfully");
-        setRenderIndex(0);
+        setRenderConsultantPriceIndex(0);
       })
       .catch((e) => toast.error(e.response.data.message));
   };
+
   return (
     <ThemeProvider theme={ochreTheme}>
       <Container sx={{ padding: 2 }}>
@@ -118,26 +141,24 @@ const PricePolicyView = () => {
                             {row.onlineOrOffline ? "Online" : "Offine"}
                           </Typography>
                         </TableCell>
-                        {renderIndex === 1 && selectedId === row.id ? (
+                        {renderConsultantPriceIndex === 1 &&
+                        selectedPriceId === row.id ? (
                           <TableCell>
                             <FormControl>
                               <TextField
-                               label={'VND'}
+                                label={"VND"}
                                 type="number"
                                 defaultValue={row.price}
-                                // value={row.price}
                                 onChange={(e) => {
-                                  setChangePrice(e.target.value);
-                                  // row.price = e.target.value;
+                                  setChangeConsultantPrice(e.target.value);
                                 }}
                               />
                             </FormControl>
                           </TableCell>
                         ) : (
                           <TableCell>
-                            {/* <Typography>{row.price}VND</Typography> */}
                             <TextField
-                              label={'VND'}
+                              label={"VND"}
                               type="number"
                               defaultValue={row.price}
                               value={row.price}
@@ -145,18 +166,25 @@ const PricePolicyView = () => {
                             />
                           </TableCell>
                         )}
-                        {renderIndex === 1 && selectedId === row.id ? (
+                        {renderConsultantPriceIndex === 1 &&
+                        selectedPriceId === row.id ? (
                           <TableCell>
                             <Button
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateConsultantOnClick();
+                                handleConfirmUpdateConsultantOnClick();
                               }}
                             >
                               Confirm
                             </Button>
-                            <Button variant="contained" color="ochre">
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleCancelUpdatePricePolicyOnClick();
+                              }}
+                            >
                               Cancel
                             </Button>
                           </TableCell>
@@ -166,7 +194,7 @@ const PricePolicyView = () => {
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateOnClick(row.id);
+                                handleUpdateConsultantOnClick(row.id);
                               }}
                             >
                               Update
@@ -214,6 +242,7 @@ const PricePolicyView = () => {
                     <TableCell>
                       <Typography>Price Per Kilometer</Typography>
                     </TableCell>
+                    <TableCell></TableCell>
                   </TableHead>
                   <TableBody>
                     {listDistancePricePolicy.map((row) => (
@@ -226,9 +255,66 @@ const PricePolicyView = () => {
                             {row.from} - {row.to}Km
                           </Typography>
                         </TableCell>
-                        <TableCell>
-                          <Typography>{row.pricePerKm}VND</Typography>
-                        </TableCell>
+                        {renderDistancePriceIndex === 1 &&
+                        selectedDistanceId === row.id ? (
+                          <TableCell>
+                            <FormControl>
+                              <TextField
+                                label={"VND"}
+                                type="number"
+                                defaultValue={row.pricePerKm}
+                                onChange={(e) => {
+                                  setChangeDistancePrice(e.target.value);
+                                }}
+                              />
+                            </FormControl>
+                          </TableCell>
+                        ) : (
+                          <TableCell>
+                            <TextField
+                              label={"VND"}
+                              type="number"
+                              defaultValue={row.pricePerKm}
+                              value={row.pricePerKm}
+                              InputProps={{ readOnly: true }}
+                            />
+                          </TableCell>
+                        )}
+                        {renderDistancePriceIndex === 1 &&
+                        selectedDistanceId === row.id ? (
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleConfirmUpdateDistanceOnCLick();
+                              }}
+                            >
+                              Confirm
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleCancelUpdateDistanceOnClick();
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          </TableCell>
+                        ) : (
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleUpdateDistanceOnClick(row.id);
+                              }}
+                            >
+                              Update
+                            </Button>
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))}
                   </TableBody>
