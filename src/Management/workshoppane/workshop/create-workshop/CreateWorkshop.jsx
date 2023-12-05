@@ -353,19 +353,9 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
                   Pictures
                 </Typography>
               </Grid>
-              <Grid
-                item
-              >
-                {/* <FormControl fullWidth required>
-                  <Editor
-                    onGetHtmlValue={handleEditorChange}
-                    htmlValue={description}
-                  />
-                </FormControl> */}
-                <UploadComponent onChange={handleFileChange} accept="image/*">
-                  Upload image(s)
-                </UploadComponent>
-              </Grid>
+              <UploadComponent onChange={handleFileChange} accept="image/*">
+                Upload image(s)
+              </UploadComponent>
             </Grid>
             <Grid container item xs={12} justifyContent={"flex-end"}>
               <Button

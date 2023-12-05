@@ -18,7 +18,6 @@ import Editor from "../../component/text-editor/Editor";
 const WorkshopModifyPopupComponent = ({
   workshopId,
   callbackModifyWorkshop,
-  callbackBack,
   open,
   handleClose,
 }) => {
@@ -119,9 +118,6 @@ const WorkshopModifyPopupComponent = ({
         }
       }
     }
-  };
-  const onBack = () => {
-    callbackBack();
   };
   const handleInputChange = (fieldName, value) => {
     // Validate if the value is a positive number

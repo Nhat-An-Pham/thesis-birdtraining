@@ -69,7 +69,7 @@ export const UploadComponent = ({
         </Grid>
         {filePreviews && filePreviews.length > 0 ? (
           <Grid item xs={12}>
-            <Carousel width={400} swipeable showThumbs={false}>
+            <Carousel width={'100%'} swipeable showThumbs={false}>
               {filePreviews?.map((picture) => (
                 <>
                   <div style={{ height: 300 }}>
@@ -77,7 +77,7 @@ export const UploadComponent = ({
                       // srcSet={`${picture}`}
                       src={`${picture.dataURL}`}
                       alt={`error`}
-                      style={{ height: "100%" }}
+                      style={{ height: "100%", width: 'auto' }}
                       loading={<CircularProgress />}
                     />
                   </div>
