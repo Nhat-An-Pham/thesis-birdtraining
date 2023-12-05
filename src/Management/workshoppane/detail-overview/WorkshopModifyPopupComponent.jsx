@@ -23,14 +23,6 @@ const WorkshopModifyPopupComponent = ({
   handleClose,
 }) => {
   const [workshop, setWorkshop] = useState(null);
-  const [title, setTitle] = useState("");
-  const [totalSlot, setTotalSlot] = useState(0);
-  const [registerEnd, setRegisterEnd] = useState(0);
-  const [price, setPrice] = useState(0.0);
-  const [location, setLocation] = useState("");
-  const [minAmount, setMinAmount] = useState(0);
-  const [maxAmount, setMaxAmount] = useState(0);
-  const [description, setDescription] = useState("");
   const [tempDesc, setTempDesc] = useState("");
   const [errors, setErrors] = useState({
     totalSlot: {
@@ -69,7 +61,7 @@ const WorkshopModifyPopupComponent = ({
     fetchWorkshopData();
 
     return () => {};
-  }, [workshopId]);
+  }, [workshopId, open]);
 
   const handleEditorChange = (value) => {
     setTempDesc(value);
@@ -83,36 +75,42 @@ const WorkshopModifyPopupComponent = ({
       check = false;
       toast.error("Please provide workshop description");
     }
-    if (errors.totalSlot.value) {
+    if (errors.totalSlot.value && workshop.totalSlot <= 0) {
       check = false;
       toast.error(errors.totalSlot.message);
-    } else if (errors.registerEnd.value) {
+    } else if (errors.registerEnd.value && workshop.registerEnd <= 0) {
       check = false;
       toast.error(errors.registerEnd.message);
-    } else if (errors.minAmount.value) {
+    } else if (errors.minAmount.value  && workshop.minimumRegistration <= 0) {
       check = false;
       toast.error(errors.minAmount.message);
-    } else if (errors.maxAmount.value) {
+    } else if (errors.maxAmount.value && workshop.maximumRegistration <= 0) {
       check = false;
       toast.error(errors.maxAmount.message);
-    } else if (errors.price.value) {
+    } else if (errors.price.value && workshop.price <= 0) {
       check = false;
       toast.error(errors.price.message);
     }
     if (check) {
       const formData = new FormData();
-      formData.append("Title", title);
+      formData.append("Id", workshop.id);
+      formData.append("Title", workshop.title);
       formData.append("Description", tempDesc);
-      formData.append("RegisterEnd", registerEnd);
-      formData.append("Price", price);
-      formData.append("Location", location);
-      formData.append("MinimumRegistration", minAmount);
-      formData.append("MaximumRegistration", maxAmount);
-      formData.append("TotalSlot", totalSlot);
+      formData.append("RegisterEnd", workshop.registerEnd);
+      formData.append("Price", workshop.price);
+      formData.append("Location", workshop.location);
+      formData.append("MinimumRegistration", workshop.minimumRegistration);
+      formData.append("MaximumRegistration", workshop.maximumRegistration);
+      formData.append("TotalSlot", workshop.totalSlot);
 
+      //   console.log('Modified data: ', workshop);
+      //   console.log('Modified desc: ', tempDesc);
       try {
-        toast.success("Modify successfully!");
-        callbackModifyWorkshop();
+        let response = await workshopManagementService.modifyWorkshop(formData);
+        if (response.status === 200) {
+          toast.success("Modify successfully!");
+          callbackModifyWorkshop();
+        }
       } catch (error) {
         if (error.response?.data?.message) {
           toast.error(error.response?.data?.message);
@@ -181,7 +179,6 @@ const WorkshopModifyPopupComponent = ({
                       <TextField
                         fullWidth
                         multiline={true}
-                        maxRows={2}
                         rows={2}
                         required
                         label={"Title"}
@@ -203,7 +200,10 @@ const WorkshopModifyPopupComponent = ({
                         onChange={(e) => {
                           try {
                             handleInputChange("totalSlot", e.target.value);
-                            setTotalSlot(e.target.value);
+                            setWorkshop((prevState) => ({
+                              ...prevState,
+                              totalSlot: e.target.value,
+                            }));
                           } catch (error) {}
                         }}
                         required
@@ -226,7 +226,10 @@ const WorkshopModifyPopupComponent = ({
                         onChange={(e) => {
                           try {
                             handleInputChange("price", e.target.value);
-                            setPrice(e.target.value);
+                            setWorkshop((prevState) => ({
+                              ...prevState,
+                              price: e.target.value,
+                            }));
                           } catch (error) {}
                         }}
                         required
