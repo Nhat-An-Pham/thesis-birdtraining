@@ -10,16 +10,22 @@ import {
   IconButton,
   Grid,
   Divider,
+  TextField,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
   const [dateValue, setDateValue] = useState();
   const [slotValue, setSlotValue] = useState();
+  const [distanceValue, setDistanceValue] = useState(null);
+  const hanldeDistanceChange = (distance) => {
+    setDistanceValue(distance);
+  };
 
   const [assignedTrainer, setAssignedTrainer] = useState(null);
   const [ticketDetail, setTicketDetail] = useState({});
@@ -63,10 +69,11 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .catch((e) => console.log("fail Cancel Ticket tes", e));
   };
 
-  const ConfirmTicket = (ticketId) => {
-    ConsultantService.approveConsultingTicket({ ticketId })
+  const ConfirmTicket = (ticketId, distance) => {
+    ConsultantService.approveConsultingTicket({ ticketId, distance })
       .then((res) => {
         console.log("succes Confirm Ticket test", res.data);
+        toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
   };
@@ -136,7 +143,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               Customer:
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={9}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerName}
             </Typography>
@@ -151,6 +158,16 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               {ticketDetail.customerEmail}
             </Typography>
           </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Phone:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerPhone}
+            </Typography>
+          </Grid>
           {ticketDetail.onlineOrOffline ? (
             <></>
           ) : (
@@ -161,12 +178,31 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               <Grid item xs={3}>
                 <Typography>{ticketDetail.addressDetail}</Typography>
               </Grid>
-              <Grid item xs={3}>
-                <Typography fontWeight={"bold"}>Distance:</Typography>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography>{ticketDetail.distance}Km</Typography>
-              </Grid>
+              {ticketDetail.status === "WaitingForApprove" ? (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid>
+                    <FormControl>
+                      <TextField
+                        label={"Km"}
+                        type="number"
+                        onChange={(e) => hanldeDistanceChange(e.target.value)}
+                      />
+                    </FormControl>
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography>{ticketDetail.distance}Km</Typography>
+                  </Grid>
+                </>
+              )}
             </>
           )}
           <Grid item xs={3}>
@@ -232,7 +268,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
                     variant="contained"
                     color="ochre"
                     onClick={() => {
-                      ConfirmTicket(ticketIdForDetail);
+                      ConfirmTicket(ticketIdForDetail, distanceValue);
                     }}
                   >
                     Confirm
