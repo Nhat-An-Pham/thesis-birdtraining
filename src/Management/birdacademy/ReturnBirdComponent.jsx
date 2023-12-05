@@ -109,8 +109,13 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   }
   async function fetchPolicyData() {
     try {
+      let params = {
+        $filter: `status eq 'Active'`,
+      };
       let response =
-        await trainingCourseManagementService.getAllTrainingPricePolicies();
+        await trainingCourseManagementService.getAllTrainingPricePolicies(
+          params
+        );
       console.log(response);
       setTrainingPricePolicies(response);
     } catch (error) {

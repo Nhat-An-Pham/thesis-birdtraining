@@ -21,7 +21,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -40,7 +40,7 @@ class TrainingCourseManagementService {
       );
       return response;
     } catch (error) {
-      console.error("Error confirm bird training course:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -59,7 +59,7 @@ class TrainingCourseManagementService {
       );
       return response;
     } catch (error) {
-      console.error("Error confirm bird training course:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -78,7 +78,7 @@ class TrainingCourseManagementService {
       );
       return response;
     } catch (error) {
-      console.error("Error assign trainer to course:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -97,7 +97,7 @@ class TrainingCourseManagementService {
       );
       return response;
     } catch (error) {
-      console.error("Error mark training slot failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -115,7 +115,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -133,7 +133,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -157,7 +157,7 @@ class TrainingCourseManagementService {
       }
       //return response;
     } catch (error) {
-      console.error("Error receive bird input failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -176,7 +176,7 @@ class TrainingCourseManagementService {
       );
       return response;
     } catch (error) {
-      console.error("Error return bird input failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -194,7 +194,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -212,7 +212,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training slot detail failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -230,7 +230,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get trainers failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -250,7 +250,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -269,7 +269,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training courses failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -287,7 +287,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get training course -id  failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -305,7 +305,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get bird skills failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -323,7 +323,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get accquirable bird skills failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -341,7 +341,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get accquirable bird skills failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -359,7 +359,7 @@ class TrainingCourseManagementService {
       );
       return response.data;
     } catch (error) {
-      console.error("Error get bird skills failed:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -379,7 +379,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -399,7 +399,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -420,7 +420,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -440,7 +440,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -461,7 +461,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -482,7 +482,7 @@ class TrainingCourseManagementService {
       // toast('Fetching workshops');
       return response;
     } catch (error) {
-      console.error("Error update trainer slot:", error);
+      console.error(error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }
@@ -501,6 +501,88 @@ class TrainingCourseManagementService {
       return response.data;
     } catch (error) {
       console.error("Error get training price policies failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async activeTrainingPricePolicy(params) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/active-checkoutpolicy`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async disableTrainingPricePolicy(params) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/disable-checkoutpolicy`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async createTrainingPricePolicies(model) {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/trainingcourse-manager/create-checkoutpolicy`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async editTrainingPricePolicies(model) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-manager/create-checkoutpolicy`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      // Handle the response and update the state
+      // toast('Fetching workshops');
+      return response;
+    } catch (error) {
+      console.error("Error update trainer slot:", error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }

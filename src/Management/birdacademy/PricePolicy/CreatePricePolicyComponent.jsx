@@ -14,7 +14,7 @@ import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
 
-const CreatePricePolicyComponent = ({ callbackCreateCourse }) => {
+const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
   const [birdSpecies, setBirdSpecies] = useState([]);
 
   const [selectedSpecies, setSelectedSpecies] = useState();

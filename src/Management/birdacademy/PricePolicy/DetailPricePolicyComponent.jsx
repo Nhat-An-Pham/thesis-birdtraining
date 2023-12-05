@@ -17,9 +17,8 @@ import { toast } from "react-toastify";
 import BirdSkillListComponent from "./BirdSkillListComponent";
 
 const DetailPricePolicyComponent = ({
-  trainingCourse,
-  callbackUpdateCourse,
-  callbackUpdateSkill,
+  trainingPolicy,
+  callbackUpdatePolicy,
 }) => {
   const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [birdSpecies, setBirdSpecies] = useState([]);
