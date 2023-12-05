@@ -34,7 +34,7 @@ import CreateTrainingCourseComponent from "./CreateTrainingCourseComponent";
 import UpdateTrainingCourseComponent from "./UpdateTrainingCourseComponent";
 // import { toast } from 'react-toastify';
 
-const TrainingCourseMng = ({ callBackMainManagement }) => {
+const PricePolicyMng = ({ callBackMainManagement }) => {
   // let BASE_URL = 'https://localhost:7176/api';
 
   const [renderAllTrainingCourse, setRenderAllTrainingCourse] = useState(true);
@@ -311,4 +311,4 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   );
 };
 
-export default TrainingCourseMng;
+export default PricePolicyMng;

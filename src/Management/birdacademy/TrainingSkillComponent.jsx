@@ -83,10 +83,14 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     callBackMainManagement();
   }
   return (
-    <div padding={20}>
+    <div>
       {renderProgress && (
         <>
-          <TableContainer className="table-container" component={Paper}>
+          <TableContainer
+            style={{ padding: 20 }}
+            className="table-container"
+            component={Paper}
+          >
             <Table className="table">
               <TableHead>
                 <h2>Training Skill</h2>
@@ -175,7 +179,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div className="main-button-container">
+          <div style={{ padding: 20 }}>
             <Button
               sx={{ float: "right", marginBottom: "20px" }}
               variant="contained"
