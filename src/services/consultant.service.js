@@ -111,10 +111,10 @@ class ConsultantService {
     return response;
   }
 
-  async approveConsultingTicket({ ticketId }) {
+  async approveConsultingTicket({ ticketId, distance }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
-      API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}`,
+      API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}&distance=${distance}`,
       null,
       {
         headers: {
