@@ -14,58 +14,30 @@ import Editor from "../../component/text-editor/Editor";
 import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
-import BirdSkillListComponent from "./BirdSkillListComponent";
 
 const DetailPricePolicyComponent = ({
   trainingPolicy,
   callbackUpdatePolicy,
 }) => {
-  const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
-  const [birdSpecies, setBirdSpecies] = useState([]);
-
-  const [selectedSpecies, setSelectedSpecies] = useState();
+  const [selectedTrainingPolicy, setSelectedTrainingPolicy] = useState(null);
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [tmpDesc, setTmpDesc] = useState("");
-  const [pictures, setPictures] = useState([]);
-  const [submittedImages, setSubmittedImages] = useState([]);
   const [price, setPrice] = useState(0.0);
-  const [slot, setSlot] = useState(0.0);
 
-  const handleEditorChange = (value) => {
-    setDescription(value);
-  };
-
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setPictures(files);
-
-    // Create an array of image names from the selected files
-    const imageNames = files.map((file) => file.name);
-    setSubmittedImages(imageNames);
-  };
-  const handleSelectSpecies = (event) => {
-    setSelectedSpecies(event.target.value);
-  };
-  async function fetchTrainingCourse() {
+  async function fetchTrainingPolicy() {
     try {
       console.log(trainingCourse.id);
       let params = {
-        courseId: trainingCourse.id,
+        $filter: `id eq ${trainingPolicy.id}`,
       };
       let response = await TrainingCourseManagement.getTrainingCourseById(
         params
       );
-      console.log(response);
-      setSelectedTrainingCourse(response);
+      console.log(response[0]);
+      setSelectedTrainingPolicy(response[0]);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
-  const onCallbackUpdateSkill = async () => {
-    console.log("re-fetch training course");
-    fetchTrainingCourse();
-  };
   // async function fetchBirdSpecies() {
   //   try {
   //     let response = await TrainingCourseManagement.getAllBirdSpecies();
@@ -77,39 +49,21 @@ const DetailPricePolicyComponent = ({
   // }
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Create a FormData object to hold the form data
     let check = true;
-    // if (!pictures || pictures.length < 1) {
-    //   check = false;
-    //   toast.error("Please provide course image");
-    // }
     if (!title || title.length < 1) {
       check = false;
       toast.error("Please provide course title");
     }
-    if (!description || description.length < 1) {
-      check = false;
-      toast.error("Please provide course description");
-    }
     if (check) {
       const formData = new FormData();
-      formData.append("Id", selectedTrainingCourse.id);
-      formData.append("BirdSpeciesId", selectedSpecies);
-      formData.append("Title", title);
-      formData.append("Description", description);
-      formData.append("TotalPrice", price);
+      formData.append("Id", selectedTrainingPolicy.id);
+      formData.append("Name", title);
+      formData.append("ChargeRate", price);
 
-      // Append each file separately
-      console.log(pictures);
-      if (pictures != null && pictures.length > 0) {
-        pictures.forEach((picture, index) => {
-          formData.append(`Pictures`, picture);
-        });
-      } else {
-        formData.append(`Pictures`, null);
-      }
       try {
-        let res = await TrainingCourseManagement.editTrainingCourse(formData);
+        let res = await TrainingCourseManagement.editTrainingPricePolicy(
+          formData
+        );
         if (res.status === 200) {
           toast.success("Update successfully!");
           await fetchTrainingCourse();
@@ -123,25 +77,19 @@ const DetailPricePolicyComponent = ({
     }
   };
   useEffect(() => {
-    fetchTrainingCourse();
+    fetchTrainingPolicy();
   }, []);
   useEffect(() => {
     // fetchTrainingCourse();
     //fetchBirdSpecies();
-    if (selectedTrainingCourse != null) {
-      // Lấy thông tin từ selectedTrainingCourse và gán cho các biến tương ứng
-      setSelectedSpecies(selectedTrainingCourse.birdSpeciesId);
-      setTitle(selectedTrainingCourse.title);
-      setTmpDesc(selectedTrainingCourse.description);
-      //setPictures(selectedTrainingCourse.picture);
-      //setSubmittedImages(selectedTrainingCourse.submittedImages);
-      setPrice(selectedTrainingCourse.totalPrice);
-      setSlot(selectedTrainingCourse.totalSlot);
+    if (selectedTrainingPolicy != null) {
+      setTitle(selectedTrainingPolicy.name);
+      setPrice(selectedTrainingPolicy.chargeRate);
     }
-  }, [selectedTrainingCourse]);
+  }, [selectedTrainingPolicy]);
   return (
     <>
-      {selectedTrainingCourse ? (
+      {selectedTrainingPolicy ? (
         <>
           <div padding={20}>
             <h2>Training Course Detail</h2>
@@ -158,35 +106,8 @@ const DetailPricePolicyComponent = ({
                 >
                   General information
                 </Typography>
-                <FormControl
-                  required
-                  fullWidth
-                  sx={{
-                    marginBottom: "25px",
-                    width: "100%",
-                  }}
-                >
-                  <InputLabel id="selectLabel_ChooseSpecies">
-                    Bird Species Name
-                  </InputLabel>
-                  {/* <Select
-              labelId="selectLabel_ChooseSpecies"
-              label="Choose Species"
-              value={selectedTrainingCourse.birdSpeciesId}
-              onChange={handleSelectSpecies}
-            >
-              {birdSpecies.map((speciy) => (
-                <MenuItem value={speciy.id}>{speciy.name}</MenuItem>
-              ))}
-            </Select> */}
-                  <Input
-                    type="text"
-                    value={selectedTrainingCourse?.birdSpeciesName}
-                    readOnly
-                  ></Input>
-                </FormControl>
                 <FormControl fullWidth required style={{ marginBottom: 20 }}>
-                  <InputLabel htmlFor="title">Title</InputLabel>
+                  <InputLabel htmlFor="title">Name</InputLabel>
                   <Input
                     type="text"
                     value={title}
@@ -199,7 +120,7 @@ const DetailPricePolicyComponent = ({
                   variant="outlined"
                   style={{ marginBottom: 20 }}
                 >
-                  <InputLabel>Price</InputLabel>
+                  <InputLabel>Charge rate</InputLabel>
                   <Input
                     type="number"
                     step="0.01"
@@ -208,54 +129,6 @@ const DetailPricePolicyComponent = ({
                     value={price}
                   />
                 </FormControl>
-                <FormControl
-                  fullWidth
-                  required
-                  variant="outlined"
-                  style={{ marginBottom: 20 }}
-                >
-                  <InputLabel>Slot</InputLabel>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    required
-                    value={slot}
-                    readOnly
-                  />
-                </FormControl>
-                <FormControl fullWidth required style={{ marginBottom: 20 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Description
-                  </Typography>
-                  <Editor
-                    onGetHtmlValue={handleEditorChange}
-                    htmlValue={tmpDesc}
-                  />
-                </FormControl>
-                <FormControl required style={{ marginBottom: 15 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Pictures
-                  </Typography>
-                  <Img
-                    src={selectedTrainingCourse?.picture}
-                    alt="BirdPicture"
-                    style={{ width: "200px", height: "150px", margin: "20px" }}
-                  />
-                  <Button variant="contained" color="ochre">
-                    <UploadComponent
-                      onChange={handleFileChange}
-                      accept="image/*"
-                    >
-                      Upload image(s)
-                    </UploadComponent>
-                  </Button>
-                  {/* Display submitted files here */}
-                  <div>
-                    {submittedImages.map((imageName, index) => (
-                      <div key={index}>{imageName}</div>
-                    ))}
-                  </div>
-                </FormControl>
                 <br />
                 <Button
                   sx={{ float: "right", marginBottom: "20px" }}
@@ -263,7 +136,7 @@ const DetailPricePolicyComponent = ({
                   color="ochre"
                   type="submit"
                 >
-                  Confirm update course
+                  Confirm update policy
                 </Button>
                 <Button
                   sx={{
@@ -273,16 +146,12 @@ const DetailPricePolicyComponent = ({
                   }}
                   variant="contained"
                   color="ochre"
-                  onClick={() => callbackUpdateCourse(trainingCourse)}
+                  onClick={() => callbackUpdatePolicy(trainingPolicy)}
                 >
                   Cancel
                 </Button>
               </form>
             </div>
-            <BirdSkillListComponent
-              selectedCourse={selectedTrainingCourse}
-              callbackUpdate={onCallbackUpdateSkill}
-            />
           </div>
         </>
       ) : (

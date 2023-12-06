@@ -152,7 +152,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
             </Typography>
           </Toolbar>
         </AppBar>
-        {renderAllTrainingCourse && (
+        {renderAllPolicies && (
           <Grid style={{ padding: 20 }} marginTop={1} container spacing={1}>
             <Button
               sx={{ float: "left", margin: "20px" }}
@@ -251,12 +251,12 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
             </Grid>
           </Grid>
         )}
-        {renderCreateCourse && (
+        {renderCreatePolicy && (
           <CreatePricePolicyComponent
             callbackCreatePolicy={onCallBackTrainingCourseManagement}
           />
         )}
-        {renderUpdateCourse && (
+        {renderUpdatePolicy && (
           <DetailPricePolicyComponent
             trainingPolicy={selectedPolicy}
             callbackUpdatePolicy={onCallBackTrainingCourseManagement}

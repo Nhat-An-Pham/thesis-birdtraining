@@ -547,7 +547,7 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
-  async createTrainingPricePolicies(model) {
+  async createTrainingPricePolicy(model) {
     try {
       const response = await axios.post(
         `${BASE_URL}/api/trainingcourse-manager/create-checkoutpolicy`,
@@ -567,7 +567,7 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
-  async editTrainingPricePolicies(model) {
+  async editTrainingPricePolicy(model) {
     try {
       const response = await axios.put(
         `${BASE_URL}/api/trainingcourse-manager/create-checkoutpolicy`,
