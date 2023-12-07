@@ -570,7 +570,7 @@ class TrainingCourseManagementService {
   async editTrainingPricePolicy(model) {
     try {
       const response = await axios.put(
-        `${BASE_URL}/api/trainingcourse-manager/create-checkoutpolicy`,
+        `${BASE_URL}/api/trainingcourse-manager/edit-checkoutpolicy`,
         model,
         {
           headers: {

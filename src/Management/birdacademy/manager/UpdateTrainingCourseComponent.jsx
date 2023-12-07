@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
+  AppBar,
   Button,
   FormControl,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  Toolbar,
   Typography,
+  Grid,
 } from "@mui/material";
 import { Img } from "react-image";
 import Editor from "../../component/text-editor/Editor";
@@ -15,11 +19,11 @@ import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
 import BirdSkillListComponent from "./BirdSkillListComponent";
+import { Close } from "@mui/icons-material";
 
 const UpdateTrainingCourseComponent = ({
   trainingCourse,
   callbackUpdateCourse,
-  callbackUpdateSkill,
 }) => {
   const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [birdSpecies, setBirdSpecies] = useState([]);
@@ -141,11 +145,33 @@ const UpdateTrainingCourseComponent = ({
     }
   }, [selectedTrainingCourse]);
   return (
-    <>
+    <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callbackUpdateCourse}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Training Course Detail
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       {selectedTrainingCourse ? (
         <>
-          <div padding={20}>
-            <h2>Training Course Detail</h2>
+          <div>
             <div className="form-container">
               <form
                 onSubmit={handleSubmit}
@@ -289,7 +315,7 @@ const UpdateTrainingCourseComponent = ({
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

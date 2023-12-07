@@ -13,6 +13,9 @@ import {
   CardContent,
   Select,
   MenuItem,
+  AppBar,
+  Toolbar,
+  IconButton,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
@@ -20,6 +23,7 @@ import Editor from "../component/text-editor/Editor";
 import { ochreTheme } from "../themes/Theme";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { Close } from "@mui/icons-material";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [trainingPricePolicies, setTrainingPricePolicies] = useState([]);
@@ -153,112 +157,38 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
     setActualPrice(finalPrice);
   };
   return (
-    <ThemeProvider padding={20} theme={ochreTheme}>
-      <h2>Create return bird form</h2>
+    <ThemeProvider theme={ochreTheme}>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callBackMainManagement}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Return Bird Form
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       <div>
-        {/* {birdTrainingCourse != null &&
-          birdTrainingCourse
-            .filter((request) => request.id == requestedId)
-            .map((request) => (
-              <Box sx={{ flexGrow: 1, p: 2 }}>
-                <Grid
-                  container
-                  spacing={1}
-                  sx={{
-                    "--Grid-borderWidth": "1px",
-                    borderTop: "var(--Grid-borderWidth) solid",
-                    borderLeft: "var(--Grid-borderWidth) solid",
-                    borderColor: "divider",
-                    "& > div": {
-                      borderRight: "var(--Grid-borderWidth) solid",
-                      borderBottom: "var(--Grid-borderWidth) solid",
-                      borderColor: "divider",
-                    },
-                  }}
-                >
-                  <Grid item xs={1.5}>
-                    <>Requested Id: </>
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <>{request.id}</>
-                  </Grid>
-                  <Grid item xs={1}>
-                    <>Bird Name: </>
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <>{request.birdName}</>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <>Customer Name: </>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <>{request.customerName}</>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <>Training course title: </>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <>{request.trainingCourseTitle}</>
-                  </Grid>
-                  <Grid item xs={1}></Grid>
-                  <Grid item xs={1.5}>
-                    <>Registered Date: </>
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <>{request.registeredDate}</>
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <>Start training Date: </>
-                  </Grid>
-                  <Grid item xs={1.5}>
-                    <>{request.startTrainingDate}</>
-                  </Grid>
-                  <Grid item xs={1.75}>
-                    <>Done training Date: </>
-                  </Grid>
-                  <Grid item xs={3}>
-                    <>{request.trainingDoneDate}</>
-                  </Grid>
-                  <Grid margin-top={"1px"} item xs={2}>
-                    <>Base training price: </>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <>{request.totalPrice}</>
-                  </Grid>
-                  <Grid item xs={2.75}>
-                    <>Training price apply membership: </>
-                  </Grid>
-                  <Grid item xs={9}>
-                    <>{request.discountedPrice}</>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <>Membership Rank: </>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <>{request.membershipRank}</>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <>Status: </>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <>{request.status}</>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <>Total payment: </>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <>{request.actualPrice}</>
-                  </Grid>
-                </Grid>
-              </Box>
-            ))} */}
         {birdTrainingCourse != null && (
           // birdTrainingCourse
           //   .filter((request) => request.id == requestedId)
           //   .map((request) => (
           <Card
             style={{
-              maxWidth: 500,
+              maxWidth: 610,
               margin: "auto",
               marginTop: 4,
             }}
@@ -370,10 +300,10 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
             {birdTrainingCourse?.status != "TrainingDone" && (
               <FormControl
                 sx={{
-                  margin: "5px",
-                  marginBottom: "25px",
-                  width: "100%",
-                  maxWidth: "350px",
+                  marginTop: 4,
+                  marginBottom: 3,
+                  width: 600,
+                  maxWidth: 610,
                 }}
               >
                 <InputLabel id="selectLabel_ChoosePolicy">

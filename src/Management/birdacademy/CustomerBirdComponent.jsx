@@ -7,9 +7,15 @@ import {
   TableRow,
   Paper,
   Button,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Grid,
+  Typography,
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import BirdSkillReceivedComponent from "./BirdSkillReceivedComponent";
+import { Close } from "@mui/icons-material";
 
 const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   const [birdList, setBirdList] = useState([]);
@@ -43,8 +49,31 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   }
   return (
     <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callBackMainManagement}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Customer Bird
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       <TableContainer style={{ padding: 20 }}>
-        <h2>Bird Information for Customer {customerId}</h2>
+        {/* <h2>Bird Information for Customer {customerId}</h2> */}
         <Table>
           <TableHead>
             <TableCell>Bird Name</TableCell>
