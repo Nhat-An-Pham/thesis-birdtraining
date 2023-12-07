@@ -16,6 +16,7 @@ import {
   FormControl,
   Select,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -134,65 +135,161 @@ const TrainerTicketDetailView = ({
         </Toolbar>
       </AppBar>
 
+      <Typography variant="h5"> Basic Infomation</Typography>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <Typography>Ticket ID</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Service</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Date</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Time</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Typography>{ticketDetail.id}</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>
+                  {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>
+                  {addonService.formatDate(ticketDetail.appointmentDate)}
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography> {ticketDetail.actualSlotStart}</Typography>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <h1></h1>
+      <h1></h1>
+
+      <Typography variant="h5"> Detail Infomation</Typography>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
             {ticketDetail && (
               <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Customer Name</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Detail</TableCell>
-                <TableCell>Distance</TableCell>
-                <TableCell>Online/Offline</TableCell>
-                {ticketDetail.status === "Finished" ? (
-                  <TableCell>Evidence</TableCell>
-                ) : null}
-                <TableCell>Date</TableCell>
-                <TableCell>Slot</TableCell>
-                <TableCell>Price</TableCell>
+                <TableCell>
+                  <Typography>Customer</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Email</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Address</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>Type</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography>More Detail</Typography>
+                </TableCell>
               </TableRow>
             )}
           </TableHead>
           <TableBody>
+            <TableCell>
+              <Typography>{ticketDetail.customerName}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{ticketDetail.customerEmail}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{ticketDetail.addressDetail}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{ticketDetail.consultingType}</Typography>
+            </TableCell>
+            <TableCell>
+              <Typography>{ticketDetail.consultingDetail}</Typography>
+            </TableCell>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <h1></h1>
+      <h1></h1>
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
             <TableRow>
-              <TableCell>{ticketDetail.id}</TableCell>
-              <TableCell>{ticketDetail.customerName}</TableCell>
-              <TableCell>{ticketDetail.addressDetail}</TableCell>
-              <TableCell>{ticketDetail.consultingType}</TableCell>
-              <TableCell>{ticketDetail.consultingDetail}</TableCell>
-              <TableCell>{ticketDetail.distance}</TableCell>
               <TableCell>
-                {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+                <Typography>Distance</Typography>
+              </TableCell>
+              {ticketDetail.status === "Finished" ? (
+                <TableCell>
+                  <Typography>Evidence</Typography>
+                </TableCell>
+              ) : null}
+              <TableCell>
+                <Typography>Price</Typography>
+              </TableCell>
+              <TableCell>
+                <Typography>Status</Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Typography>{ticketDetail.distance}</Typography>
               </TableCell>
               {ticketDetail.status === "Finished" ? (
                 <>
                   <TableCell>
-                    {ticketDetail.evidence.split(",").map((evidence) => (
-                      <Link
-                        style={{
-                          marginLeft: "20px",
-                          padding: "10px",
-                          color: "white",
-                          textDecoration: "none",
-                          backgroundColor: "#C8AE7D",
-                        }}
-                        to={evidence}
-                        target="_blank"
-                        download
-                      >
-                        {evidence.split("/").slice(-1)}
-                      </Link>
-                    ))}
+                    <Typography>
+                      {ticketDetail.evidence.split(",").map((evidence) => (
+                        <Link
+                          style={{
+                            marginLeft: "20px",
+                            padding: "10px",
+                            color: "white",
+                            textDecoration: "none",
+                            backgroundColor: "#C8AE7D",
+                          }}
+                          to={evidence}
+                          target="_blank"
+                          download
+                        >
+                          {evidence.split("/").slice(-1)}
+                        </Link>
+                      ))}
+                    </Typography>
                   </TableCell>
                 </>
               ) : null}
               <TableCell>
-                {addonService.formatDate(ticketDetail.appointmentDate)}
+                <Typography>{ticketDetail.price}VND</Typography>
               </TableCell>
-              <TableCell>{ticketDetail.actualSlotStart}</TableCell>
-              <TableCell>{ticketDetail.price}VND</TableCell>
+              <TableCell>
+                {ticketDetail.status === "Approved" ? (
+                  <Typography style={{ color: "green" }}>
+                    {ticketDetail.status}
+                  </Typography>
+                ) : (
+                  <Typography style={{ color: "blue" }}>
+                    {ticketDetail.status}
+                  </Typography>
+                )}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -205,6 +302,7 @@ const TrainerTicketDetailView = ({
         <></>
       ) : (
         <>
+          <Typography variant="h5"> Finish Appointment</Typography>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -237,9 +335,10 @@ const TrainerTicketDetailView = ({
                   <Typography>
                     {ticketDetail.onlineOrOffline === true ? (
                       <FormControl>
-                        <input
-                          type="text"
-                          onChange={(e) => setOnlineEvidence(e.target.value)}
+                        <TextField
+                        label={"Record"}
+                        type="text"
+                        onChange={(e) => setOnlineEvidence(e.target.value)}
                         />
                       </FormControl>
                     ) : ticketDetail.onlineOrOffline === false ? (

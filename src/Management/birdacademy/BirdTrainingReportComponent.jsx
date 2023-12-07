@@ -71,7 +71,7 @@ const BirdTrainingReportComponent = ({
     setSelectedReport(null);
   };
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <ThemeProvider theme={ochreTheme}>
         {reportList != null && reportList.length > 0 && (
           <TableContainer>
@@ -81,6 +81,7 @@ const BirdTrainingReportComponent = ({
                 <TableCell>Slot</TableCell>
                 <TableCell>Date</TableCell>
                 <TableCell>Trainer Name</TableCell>
+                <TableCell>Trainer Email</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
@@ -98,17 +99,20 @@ const BirdTrainingReportComponent = ({
                     <TableCell>{rsl.slotId}</TableCell>
                     <TableCell>{addOnService.formatDate(rsl.date)}</TableCell>
                     <TableCell>{rsl.trainerName}</TableCell>
+                    <TableCell>{rsl.trainerEmail}</TableCell>
                     <TableCell>{rsl.status}</TableCell>
-                    {rsl.status == "NotYet" && (
-                      <Button
-                        sx={{ float: "right", marginBottom: "20px" }}
-                        variant="contained"
-                        color="ochre"
-                        onClick={() => handleModifyClick(rsl.reportId)}
-                      >
-                        Modify
-                      </Button>
-                    )}
+                    <TableCell>
+                      {rsl.status == "NotYet" && (
+                        <Button
+                          sx={{ float: "right", marginBottom: "20px" }}
+                          variant="contained"
+                          color="ochre"
+                          onClick={() => handleModifyClick(rsl.reportId)}
+                        >
+                          Modify
+                        </Button>
+                      )}
+                    </TableCell>
                   </TableRow>
                 </TableBody>
               ))}

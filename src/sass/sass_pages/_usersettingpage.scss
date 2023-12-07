@@ -162,11 +162,13 @@
 
         h5 {
             margin: 0px;
+            margin-bottom: 5px;
             border-bottom: 0.5px grey solid;
             width: 90%;
             padding: 10px;
             height: auto;
             font-size: 20px;
+            overflow: hidden;
         }
 
         p {
@@ -174,6 +176,8 @@
             font-size: 13px;
             height: 100px;
             overflow: hidden;
+            margin-bottom: 5px;
+            color: #8d8c8c;
         }
 
         a {

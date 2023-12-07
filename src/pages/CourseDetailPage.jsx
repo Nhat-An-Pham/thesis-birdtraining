@@ -79,7 +79,7 @@ function CourseDetailPage() {
               <p className='cdtp_sidebar-price'>Price: {selectedCourse.price}$</p>
               {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button>
                 : null}
-              {selectedCourse.status === "Enrolled" ? <button onClick={handleStudyButton}>Study</button> : null}
+              {selectedCourse.status === "Enrolled" || selectedCourse.status === "Completed" ? <button onClick={handleStudyButton}>Study</button> : null}
               <div className='cdtp_sidebar-skill'>
                 <div className='cdtp_sidebar-skill-skillbox'>
                   <p className='cdtp_sidebar-skill-skillbox-first'>Skill level</p>

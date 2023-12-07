@@ -43,7 +43,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   }
   return (
     <div>
-      <TableContainer>
+      <TableContainer style={{ padding: 20 }}>
         <h2>Bird Information for Customer {customerId}</h2>
         <Table>
           <TableHead>
@@ -88,8 +88,6 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
         {selectedBird != null && (
           <BirdSkillReceivedComponent birdId={selectedBird} />
         )}
-      </TableContainer>
-      <div className="main-button-container">
         <Button
           sx={{ float: "right", marginBottom: "20px" }}
           variant="contained"
@@ -98,7 +96,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
         >
           Back
         </Button>
-      </div>
+      </TableContainer>
     </div>
   );
 };

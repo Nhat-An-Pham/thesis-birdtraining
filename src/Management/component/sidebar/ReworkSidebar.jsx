@@ -19,6 +19,7 @@ import {
   SpaceDashboardOutlined,
   SupportAgentOutlined,
 } from "@mui/icons-material";
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar, Grid, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -27,8 +28,10 @@ import { jwtDecode } from "jwt-decode";
 
 let token = localStorage.getItem("user-token");
 let userRole = null;
+let userName = null
 if (token) {
   userRole = jwtDecode(JSON.parse(token)).role;
+  userName = jwtDecode(JSON.parse(token)).name;
 }
 const drawerWidth = 250;
 const elements = [
@@ -148,7 +151,7 @@ export default function ReworkSidebar({ selectTab }) {
             {elements.map((element, index) => (
               <>
                 {(!element.role && userRole) ||
-                element.role.includes(userRole) ? (
+                  element.role.includes(userRole) ? (
                   <>
                     <ListItem
                       disablePadding
@@ -187,6 +190,14 @@ export default function ReworkSidebar({ selectTab }) {
               </>
             ))}
           </List>
+          {userName ?
+            <Link style={{
+              position: "absolute", bottom: "0", width: "100%", height: "60px",
+              border: "1px black solid", display: "flex", justifyContent: "center", alignItems: "center", textDecoration:"none", color:"black"
+            }}>
+              Hi {userName}<LogoutIcon />
+            </Link>
+            : null}
         </Drawer>
       </Box>
     </ThemeProvider>

@@ -9,6 +9,10 @@ import {
   ThemeProvider,
   Typography,
   Box,
+  Card,
+  CardContent,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
@@ -18,7 +22,10 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
-  const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
+  const [trainingPricePolicies, setTrainingPricePolicies] = useState([]);
+  const [selectedPolicyId, setSelectedPolicyId] = useState();
+  const [actualPrice, setActualPrice] = useState();
+
   const [birdTrainingCourse, setBirdTrainingCourse] = useState(null);
   const [returnNote, setReturnNote] = useState("");
   const [tmpNote, setTmpNote] = useState("");
@@ -53,45 +60,103 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
       check = false;
       toast.error("Please provide return note");
     }
-    const formData = new FormData();
-    formData.append("BirdTrainingCourseId", birdTrainingCourseId);
-    formData.append("ReturnNote", returnNote);
 
-    // Append each file separately
-    pictures.forEach((picture, index) => {
-      formData.append(`ReturnPictures`, picture);
-    });
+    if (check) {
+      const formData = new FormData();
+      formData.append("BirdTrainingCourseId", requestedId);
+      formData.append("ReturnNote", returnNote);
+      if (birdTrainingCourse?.status == "TrainingDone") {
+        console.log("training done mac dinh 3");
+        formData.append("TrainingPricePolicyId", 3);
+      } else {
+        console.log("not training done ");
+        formData.append("TrainingPricePolicyId", selectedPolicyId);
+      }
 
-    trainingCourseManagementService
-      .returnBirdForm(formData)
-      .then((response) => {
-        // Handle the response data
-        console.log("Success:", response);
-        callBackMainManagement();
-      })
-      .catch((error) => {
-        // Handle errors
-        console.error("Error:", error);
+      // Append each file separately
+      pictures.forEach((picture, index) => {
+        formData.append(`ReturnPictures`, picture);
       });
+
+      console.log(formData);
+
+      try {
+        let response = await trainingCourseManagementService.returnBirdForm(
+          formData
+        );
+        if (response.status == 200) {
+          toast.success("Submit return form success!");
+          callBackMainManagement();
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error return form!");
+      }
+    }
   };
   async function fetchRequestedData() {
     try {
+      let params = {
+        $filter: `id eq ${requestedId}`,
+      };
       let response =
-        await trainingCourseManagementService.getAllBirdTrainingCourse();
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      console.log(response[0]);
+      setBirdTrainingCourse(response[0]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  async function fetchPolicyData() {
+    try {
+      let params = {
+        $filter: `status eq 'Active'`,
+      };
+      let response =
+        await trainingCourseManagementService.getAllTrainingPricePolicies(
+          params
+        );
       console.log(response);
-      setBirdTrainingCourse(response);
+      setTrainingPricePolicies(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
   useEffect(() => {
     fetchRequestedData();
+    fetchPolicyData();
   }, [requestedId]);
+  // useEffect(() => {
+  //   if (birdTrainingCourse != null) {
+  //     const current = birdTrainingCourse.find((e) => e.id == requestedId);
+  //     console.log(current);
+  //     if (current != null) {
+  //       setActualPrice(current.actualPrice);
+  //       if (current.status == "TrainingDone") {
+  //         setSelectedPolicyId(3);
+  //       }
+  //     }
+  //   }
+  // }, [birdTrainingCourse]);
+  const handleSelectPolicy = (event) => {
+    console.log(event.target.value);
+    setSelectedPolicyId(event.target.value);
+    // const finalPrice =
+    //   birdTrainingCourse.find((e) => e.id == requestedId).discountedPrice *
+    //   event.target.value.chargeRate;
+    const chargeRate = trainingPricePolicies.find(
+      (e) => e.id == event.target.value
+    );
+    const finalPrice =
+      birdTrainingCourse.discountedPrice * chargeRate.chargeRate;
+    console.log(finalPrice);
+    setActualPrice(finalPrice);
+  };
   return (
-    <ThemeProvider theme={ochreTheme}>
+    <ThemeProvider padding={20} theme={ochreTheme}>
       <h2>Create return bird form</h2>
       <div>
-        {birdTrainingCourse != null &&
+        {/* {birdTrainingCourse != null &&
           birdTrainingCourse
             .filter((request) => request.id == requestedId)
             .map((request) => (
@@ -186,16 +251,151 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   </Grid>
                 </Grid>
               </Box>
-            ))}
+            ))} */}
+        {birdTrainingCourse != null && (
+          // birdTrainingCourse
+          //   .filter((request) => request.id == requestedId)
+          //   .map((request) => (
+          <Card
+            style={{
+              maxWidth: 500,
+              margin: "auto",
+              marginTop: 4,
+            }}
+          >
+            <CardContent>
+              <Grid
+                style={{
+                  fontSize: 24,
+                  fontWeight: "bold",
+                  marginBottom: 2,
+                }}
+                color="textPrimary"
+              >
+                Billing Details
+              </Grid>
+              <Grid
+                style={{
+                  fontSize: 20,
+                  marginBottom: 2,
+                }}
+                color="textSecondary"
+              >
+                Requested Id: {birdTrainingCourse.id}
+              </Grid>
+              <Grid
+                style={{
+                  fontSize: 20,
+                  marginBottom: 2,
+                }}
+                color="textSecondary"
+              >
+                Customer: {birdTrainingCourse.customerName}
+              </Grid>
+
+              <Grid
+                style={{
+                  fontSize: 20,
+                  marginBottom: 2,
+                }}
+                color="textSecondary"
+              >
+                Course: {birdTrainingCourse.trainingCourseTitle}
+              </Grid>
+
+              <Grid
+                style={{
+                  fontSize: 20,
+                  marginBottom: 2,
+                }}
+                color="textSecondary"
+              >
+                Status: {birdTrainingCourse.status}
+              </Grid>
+
+              <div
+                style={{
+                  marginTop: 2,
+                }}
+              >
+                <Grid
+                  style={{
+                    fontSize: 20,
+                    marginBottom: 2,
+                  }}
+                  variant="body1"
+                  color="textPrimary"
+                >
+                  Total Price: {birdTrainingCourse.totalPrice.toFixed(2)}
+                </Grid>
+
+                <Grid
+                  style={{
+                    fontSize: 20,
+                    marginBottom: 2,
+                  }}
+                  variant="body1"
+                  color="textPrimary"
+                >
+                  Discounted Price:{" "}
+                  {birdTrainingCourse.discountedPrice.toFixed(2)}
+                </Grid>
+
+                <Grid
+                  style={{
+                    fontSize: 20,
+                    marginBottom: 2,
+                  }}
+                  variant="body1"
+                  color="textPrimary"
+                >
+                  Actual Price:{" "}
+                  {actualPrice != null
+                    ? actualPrice
+                    : birdTrainingCourse.actualPrice.toFixed(2)}
+                </Grid>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         <div className="form-container">
           <form
             onSubmit={handleSubmit}
             className="form"
             encType="multipart/form-data"
           >
-            <Typography variant="h6" gutterBottom>
+            {/* <Typography variant="h6" gutterBottom>
               Return bird form
-            </Typography>
+            </Typography> */}
+            {birdTrainingCourse?.status != "TrainingDone" && (
+              <FormControl
+                sx={{
+                  margin: "5px",
+                  marginBottom: "25px",
+                  width: "100%",
+                  maxWidth: "350px",
+                }}
+              >
+                <InputLabel id="selectLabel_ChoosePolicy">
+                  Choose Policy
+                </InputLabel>
+                <Select
+                  labelId="selectLabel_ChoosePolicy"
+                  label="Choose Policy"
+                  value={selectedPolicyId}
+                  // readOnly={
+                  //   birdTrainingCourse?.status == "TrainingDone" ? true : false
+                  // }
+                  onChange={handleSelectPolicy}
+                >
+                  {trainingPricePolicies
+                    .filter((policy) => policy.name != "Success Requested")
+                    .map((policy) => (
+                      <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            )}
             <FormControl fullWidth required style={{ marginBottom: 10 }}>
               <Typography variant="h6" gutterBottom>
                 Return Note

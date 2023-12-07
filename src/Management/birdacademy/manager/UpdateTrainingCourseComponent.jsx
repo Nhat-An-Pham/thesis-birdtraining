@@ -9,14 +9,17 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { Img } from "react-image";
 import Editor from "../../component/text-editor/Editor";
 import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
+import BirdSkillListComponent from "./BirdSkillListComponent";
 
 const UpdateTrainingCourseComponent = ({
-  trainingCourseId,
-  callbackCreateCourse,
+  trainingCourse,
+  callbackUpdateCourse,
+  callbackUpdateSkill,
 }) => {
   const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [birdSpecies, setBirdSpecies] = useState([]);
@@ -28,6 +31,7 @@ const UpdateTrainingCourseComponent = ({
   const [pictures, setPictures] = useState([]);
   const [submittedImages, setSubmittedImages] = useState([]);
   const [price, setPrice] = useState(0.0);
+  const [slot, setSlot] = useState(0.0);
 
   const handleEditorChange = (value) => {
     setDescription(value);
@@ -44,47 +48,42 @@ const UpdateTrainingCourseComponent = ({
   const handleSelectSpecies = (event) => {
     setSelectedSpecies(event.target.value);
   };
-  async function fetchCreatedData(id) {
+  async function fetchTrainingCourse() {
     try {
+      console.log(trainingCourse.id);
       let params = {
-        $filter: `id eq ${id}`,
+        courseId: trainingCourse.id,
       };
-      // let response = await workshopManagementService.getWorkshops(params);
-      // return response[0];
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
-  async function fetchTrainingCourseData() {
-    try {
-      let params = {
-        courseId: trainingCourseId,
-      };
-      let response = await TrainingCourseManagement.getAllTrainingCourseById(
+      let response = await TrainingCourseManagement.getTrainingCourseById(
         params
       );
+      console.log(response);
       setSelectedTrainingCourse(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   }
-  async function fetchBirdSpecies(id) {
-    try {
-      let response = await TrainingCourseManagement.getAllBirdSpecies();
-      console.log(response);
-      setBirdSpecies(response);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }
+  const onCallbackUpdateSkill = async () => {
+    console.log("re-fetch training course");
+    fetchTrainingCourse();
+  };
+  // async function fetchBirdSpecies() {
+  //   try {
+  //     let response = await TrainingCourseManagement.getAllBirdSpecies();
+  //     console.log(response);
+  //     setBirdSpecies(response);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // }
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Create a FormData object to hold the form data
     let check = true;
-    if (!pictures || pictures.length < 1) {
-      check = false;
-      toast.error("Please provide course image");
-    }
+    // if (!pictures || pictures.length < 1) {
+    //   check = false;
+    //   toast.error("Please provide course image");
+    // }
     if (!title || title.length < 1) {
       check = false;
       toast.error("Please provide course title");
@@ -95,124 +94,202 @@ const UpdateTrainingCourseComponent = ({
     }
     if (check) {
       const formData = new FormData();
+      formData.append("Id", selectedTrainingCourse.id);
       formData.append("BirdSpeciesId", selectedSpecies);
       formData.append("Title", title);
       formData.append("Description", description);
       formData.append("TotalPrice", price);
 
       // Append each file separately
-      pictures.forEach((picture, index) => {
-        formData.append(`Pictures`, picture);
-      });
-
-      TrainingCourseManagement.editTrainingCourse(formData)
-        .then((response) => {
-          if (response.status === 200) {
-            toast.success("Update successfully!");
-          } else {
-            toast.error("An error has occured!");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
+      console.log(pictures);
+      if (pictures != null && pictures.length > 0) {
+        pictures.forEach((picture, index) => {
+          formData.append(`Pictures`, picture);
         });
+      } else {
+        formData.append(`Pictures`, null);
+      }
+      try {
+        let res = await TrainingCourseManagement.editTrainingCourse(formData);
+        if (res.status === 200) {
+          toast.success("Update successfully!");
+          await fetchTrainingCourse();
+          // callbackUpdateCourse(trainingCourse);
+        } else {
+          toast.error("An error has occured!");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   useEffect(() => {
-    fetchBirdSpecies();
-    fetchTrainingCourseData();
+    fetchTrainingCourse();
   }, []);
+  useEffect(() => {
+    // fetchTrainingCourse();
+    //fetchBirdSpecies();
+    if (selectedTrainingCourse != null) {
+      // Lấy thông tin từ selectedTrainingCourse và gán cho các biến tương ứng
+      setSelectedSpecies(selectedTrainingCourse.birdSpeciesId);
+      setTitle(selectedTrainingCourse.title);
+      setTmpDesc(selectedTrainingCourse.description);
+      //setPictures(selectedTrainingCourse.picture);
+      //setSubmittedImages(selectedTrainingCourse.submittedImages);
+      setPrice(selectedTrainingCourse.totalPrice);
+      setSlot(selectedTrainingCourse.totalSlot);
+    }
+  }, [selectedTrainingCourse]);
   return (
-    <div>
-      <h2>Create Training Course</h2>
-      <div className="form-container">
-        <form
-          onSubmit={handleSubmit}
-          className="form"
-          encType="multipart/form-data"
-        >
-          <Typography variant="h6" gutterBottom>
-            General information
-          </Typography>
-          <FormControl
-            sx={{
-              margin: "5px",
-              marginBottom: "25px",
-              width: "100%",
-              maxWidth: "350px",
-            }}
-          >
-            <InputLabel id="selectLabel_ChooseSpecies">
-              Choose Species
-            </InputLabel>
-            <Select
+    <>
+      {selectedTrainingCourse ? (
+        <>
+          <div padding={20}>
+            <h2>Training Course Detail</h2>
+            <div className="form-container">
+              <form
+                onSubmit={handleSubmit}
+                className="form"
+                encType="multipart/form-data"
+              >
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  style={{ marginBottom: 35 }}
+                >
+                  General information
+                </Typography>
+                <FormControl
+                  required
+                  fullWidth
+                  sx={{
+                    marginBottom: "25px",
+                    width: "100%",
+                  }}
+                >
+                  <InputLabel id="selectLabel_ChooseSpecies">
+                    Bird Species Name
+                  </InputLabel>
+                  {/* <Select
               labelId="selectLabel_ChooseSpecies"
               label="Choose Species"
-              // value={selectedTrainer}
+              value={selectedTrainingCourse.birdSpeciesId}
               onChange={handleSelectSpecies}
             >
               {birdSpecies.map((speciy) => (
                 <MenuItem value={speciy.id}>{speciy.name}</MenuItem>
               ))}
-            </Select>
-          </FormControl>
-          <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
-            <FormControl fullWidth required style={{ marginBottom: 10 }}>
-              <InputLabel htmlFor="title">Title</InputLabel>
-              <Input type="text" onChange={(e) => setTitle(e.target.value)} />
-            </FormControl>
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Price</InputLabel>
-              <Input
-                type="number"
-                step="0.01"
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </FormControl>
-          </Stack>
-          <FormControl fullWidth required style={{ marginBottom: 10 }}>
-            <Typography variant="h6" gutterBottom>
-              Description
-            </Typography>
-            <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpDesc} />
-          </FormControl>
-          <FormControl required style={{ marginBottom: 15 }}>
-            <Typography variant="h6" gutterBottom>
-              Pictures
-            </Typography>
-            <Button variant="contained" color="ochre">
-              <UploadComponent onChange={handleFileChange} accept="image/*">
-                Upload image(s)
-              </UploadComponent>
-            </Button>
-            {/* Display submitted files here */}
-            <div>
-              {submittedImages.map((imageName, index) => (
-                <div key={index}>{imageName}</div>
-              ))}
+            </Select> */}
+                  <Input
+                    type="text"
+                    value={selectedTrainingCourse?.birdSpeciesName}
+                    readOnly
+                  ></Input>
+                </FormControl>
+                <FormControl fullWidth required style={{ marginBottom: 20 }}>
+                  <InputLabel htmlFor="title">Title</InputLabel>
+                  <Input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  required
+                  variant="outlined"
+                  style={{ marginBottom: 20 }}
+                >
+                  <InputLabel>Price</InputLabel>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    onChange={(e) => setPrice(e.target.value)}
+                    required
+                    value={price}
+                  />
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  required
+                  variant="outlined"
+                  style={{ marginBottom: 20 }}
+                >
+                  <InputLabel>Slot</InputLabel>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    required
+                    value={slot}
+                    readOnly
+                  />
+                </FormControl>
+                <FormControl fullWidth required style={{ marginBottom: 20 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Description
+                  </Typography>
+                  <Editor
+                    onGetHtmlValue={handleEditorChange}
+                    htmlValue={tmpDesc}
+                  />
+                </FormControl>
+                <FormControl required style={{ marginBottom: 15 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Pictures
+                  </Typography>
+                  <Img
+                    src={selectedTrainingCourse?.picture}
+                    alt="BirdPicture"
+                    style={{ width: "200px", height: "150px", margin: "20px" }}
+                  />
+                  <Button variant="contained" color="ochre">
+                    <UploadComponent
+                      onChange={handleFileChange}
+                      accept="image/*"
+                    >
+                      Upload image(s)
+                    </UploadComponent>
+                  </Button>
+                  {/* Display submitted files here */}
+                  <div>
+                    {submittedImages.map((imageName, index) => (
+                      <div key={index}>{imageName}</div>
+                    ))}
+                  </div>
+                </FormControl>
+                <br />
+                <Button
+                  sx={{ float: "right", marginBottom: "20px" }}
+                  variant="contained"
+                  color="ochre"
+                  type="submit"
+                >
+                  Confirm update course
+                </Button>
+                <Button
+                  sx={{
+                    float: "right",
+                    marginBottom: "20px",
+                    marginRight: "10px",
+                  }}
+                  variant="contained"
+                  color="ochre"
+                  onClick={() => callbackUpdateCourse(trainingCourse)}
+                >
+                  Cancel
+                </Button>
+              </form>
             </div>
-          </FormControl>
-          <br />
-          <Button
-            sx={{ float: "right", marginBottom: "20px" }}
-            variant="contained"
-            color="ochre"
-            type="submit"
-          >
-            Confirm create course
-          </Button>
-          <Button
-            sx={{ float: "right", marginBottom: "20px", marginRight: "10px" }}
-            variant="contained"
-            color="ochre"
-            onClick={() => callbackCreateCourse()}
-          >
-            Cancel
-          </Button>
-        </form>
-      </div>
-    </div>
+            <BirdSkillListComponent
+              selectedCourse={selectedTrainingCourse}
+              callbackUpdate={onCallbackUpdateSkill}
+            />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

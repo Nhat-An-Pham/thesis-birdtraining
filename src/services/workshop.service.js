@@ -75,6 +75,28 @@ class WorkshopService {
             });
         return response;
     }
+
+    //Get Registerd Workshop and Classes
+    async getRegisterdWorkshops() {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .get(API_URL + `/registered-workshop`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
+    async getRegisterdClasses({ workshopId }) {
+        const accessToken = JSON.parse(localStorage.getItem('user-token'));
+        const response = await axios
+            .get(API_URL + `/registered-class?workshopId=${workshopId}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+        return response;
+    }
 }
 
 export default new WorkshopService();

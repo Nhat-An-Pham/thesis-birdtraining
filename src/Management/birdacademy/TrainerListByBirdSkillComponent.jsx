@@ -62,11 +62,12 @@ const TrainerListByBirdSkill = ({
       })
       .catch((error) => {
         // Handle errors
-        console.error("Error:", error.message);
+        console.log(error.response?.data?.message);
+        toast.error("Trainer is not free to assign!");
       });
   }
   return (
-    <TableContainer component={Paper}>
+    <TableContainer padding={20} component={Paper}>
       <Table className="table">
         <TableHead>
           <h2>Trainer</h2>

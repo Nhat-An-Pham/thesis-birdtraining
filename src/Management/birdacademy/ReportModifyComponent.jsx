@@ -118,27 +118,20 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
   return (
     <ThemeProvider theme={ochreTheme}>
       <p>Update For Trainer Slot</p>
-      <Grid
-        container
-        item
-        direction="row"
-        alignItems="center"
-        justifyContent="space-evenly"
-        spacing={3}
-      >
-        <Grid item xs={4}>
+      <Grid container item direction="row" alignItems="center" spacing={1}>
+        <Grid item xs={3}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               minDate={ideal}
               label="Date"
               value={dateSlot}
               onChange={(value) => handleChangeDate(value)}
-              sx={{ width: "100%", maxWidth: "200px" }}
+              sx={{ width: 350, maxWidth: 1000 }}
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={4}>
-          <FormControl sx={{ width: "100%", maxWidth: "200px" }}>
+        <Grid item xs={1.5}>
+          <FormControl sx={{ width: 150, maxWidth: 300 }}>
             <InputLabel id="selectLabel_ChooseSlot">Choose Slot</InputLabel>
             <Select
               labelId="selectLabel_ChooseSlot"
@@ -155,7 +148,7 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
           </FormControl>
         </Grid>
         <Grid item xs={4}>
-          <FormControl sx={{ width: "100%", maxWidth: "200px" }}>
+          <FormControl sx={{ width: 350, maxWidth: 500 }}>
             <InputLabel id="selectLabel_ChooseTrainer">
               Choose Trainer
             </InputLabel>
@@ -181,7 +174,7 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
           alignItems="center"
           spacing={2}
         >
-          <Grid item>
+          <Grid item xs={6.5}>
             <Button
               color="ochre"
               variant="contained"
