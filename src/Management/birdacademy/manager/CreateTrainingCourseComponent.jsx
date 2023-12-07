@@ -49,10 +49,10 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
       console.error("Error fetching data:", error);
     }
   }
-  async function fetchCreatedData() {
+  async function fetchCreatedData(id) {
     try {
       let params = {
-        $orderby: `id desc`,
+        $filter: `id eq ${id}`,
       };
       let response = await TrainingCourseManagement.getAllTrainingCourse(
         params
@@ -94,8 +94,9 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
         let response = await TrainingCourseManagement.createTrainingCourse(
           formData
         );
+        console.log(response);
         if (response.status === 200) {
-          let courseCreated = await fetchCreatedData();
+          let courseCreated = await fetchCreatedData(response.data);
           toast.success("Create successfully!");
           callbackCreateCourse(courseCreated);
         } else {
