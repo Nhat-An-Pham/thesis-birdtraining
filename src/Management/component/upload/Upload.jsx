@@ -1,5 +1,7 @@
-import { Button } from "@mui/material";
+import { Alert, Button, CircularProgress, Divider, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { Img } from "react-image";
+import { Carousel } from "react-responsive-carousel";
 
 export const UploadComponent = ({
   children,
@@ -38,36 +40,56 @@ export const UploadComponent = ({
       setFilePreviews([]);
     };
   }, []);
-
   return (
-    <div>
-      <Button variant="contained" color="ochre">
-        <label htmlFor="contained-button-file" className="m-0 w-100">
-          <input
-            value={value}
-            accept={accept}
-            disabled={disabled}
-            style={{ display: "none" }}
-            id="contained-button-file"
-            multiple={multiple}
-            type="file"
-            onChange={disabled ? () => {} : handleFileChange}
-          />
-          {children}
-        </label>
-      </Button>
-
-      <div>
-        {/* Display file previews */}
-        {filePreviews.map((preview) => (
-          <img
-            key={preview.file.name}
-            src={preview.dataURL}
-            alt={preview.file.name}
-            style={{ maxWidth: "200px", maxHeight: "200px", margin: "5px" }}
-          />
-        ))}
-      </div>
-    </div>
+    <>
+      <Grid
+        container
+        item
+        alignItems={"center"}
+        justifyContent={"center"}
+        spacing={3}
+        padding={2}
+      >
+        <Grid item>
+          <Button variant="contained" color="ochre">
+            <label htmlFor="contained-button-file">
+              <input
+                value={value}
+                accept={accept}
+                disabled={disabled}
+                style={{ display: "none" }}
+                id="contained-button-file"
+                multiple={multiple}
+                type="file"
+                onChange={disabled ? () => {} : handleFileChange}
+              />
+              {children}
+            </label>
+          </Button>
+        </Grid>
+        {filePreviews && filePreviews.length > 0 ? (
+          <Grid item xs={12}>
+            <Carousel width={"100%"} swipeable>
+              {filePreviews?.map((picture) => (
+                <div style={{ height: 300 }}>
+                  <Img
+                    // srcSet={`${picture}`}
+                    src={`${picture.dataURL}`}
+                    alt={`error`}
+                    fill                    
+                    style={{ height: "100%", width: "auto" }}
+                    loading={<CircularProgress />}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          </Grid>
+        ) : (
+          <Grid item xs={12}>
+            <Alert severity="info">No picture is provided!</Alert>
+          </Grid>
+        )}
+      </Grid>
+    </>
   );
 };

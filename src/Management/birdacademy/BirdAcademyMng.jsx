@@ -22,6 +22,7 @@ import ReturnBirdComponent from "./ReturnBirdComponent";
 import TrainingCourseMng from "./manager/TrainingCourseMng";
 import { ToastContainer, toast } from "react-toastify";
 import { ochreTheme } from "../themes/Theme";
+import addonService from "../../services/addon.service";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
@@ -306,8 +307,20 @@ export default function BirdAcademyMng() {
                                     {cls.trainingCourseTitle}
                                   </TableCell>
                                   <TableCell>{cls.registeredDate}</TableCell>
-                                  <TableCell>{cls.startTrainingDate}</TableCell>
-                                  <TableCell>{cls.trainingDoneDate}</TableCell>
+                                  <TableCell>
+                                    {cls.startTrainingDate != null
+                                      ? addonService.formatDate(
+                                          cls.startTrainingDate
+                                        )
+                                      : ""}
+                                  </TableCell>
+                                  <TableCell>
+                                    {cls.trainingDoneDate != null
+                                      ? addonService.formatDate(
+                                          cls.trainingDoneDate
+                                        )
+                                      : ""}
+                                  </TableCell>
                                   <TableCell>{cls.status}</TableCell>
                                   {cls.status === "Registered" && ( //Registered
                                     <TableCell>
