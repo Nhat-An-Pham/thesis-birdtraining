@@ -295,8 +295,8 @@ export default function WorkshopViewComponent({ workshopId }) {
                   type={"text"}
                   multiline
                   maxRows={3}
-                  defaultValue={workshop.title}
-                  value={workshop.title}
+                  defaultValue={workshop.location}
+                  value={workshop.location}
                   InputProps={{
                     readOnly: true,
                   }}

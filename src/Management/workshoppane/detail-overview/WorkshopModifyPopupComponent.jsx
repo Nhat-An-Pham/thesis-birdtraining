@@ -24,10 +24,10 @@ const WorkshopModifyPopupComponent = ({
   const [workshop, setWorkshop] = useState(null);
   const [tempDesc, setTempDesc] = useState("");
   const [errors, setErrors] = useState({
-    totalSlot: {
-      message: "Must be positive number!",
-      value: false,
-    },
+    // totalSlot: {
+    //   message: "Must be positive number!",
+    //   value: false,
+    // },
     price: {
       message: "Must be positive number!",
       value: false,
@@ -74,10 +74,11 @@ const WorkshopModifyPopupComponent = ({
       check = false;
       toast.error("Please provide workshop description");
     }
-    if (errors.totalSlot.value && workshop.totalSlot <= 0) {
-      check = false;
-      toast.error(errors.totalSlot.message);
-    } else if (errors.registerEnd.value && workshop.registerEnd <= 0) {
+    // if (errors.totalSlot.value && workshop.totalSlot <= 0) {
+    //   check = false;
+    //   toast.error(errors.totalSlot.message);
+    // } else 
+    if (errors.registerEnd.value && workshop.registerEnd <= 0) {
       check = false;
       toast.error(errors.registerEnd.message);
     } else if (errors.minAmount.value  && workshop.minimumRegistration <= 0) {
@@ -100,7 +101,7 @@ const WorkshopModifyPopupComponent = ({
       formData.append("Location", workshop.location);
       formData.append("MinimumRegistration", workshop.minimumRegistration);
       formData.append("MaximumRegistration", workshop.maximumRegistration);
-      formData.append("TotalSlot", workshop.totalSlot);
+      // formData.append("TotalSlot", workshop.totalSlot);
 
       //   console.log('Modified data: ', workshop);
       //   console.log('Modified desc: ', tempDesc);
@@ -188,10 +189,11 @@ const WorkshopModifyPopupComponent = ({
                         }
                       />
                     </Grid>
-                    <Grid item>
+                    {/* <Grid item>
                       <TextField
                         label={"Total Slot"}
                         type="number"
+                        defaultValue={workshop.totalSlot}
                         step="1"
                         onChange={(e) => {
                           try {
@@ -203,7 +205,7 @@ const WorkshopModifyPopupComponent = ({
                           } catch (error) {}
                         }}
                         required
-                        defaultValue={workshop.totalSlot}
+                        
                         value={workshop.totalSlot}
                         error={errors.totalSlot.value}
                         helperText={
@@ -212,7 +214,7 @@ const WorkshopModifyPopupComponent = ({
                             : null
                         }
                       />
-                    </Grid>
+                    </Grid> */}
                     <Grid item>
                       <TextField
                         label={"Price (VND)"}
