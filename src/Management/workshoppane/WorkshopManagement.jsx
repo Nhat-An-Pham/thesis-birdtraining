@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Drawer,
-  Grid,
-  Tab,
-  Tabs,
-  ThemeProvider,
-} from "@mui/material";
+import { Box, Button, Grid, Tab, Tabs, ThemeProvider } from "@mui/material";
 import WorkshopPane from "./workshop/workshop-pane/WorkshopPane";
 import CreateWorkshopComponent from "./workshop/create-workshop/CreateWorkshop";
 import { useState } from "react";
@@ -16,7 +8,6 @@ import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
 import ClassAddNewComponent from "./classes/ClassAddNewComponent";
-import TrainerSlotDetailComponent from "./trainer/TrainerSlotDetailComponent";
 
 export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
@@ -59,8 +50,13 @@ export default function WorkshopManagementComponent() {
       onDetailRequest={onDetailView}
       onClassesRequest={onClassView}
       onCreateClassRequest={handleOpenModal}
+      renderIndex={renderedIndex}
+
     />,
-    <CreateWorkshopComponent callbackCreateWorkshop={handleCreateWorkshop} callbackBack={handleCallbackBack}/>,
+    <CreateWorkshopComponent
+      callbackCreateWorkshop={handleCreateWorkshop}
+      callbackBack={handleCallbackBack}
+    />,
     <WorkshopDetailOverviewComponent
       workshop={selectedWorkshop}
       callbackBack={handleCallbackBack}
@@ -86,7 +82,12 @@ export default function WorkshopManagementComponent() {
               <Box
                 sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}
               >
-                <Grid container justifyContent={'space-between'} alignItems={'center'} padding={2}>
+                <Grid
+                  container
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  padding={2}
+                >
                   <Grid item>
                     <Tabs
                       value={statusFilter}
@@ -112,7 +113,11 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
-                    <Button color="ochre" variant="contained" onClick={() => setRenderedIndex(1)}>
+                    <Button
+                      color="ochre"
+                      variant="contained"
+                      onClick={() => setRenderedIndex(1)}
+                    >
                       Create workshop
                     </Button>
                   </Grid>

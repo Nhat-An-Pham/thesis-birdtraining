@@ -28,6 +28,7 @@ import { AddBoxOutlined, InfoOutlined } from "@mui/icons-material";
 
 const WorkshopPane = ({
   statusFilter = "Active",
+  renderIndex,
   onDetailRequest,
   onClassesRequest,
   onCreateClassRequest,
@@ -60,22 +61,22 @@ const WorkshopPane = ({
   const createClassClick = (workshop) => {
     onCreateClassRequest(workshop);
   };
-  useEffect(() => {
-    // Fetch workshops and classes based on the status filter
-    async function fetchData(statusFilter) {
-      try {
-        let params = {
-          $filter: `status eq '${statusFilter}'`,
-        };
-        let response = await WorkshopManagementService.getWorkshops(params);
-        setWorkshops(response);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+  async function fetchData(statusFilter) {
+    try {
+      let params = {
+        $filter: `status eq '${statusFilter}'`,
+      };
+      let response = await WorkshopManagementService.getWorkshops(params);
+      setWorkshops(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
+  }  
+  useEffect(() => {
+    // Fetch workshops and classes based on the status filter   
     fetchData(statusFilter);
     // console.log(workshops);
-  }, [statusFilter]);
+  }, [statusFilter, renderIndex]);
   useEffect(() => {
     if (workshops) {
       setContextMenus(new Array(workshops.length).fill(null));

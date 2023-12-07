@@ -179,7 +179,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
           encType="multipart/form-data"
         >
           <Grid container spacing={2}>
-            <Grid container item xs={6} spacing={3}>
+            <Grid container item xs={12} spacing={3}>
               <Grid container item spacing={0}>
                 <Grid item xs={12}>
                   <Typography variant="h6" fontWeight={"bold"} gutterBottom>
@@ -306,43 +306,26 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid container item spacing={0}>
+              <Grid container item spacing={0} justifyContent={'center'} alignItems={'center'}>
                 <Grid item xs={12}>
                   <Typography variant="h6" fontWeight={"bold"} gutterBottom>
                     Description
                   </Typography>
                 </Grid>
-                <FormControl required style={{ marginBottom: 15 }}>
-                  {/* <Button variant="contained" color="ochre">
-                    <UploadComponent
-                      onChange={handleFileChange}
-                      accept="image/*"
-                    >
-                      Upload image(s)
-                    </UploadComponent>
-                  </Button> */}
-                  {/* <UploadComponent onChange={handleFileChange} accept="image/*">
-                    Upload image(s)
-                  </UploadComponent> */}
-                  <FormControl fullWidth required>
+                <Grid item>
+                  <FormControl required style={{ marginBottom: 15 }}>
                     <Editor
                       onGetHtmlValue={handleEditorChange}
                       htmlValue={description}
                     />
                   </FormControl>
-                  {/* Display submitted files here */}
-                  {/* <div>
-                    {submittedImages.map((imageName, index) => (
-                      <div key={index}>{imageName}</div>
-                    ))}
-                  </div> */}
-                </FormControl>
+                </Grid>
               </Grid>
             </Grid>
             <Grid
               container
               item
-              xs={6}
+              xs={12}
               spacing={2}
               direction="column"
               justifyContent="flex-start"
@@ -353,7 +336,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
                   Pictures
                 </Typography>
               </Grid>
-              <UploadComponent onChange={handleFileChange} accept="image/*">
+              <UploadComponent onChange={handleFileChange} accept="image/*" showThumbs={true}>
                 Upload image(s)
               </UploadComponent>
             </Grid>
@@ -368,60 +351,6 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
               </Button>
             </Grid>
           </Grid>
-
-          {/* <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
-            <FormControl fullWidth required style={{ marginBottom: 10 }}>
-              <InputLabel htmlFor="title">Title</InputLabel>
-              <Input type="text" onChange={(e) => setTitle(e.target.value)} />
-            </FormControl>
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Total Slot</InputLabel>
-              <Input
-                type="number"
-                step="1"
-                onChange={(e) => setTotalSlot(e.target.value)}
-                required
-              />
-            </FormControl>
-          </Stack>
-          <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Register Period</InputLabel>
-              <Input
-                type="number"
-                onChange={(e) => setRegisterEnd(e.target.value)}
-                required
-              />
-            </FormControl>
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Price</InputLabel>
-              <Input
-                type="number"
-                step="0.01"
-                onChange={(e) => setPrice(e.target.value)}
-                required
-              />
-            </FormControl>
-          </Stack> */}
-          {/* <FormControl fullWidth required style={{ marginBottom: 10 }}>
-            <Typography variant="h6" gutterBottom>
-              Description
-            </Typography>
-            <Editor
-              onGetHtmlValue={handleEditorChange}
-              htmlValue={description}
-            />
-          </FormControl> */}
-
-          {/* <br />
-          <Button
-            sx={{ float: "right", marginBottom: "20px" }}
-            variant="contained"
-            color="ochre"
-            type="submit"
-          >
-            Create Workshop
-          </Button> */}
         </form>
       </Container>
     </div>

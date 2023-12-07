@@ -1,5 +1,6 @@
 import { Alert, Button, CircularProgress, Divider, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
+import { Img } from "react-image";
 import { Carousel } from "react-responsive-carousel";
 
 export const UploadComponent = ({
@@ -39,7 +40,6 @@ export const UploadComponent = ({
       setFilePreviews([]);
     };
   }, []);
-
   return (
     <>
       <Grid
@@ -69,19 +69,18 @@ export const UploadComponent = ({
         </Grid>
         {filePreviews && filePreviews.length > 0 ? (
           <Grid item xs={12}>
-            <Carousel width={'100%'} swipeable showThumbs={false}>
+            <Carousel width={"100%"} swipeable>
               {filePreviews?.map((picture) => (
-                <>
-                  <div style={{ height: 300 }}>
-                    <img
-                      // srcSet={`${picture}`}
-                      src={`${picture.dataURL}`}
-                      alt={`error`}
-                      style={{ height: "100%", width: 'auto' }}
-                      loading={<CircularProgress />}
-                    />
-                  </div>
-                </>
+                <div style={{ height: 300 }}>
+                  <Img
+                    // srcSet={`${picture}`}
+                    src={`${picture.dataURL}`}
+                    alt={`error`}
+                    fill                    
+                    style={{ height: "100%", width: "auto" }}
+                    loading={<CircularProgress />}
+                  />
+                </div>
               ))}
             </Carousel>
           </Grid>
