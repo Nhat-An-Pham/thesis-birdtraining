@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Dialog,
@@ -65,9 +66,9 @@ export default function ClassAddNewComponent({
           <DialogContent>
             <Stack spacing={2}>
               <Typography>Enter open registration date for class.</Typography>
-              <Typography>
-                All slots must be fulfilled to public the class!
-              </Typography>
+              <Alert variant={'standard'} severity={'warning'}>
+              All slots must be fulfilled to public the class!
+              </Alert>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   minDate={ideal}

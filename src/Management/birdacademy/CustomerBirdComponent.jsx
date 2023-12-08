@@ -118,6 +118,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
           <BirdSkillReceivedComponent birdId={selectedBird} />
         )}
         <Button
+          style={{marginRight: 40}}
           sx={{ float: "right", marginBottom: "20px" }}
           variant="contained"
           color="ochre"

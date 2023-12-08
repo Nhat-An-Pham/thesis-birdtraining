@@ -18,6 +18,7 @@ import TrainingAcademyPage from "../pages/TrainingAcademyPage";
 import Login from "../pages/Login";
 
 //component
+import CheckOutComplete from '../paymentCheckout/checkOutComplete';
 import HideComponent from "../components/hidecomponent/HideComponent";
 import Dashboard from "../Management/dashboard/Dashboard";
 import UserData from "../Management/userdata/UserData";
@@ -75,6 +76,7 @@ function Layout() {
           {/* Payment */}
           <Route path="/payment/workshop/:wclassid" element={<Payment />} />
           <Route path="/payment/online/:oclassid" element={<Payment />} />
+          <Route path="/check-out/complete" element={<CheckOutComplete />} />
 
           {/* login signup */}
           <Route path="/login" element={<Login />} />
