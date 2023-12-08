@@ -18,7 +18,7 @@ const Workshop = () => {
             .getWorkshopList()
             .then((res) => {
                 // console.log("success workshop list test", res.data);
-                setWorkshopList(res.data);
+                setWorkshopList(res.data.slice(0,4));
             })
             .catch((e) => console.log("fail workshop list test", e));
     }, []);
@@ -51,7 +51,7 @@ const Workshop = () => {
                         Top of our categories
                     </p>
                     <h2>
-                        Explore our popular courses
+                        Explore our popular Workshops
                     </h2>
                 </div>
                 <div className='workshoppageevents_elements workshoppageevents_elements-cards'>
@@ -62,6 +62,7 @@ const Workshop = () => {
                         </Cards>
                     ))}
                 </div>
+                <Link to='/setting' style={{color:"grey"}}>Click Here To View Your Workshop</Link>
                 <div className='workshoppageevents_elements-button'>
                     <Link to="/workshopslist">VIEW MORE</Link>
                 </div>

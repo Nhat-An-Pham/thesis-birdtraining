@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import WorkshopService from '../services/workshop.service';
 import { useNavigate } from 'react-router-dom';
 import RawHTMLRenderer from '../Management/component/htmlRender/htmlRender';
+import { Typography } from '@mui/material';
 
 
 const WClassListPage = () => {
@@ -15,8 +16,8 @@ const WClassListPage = () => {
   const [workshopList, setWorkshopList] = useState([])
   const [classData, setClassData] = useState([]);
   const [classId, setClassId] = useState([]);
-  const [classNumberRegistered, setClassNumberRegistered] = useState([]);
 
+  const accessToken = localStorage.getItem("user-role")
 
 
   // API
@@ -28,7 +29,7 @@ const WClassListPage = () => {
         // get class Data
         WorkshopService
           .getClasses({ id: workshopid })
-      // console.log("Get class by workshopId: ", apiorderhandler.data)
+      console.log("Get class by workshopId: ", apiorderhandler.data)
       setClassData(apiorderhandler.data)
 
       //get workshop by WorkshopID
@@ -39,16 +40,6 @@ const WClassListPage = () => {
           setWorkshopList(res.data);
         })
         .catch((e) => console.log("Fail WorkShopByID Test:", e));
-
-
-      // get class number registered
-      WorkshopService
-        .getClassNumberRegistered({ id: apiorderhandler?.data?.[0]?.id })
-        .then((res) => {
-          // console.log("Success Get Class Number Registered Test:", res.data);
-          setClassNumberRegistered(res.data);
-        })
-        .catch((e) => console.log("Fail Get Class Number Registered Test:", e));
     }
 
     //make the call
@@ -72,7 +63,12 @@ const WClassListPage = () => {
   const navigate = useNavigate();
   const handleEnroll = (event) => {
     // console.log(event);
-    navigate(`/payment/workshop/${event}`)
+    if (accessToken) {
+      navigate(`/payment/workshop/${event}`)
+    } else {
+      navigate("/login")
+    }
+
   }
 
   //Select Class
@@ -95,7 +91,7 @@ const WClassListPage = () => {
           {isDivVisible && (
             <div className='wclpdiv-background'>
               <div className='wclpdiv-container'>
-                <h2 className='wclpdiv_section wclpdiv_section-title' style={{fontSize:"25px"}}>{workshopList.title}</h2>
+                <h2 className='wclpdiv_section wclpdiv_section-title' style={{ fontSize: "25px" }}>{workshopList.title}</h2>
                 <p className='wclpdiv_section wclpdiv_section-title' style={{ fontSize: "20px" }}>Date: <span style={{ color: "red", fontSize: "20px" }}>{dateFormat(selectedClass.startTime, "mmmm dS, yyyy")}</span></p>
                 <div className='wclpdiv_section wclpdiv_section-mapping'>
                   {selectedClass.classSlots.map((workshopClass) => (
@@ -115,24 +111,26 @@ const WClassListPage = () => {
               </div>
             </div>
           )}
+
           <h1 className='wclp_section wclp_section-title'> {workshopList.title}  </h1>
-          <div className='wclp_section wclp_section-cards'>
-            {classData.map((classeses, index) => (
-              <Link key={index} className='wclp_card-container' onClick={() => twoFunctionOnClick(classeses)}>
-                <div className='wclp_card_section wclp_card_section-bottom'>
-                  <h2>{dateFormat(classeses.startTime, "mmmm dS, yyyy")}</h2><br />
-                  <p>Register End Date: <span> {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}</span></p>
-                  {classeses.id === classNumberRegistered.classId ?
-                    <p>Registered: {classNumberRegistered.registered}/{classNumberRegistered.maximum}</p> : <></>}
-                </div>
-                <div className='wclp_card_section wclp_card_section-top'>
-                  <div className='wclp_card_section_top wclp_card_section_top-button'>
-                    <button onClick={() => twoFunctionOnClick(classeses)} >Click to Enroll</button>
+          {classData ?
+            <div className='wclp_section wclp_section-cards'>
+              {classData.map((classeses, index) => (
+                <Link key={index} className='wclp_card-container' onClick={() => twoFunctionOnClick(classeses)}>
+                  <div className='wclp_card_section wclp_card_section-bottom'>
+                    <h2>{dateFormat(classeses.startTime, "mmmm dS, yyyy")}</h2><br />
+                    <p>Register End Date: <span> {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}</span></p>
+                      <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  <div className='wclp_card_section wclp_card_section-top'>
+                    <div className='wclp_card_section_top wclp_card_section_top-button'>
+                      <button onClick={() => twoFunctionOnClick(classeses)} >Click to Enroll</button>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            : <><Typography>This Workshop has no class yet</Typography></>}
         </div>
         : null}
     </>

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
+  AppBar,
   Button,
   FormControl,
+  Grid,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import Editor from "../../component/text-editor/Editor";
-import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
+import { Close } from "@mui/icons-material";
 
 const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
   const [title, setTitle] = useState("");
@@ -20,12 +23,12 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
 
   async function fetchCreatedData(id) {
     try {
-      // let params = {
-      //   $filter: `id eq ${id}`,
-      // };
       let params = {
-        $orderby: `id desc`,
+        $filter: `id eq ${id}`,
       };
+      // let params = {
+      //   $orderby: `id desc`,
+      // };
       let response = await TrainingCourseManagement.getAllTrainingCourse(
         params
       );
@@ -44,19 +47,21 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
       toast.error("Please provide course title");
     }
     if (check) {
-      const formData = new FormData();
-      formData.append("Name", title);
-      formData.append("ChargeRate", price);
+      const model = {
+        name: title,
+        chargeRate: price,
+      };
+      console.log(model);
 
       try {
         let response = await TrainingCourseManagement.createTrainingPricePolicy(
-          formData
+          model
         );
         console.log(response);
         if (response.status === 200) {
           let courseCreated = await fetchCreatedData(response.data);
           toast.success("Create successfully!");
-          callbackCreateCourse(courseCreated);
+          callbackCreatePolicy(courseCreated);
         } else {
           toast.error("An error has occured!");
         }
@@ -67,8 +72,30 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
   };
   useEffect(() => {}, []);
   return (
-    <div padding={20}>
-      <h2>Create Training Policy</h2>
+    <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callbackCreatePolicy}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Create Training Price Policy
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       <div className="form-container">
         <form
           onSubmit={handleSubmit}

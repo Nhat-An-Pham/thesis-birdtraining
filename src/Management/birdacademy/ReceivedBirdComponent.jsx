@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import {
+  AppBar,
   Button,
   FormControl,
+  IconButton,
   Input,
   InputLabel,
   Stack,
   ThemeProvider,
+  Toolbar,
   Typography,
+  Grid,
 } from "@mui/material";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import { UploadComponent } from "../component/upload/Upload";
 import Editor from "../component/text-editor/Editor";
 import { ochreTheme } from "../themes/Theme";
 import { toast } from "react-toastify";
+import { Close } from "@mui/icons-material";
 const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [birdTrainingCourseId, setBirdTrainingCourseId] = useState(requestedId);
   const [receiveNote, setReceiveNote] = useState("");
@@ -73,9 +78,31 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
   };
 
   return (
-    <ThemeProvider padding={20} theme={ochreTheme}>
+    <ThemeProvider theme={ochreTheme}>
       <div>
-        <h2>Create receive bird form</h2>
+        <Grid sx={{ padding: 2 }}>
+          <AppBar position="static" color="ochre">
+            <Toolbar>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                sx={{ mr: 2 }}
+                onClick={callBackMainManagement}
+              >
+                <Close />
+              </IconButton>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              >
+                Receive Bird Form
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Grid>
         <div className="form-container">
           <form
             onSubmit={handleSubmit}

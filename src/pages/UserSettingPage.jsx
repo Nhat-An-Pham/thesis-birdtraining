@@ -31,7 +31,6 @@ export const UserSettingPage = () => {
   //set completed Data
   const [completedCourses, setCompletedCourses] = useState([]);
   const [enrolledWorkshop, setEnrolledWorkshop] = useState([]);
-  const [enrolledWClasses, setEnrolledWClasses] = useState([]);
 
   //Get User Role
   const accessToken = JSON.parse(localStorage.getItem("user-token"));
@@ -126,17 +125,8 @@ export const UserSettingPage = () => {
         console.log(e);
       });
     workshopService.getRegisterdWorkshops().then((res) => {
-      // console.log("Enrolled Workshop: ", res.data);
+      console.log("Enrolled Workshop: ", res.data);
       setEnrolledWorkshop(res.data)
-      if (res.data.id) {
-        workshopService.getRegisterdClasses({ workshopId: res.data.id })
-          .then((res) => {
-            setEnrolledWClasses(res.data)
-          })
-          .catch((e) => {
-            console.log("Cannot Get Enrolled Workshop Class Data")
-          })
-      }
     })
       .catch((e) => {
         console.log("Cannot Get Enrolled Workshop Data")
@@ -299,16 +289,24 @@ export const UserSettingPage = () => {
             </div>
             <div className="ustp-participate-wrapper">
               <h3>Participated Workshops</h3>
-              <div className="ustp-cards-container">
-                <Img
-                  src={require("../assets/pages/ocp/ocp_carousel.jpg")}
-                ></Img>
-                <div className="ustp-cards-content">
-                  <h5>Title</h5>
-                  <Typography>Short description</Typography>
-                  <Link>Read More</Link>
-                </div>
-              </div>
+              {enrolledWorkshop ? (
+                <>
+                  {enrolledWorkshop.map((workshop) => (
+                    <div className="ustp-cards-container">
+                      <Img src={workshop.picture}></Img>
+                      <div className="ustp-cards-content">
+                        <h5>{workshop.title}</h5>
+                        <Typography>
+                          <RawHTMLRenderer
+                            htmlContent={workshop.description}
+                          ></RawHTMLRenderer>
+                        </Typography>
+                        <Typography>Location: {workshop.location}</Typography>
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : <>You Have No Completed Course</>}
             </div>
           </div>
         </div>

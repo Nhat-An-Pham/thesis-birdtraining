@@ -146,7 +146,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   return (
     <div>
       <ThemeProvider theme={ochreTheme}>
-        <AppBar position="static" color="ochre">
+        {/* <AppBar position="static" color="ochre">
           <Toolbar>
             <IconButton
               size="large"
@@ -166,7 +166,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
               Training Course Management
             </Typography>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
         {renderAllTrainingCourse && (
           <Grid style={{ padding: 20 }} marginTop={1} container spacing={1}>
             <Button
@@ -296,6 +296,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
         )}
         {renderCreateCourse && (
           <CreateTrainingCourseComponent
+            callbackList={onCallBackTrainingCourseManagement}
             callbackCreateCourse={onCallBackCreateCourse}
           />
         )}

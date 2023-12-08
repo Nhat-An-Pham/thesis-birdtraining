@@ -12,7 +12,7 @@ const OnlineCourse = () => {
             <div className='ocp_section'>
                 <OnlineCourseCourses />
                 <div className='ocpsectioncourselist_button'>
-                    <Link to="/courseslist">VIEW MORE</Link>
+                    <Link to="/courseslist">VIEW MORE COURSES</Link>
                 </div>
             </div>
         </div>
