@@ -49,80 +49,78 @@ const AssignedTicketView = ({}) => {
 
   return (
     <ThemeProvider theme={"ochreTheme"}>
-      <Container sx={{padding: 2}}>
-      {renderIndex === 0 ? (
-        <>
+      <Container sx={{ padding: 2 }}>
+        {renderIndex === 0 ? (
           <TicketDetailView
             ticketIdForDetail={ticketIdForDetail}
             isAssigned={haveAssignedTrainer}
             onClose={handleCloseDetail}
           />
-        </>
-      ) : renderIndex === 1 ? (
-        <>
-          <h1
-            style={{
-              color: "green",
-              textAlign: "center",
-              paddingBottom: "20px",
-              marginBottom: "30px",
-              borderBottom: "0.5px grey solid",
-            }}
-          >
-            Tickets that have assigned trainer
-          </h1>
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            spacing={2}
-          >
-            <Grid item xs={12}>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Ticket ID</TableCell>
-                      <TableCell>Service</TableCell>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Time</TableCell>
-                      <TableCell>Detail</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {listAssignedConsultingTicket.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{row.id}</TableCell>
-                        <TableCell>
-                          {row.onlineOrOffline ? "Online" : "Offine"}
-                        </TableCell>
-                        <TableCell>
-                          {addonService.formatDate(row.appointmentDate)}
-                        </TableCell>
-                        <TableCell>{row.actualSlotStart}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="ochre"
-                            onClick={() => {
-                              handleDetailClick(row.id);
-                            }}
-                          >
-                            Detail
-                          </Button>
-                        </TableCell>
+        ) : renderIndex === 1 ? (
+          <>
+            <h1
+              style={{
+                color: "green",
+                textAlign: "center",
+                paddingBottom: "20px",
+                marginBottom: "30px",
+                borderBottom: "0.5px grey solid",
+              }}
+            >
+              Tickets that have assigned trainer
+            </h1>
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              spacing={2}
+            >
+              <Grid item xs={12}>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Ticket ID</TableCell>
+                        <TableCell>Service</TableCell>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Time</TableCell>
+                        <TableCell>Detail</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                      {listAssignedConsultingTicket.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.id}</TableCell>
+                          <TableCell>
+                            {row.onlineOrOffline ? "Online" : "Offine"}
+                          </TableCell>
+                          <TableCell>
+                            {addonService.formatDate(row.appointmentDate)}
+                          </TableCell>
+                          <TableCell>{row.actualSlotStart}</TableCell>
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleDetailClick(row.id);
+                              }}
+                            >
+                              Detail
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Grid>
             </Grid>
-          </Grid>
-        </>
-      ) : (
-        <></>
-      )}
+          </>
+        ) : (
+          <></>
+        )}
       </Container>
     </ThemeProvider>
   );
