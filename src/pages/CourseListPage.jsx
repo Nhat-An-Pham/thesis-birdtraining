@@ -8,6 +8,10 @@ import { Link } from 'react-router-dom';
 const CourseListPage = () => {
 
 
+  const accessToken = JSON.parse(localStorage.getItem("user-token"))
+
+
+
   const [onlineCourse, setOnlineCourse] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [searchQuery, setSearchQuery] = useState();
@@ -53,8 +57,10 @@ const CourseListPage = () => {
               price={course.price} />
           ))}
         </div>
-        <Link to='/setting' style={{ color: "grey" }}>Click Here To View Your Finished Courses</Link>
       </div>
+      {accessToken ?
+        <Link to='/setting' style={{ color: "grey", marginBottom: "40px" }}>Click Here To View Your Finished Courses</Link>
+        : null}
     </div>
   )
 }
