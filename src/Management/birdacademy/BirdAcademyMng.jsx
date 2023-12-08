@@ -188,7 +188,7 @@ export default function BirdAcademyMng() {
           <Grid item xs={12}>
             {renderCustomer && (
               // <div className="workshop_section_table workshop_section_table-workshop">
-              <div style={{ padding: 20 }}>
+              <div style={{ padding: 40 }}>
                 {currentUser.role == "Manager" && (
                   <Button
                     sx={{ float: "right", marginBottom: "20px" }}
@@ -268,7 +268,7 @@ export default function BirdAcademyMng() {
             )}
             {renderCustomerRequest && (
               // <div className="workshop_section_table workshop_section_table-classes">
-              <div style={{ padding: 20 }}>
+              <div style={{ padding: 40 }}>
                 <h2>Registered TrainingCourse</h2>
                 <TableContainer component={Paper}>
                   <Table>

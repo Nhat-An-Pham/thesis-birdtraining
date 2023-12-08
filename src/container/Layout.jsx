@@ -35,6 +35,7 @@ import { UserSettingPage } from '../pages/UserSettingPage';
 import TrainerTicketComponent from '../Management/customer/TrainerTicket';
 import ReworkTimetableComponent from '../Management/timetable/ReworkTimetable';
 import CertificatePage from '../pages/CertificatePage';
+import CheckOutComplete from '../paymentCheckout/checkOutComplete';
 
 
 function Layout() {
@@ -68,6 +69,7 @@ function Layout() {
           {/* Payment */}
           <Route path="/payment/workshop/:wclassid" element={<Payment />} />
           <Route path="/payment/online/:oclassid" element={<Payment />} />
+          <Route path="/check-out/complete" element={<CheckOutComplete />} />
 
           {/* login signup */}
           <Route path="/login" element={<Login />} />

@@ -43,7 +43,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   }
   return (
     <div>
-      <TableContainer padding={20}>
+      <TableContainer style={{padding: 40}}>
         <h2>Bird Information for Customer {customerId}</h2>
         <Table>
           <TableHead>
@@ -91,6 +91,7 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
       </TableContainer>
       <div className="main-button-container">
         <Button
+          style={{marginRight: 40}}
           sx={{ float: "right", marginBottom: "20px" }}
           variant="contained"
           color="ochre"
