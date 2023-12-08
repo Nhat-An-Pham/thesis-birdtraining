@@ -72,7 +72,7 @@ const BirdTrainingReportComponent = ({
   };
   return (
     <div>
-      <ThemeProvider padding={20} theme={ochreTheme}>
+      <ThemeProvider style={{padding: 40}} theme={ochreTheme}>
         {reportList != null && reportList.length > 0 && (
           <TableContainer>
             <h2>Bird Training Report {selectedProgress.id}</h2>

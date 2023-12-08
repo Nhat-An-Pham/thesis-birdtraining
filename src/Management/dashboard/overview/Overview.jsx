@@ -31,7 +31,7 @@ const Overview = () => {
         gridAutoRows="140px"
         gap="20px"
       >
-        {/* ROW 1 */}
+        {/* *********************  ROW 1   *************************/}
 
         {/* Email Sent box */}
         <Box
@@ -93,6 +93,8 @@ const Overview = () => {
             }
           />
         </Box>
+
+        {/* Traffic Received */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -106,21 +108,19 @@ const Overview = () => {
             progress="0.80"
             increase="+43%"
             icon={
-              <TrafficIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
+              <TrafficIcon sx={{ color: colors.grey[100], fontSize: "26px" }} />
             }
           />
         </Box>
 
-        {/* ROW 2 */}
+        {/* **********************   ROW 2   *********************** */}
         <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
         >
           <Box
-            mt="25px"
+            mt="15px"
             p="0 30px"
             display="flex "
             justifyContent="space-between"
@@ -128,40 +128,39 @@ const Overview = () => {
           >
             <Box>
               <Typography
-                variant="h5"
+                fontSize={20}
                 fontWeight="600"
                 color={colors.grey[100]}
               >
                 Revenue Generated
               </Typography>
-              <Typography
-                variant="h3"
-                fontWeight="bold"
-                color={colors.greenAccent[500]}
-              >
+              <Typography fontSize={28} fontWeight="bold" color={"#E3D026"}>
                 $59,342.32
               </Typography>
             </Box>
           </Box>
-          <Box height="250px" m="-20px 0 0 0">
+          <Box height="250px" m="-30px 0 0 0">
             <LineChart isDashboard={true} />
           </Box>
         </Box>
+
+        {/*Recent Transactions  */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
+          borderRadius={2}
         >
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            borderBottom={`4px solid ${colors.primary[500]}`}
+            borderBottom={`2px solid ${colors.primary[500]}`}
             colors={colors.grey[100]}
-            p="15px"
+            p="10px 20px"
           >
-            <Typography color={colors.grey[100]} variant="h5" fontWeight="600">
+            <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
               Recent Transactions
             </Typography>
           </Box>
@@ -171,13 +170,13 @@ const Overview = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              borderBottom={`4px solid ${colors.primary[500]}`}
-              p="15px"
+              borderBottom={`1px solid ${colors.primary[500]}`}
+              p="12px"
             >
               <Box>
                 <Typography
                   color={colors.greenAccent[500]}
-                  variant="h5"
+                  fontSize={18}
                   fontWeight="600"
                 >
                   {transaction.txId}
@@ -214,7 +213,7 @@ const Overview = () => {
             alignItems="center"
             mt="25px"
           >
-            <ProgressCircle size="125" />
+            <ProgressCircle size="100" />
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
@@ -241,7 +240,7 @@ const Overview = () => {
             <BarChart isDashboard={true} />
           </Box>
         </Box>
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -257,7 +256,7 @@ const Overview = () => {
           <Box height="200px">
             <GeographyChart isDashboard={true} />
           </Box>
-        </Box>
+        </Box> */}
       </Box>
     </Box>
   );

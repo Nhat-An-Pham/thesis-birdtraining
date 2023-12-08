@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   background-size: cover;
   height: auto;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -13,7 +13,6 @@
 .paymentApp{
   width: auto;
   height: auto;
-  width: 120rem;
   margin-top: 100px;
   margin-bottom: 100px;
   position: relative;
@@ -48,6 +47,8 @@
     background-position: center;
     background-size: cover;
     position: relative;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
   }
 
   .text-box {
@@ -59,6 +60,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-bottom-left-radius: 20px;
   }
 
   /* Left container text */
@@ -73,7 +75,7 @@
   }
 
   .home-price {
-    color: #aeae97;
+    color: #ffff82;
     font-size: 2rem;
     margin-bottom: 5px;
     width: 90%;
@@ -89,8 +91,10 @@
 
   /* Right Side of container */
   .right-side {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     background-color: #fff;
-    padding: 1.8rem 3.2rem;
+    padding: 1rem 2rem;
   }
 
   .receipt {
@@ -99,16 +103,19 @@
     gap: 1rem;
     border-bottom: solid 1px;
     margin-bottom: 1rem;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
   }
 
   .receipt-heading {
     font-size: 1.6rem;
     text-align: left;
+    font-weight: 700;
   }
 
   .table {
     border-collapse: separate;
-    border-spacing: 0 1.5rem;
+    border-spacing: 1rem 0.5rem;
     color: #64645f;
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
@@ -175,15 +182,15 @@
   }
 
   .btn {
+    width: 100%;
     background-color: #4c616b;
     border: none;
     border-radius: 8px;
     color: #eff2f3;
     font-size: 1.6rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 1rem;
-    padding: 1.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
     cursor: pointer;
   }
 
