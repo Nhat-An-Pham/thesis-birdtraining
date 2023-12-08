@@ -53,67 +53,66 @@ const TrainerTicketListView = ({}) => {
             onClose={handleCloseDetail}
           />
         ) : renderIndex === 1 ? (
-          <></>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography>Ticket ID</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>Service</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>Date</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography>Time</Typography>
+                  </TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {listAssignedConsultingTicket.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Typography>{row.id}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {row.onlineOrOffline ? "Online" : "Offine"}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {addonService.formatDate(row.appointmentDate)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.actualSlotStart}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        <Button
+                          variant="contained"
+                          color="ochre"
+                          onClick={() => {
+                            handleDetailClick(row.id);
+                          }}
+                        >
+                          Detail
+                        </Button>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         ) : (
           <></>
         )}
       </Container>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Ticket ID</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Service</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Date</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Time</Typography>
-              </TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {listAssignedConsultingTicket.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <Typography>{row.id}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {row.onlineOrOffline ? "Online" : "Offine"}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {addonService.formatDate(row.appointmentDate)}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>{row.actualSlotStart}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    <Button
-                      variant="contained"
-                      color="ochre"
-                      onClick={() => {
-                        handleDetailClick(row.id);
-                      }}
-                    >
-                      Detail
-                    </Button>
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
     </ThemeProvider>
   );
 };

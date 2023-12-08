@@ -8,11 +8,14 @@ import {
   Button,
   Table,
   Typography,
+  ThemeProvider,
+  Container,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import consultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
+import TrainerTicketDetailView from "./TrainerTicketDetailView";
 
 const FinishedTicketView = ({}) => {
   const [renderIndex, setRenderIndex] = useState(1);
@@ -41,66 +44,75 @@ const FinishedTicketView = ({}) => {
   };
 
   return (
-    <>
-      {
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <Typography>Ticket ID</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Service</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Date</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Time</Typography>
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {listFinishedTicket.map((row, index) => (
-                <TableRow key={index}>
+    <ThemeProvider theme={"ochreTheme"}>
+      <Container sx={{ padding: 2 }}>
+        {renderIndex === 0 ? (
+          <TrainerTicketDetailView
+            ticketIdForDetail={ticketIdForDetail}
+            onClose={handleCloseDetail}
+          />
+        ) : renderIndex === 1 ? (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    <Typography>{row.id}</Typography>
+                    <Typography>Ticket ID</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>
-                      {row.onlineOrOffline ? "Online" : "Offine"}{" "}
-                    </Typography>
+                    <Typography>Service</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>
-                      {addonService.formatDate(row.appointmentDate)}
-                    </Typography>
+                    <Typography>Date</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{row.actualSlotStart}</Typography>
+                    <Typography>Time</Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography>
-                      <Button
-                        variant="contained"
-                        color="ochre"
-                        onClick={() => {
-                          handleDetailClick(row.id);
-                        }}
-                      >
-                        Detail
-                      </Button>
-                    </Typography>
-                  </TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      }
-    </>
+              </TableHead>
+              <TableBody>
+                {listFinishedTicket.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Typography>{row.id}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {row.onlineOrOffline ? "Online" : "Offine"}{" "}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {addonService.formatDate(row.appointmentDate)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.actualSlotStart}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        <Button
+                          variant="contained"
+                          color="ochre"
+                          onClick={() => {
+                            handleDetailClick(row.id);
+                          }}
+                        >
+                          Detail
+                        </Button>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <></>
+        )}
+      </Container>
+    </ThemeProvider>
   );
 };
 

@@ -20,6 +20,7 @@ import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
 import timetableService from "../../services/timetable.service";
 import { UploadComponent } from "../component/upload/Upload";
+import { Img } from "react-image";
 
 const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
   const [onlineEvidence, setOnlineEvidence] = useState(null);
@@ -92,11 +93,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
     FinishTicket(id, actualEndSlot, evidence);
   };
 
-  const handleFinishOnlineClick = (
-    id,
-    actualEndSlot,
-    evidence
-  ) => {
+  const handleFinishOnlineClick = (id, actualEndSlot, evidence) => {
     FinishOnlineTicket(id, actualEndSlot, evidence);
   };
 
@@ -273,24 +270,26 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
             alignItems={"center"}
           >
             {ticketDetail.status === "Finished" ? (
-              <Typography>
-                {ticketDetail.evidence.split(",").map((evidence) => (
-                  <Link
-                    style={{
-                      marginLeft: "20px",
-                      padding: "10px",
-                      color: "white",
-                      textDecoration: "none",
-                      backgroundColor: "#C8AE7D",
-                    }}
-                    to={evidence}
-                    target="_blank"
-                    download
-                  >
-                    {evidence.split("/").slice(-1)}
-                  </Link>
-                ))}
-              </Typography>
+              <>
+                <Typography>
+                  {ticketDetail.evidence.split(",").map((evidence) => (
+                    <Link
+                      style={{
+                        marginLeft: "20px",
+                        padding: "10px",
+                        color: "white",
+                        textDecoration: "none",
+                        backgroundColor: "#C8AE7D",
+                      }}
+                      to={evidence}
+                      target="_blank"
+                      download
+                    >
+                      {evidence.split("/").slice(-1)}
+                    </Link>
+                  ))}
+                </Typography>
+              </>
             ) : (
               <>
                 {ticketDetail.onlineOrOffline === true ? (
