@@ -59,16 +59,20 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
     ConsultantService.assignTrainer({ trainerId: trainer, ticketId: ticketId })
       .then((res) => {
         console.log("success Assign Trainer test", res.data);
+        toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Assign Trainer test", e));
+      onClose();
   };
 
   const CancelTicket = (ticketId) => {
     ConsultantService.cancelConsultingTicket({ ticketId })
       .then((res) => {
         console.log("succes Cancel Ticket test", res.data);
+        toast.success("Success Cancel Ticket");
       })
       .catch((e) => console.log("fail Cancel Ticket tes", e));
+      onClose();
   };
 
   const ConfirmTicket = (ticketId, distance) => {
@@ -78,6 +82,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
+      onClose();
   };
 
   const PreCalculatePrice = (ticketId, distance) => {
@@ -259,11 +264,11 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           <Grid item xs={3}>
             {newPrice !== null ? (
               <>
-                <Typography>Price: {newPrice}VND</Typography>
+                <Typography>{newPrice}VND</Typography>
               </>
             ) : (
               <>
-                <Typography>Price: {ticketDetail.price}VND</Typography>
+                <Typography>{ticketDetail.price}VND</Typography>
               </>
             )}
           </Grid>
@@ -285,15 +290,27 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
             <>
               <Grid container item spacing={15}>
                 <Grid item xs={1}>
-                  <Button
-                    variant="contained"
-                    color="ochre"
-                    onClick={() => {
-                      ConfirmTicket(ticketIdForDetail, distanceValue);
-                    }}
-                  >
-                    Confirm
-                  </Button>
+                  {ticketDetail.onlineOrOffline === true ? (
+                    <Button
+                      variant="contained"
+                      color="ochre"
+                      onClick={() => {
+                        ConfirmTicket(ticketIdForDetail, 0);
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="ochre"
+                      onClick={() => {
+                        ConfirmTicket(ticketIdForDetail, distanceValue);
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  )}
                 </Grid>
                 <Grid item xs={1}>
                   <Button

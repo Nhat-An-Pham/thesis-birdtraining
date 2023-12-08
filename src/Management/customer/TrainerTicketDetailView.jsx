@@ -4,19 +4,15 @@ import {
   AppBar,
   IconButton,
   Paper,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Toolbar,
   Typography,
   Button,
-  Table,
   FormControl,
   Select,
   MenuItem,
   TextField,
+  Divider,
+  Grid,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -25,11 +21,7 @@ import { Close } from "@mui/icons-material";
 import timetableService from "../../services/timetable.service";
 import { UploadComponent } from "../component/upload/Upload";
 
-const TrainerTicketDetailView = ({
-  callBackRenderedIndex,
-  ticketIdForDetail,
-  callBackToList,
-}) => {
+const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
   const [onlineEvidence, setOnlineEvidence] = useState(null);
   const [evidence, setEvidence] = useState(null);
   const [submittedEvidence, setSubmittedEvidence] = useState([]);
@@ -96,19 +88,16 @@ const TrainerTicketDetailView = ({
       .catch((e) => console.log("Fail Finish Ticket test", e));
   };
 
-  const handleFinishClick = (renderedIndex, id, actualEndSlot, evidence) => {
+  const handleFinishClick = (id, actualEndSlot, evidence) => {
     FinishTicket(id, actualEndSlot, evidence);
-    callBackRenderedIndex(renderedIndex);
   };
 
   const handleFinishOnlineClick = (
-    renderedIndex,
     id,
     actualEndSlot,
     evidence
   ) => {
     FinishOnlineTicket(id, actualEndSlot, evidence);
-    callBackRenderedIndex(renderedIndex);
   };
 
   return (
@@ -120,7 +109,7 @@ const TrainerTicketDetailView = ({
             edge="start"
             color="inherit"
             sx={{ mr: 2 }}
-            onClick={callBackToList}
+            onClick={onClose}
           >
             <Close />
           </IconButton>
@@ -134,271 +123,240 @@ const TrainerTicketDetailView = ({
           </Typography>
         </Toolbar>
       </AppBar>
-
-      <Typography variant="h5"> Basic Infomation</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Ticket ID</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Service</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Date</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Time</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <Typography>{ticketDetail.id}</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>
-                  {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>
-                  {addonService.formatDate(ticketDetail.appointmentDate)}
-                </Typography>
-              </TableCell>
-              <TableCell>
-                <Typography> {ticketDetail.actualSlotStart}</Typography>
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      <Typography variant="h5"> Detail Infomation</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            {ticketDetail && (
-              <TableRow>
-                <TableCell>
-                  <Typography>Customer</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Email</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Address</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Type</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>More Detail</Typography>
-                </TableCell>
-              </TableRow>
+      <Divider />
+      <Grid container marginTop={3} component={Paper}>
+        <Grid container item xs={12} padding={2} spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h5"> Basic Information</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Ticket ID:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            {ticketDetail.id}
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Service:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>
+              {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Date:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>
+              {addonService.formatDate(ticketDetail.appointmentDate)}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Time:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography> {ticketDetail.actualSlotStart}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h5"> Detail Information</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Customer:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerName}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Email:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerEmail}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Phone:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerPhone}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Address:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.addressDetail}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Type:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>{ticketDetail.consultingType}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>More Detail</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>{ticketDetail.consultingDetail}</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Distance:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>{ticketDetail.distance}Km</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Status:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            {ticketDetail.status === "Approved" ? (
+              <Typography style={{ color: "green" }}>
+                {ticketDetail.status}
+              </Typography>
+            ) : (
+              <Typography style={{ color: "red" }}>
+                {ticketDetail.status}
+              </Typography>
             )}
-          </TableHead>
-          <TableBody>
-            <TableCell>
-              <Typography>{ticketDetail.customerName}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.customerEmail}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.addressDetail}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.consultingType}</Typography>
-            </TableCell>
-            <TableCell>
-              <Typography>{ticketDetail.consultingDetail}</Typography>
-            </TableCell>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Distance</Typography>
-              </TableCell>
-              {ticketDetail.status === "Finished" ? (
-                <TableCell>
-                  <Typography>Evidence</Typography>
-                </TableCell>
-              ) : null}
-              <TableCell>
-                <Typography>Price</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Status</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                <Typography>{ticketDetail.distance}</Typography>
-              </TableCell>
-              {ticketDetail.status === "Finished" ? (
-                <>
-                  <TableCell>
-                    <Typography>
-                      {ticketDetail.evidence.split(",").map((evidence) => (
-                        <Link
-                          style={{
-                            marginLeft: "20px",
-                            padding: "10px",
-                            color: "white",
-                            textDecoration: "none",
-                            backgroundColor: "#C8AE7D",
-                          }}
-                          to={evidence}
-                          target="_blank"
-                          download
-                        >
-                          {evidence.split("/").slice(-1)}
-                        </Link>
-                      ))}
-                    </Typography>
-                  </TableCell>
-                </>
-              ) : null}
-              <TableCell>
-                <Typography>{ticketDetail.price}VND</Typography>
-              </TableCell>
-              <TableCell>
-                {ticketDetail.status === "Approved" ? (
-                  <Typography style={{ color: "green" }}>
-                    {ticketDetail.status}
-                  </Typography>
-                ) : (
-                  <Typography style={{ color: "blue" }}>
-                    {ticketDetail.status}
-                  </Typography>
-                )}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <h1></h1>
-      <h1></h1>
-
-      {ticketDetail.status === "Finished" ? (
-        <></>
-      ) : (
-        <>
-          <Typography variant="h5"> Finish Appointment</Typography>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableCell>
-                  <Typography>End Time</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Evidence</Typography>
-                </TableCell>
-              </TableHead>
-              <TableBody>
-                <TableCell>
-                  <Typography>
-                    <FormControl>
-                      <Select
-                        onChange={(e) => setSelectedSlotTime(e.target.value)}
-                        value={selectedSLotTime}
-                      >
-                        {slotTime.map((slot) => (
-                          <MenuItem value={slot.id}>
-                            {slot.startTime.slice(0, -3)}-
-                            {slot.endTime.slice(0, -3)}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {ticketDetail.onlineOrOffline === true ? (
-                      <FormControl>
-                        <TextField
-                        label={"Record"}
-                        type="text"
-                        onChange={(e) => setOnlineEvidence(e.target.value)}
-                        />
-                      </FormControl>
-                    ) : ticketDetail.onlineOrOffline === false ? (
-                      <FormControl required style={{ marginBottom: 15 }}>
-                        <Button variant="contained" color="ochre">
-                          <UploadComponent
-                            onChange={handleFileChange}
-                            accept="image/*"
-                            multiple={false}
-                          >
-                            Upload evidence
-                          </UploadComponent>
-                        </Button>
-                        {/* Display submitted files here */}
-                        <div>
-                          {submittedEvidence.map((imageName, index) => (
-                            <div key={index}>{imageName}</div>
-                          ))}
-                        </div>
-                      </FormControl>
-                    ) : null}
-                  </Typography>
-                </TableCell>
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          {ticketDetail.onlineOrOffline === true ? (
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() =>
-                handleFinishOnlineClick(
-                  1,
-                  ticketDetail.id,
-                  selectedSLotTime,
-                  onlineEvidence
-                )
-              }
-            >
-              Finish
-            </Button>
-          ) : ticketDetail.onlineOrOffline === false ? (
-            <Button
-              variant="contained"
-              color="ochre"
-              onClick={() =>
-                handleFinishClick(
-                  1,
-                  ticketDetail.id,
-                  selectedSLotTime,
-                  evidence
-                )
-              }
-            >
-              Finish
-            </Button>
-          ) : null}
-        </>
-      )}
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Price:</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography>{ticketDetail.price}VND</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h5">Finish Appointment</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>End Time:</Typography>
+          </Grid>
+          <Grid item xs={9}>
+            {ticketDetail.status === "Finished" ? (
+              <Typography>{ticketDetail.actualEndSlot}</Typography>
+            ) : (
+              <FormControl>
+                <Select
+                  onChange={(e) => setSelectedSlotTime(e.target.value)}
+                  value={selectedSLotTime}
+                >
+                  {slotTime.map((slot) => (
+                    <MenuItem value={slot.id}>
+                      {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>Evidence:</Typography>
+          </Grid>
+          <Grid
+            container
+            item
+            xs={12}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            {ticketDetail.status === "Finished" ? (
+              <Typography>
+                {ticketDetail.evidence.split(",").map((evidence) => (
+                  <Link
+                    style={{
+                      marginLeft: "20px",
+                      padding: "10px",
+                      color: "white",
+                      textDecoration: "none",
+                      backgroundColor: "#C8AE7D",
+                    }}
+                    to={evidence}
+                    target="_blank"
+                    download
+                  >
+                    {evidence.split("/").slice(-1)}
+                  </Link>
+                ))}
+              </Typography>
+            ) : (
+              <>
+                {ticketDetail.onlineOrOffline === true ? (
+                  <FormControl>
+                    <TextField
+                      label={"Record"}
+                      type="text"
+                      onChange={(e) => setOnlineEvidence(e.target.value)}
+                    />
+                  </FormControl>
+                ) : ticketDetail.onlineOrOffline === false ? (
+                  <FormControl required style={{ marginBottom: 15 }}>
+                    <UploadComponent
+                      onChange={handleFileChange}
+                      accept="image/*"
+                      multiple={true}
+                    >
+                      Upload evidence
+                    </UploadComponent>
+                    {/* Display submitted files here */}
+                  </FormControl>
+                ) : null}
+              </>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            {ticketDetail.status === "Finished" ? (
+              <></>
+            ) : (
+              <>
+                {ticketDetail.onlineOrOffline === true ? (
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() =>
+                      handleFinishOnlineClick(
+                        1,
+                        ticketDetail.id,
+                        selectedSLotTime,
+                        onlineEvidence
+                      )
+                    }
+                  >
+                    Finish
+                  </Button>
+                ) : ticketDetail.onlineOrOffline === false ? (
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() =>
+                      handleFinishClick(
+                        1,
+                        ticketDetail.id,
+                        selectedSLotTime,
+                        evidence
+                      )
+                    }
+                  >
+                    Finish
+                  </Button>
+                ) : null}
+              </>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 };

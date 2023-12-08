@@ -7,7 +7,6 @@ import {
   TableRow,
   Button,
   Table,
-  Stack,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
@@ -15,10 +14,10 @@ import { useEffect } from "react";
 import consultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 
-const FinishedTicketView = ({
-  callBackRenderedIndex,
-  callbackTicketIdForDetail,
-}) => {
+const FinishedTicketView = ({}) => {
+  const [renderIndex, setRenderIndex] = useState(1);
+  const [ticketIdForDetail, setTicketIdForDetail] = useState("");
+
   const [listFinishedTicket, setListFinishedTicket] = useState([]);
   useEffect(() => {
     consultantService
@@ -30,34 +29,19 @@ const FinishedTicketView = ({
       .catch((e) =>
         console.log("fail Finished Consulting Ticket list test", e)
       );
-  }, []);
-
-  const handleListAssignCLick = (renderedIndex) => {
-    callBackRenderedIndex(renderedIndex);
-  };
+  }, [renderIndex]);
 
   const handleDetailClick = (ticketId) => {
-    callbackTicketIdForDetail(ticketId);
-    callBackRenderedIndex(0);
+    setTicketIdForDetail(ticketId);
+    setRenderIndex(0);
   };
+
+  const handleCloseDetail = () => {
+    setRenderIndex(1);
+  };
+
   return (
     <>
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        spacing={2}
-      >
-        <Button
-          variant="contained"
-          color="ochre"
-          onClick={() => handleListAssignCLick(1)}
-        >
-          Return to list Assigned
-        </Button>
-        <Typography variant={"h4"}>List Finished Ticket</Typography>
-      </Stack>
-
       {
         <TableContainer component={Paper}>
           <Table>
