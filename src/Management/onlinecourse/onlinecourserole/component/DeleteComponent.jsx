@@ -7,13 +7,13 @@ import onlinecourseManagement from '../../../../services/onlinecourse-management
 import { toast } from 'react-toastify';
 
 
-const DeleteComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selectedSection, selectedLesson }) => {
+const DeleteComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selectedSection, selectedLesson, backToIndex }) => {
 
     const handleDeleteSection = () => {
         onlinecourseManagement.deleteSection({ sectionId: selectedSection.id })
             .then((res) => {
                 toast.success("Delete Successfully")
-                renderIndex(0)
+                backToIndex(0)
             })
             .catch((e) => {
                 toast.error("Cannot Delete")
@@ -23,13 +23,14 @@ const DeleteComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selec
 
     const handleDeleteLesson = () => {
         onlinecourseManagement.deleteLesson({ lessonId: selectedLesson.id })
-        .then((res) => {
-            toast.success("Delete Successfully")
-        })
-        .catch((e) => {
-            toast.error("Cannot Delete")
-            console.log("Cannot Delete Section: ", e)
-        })
+            .then((res) => {
+                toast.success("Delete Successfully")
+                backToIndex(0)
+            })
+            .catch((e) => {
+                toast.error("Cannot Delete")
+                console.log("Cannot Delete Section: ", e)
+            })
     }
 
     return (

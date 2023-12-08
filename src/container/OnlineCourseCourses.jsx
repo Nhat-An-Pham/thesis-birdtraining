@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import Cards from '../components/cards/CoursesListCards'
 import { useState } from 'react'
 import OnlinecourseService from '../services/onlinecourse.service'
+import { Link } from 'react-router-dom'
 
 const OnlineCoursesCourses = () => {
 
@@ -10,8 +11,8 @@ const OnlineCoursesCourses = () => {
   useEffect(()=>{
     OnlinecourseService.getAllOnlineCourse()
     .then((res)=>{
-      // console.log("All Online Courses: ", res.data)
-      setOnlineCourse(res.data);
+      console.log("All Online Courses: ", res.data)
+      setOnlineCourse(res.data.slice(0,4));
     })
     .catch((e)=>{
       console.log("fail get all courses: ", e)
@@ -36,6 +37,8 @@ const OnlineCoursesCourses = () => {
               price={course.price} />
         ))}
       </div>
+
+      <Link to='/setting' style={{color:"grey"}}>Click Here To View Your Finished Courses</Link>
     </div>
   )
 }

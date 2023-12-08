@@ -95,28 +95,31 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
 
     }
 
+    const SetRenderIndexFunction = (e) => {
+        renderChange(e)
+    }
 
     return (
         <>
             {/* Course Detail */}
             {selectedSection && openDiv === 1 ?
-                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} sectionId={selectedSection.id} courseId={selectedCourse.id} />
+                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} sectionId={selectedSection.id} courseId={selectedCourse.id} backToIndex={SetRenderIndexFunction} />
                 :
                 null
             }
             {!selectedSection && openDiv === 1 ?
-                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} courseId={selectedCourse.id} />
+                <AddNewComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} courseId={selectedCourse.id} backToIndex={SetRenderIndexFunction}/>
                 :
                 null
             }
 
             {selectedSection && openDiv === 2 ?
-                <UpdateComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} selectedSection={selectedSection} selectedLesson={selectedLesson} />
+                <UpdateComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} selectedSection={selectedSection} selectedLesson={selectedLesson} backToIndex={SetRenderIndexFunction}/>
                 :
                 null
             }
             {selectedSection && openDiv === 3 ?
-                <DeleteComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} selectedSection={selectedSection} selectedLesson={selectedLesson} />
+                <DeleteComponent openDiv={openDiv} handleCloseDiv={handleCloseDiv} renderIndex={renderIndex} selectedSection={selectedSection} selectedLesson={selectedLesson} backToIndex={SetRenderIndexFunction}/>
                 :
                 null
             }
