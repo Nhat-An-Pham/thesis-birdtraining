@@ -34,7 +34,7 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
         onlinecourseManagement.getAllOnlineCourse()
             .then((res) => {
                 setOnlineCourses(res.data)
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch((e) => {
                 console.log("Can't Get Online Courses", e);

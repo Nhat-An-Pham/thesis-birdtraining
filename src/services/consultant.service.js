@@ -111,10 +111,11 @@ class ConsultantService {
     return response;
   }
 
-  async approveConsultingTicket({ ticketId }) {
+  async approveConsultingTicket({ ticketId, distance }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
-      API_URL_STAFF + `approveConsultingTicket?ticketId=${ticketId}`,
+      API_URL_STAFF +
+        `approveConsultingTicket?ticketId=${ticketId}&distance=${distance}`,
       null,
       {
         headers: {
@@ -218,6 +219,54 @@ class ConsultantService {
 
   async GetConsultingType() {
     const response = await axios.get(API_URL_AllROLE + "GetConsultingType");
+    return response;
+  }
+
+  async UpdateConsultantPricePolicy({ id, price }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
+    const response = await axios.put(
+      API_URL_STAFF + `updateConsultantPricePolicy`,
+      {
+        id,
+        price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response;
+  }
+
+  async UpdateDisntacePricePolicy({ id, pricePerKm }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
+    const response = await axios.put(
+      API_URL_STAFF + `updateDistancePricePolicy`,
+      {
+        id,
+        pricePerKm,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response;
+  }
+
+  async PreCalculateConsultantPrice({ ticketId, distance }) {
+    let params = {
+      ticketId: ticketId,
+      distance: distance,
+    };
+    const response = await axios.get(
+      API_URL_STAFF + `preCalculateConsultantPrice`,
+      {
+        params: params,
+      }
+    );
     return response;
   }
 }

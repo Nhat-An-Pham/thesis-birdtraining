@@ -2,11 +2,16 @@ import React from 'react'
 import Cards from '../components/cards/WorkshopClassListCards'
 // import workshops from "../assets/fakedb/workshops"
 import WorkshopService from '../services/workshop.service'
-import {useState, useEffect} from "react"
+import { useState, useEffect } from "react"
+import { Link } from 'react-router-dom'
 
 const WorkshopListPage = () => {
 
+    const accessToken = JSON.parse(localStorage.getItem("user-token"))
+
     const [workshopList, setWorkshopList] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         WorkshopService
@@ -18,10 +23,25 @@ const WorkshopListPage = () => {
             .catch((e) => console.log("fail workshop list test", e));
     }, []);
 
+
+    const handleSearch = (query) => {
+        const filteredResults = workshopList.filter((course) =>
+            course.title.toUpperCase().includes(query.toUpperCase())
+        );
+        setFilteredList(filteredResults);
+    };
+    const handleSearchInputChange = (e) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+        handleSearch(query);
+    };
+
     return (
         <div className='workshoplistpage'>
             <div className='workshoplistpage_section workshoplistpage_section-search'>
-                <input type="text" required placeholder='Search For Events' />
+                <input type="text" required placeholder='Search For Events'
+                //  value={searchQuery} onChange={handleSearchInputChange}
+                />
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-title'>
                 <h3>Explore our Workshops</h3>
@@ -36,6 +56,9 @@ const WorkshopListPage = () => {
                     ))}
                 </div>
             </div>
+            {accessToken ?
+                <Link to='/setting' style={{ color: "grey", marginBottom: "40px" }}>Click Here To View Your Workshop</Link>
+                : null}
         </div>
     )
 }

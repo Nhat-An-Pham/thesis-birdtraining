@@ -30,30 +30,30 @@ import TrainingCourseManagement from "../../../services/trainingcourse-managemen
 import { AddBoxOutlined, Close, InfoOutlined } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
-import CreateTrainingCourseComponent from "./CreateTrainingCourseComponent";
-import UpdateTrainingCourseComponent from "./UpdateTrainingCourseComponent";
+import CreatePricePolicyComponent from "./CreatePricePolicyComponent";
+import DetailPricePolicyComponent from "./DetailPricePolicyComponent";
 // import { toast } from 'react-toastify';
 
-const TrainingCourseMng = ({ callBackMainManagement }) => {
+const PricePolicyMng = ({ callBackMainManagement }) => {
   // let BASE_URL = 'https://localhost:7176/api';
 
-  const [renderAllTrainingCourse, setRenderAllTrainingCourse] = useState(true);
-  const [renderCreateCourse, setRenderCreateCourse] = useState(false);
-  const [renderUpdateCourse, setRenderUpdateCourse] = useState(false);
+  const [renderAllPolicies, setRenderAllPolicies] = useState(true);
+  const [renderCreatePolicy, setRenderCreatePolicy] = useState(false);
+  const [renderUpdatePolicy, setRenderUpdatePolicy] = useState(false);
 
-  //const [selectedTrainingCourse, setSelectedTrainingCourse] = useState(null);
   const [contextMenus, setContextMenus] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState();
-  const [trainingCourse, setTrainingCourse] = useState([]);
-  const detailClick = (trainingCourse) => {
-    setSelectedCourse(trainingCourse);
-    setRenderUpdateCourse(true);
-    setRenderAllTrainingCourse(false);
-    setRenderCreateCourse(false);
+  const [selectedPolicy, setSelectedPolicy] = useState();
+  const [trainingPolicies, setTrainingPolicies] = useState([]);
+  const detailClick = (trainingPolicy) => {
+    console.log(trainingPolicy);
+    setSelectedPolicy(trainingPolicy);
+    setRenderUpdatePolicy(true);
+    setRenderAllPolicies(false);
+    setRenderCreatePolicy(false);
   };
   const createCourseClick = () => {
-    setRenderCreateCourse(true);
-    setRenderAllTrainingCourse(false);
+    setRenderCreatePolicy(true);
+    setRenderAllPolicies(false);
   };
   // Fetch workshops and classes based on the status filter
   async function fetchData() {
@@ -61,10 +61,10 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
       let params = {
         $orderby: `id desc`,
       };
-      let response = await TrainingCourseManagement.getAllTrainingCourse(
+      let response = await TrainingCourseManagement.getAllTrainingPricePolicies(
         params
       );
-      setTrainingCourse(response);
+      setTrainingPolicies(response);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -74,20 +74,20 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
     // console.log(workshops);
   }, []);
   useEffect(() => {
-    if (trainingCourse) {
-      setContextMenus(new Array(trainingCourse.length).fill(null));
+    if (trainingPolicies) {
+      setContextMenus(new Array(trainingPolicies.length).fill(null));
     }
     return () => {};
-  }, [trainingCourse]);
+  }, [trainingPolicies]);
 
-  const handleActiveCourse = async (trainingCourse) => {
-    setSelectedCourse(trainingCourse);
+  const handleActiveCourse = async (trainingPolicy) => {
+    setSelectedPolicy(trainingPolicy);
     try {
-      console.log(trainingCourse);
+      console.log(trainingPolicy);
       let params = {
-        trainingCourseId: trainingCourse.id,
+        policyId: trainingPolicy.id,
       };
-      let response = await TrainingCourseManagement.activeTrainingCourse(
+      let response = await TrainingCourseManagement.activeTrainingPricePolicy(
         params
       );
       if (response.status === 200) {
@@ -101,14 +101,14 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
       // console.log(error.response.data);
     }
   };
-  const handleDisableCourse = async (trainingCourse) => {
-    setSelectedCourse(trainingCourse);
+  const handleDisableCourse = async (trainingPolicy) => {
+    setSelectedPolicy(trainingPolicy);
     try {
-      console.log(trainingCourse);
+      console.log(trainingPolicy);
       let params = {
-        trainingCourseId: trainingCourse.id,
+        policyId: trainingPolicy.id,
       };
-      let response = await TrainingCourseManagement.disableTrainingCourse(
+      let response = await TrainingCourseManagement.disableTrainingPricePolicy(
         params
       );
       if (response.status === 200) {
@@ -122,26 +122,12 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
       // console.log(error.response.data);
     }
   };
-  const onCallBackTrainingCourseManagement = async (selectedCourse) => {
+  const onCallBackTrainingCourseManagement = async (selectedPolicy) => {
     fetchData();
-    setSelectedCourse(selectedCourse);
-    setRenderAllTrainingCourse(true);
-    setRenderCreateCourse(false);
-    setRenderUpdateCourse(false);
-  };
-  const onCallBackUpdateSkillManagement = async (selectedCourse) => {
-    fetchData();
-    setSelectedCourse(selectedCourse);
-    setRenderAllTrainingCourse(false);
-    setRenderCreateCourse(false);
-    setRenderUpdateCourse(true);
-  };
-  const onCallBackCreateCourse = async (selectedCourse) => {
-    fetchData();
-    setSelectedCourse(selectedCourse);
-    setRenderAllTrainingCourse(false);
-    setRenderCreateCourse(false);
-    setRenderUpdateCourse(true);
+    setSelectedPolicy(selectedPolicy);
+    setRenderUpdatePolicy(false);
+    setRenderAllPolicies(true);
+    setRenderCreatePolicy(false);
   };
   return (
     <div>
@@ -163,11 +149,11 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
-              Training Course Management
+              Training Course Price Policies Management
             </Typography>
           </Toolbar>
         </AppBar> */}
-        {renderAllTrainingCourse && (
+        {renderAllPolicies && (
           <Grid style={{ padding: 20 }} marginTop={1} container spacing={1}>
             <Button
               sx={{ float: "left", margin: "20px" }}
@@ -175,7 +161,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
               color="ochre"
               onClick={() => createCourseClick()}
             >
-              Create new training course
+              Create new training policy
             </Button>
             {/* <Button
               sx={{ float: "right", margin: "20px" }}
@@ -188,93 +174,63 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Image</TableCell>
-                      <TableCell>Title</TableCell>
-                      <TableCell>Bird Species</TableCell>
-                      {/* <TableCell>Description</TableCell> */}
-                      <TableCell>Total Slot</TableCell>
-                      <TableCell>Price (USD)</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Charge rate</TableCell>
                       <TableCell>Status</TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {trainingCourse && trainingCourse.length > 0 ? (
-                      trainingCourse.map((course, index) => (
+                    {trainingPolicies && trainingPolicies.length > 0 ? (
+                      trainingPolicies.map((policy, index) => (
                         <TableRow
                           hover
                           // selected
-                          key={course.id}
+                          key={policy.id}
                           className={
-                            selectedCourse != null &&
-                            course.id === selectedCourse.id
+                            selectedPolicy != null &&
+                            policy.id === selectedPolicy.id
                               ? "Mui-selected"
                               : ""
                           }
                         >
-                          <TableCell className="image-cell">
-                            <Img
-                              src={course.picture.split(",")[0]}
-                              unloader={<CircularProgress />}
-                            />
-                          </TableCell>
                           <TableCell style={{ width: 300 }}>
-                            {course.title}
+                            {policy.name}
                           </TableCell>
-                          <TableCell>{course.birdSpeciesName}</TableCell>
-                          {/* <TableCell
-                            style={{
-                              width: 500,
-                              flexGrow: 1,
-                            }}
-                          >
-                            <Typography>
-                              <RawHTMLRenderer
-                                htmlContent={course.description}
-                              />
-                            </Typography>
-                          </TableCell> */}
-                          <TableCell style={{ width: 0.125 }} align="center">
-                            {course.totalSlot}
-                          </TableCell>
-                          <TableCell style={{ width: 0.125 }} align="center">
-                            {course.totalPrice}
-                          </TableCell>
+                          <TableCell>{policy.chargeRate}</TableCell>
                           <TableCell style={{ width: 0.125 }} align="center">
                             <Checkbox
-                              checked={course.status === "Active"}
+                              checked={policy.status === "Active"}
                               // onChange={() => switchWorkshopStatus(workshop)}
                               sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                             />
                           </TableCell>
-                          {course.status === "Active" && (
-                            <TableCell>
+                          <TableCell>
+                            {policy.status === "Active" && (
                               <Button
                                 variant="contained"
                                 color="ochre"
-                                onClick={() => handleDisableCourse(course)}
+                                onClick={() => handleDisableCourse(policy)}
                               >
                                 Disable
                               </Button>
-                            </TableCell>
-                          )}
-                          {course.status !== "Active" && (
-                            <TableCell>
+                            )}
+                            {policy.status !== "Active" && (
                               <Button
                                 variant="contained"
                                 color="ochre"
-                                onClick={() => handleActiveCourse(course)}
+                                onClick={() => handleActiveCourse(policy)}
                               >
                                 Active
                               </Button>
-                            </TableCell>
-                          )}
+                            )}
+                          </TableCell>
                           <TableCell>
                             <Button
                               variant="contained"
                               color="ochre"
-                              onClick={() => detailClick(course)}
+                              onClick={() => detailClick(policy)}
                             >
                               View Detail
                             </Button>
@@ -294,17 +250,15 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
             </Grid>
           </Grid>
         )}
-        {renderCreateCourse && (
-          <CreateTrainingCourseComponent
-            callbackList={onCallBackTrainingCourseManagement}
-            callbackCreateCourse={onCallBackCreateCourse}
+        {renderCreatePolicy && (
+          <CreatePricePolicyComponent
+            callbackCreatePolicy={onCallBackTrainingCourseManagement}
           />
         )}
-        {renderUpdateCourse && (
-          <UpdateTrainingCourseComponent
-            trainingCourse={selectedCourse}
-            callbackUpdateCourse={onCallBackTrainingCourseManagement}
-            callbackUpdateSkil={onCallBackUpdateSkillManagement}
+        {renderUpdatePolicy && (
+          <DetailPricePolicyComponent
+            trainingPolicy={selectedPolicy}
+            callbackUpdatePolicy={onCallBackTrainingCourseManagement}
           />
         )}
       </ThemeProvider>
@@ -312,4 +266,4 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
   );
 };
 
-export default TrainingCourseMng;
+export default PricePolicyMng;

@@ -1,7 +1,7 @@
 .card_container {
     display: grid;
-    max-width: 320px;
-    min-width: 320px;
+    max-width: 300px;
+    min-width: 300px;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 24px;
     border: 1px #C8AE7D solid;
@@ -12,8 +12,8 @@
     -webkit-box-shadow: 4px 15px 55px 0px rgba(94, 92, 92, 1);
     -moz-box-shadow: 4px 15px 55px 0px rgba(94, 92, 92, 1);
     transition: transform 0.5s;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     text-decoration: none;
     color: black;
     height: 500px;
@@ -72,7 +72,7 @@
         align-items: center;
         text-decoration: none;
         color: #C8AE7D;
-
+        margin: 0px;
     }
 
     & article a:focus {
@@ -89,7 +89,7 @@
 
         p {
             height: 60px;
-            overflow: scroll;
+            overflow: hidden;
         }
     }
 

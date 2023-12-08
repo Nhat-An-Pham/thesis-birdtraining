@@ -22,6 +22,8 @@ import ReturnBirdComponent from "./ReturnBirdComponent";
 import TrainingCourseMng from "./manager/TrainingCourseMng";
 import { ToastContainer, toast } from "react-toastify";
 import { ochreTheme } from "../themes/Theme";
+import addonService from "../../services/addon.service";
+import BirdAcademyTab from "./BirdAcademyTab";
 //const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 
 export default function BirdAcademyMng() {
@@ -180,16 +182,17 @@ export default function BirdAcademyMng() {
   };
   return (
     <div className="workshop-container">
-      <ToastContainer />
+      {/* <BirdAcademyTab /> */}
+      {/* <ToastContainer /> */}
       <ThemeProvider theme={ochreTheme}>
-        <ReworkSidebar selectTab={5} />
+        {/* <ReworkSidebar selectTab={5} /> */}
         {/* <div style={{ margin: "20px" }} className="workshop_section-wrapper"> */}
         <Grid container>
           <Grid item xs={12}>
             {renderCustomer && (
               // <div className="workshop_section_table workshop_section_table-workshop">
-              <div style={{ padding: 40 }}>
-                {currentUser.role == "Manager" && (
+              <div style={{ padding: 20 }}>
+                {/* {currentUser.role == "Manager" && (
                   <Button
                     sx={{ float: "right", marginBottom: "20px" }}
                     variant="contained"
@@ -198,7 +201,7 @@ export default function BirdAcademyMng() {
                   >
                     Training course management
                   </Button>
-                )}
+                )} */}
                 <h2>Customers</h2>
                 <TableContainer component={Paper}>
                   <Table>
@@ -306,8 +309,20 @@ export default function BirdAcademyMng() {
                                     {cls.trainingCourseTitle}
                                   </TableCell>
                                   <TableCell>{cls.registeredDate}</TableCell>
-                                  <TableCell>{cls.startTrainingDate}</TableCell>
-                                  <TableCell>{cls.trainingDoneDate}</TableCell>
+                                  <TableCell>
+                                    {cls.startTrainingDate != null
+                                      ? addonService.formatDate(
+                                          cls.startTrainingDate
+                                        )
+                                      : ""}
+                                  </TableCell>
+                                  <TableCell>
+                                    {cls.trainingDoneDate != null
+                                      ? addonService.formatDate(
+                                          cls.trainingDoneDate
+                                        )
+                                      : ""}
+                                  </TableCell>
                                   <TableCell>{cls.status}</TableCell>
                                   {cls.status === "Registered" && ( //Registered
                                     <TableCell>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import OnlinecourseService from '../services/onlinecourse.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { jwtDecode } from 'jwt-decode';
@@ -76,10 +76,20 @@ function CourseDetailPage() {
           <div className='cdtp_wrapper'>
             <div className='cdtp_sidebar'>
               <h3 className='cdtp_sidebar-title'>{selectedCourse.title} </h3>
+              {selectedCourse.status === "Completed" ?
+                <p style={{ color: "green", margin: 0 }}>(Completed)</p>
+                : null}
               <p className='cdtp_sidebar-price'>Price: {selectedCourse.price}$</p>
               {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button>
                 : null}
               {selectedCourse.status === "Enrolled" || selectedCourse.status === "Completed" ? <button onClick={handleStudyButton}>Study</button> : null}
+              {selectedCourse.status === "Completed" ?
+                <>
+                  <Link to={`/onlinecourse/certificate/${selectedCourse.id}`}
+                    style={{ color: "black" }}>View Certificate</Link>
+                </>
+                : null}
+
               <div className='cdtp_sidebar-skill'>
                 <div className='cdtp_sidebar-skill-skillbox'>
                   <p className='cdtp_sidebar-skill-skillbox-first'>Skill level</p>

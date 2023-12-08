@@ -10,17 +10,25 @@ import {
   IconButton,
   Grid,
   Divider,
+  TextField,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
   const [dateValue, setDateValue] = useState();
   const [slotValue, setSlotValue] = useState();
+  const [distanceValue, setDistanceValue] = useState(null);
+  const hanldeDistanceChange = (ticketId, distance) => {
+    setDistanceValue(distance);
+    PreCalculatePrice(ticketId, distance);
+  };
 
+  const [newPrice, setNewPrice] = useState(null);
   const [assignedTrainer, setAssignedTrainer] = useState(null);
   const [ticketDetail, setTicketDetail] = useState({});
   useEffect(() => {
@@ -51,24 +59,39 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
     ConsultantService.assignTrainer({ trainerId: trainer, ticketId: ticketId })
       .then((res) => {
         console.log("success Assign Trainer test", res.data);
+        toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Assign Trainer test", e));
+      onClose();
   };
 
   const CancelTicket = (ticketId) => {
     ConsultantService.cancelConsultingTicket({ ticketId })
       .then((res) => {
         console.log("succes Cancel Ticket test", res.data);
+        toast.success("Success Cancel Ticket");
       })
       .catch((e) => console.log("fail Cancel Ticket tes", e));
+      onClose();
   };
 
-  const ConfirmTicket = (ticketId) => {
-    ConsultantService.approveConsultingTicket({ ticketId })
+  const ConfirmTicket = (ticketId, distance) => {
+    ConsultantService.approveConsultingTicket({ ticketId, distance })
       .then((res) => {
         console.log("succes Confirm Ticket test", res.data);
+        toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
+      onClose();
+  };
+
+  const PreCalculatePrice = (ticketId, distance) => {
+    ConsultantService.PreCalculateConsultantPrice({ ticketId, distance })
+      .then((res) => {
+        console.log("success Calculate Price test", res.data);
+        setNewPrice(res.data);
+      })
+      .catch((e) => console.log("fail Calcuate Price test", e));
   };
 
   return (
@@ -136,7 +159,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               Customer:
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={9}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerName}
             </Typography>
@@ -151,6 +174,16 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               {ticketDetail.customerEmail}
             </Typography>
           </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Phone:
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerPhone}
+            </Typography>
+          </Grid>
           {ticketDetail.onlineOrOffline ? (
             <></>
           ) : (
@@ -161,12 +194,33 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               <Grid item xs={3}>
                 <Typography>{ticketDetail.addressDetail}</Typography>
               </Grid>
-              <Grid item xs={3}>
-                <Typography fontWeight={"bold"}>Distance:</Typography>
-              </Grid>
-              <Grid item xs={3}>
-                <Typography>{ticketDetail.distance}Km</Typography>
-              </Grid>
+              {ticketDetail.status === "WaitingForApprove" ? (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid>
+                    <FormControl>
+                      <TextField
+                        label={"Km"}
+                        type="number"
+                        onChange={(e) =>
+                          hanldeDistanceChange(ticketDetail.id, e.target.value)
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography>{ticketDetail.distance}Km</Typography>
+                  </Grid>
+                </>
+              )}
             </>
           )}
           <Grid item xs={3}>
@@ -208,7 +262,15 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
             <Typography fontWeight={"bold"}>Price:</Typography>
           </Grid>
           <Grid item xs={3}>
-            <Typography>Price: {ticketDetail.price}VND</Typography>
+            {newPrice !== null ? (
+              <>
+                <Typography>{newPrice}VND</Typography>
+              </>
+            ) : (
+              <>
+                <Typography>{ticketDetail.price}VND</Typography>
+              </>
+            )}
           </Grid>
           <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Status:</Typography>
@@ -228,15 +290,27 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
             <>
               <Grid container item spacing={15}>
                 <Grid item xs={1}>
-                  <Button
-                    variant="contained"
-                    color="ochre"
-                    onClick={() => {
-                      ConfirmTicket(ticketIdForDetail);
-                    }}
-                  >
-                    Confirm
-                  </Button>
+                  {ticketDetail.onlineOrOffline === true ? (
+                    <Button
+                      variant="contained"
+                      color="ochre"
+                      onClick={() => {
+                        ConfirmTicket(ticketIdForDetail, 0);
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="ochre"
+                      onClick={() => {
+                        ConfirmTicket(ticketIdForDetail, distanceValue);
+                      }}
+                    >
+                      Confirm
+                    </Button>
+                  )}
                 </Grid>
                 <Grid item xs={1}>
                   <Button

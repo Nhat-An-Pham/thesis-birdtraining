@@ -82,6 +82,7 @@ export default function AddSkillToTrainerComponent({
       };
       let res = await dashboardService.AddTrainerSkillToTrainer(model);
       if (res.status === 200) {
+        toast.success('Add successfully!');
         handleClose();
       } else {
         toast.error("An error has occur");

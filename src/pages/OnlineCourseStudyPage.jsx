@@ -5,7 +5,7 @@ import OnlinecourseService from "../services/onlinecourse.service";
 import RawHTMLRenderer from "../Management/component/htmlRender/htmlRender";
 import ReactPlayer from "react-player";
 import fileIcon from "../assets/icons/file-regular.svg";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 
 const OnlineCourseStudyPage = () => {
@@ -64,7 +64,7 @@ const OnlineCourseStudyPage = () => {
           // console.log("Success get Course By Id: ", res.data);
           setSelectedCourse(res.data);
           setCourseSection(res.data.sections);
-          if (res.data.status !== "Enrolled") {
+          if (res.data.status === "Unenrolled" || res.data.staus === null) {
             navigate("/courseslist");
           }
         })
@@ -121,6 +121,11 @@ const OnlineCourseStudyPage = () => {
                 </div>
               ))}
             </div>
+            {selectedCourse.status === "Completed" ?
+              <Link style={{width:"100%", display:"flex", justifyContent:"center",marginTop:"30px"}}>
+                <Typography style={{color: "Green", width:"100%", textAlign:"center", textDecoration:"none"}}>You Have Completed This Course, Click Here</Typography>
+              </Link>
+              : null}
           </div>
           <div className="ocsp-content">
             {selectedSection && selectedSection.resourceFiles ? (

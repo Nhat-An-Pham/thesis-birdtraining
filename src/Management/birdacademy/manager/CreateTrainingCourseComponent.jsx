@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import {
+  AppBar,
   Button,
   FormControl,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  Toolbar,
   Typography,
+  Grid,
 } from "@mui/material";
 import Editor from "../../component/text-editor/Editor";
 import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
+import { Close } from "@mui/icons-material";
 
-const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
+const CreateTrainingCourseComponent = ({
+  callbackCreateCourse,
+  callbackList,
+}) => {
   const [birdSpecies, setBirdSpecies] = useState([]);
 
   const [selectedSpecies, setSelectedSpecies] = useState();
@@ -49,10 +57,10 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
       console.error("Error fetching data:", error);
     }
   }
-  async function fetchCreatedData() {
+  async function fetchCreatedData(id) {
     try {
       let params = {
-        $orderby: `id desc`,
+        $filter: `id eq ${id}`,
       };
       let response = await TrainingCourseManagement.getAllTrainingCourse(
         params
@@ -94,8 +102,9 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
         let response = await TrainingCourseManagement.createTrainingCourse(
           formData
         );
+        console.log(response);
         if (response.status === 200) {
-          let courseCreated = await fetchCreatedData();
+          let courseCreated = await fetchCreatedData(response.data);
           toast.success("Create successfully!");
           callbackCreateCourse(courseCreated);
         } else {
@@ -110,8 +119,30 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
     fetchBirdSpecies();
   }, []);
   return (
-    <div padding={20}>
-      <h2>Create Training Course</h2>
+    <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callbackList}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Create Training Course
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       <div className="form-container">
         <form
           onSubmit={handleSubmit}
@@ -123,10 +154,9 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
           </Typography>
           <FormControl
             sx={{
-              margin: "5px",
-              marginBottom: "25px",
-              width: "100%",
-              maxWidth: "350px",
+              margin: 2,
+              width: 600,
+              maxWidth: 610,
             }}
           >
             <InputLabel id="selectLabel_ChooseSpecies">
@@ -218,7 +248,7 @@ const CreateTrainingCourseComponent = ({ callbackCreateCourse }) => {
           <Button
             sx={{ float: "right", marginBottom: "20px", marginRight: "10px" }}
             color="ochre"
-            onClick={() => callbackCreateCourse()}
+            onClick={() => callbackList()}
           >
             Cancel
           </Button>
