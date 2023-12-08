@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
+  AppBar,
   Button,
   FormControl,
+  Grid,
+  IconButton,
   Input,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  Toolbar,
   Typography,
 } from "@mui/material";
-import { Img } from "react-image";
-import Editor from "../../component/text-editor/Editor";
-import { UploadComponent } from "../../component/upload/Upload";
 import TrainingCourseManagement from "../../../services/trainingcourse-management.service";
 import { toast } from "react-toastify";
+import { Close } from "@mui/icons-material";
 
 const DetailPricePolicyComponent = ({
   trainingPolicy,
@@ -25,11 +27,11 @@ const DetailPricePolicyComponent = ({
 
   async function fetchTrainingPolicy() {
     try {
-      console.log(trainingCourse.id);
+      console.log(trainingPolicy.id);
       let params = {
         $filter: `id eq ${trainingPolicy.id}`,
       };
-      let response = await TrainingCourseManagement.getTrainingCourseById(
+      let response = await TrainingCourseManagement.getAllTrainingPricePolicies(
         params
       );
       console.log(response[0]);
@@ -55,18 +57,17 @@ const DetailPricePolicyComponent = ({
       toast.error("Please provide course title");
     }
     if (check) {
-      const formData = new FormData();
-      formData.append("Id", selectedTrainingPolicy.id);
-      formData.append("Name", title);
-      formData.append("ChargeRate", price);
-
+      const model = {
+        id: trainingPolicy.id,
+        name: title,
+        chargeRate: price,
+      };
+      console.log(model);
       try {
-        let res = await TrainingCourseManagement.editTrainingPricePolicy(
-          formData
-        );
+        let res = await TrainingCourseManagement.editTrainingPricePolicy(model);
         if (res.status === 200) {
           toast.success("Update successfully!");
-          await fetchTrainingCourse();
+          await fetchTrainingPolicy();
           // callbackUpdateCourse(trainingCourse);
         } else {
           toast.error("An error has occured!");
@@ -88,11 +89,33 @@ const DetailPricePolicyComponent = ({
     }
   }, [selectedTrainingPolicy]);
   return (
-    <>
+    <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callbackUpdatePolicy}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Training Price Policy Detail
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       {selectedTrainingPolicy ? (
         <>
-          <div padding={20}>
-            <h2>Training Course Detail</h2>
+          <div>
             <div className="form-container">
               <form
                 onSubmit={handleSubmit}
@@ -157,7 +180,7 @@ const DetailPricePolicyComponent = ({
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 

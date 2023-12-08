@@ -9,10 +9,16 @@ import {
   TableRow,
   Paper,
   Button,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Grid,
 } from "@mui/material";
 import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import BirdTrainingReportComponent from "./BirdTrainingReportComponent";
+import { Close } from "@mui/icons-material";
 
 const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const [renderTrainer, setRenderTrainer] = useState(false);
@@ -84,6 +90,29 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   }
   return (
     <div>
+      <Grid sx={{ padding: 2 }}>
+        <AppBar position="static" color="ochre">
+          <Toolbar>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              sx={{ mr: 2 }}
+              onClick={callBackMainManagement}
+            >
+              <Close />
+            </IconButton>
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              Training Details By BirdSkill
+            </Typography>
+          </Toolbar>
+        </AppBar>
+      </Grid>
       {renderProgress && (
         <>
           <TableContainer
@@ -93,7 +122,6 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
           >
             <Table className="table">
               <TableHead>
-                <h2>Training Skill</h2>
                 <TableRow>
                   <TableCell>Bird Skill Name</TableCell>
                   <TableCell>Trainer Name</TableCell>

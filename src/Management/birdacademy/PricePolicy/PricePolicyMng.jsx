@@ -45,6 +45,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
   const [selectedPolicy, setSelectedPolicy] = useState();
   const [trainingPolicies, setTrainingPolicies] = useState([]);
   const detailClick = (trainingPolicy) => {
+    console.log(trainingPolicy);
     setSelectedPolicy(trainingPolicy);
     setRenderUpdatePolicy(true);
     setRenderAllPolicies(false);
@@ -74,13 +75,13 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
   }, []);
   useEffect(() => {
     if (trainingPolicies) {
-      setContextMenus(new Array(trainingCourse.length).fill(null));
+      setContextMenus(new Array(trainingPolicies.length).fill(null));
     }
     return () => {};
   }, [trainingPolicies]);
 
   const handleActiveCourse = async (trainingPolicy) => {
-    setSelectedCourse(trainingPolicy);
+    setSelectedPolicy(trainingPolicy);
     try {
       console.log(trainingPolicy);
       let params = {
@@ -101,7 +102,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
     }
   };
   const handleDisableCourse = async (trainingPolicy) => {
-    setSelectedCourse(trainingPolicy);
+    setSelectedPolicy(trainingPolicy);
     try {
       console.log(trainingPolicy);
       let params = {
@@ -131,7 +132,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
   return (
     <div>
       <ThemeProvider theme={ochreTheme}>
-        <AppBar position="static" color="ochre">
+        {/* <AppBar position="static" color="ochre">
           <Toolbar>
             <IconButton
               size="large"
@@ -151,7 +152,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
               Training Course Price Policies Management
             </Typography>
           </Toolbar>
-        </AppBar>
+        </AppBar> */}
         {renderAllPolicies && (
           <Grid style={{ padding: 20 }} marginTop={1} container spacing={1}>
             <Button
@@ -186,7 +187,7 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
                         <TableRow
                           hover
                           // selected
-                          key={course.id}
+                          key={policy.id}
                           className={
                             selectedPolicy != null &&
                             policy.id === selectedPolicy.id
@@ -205,8 +206,8 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
                               sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
                             />
                           </TableCell>
-                          {policy.status === "Active" && (
-                            <TableCell>
+                          <TableCell>
+                            {policy.status === "Active" && (
                               <Button
                                 variant="contained"
                                 color="ochre"
@@ -214,10 +215,8 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
                               >
                                 Disable
                               </Button>
-                            </TableCell>
-                          )}
-                          {policy.status !== "Active" && (
-                            <TableCell>
+                            )}
+                            {policy.status !== "Active" && (
                               <Button
                                 variant="contained"
                                 color="ochre"
@@ -225,8 +224,8 @@ const PricePolicyMng = ({ callBackMainManagement }) => {
                               >
                                 Active
                               </Button>
-                            </TableCell>
-                          )}
+                            )}
+                          </TableCell>
                           <TableCell>
                             <Button
                               variant="contained"
