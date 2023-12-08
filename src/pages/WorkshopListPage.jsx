@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 
 const WorkshopListPage = () => {
 
+    const accessToken = JSON.parse(localStorage.getItem("user-token"))
+
     const [workshopList, setWorkshopList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -39,7 +41,7 @@ const WorkshopListPage = () => {
             <div className='workshoplistpage_section workshoplistpage_section-search'>
                 <input type="text" required placeholder='Search For Events'
                 //  value={searchQuery} onChange={handleSearchInputChange}
-                 />
+                />
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-title'>
                 <h3>Explore our Workshops</h3>
@@ -54,7 +56,9 @@ const WorkshopListPage = () => {
                     ))}
                 </div>
             </div>
-            <Link to='/setting' style={{color:"grey"}}>Click Here To View Your Workshop</Link>
+            {accessToken ?
+                <Link to='/setting' style={{ color: "grey", marginBottom: "40px" }}>Click Here To View Your Workshop</Link>
+                : null}
         </div>
     )
 }

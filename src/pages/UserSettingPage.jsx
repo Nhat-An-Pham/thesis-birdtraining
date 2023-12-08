@@ -34,7 +34,13 @@ export const UserSettingPage = () => {
 
   //Get User Role
   const accessToken = JSON.parse(localStorage.getItem("user-token"));
-  const userRole = jwtDecode(accessToken).role;
+  let userRole = null;
+
+  if (accessToken) {
+    userRole = jwtDecode(accessToken).role;
+  } else {
+    navigate("/home")
+  }
 
   //FUNCTION
   function UpdateClick() {
@@ -116,28 +122,34 @@ export const UserSettingPage = () => {
 
   //API HANDLER
   useEffect(() => {
-    UserService.getUserProfile()
-      .then((res) => {
-        setUser(res.data);
-        // console.log(res.data)
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    workshopService.getRegisterdWorkshops().then((res) => {
-      console.log("Enrolled Workshop: ", res.data);
-      setEnrolledWorkshop(res.data)
-    })
-      .catch((e) => {
-        console.log("Cannot Get Enrolled Workshop Data")
-      });
+    if (accessToken) {
+      UserService.getUserProfile()
+        .then((res) => {
+          setUser(res.data);
+          // console.log(res.data)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      if (userRole === "Customer") {
+        workshopService.getRegisterdWorkshops().then((res) => {
+          console.log("Enrolled Workshop: ", res.data);
+          setEnrolledWorkshop(res.data)
+        })
+          .catch((e) => {
+            console.log("Cannot Get Enrolled Workshop Data")
+          });
 
-    onlinecourseService.getCompletedOnlineCourse().then((res) => {
-      // console.log("Completed Online Courses:", res.data)
-      if (res.data) {
-        setCompletedCourses(res.data);
+        onlinecourseService.getCompletedOnlineCourse().then((res) => {
+          // console.log("Completed Online Courses:", res.data)
+          if (res.data) {
+            setCompletedCourses(res.data);
+          }
+        });
       }
-    });
+    } else {
+      navigate("/home")
+    }
   }, []);
 
   return (
@@ -265,50 +277,52 @@ export const UserSettingPage = () => {
               )}
             </div>
           </div>
-          <div className="ustp-participate-container">
-            <div className="ustp-participate-wrapper">
-              <h3>Finished Courses</h3>
-              {completedCourses ? (
-                <>
-                  {completedCourses.map((course) => (
-                    <div className="ustp-cards-container">
-                      <Img src={course.picture}></Img>
-                      <div className="ustp-cards-content">
-                        <h5>{course.title}</h5>
-                        <Typography>
-                          <RawHTMLRenderer
-                            htmlContent={course.shortDescription}
-                          ></RawHTMLRenderer>
-                        </Typography>
-                        <Link to={`/onlinecourse/certificate/${course.id}`}>View Certificate</Link>
+          {userRole === "Customer" ?
+            <div className="ustp-participate-container">
+              <div className="ustp-participate-wrapper">
+                <h3>Finished Courses</h3>
+                {completedCourses ? (
+                  <>
+                    {completedCourses.map((course) => (
+                      <div className="ustp-cards-container">
+                        <Img src={course.picture}></Img>
+                        <div className="ustp-cards-content">
+                          <h5>{course.title}</h5>
+                          <Typography>
+                            <RawHTMLRenderer
+                              htmlContent={course.shortDescription}
+                            ></RawHTMLRenderer>
+                          </Typography>
+                          <Link to={`/onlinecourse/certificate/${course.id}`}>View Certificate</Link>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </>
-              ) : <>You Have No Completed Course</>}
-            </div>
-            <div className="ustp-participate-wrapper">
-              <h3>Participated Workshops</h3>
-              {enrolledWorkshop ? (
-                <>
-                  {enrolledWorkshop.map((workshop) => (
-                    <div className="ustp-cards-container">
-                      <Img src={workshop.picture}></Img>
-                      <div className="ustp-cards-content">
-                        <h5>{workshop.title}</h5>
-                        <Typography>
-                          <RawHTMLRenderer
-                            htmlContent={workshop.description}
-                          ></RawHTMLRenderer>
-                        </Typography>
-                        <Typography>Location: {workshop.location}</Typography>
+                    ))}
+                  </>
+                ) : <>You Have No Completed Course</>}
+              </div>
+              <div className="ustp-participate-wrapper">
+                <h3>Participated Workshops</h3>
+                {enrolledWorkshop ? (
+                  <>
+                    {enrolledWorkshop.map((workshop) => (
+                      <div className="ustp-cards-container">
+                        <Img src={workshop.picture}></Img>
+                        <div className="ustp-cards-content">
+                          <h5>{workshop.title}</h5>
+                          <Typography>
+                            <RawHTMLRenderer
+                              htmlContent={workshop.description}
+                            ></RawHTMLRenderer>
+                          </Typography>
+                          <Typography>Location: {workshop.location}</Typography>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </>
-              ) : <>You Have No Completed Course</>}
+                    ))}
+                  </>
+                ) : <>You Have No Completed Course</>}
+              </div>
             </div>
-          </div>
+            : null}
         </div>
       ) : null}
     </div>

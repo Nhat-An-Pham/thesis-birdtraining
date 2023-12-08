@@ -8,17 +8,19 @@ import WorkshopService from '../services/workshop.service'
 
 const Workshop = () => {
 
+    const accessToken = JSON.parse(localStorage.getItem("user-token"))
+
     const [workshopList, setWorkshopList] = useState([]);
     //take first 4 workshops
     const sliceWorkshop = workshopList.slice(0, 4)
     const token = JSON.parse(localStorage.getItem("user-token")
-)
+    )
     useEffect(() => {
         WorkshopService
             .getWorkshopList()
             .then((res) => {
                 // console.log("success workshop list test", res.data);
-                setWorkshopList(res.data.slice(0,4));
+                setWorkshopList(res.data.slice(0, 4));
             })
             .catch((e) => console.log("fail workshop list test", e));
     }, []);
@@ -62,7 +64,9 @@ const Workshop = () => {
                         </Cards>
                     ))}
                 </div>
-                <Link to='/setting' style={{color:"grey"}}>Click Here To View Your Workshop</Link>
+                {accessToken ?
+                    <Link to='/setting' style={{ color: "grey" }}>Click Here To View Your Workshop</Link>
+                    : null}
                 <div className='workshoppageevents_elements-button'>
                     <Link to="/workshopslist">VIEW MORE</Link>
                 </div>
