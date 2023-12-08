@@ -20,7 +20,6 @@ import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
 import timetableService from "../../services/timetable.service";
 import { UploadComponent } from "../component/upload/Upload";
-import { Img } from "react-image";
 
 const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
   const [onlineEvidence, setOnlineEvidence] = useState(null);
