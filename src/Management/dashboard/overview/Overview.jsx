@@ -42,9 +42,9 @@ const Overview = () => {
           justifyContent="center"
         >
           <StatBox
-            title="12,361"
-            subtitle="Emails Sent"
-            progress="0.75"
+            title="12,361 total"
+            subtitle="Consulting Ticket"
+            // progress="0.75"
             increase="+14%"
             icon={
               <EmailIcon sx={{ color: colors.grey[100], fontSize: "26px" }} />
@@ -61,8 +61,8 @@ const Overview = () => {
           justifyContent="center"
         >
           <StatBox
-            title="431,225"
-            subtitle="Sales Obtained"
+            title="431,225 enrolled"
+            subtitle="E-learning Attempts"
             progress="0.50"
             increase="+21%"
             icon={
@@ -82,8 +82,8 @@ const Overview = () => {
           justifyContent="center"
         >
           <StatBox
-            title="32,441"
-            subtitle="New Clients"
+            title="32,441 classes"
+            subtitle="Workshop Enrolled"
             progress="0.30"
             increase="+5%"
             icon={
@@ -101,8 +101,8 @@ const Overview = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325,134"
-            subtitle="Traffic Received"
+            title="1,325 courses"
+            subtitle="Training Attempts"
             progress="0.80"
             increase="+43%"
             icon={
@@ -192,7 +192,7 @@ const Overview = () => {
                 p="5px 10px"
                 borderRadius="4px"
               >
-                ${transaction.cost}
+                VND {transaction.cost}
               </Box>
             </Box>
           ))}
@@ -214,7 +214,7 @@ const Overview = () => {
             alignItems="center"
             mt="25px"
           >
-            <ProgressCircle size="125" />
+            <ProgressCircle progress="0.75" size="125" />
             <Typography
               variant="h5"
               color={colors.greenAccent[500]}
@@ -222,7 +222,7 @@ const Overview = () => {
             >
               $48,352 revenue generated
             </Typography>
-            <Typography>Includes extra misc expenditures and costs</Typography>
+            <Typography>Modify: Success rate of passed birds in tranining course</Typography>
           </Box>
         </Box>
         <Box

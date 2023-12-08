@@ -12,7 +12,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
         <Box>
           {icon}
           <Typography
-            variant="h4"
+            variant="h5"
             fontWeight="bold"
             sx={{ color: colors.grey[100] }}
           >
@@ -24,7 +24,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
         </Box>
       </Box>
       <Box display="flex" justifyContent="space-around" mt="2px">
-        <Typography fontSize={24} sx={{ color: colors.grey[100] }}>
+        <Typography fontSize={22} sx={{ color: colors.grey[100] }}>
           {subtitle}
         </Typography>
         <Typography
