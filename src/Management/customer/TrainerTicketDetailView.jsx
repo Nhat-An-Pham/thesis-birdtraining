@@ -16,6 +16,7 @@ import {
   FormControl,
   Select,
   MenuItem,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -334,9 +335,10 @@ const TrainerTicketDetailView = ({
                   <Typography>
                     {ticketDetail.onlineOrOffline === true ? (
                       <FormControl>
-                        <input
-                          type="text"
-                          onChange={(e) => setOnlineEvidence(e.target.value)}
+                        <TextField
+                        label={"Record"}
+                        type="text"
+                        onChange={(e) => setOnlineEvidence(e.target.value)}
                         />
                       </FormControl>
                     ) : ticketDetail.onlineOrOffline === false ? (

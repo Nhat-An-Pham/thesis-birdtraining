@@ -9,16 +9,23 @@ import {
   Toolbar,
   IconButton,
   Grid,
+  Divider,
+  TextField,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
   const [dateValue, setDateValue] = useState();
   const [slotValue, setSlotValue] = useState();
+  const [distanceValue, setDistanceValue] = useState(null);
+  const hanldeDistanceChange = (distance) => {
+    setDistanceValue(distance);
+  };
 
   const [assignedTrainer, setAssignedTrainer] = useState(null);
   const [ticketDetail, setTicketDetail] = useState({});
@@ -62,10 +69,11 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .catch((e) => console.log("fail Cancel Ticket tes", e));
   };
 
-  const ConfirmTicket = (ticketId) => {
-    ConsultantService.approveConsultingTicket({ ticketId })
+  const ConfirmTicket = (ticketId, distance) => {
+    ConsultantService.approveConsultingTicket({ ticketId, distance })
       .then((res) => {
         console.log("succes Confirm Ticket test", res.data);
+        toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
   };
@@ -93,79 +101,120 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-
-      <Grid container>
-        <Grid container xs={12} spacing={2} component={Paper}>
+      <Divider />
+      <Grid container marginTop={3} component={Paper}>
+        <Grid container item xs={12} padding={2} spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h5"> Basic Information</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Ticket ID:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {ticketDetail.id}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Service:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>
               {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Date:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>
               {addonService.formatDate(ticketDetail.appointmentDate)}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Time:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography> {ticketDetail.actualSlotStart}</Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="h5"> Detail Information</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography style={{ fontWeight: "bold", color: "blue" }}>
               Customer:
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={9}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerName}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography style={{ fontWeight: "bold", color: "blue" }}>
               Email:
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerEmail}
             </Typography>
           </Grid>
-          <Grid item xs={1}>
-            <Typography fontWeight={"bold"}>Address:</Typography>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Phone:
+            </Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography>{ticketDetail.addressDetail}</Typography>
+          <Grid item xs={3}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerPhone}
+            </Typography>
           </Grid>
-          <Grid item xs={1}>
-            <Typography fontWeight={"bold"}>Distance:</Typography>
+          {ticketDetail.onlineOrOffline ? (
+            <></>
+          ) : (
+            <>
+              <Grid item xs={3}>
+                <Typography fontWeight={"bold"}>Address:</Typography>
+              </Grid>
+              <Grid item xs={3}>
+                <Typography>{ticketDetail.addressDetail}</Typography>
+              </Grid>
+              {ticketDetail.status === "WaitingForApprove" ? (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid>
+                    <FormControl>
+                      <TextField
+                        label={"Km"}
+                        type="number"
+                        onChange={(e) => hanldeDistanceChange(e.target.value)}
+                      />
+                    </FormControl>
+                  </Grid>
+                </>
+              ) : (
+                <>
+                  <Grid item xs={3}>
+                    <Typography fontWeight={"bold"}>Distance:</Typography>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Typography>{ticketDetail.distance}Km</Typography>
+                  </Grid>
+                </>
+              )}
+            </>
+          )}
+          <Grid item xs={3}>
+            <Typography fontWeight={"bold"}>More Detail</Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography>{ticketDetail.distance}Km</Typography>
+          <Grid item xs={9}>
+            <Typography>{ticketDetail.consultingDetail}</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Trainer:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {isAssigned === 1 || isAssigned === 3 ? (
               <Typography>{ticketDetail.trainerName}</Typography>
             ) : isAssigned === 2 && listOfFreeTrainer ? (
@@ -185,22 +234,22 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               <></>
             )}
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Type:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>{ticketDetail.consultingType}</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Price:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Typography>Price: {ticketDetail.price}VND</Typography>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Status:</Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             {ticketDetail.status === "Approved" ? (
               <Typography style={{ color: "green" }}>
                 {ticketDetail.status}
@@ -213,27 +262,29 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           </Grid>
           {isAssigned === 1 ? (
             <>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    ConfirmTicket(ticketIdForDetail);
-                  }}
-                >
-                  Confirm
-                </Button>
-              </Grid>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    CancelTicket(ticketIdForDetail);
-                  }}
-                >
-                  Cancel
-                </Button>
+              <Grid container item spacing={15}>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      ConfirmTicket(ticketIdForDetail, distanceValue);
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                </Grid>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      CancelTicket(ticketIdForDetail);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
               </Grid>
             </>
           ) : isAssigned === 2 ? (

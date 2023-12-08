@@ -68,6 +68,7 @@ export default function AddTrainableSkillToBirdSkillComponent({
       };
       let res = await dashboardService.AddTrainableSkillToBirdSkill(model);
       if (res.status === 200) {
+        toast.success('Add successfully!');
         handleClose();
       } else {
         toast.error("An error has occur");

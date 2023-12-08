@@ -15,6 +15,7 @@ import {
   Typography,
   Table,
   Paper,
+  TextField,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -171,28 +172,28 @@ const TrainerFinishTicketView = ({
                 <Typography>
                   {ticketDetail.onlineOrOffline === true ? (
                     <FormControl>
-                      <input
+                      <TextField
+                        label={"Record"}
                         type="text"
                         onChange={(e) => setOnlineEvidence(e.target.value)}
                       />
                     </FormControl>
                   ) : ticketDetail.onlineOrOffline === false ? (
                     <FormControl required style={{ marginBottom: 15 }}>
-                      <Button variant="contained" color="ochre">
-                        <UploadComponent
-                          onChange={handleFileChange}
-                          accept="image/*"
-                          multiple={false}
-                        >
-                          Upload evidence
-                        </UploadComponent>
-                      </Button>
+                      <UploadComponent
+                        onChange={handleFileChange}
+                        accept="image/*"
+                        multiple={true}
+                      >
+                        Upload evidence(s)
+                      </UploadComponent>
+
                       {/* Display submitted files here */}
-                      <div>
+                      {/* <div>
                         {submittedEvidence.map((imageName, index) => (
                           <div key={index}>{imageName}</div>
                         ))}
-                      </div>
+                      </div> */}
                     </FormControl>
                   ) : null}
                 </Typography>

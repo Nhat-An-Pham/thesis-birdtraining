@@ -8,7 +8,7 @@ class DashboardService {
   async GetListSpecies(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
+        `${BASE_URL}/api/trainingcourse/birdspecies`,
         {
           params: params,
           headers: {
@@ -27,7 +27,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -41,7 +43,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdspecies`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -52,7 +56,7 @@ class DashboardService {
   async GetListSkills(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/birdskill`,
+        `${BASE_URL}/api/trainingcourse/birdskill`,
         {
           params: params,
           headers: {
@@ -71,7 +75,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdskill-update`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -85,7 +91,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/birdskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -103,7 +111,7 @@ class DashboardService {
         ...params,
       };
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/accquirablebirdskill-birdspecies`,
+        `${BASE_URL}/api/trainingcourse/accquirablebirdskill-birdspecies`,
         {
           params: data,
           headers: {
@@ -122,7 +130,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/acquirablebirdskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -155,7 +165,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/trainableskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
@@ -166,7 +178,7 @@ class DashboardService {
   async GetListTrainableSkills(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/trainableskill`,
+        `${BASE_URL}/api/trainingcourse/trainableskill`,
         {
           params: params,
           headers: {
@@ -183,7 +195,7 @@ class DashboardService {
   async GetListTrainerSkills(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/skill`,
+        `${BASE_URL}/api/trainingcourse/skill`,
         {
           params: params,
           headers: {
@@ -267,7 +279,7 @@ class DashboardService {
   async GetListTrainerSkillsByTrainer(params) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-manager/trainerskill-trainerid`,
+        `${BASE_URL}/api/trainingcourse/trainerskill-trainerid`,
         {
           params: params,
           headers: {
@@ -286,7 +298,9 @@ class DashboardService {
         `${BASE_URL}/api/trainingcourse-manager/trainerskill-create`,
         model,
         {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
         }
       );
       return response;
