@@ -8,7 +8,7 @@ import OnlinecourseManagement from '../../../../services/onlinecourse-management
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify'
 
-export const AddNewCourse = ({ callbackCreateOnlineCourse }) => {
+export const AddNewCourse = ({ callbackCreateOnlineCourse, renderIndex }) => {
     const [title, setTitle] = useState("")
     const [price, setPrice] = useState(0)
     const [shortDescr, setShortDescr] = useState("")
@@ -42,8 +42,9 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse }) => {
 
         OnlinecourseManagement.postAddCourse(formData)
             .then((res) => {
-                console.log("Submit Successfully", res.data)
-                toast.success("Submit Successfully")
+                // console.log("Submit Successfully", res.data);
+                toast.success("Submit Successfully");
+                renderIndex(0);
             })
             .catch((e) => {
                 // setErrMessage(e.response)

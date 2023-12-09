@@ -11,6 +11,7 @@ import TrainerSkillManagementComponent from "./trainer-skills/TrainerSkillManage
 import TrainerManagementComponent from "./trainers/TrainerManagementComponent";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import Overview from "./overview/Overview";
 
 const Dashboard = () => {
 
@@ -31,6 +32,7 @@ const Dashboard = () => {
     setValue(newValue);
   };
   const tabs = [
+    {label: "Overview", component: <Overview />},
     { label: "Bird Species", component: <BirdSpeciesManagementComponent /> },
     { label: "Bird Skill", component: <BirdSkillManagementComponent /> },
     { label: "Trainer Skill", component: <TrainerSkillManagementComponent /> },

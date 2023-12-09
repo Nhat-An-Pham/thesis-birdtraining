@@ -8,19 +8,19 @@ import {
   Button,
   Table,
   Typography,
-  Stack,
+  ThemeProvider,
+  Container,
 } from "@mui/material";
 import { useState } from "react";
 import { useEffect } from "react";
 import consultantService from "../../services/consultant.service";
-
 import addonService from "../../services/addon.service";
+import TrainerTicketDetailView from "./TrainerTicketDetailView";
 
-const TrainerTicketListView = ({
-  callBackRenderedIndex,
-  callbackTicketIdForDetail,
-}) => {
-  //Lấy list ticket mà Trainer được assign
+const TrainerTicketListView = ({}) => {
+  const [renderIndex, setRenderIndex] = useState(1);
+  const [ticketIdForDetail, setTicketIdForDetail] = useState("");
+
   const [listAssignedConsultingTicket, setListAssignedConsultingTicket] =
     useState([]);
   useEffect(() => {
@@ -33,93 +33,87 @@ const TrainerTicketListView = ({
       .catch((e) =>
         console.log("fail Assigned Consulting Ticket list test", e)
       );
-  }, []);
+  }, [renderIndex]);
 
   const handleDetailClick = (ticketId) => {
-    callbackTicketIdForDetail(ticketId);
-    callBackRenderedIndex(0);
+    setTicketIdForDetail(ticketId);
+    setRenderIndex(0);
   };
 
-  const handleFinishedView = (renderedIndex) => {
-    callBackRenderedIndex(renderedIndex);
+  const handleCloseDetail = () => {
+    setRenderIndex(1);
   };
+
   return (
-    <>
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-        spacing={2}
-      >
-        <Button
-          variant="contained"
-          color="ochre"
-          onClick={() => handleFinishedView(3)}
-        >
-          View List Finished Ticket
-        </Button>
-        <Typography variant={"h4"}>List Assigned Ticket</Typography>
-      </Stack>
-
-      {
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <Typography>Ticket ID</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Service</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Date</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>Time</Typography>
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {listAssignedConsultingTicket.map((row, index) => (
-                <TableRow key={index}>
+    <ThemeProvider theme={"ochreTheme"}>
+      <Container sx={{ padding: 2 }}>
+        {renderIndex === 0 ? (
+          <TrainerTicketDetailView
+            ticketIdForDetail={ticketIdForDetail}
+            onClose={handleCloseDetail}
+          />
+        ) : renderIndex === 1 ? (
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
                   <TableCell>
-                    <Typography>{row.id}</Typography>
+                    <Typography>Ticket ID</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>
-                      {row.onlineOrOffline ? "Online" : "Offine"}
-                    </Typography>
+                    <Typography>Service</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>
-                      {addonService.formatDate(row.appointmentDate)}
-                    </Typography>
+                    <Typography>Date</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{row.actualSlotStart}</Typography>
+                    <Typography>Time</Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography>
-                      <Button
-                        variant="contained"
-                        color="ochre"
-                        onClick={() => {
-                          handleDetailClick(row.id);
-                        }}
-                      >
-                        Detail
-                      </Button>
-                    </Typography>
-                  </TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      }
-    </>
+              </TableHead>
+              <TableBody>
+                {listAssignedConsultingTicket.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Typography>{row.id}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {row.onlineOrOffline ? "Online" : "Offine"}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        {addonService.formatDate(row.appointmentDate)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>{row.actualSlotStart}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography>
+                        <Button
+                          variant="contained"
+                          color="ochre"
+                          onClick={() => {
+                            handleDetailClick(row.id);
+                          }}
+                        >
+                          Detail
+                        </Button>
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <></>
+        )}
+      </Container>
+    </ThemeProvider>
   );
 };
 

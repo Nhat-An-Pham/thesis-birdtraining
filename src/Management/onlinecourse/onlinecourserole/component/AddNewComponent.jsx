@@ -39,6 +39,7 @@ const AddNewComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, secti
         onlinecourseManagement.postAddSection(formData)
             .then((res) => {
                 toast.success("Submit Successfully")
+                renderIndex(0);
             })
             .catch((e) => {
                 toast.error("Fail To Submit")
@@ -55,6 +56,7 @@ const AddNewComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, secti
         onlinecourseManagement.postAddLesson(formData)
             .then((res) => {
                 toast.success("Submit Successfully")
+                renderIndex(0);
             })
             .catch((e) => {
                 toast.error("Fail To Submit")

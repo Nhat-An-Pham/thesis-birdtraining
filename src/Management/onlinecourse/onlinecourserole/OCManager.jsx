@@ -14,10 +14,14 @@ const OCManager = () => {
         setRenderIndex(2);
     }
 
+    const SetRenderIndexFunction = (e) => {
+        setRenderIndex(e)
+    }
+
     let renderedComponents = [
         <ViewCourses setSelectedCourseCallBack={SelectedCourseIndex} renderIndex={renderIndex} />,
-        <AddNewCourse />,
-        <CourseDetail selectedCourse={selectedCourse} />
+        <AddNewCourse renderIndex={SetRenderIndexFunction} />,
+        <CourseDetail selectedCourse={selectedCourse} renderChange={SetRenderIndexFunction} />
     ]
 
 

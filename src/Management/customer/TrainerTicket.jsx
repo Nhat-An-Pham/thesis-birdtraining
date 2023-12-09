@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Grid, ThemeProvider } from "@mui/material";
+import { Box, Grid, Tab, Tabs, ThemeProvider } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
@@ -9,6 +9,7 @@ import { ochreTheme } from "../themes/Theme";
 import TrainerFinishTicketView from "./TrainerFinishTicketView";
 import FinishedTicketView from "./FinishedTicketView";
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
 
 export default function TrainerTicketComponent() {
   const [renderedIndex, setRenderedIndex] = useState(1); // 0: Detail, 1: List Assigned, 2: Finish Ticket, 3: Finished View
@@ -38,34 +39,55 @@ export default function TrainerTicketComponent() {
     setRenderedIndex(1);
   };
 
-  let renderedComponents = [
-    <TrainerTicketDetailView
-      callBackRenderedIndex={onRenderedIndexSelect}
-      ticketIdForDetail={ticketIdForDetail}
-      callBackToList={handleCallBackToList}
-    />,
-    <TrainerTicketListView
-      callBackRenderedIndex={onRenderedIndexSelect}
-      callbackTicketIdForDetail={handleTicketIdForDetail}
-    />,
-    <TrainerFinishTicketView
-      callBackRenderedIndex={onRenderedIndexSelect}
-      ticketIdForDetail={ticketIdForDetail}
-      callBackToDetail={handleCallBackToDetail}
-    />,
-    <FinishedTicketView
-      callBackRenderedIndex={onRenderedIndexSelect}
-      callbackTicketIdForDetail={handleTicketIdForDetail}
-    />,
+  const [value, setValue] = useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const tabs = [
+    {
+      label: "List Assigned",
+      component: <TrainerTicketListView />,
+    },
+    {
+      label: "List Finished",
+      component: <FinishedTicketView />,
+    },
   ];
 
   return (
     <div className="workshop-container">
       <ThemeProvider theme={ochreTheme}>
         <ReworkSidebar selectTab={1} />
-        <Grid container spacing={1} sx={{ margin: "15px" }}>
-          {renderedComponents[renderedIndex]}
-        </Grid>
+        <ToastContainer />
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="scrollable"
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#c8ae7d",
+                },
+              }}
+              sx={{
+                ".Mui-selected": {
+                  color: "rgb(200, 174, 125)",
+                },
+              }}
+              scrollButtons
+              allowScrollButtonsMobile
+              aria-label="scrollable force tabs example"
+            >
+              {tabs.map((tab) => (
+                <Tab label={tab.label} />
+              ))}
+            </Tabs>
+          </Box>
+          {tabs[value].component}
+        </Box>
       </ThemeProvider>
     </div>
   );

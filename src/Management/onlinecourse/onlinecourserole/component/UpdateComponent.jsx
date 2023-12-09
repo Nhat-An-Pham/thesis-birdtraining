@@ -6,7 +6,7 @@ import { UploadComponent } from "../../../component/upload/Upload";
 import onlinecourseManagement from '../../../../services/onlinecourse-management';
 import { toast } from 'react-toastify';
 
-const UpdateComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selectedSection, selectedLesson }) => {
+const UpdateComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selectedSection, selectedLesson, backToIndex }) => {
     const [errMessage, setErrMessage] = useState(null);
     const [tempDescription, setTempDescription] = useState("");
 
@@ -23,7 +23,7 @@ const UpdateComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selec
             .then((res) => {
                 console.log("UPDATE SUCCESSFULLY")
                 toast.success("Update Successfully")
-                renderIndex(0);
+                backToIndex(0);
             })
             .catch((e) => {
                 console.log("Fail to Update", e)
@@ -58,6 +58,7 @@ const UpdateComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selec
         .then((res) => {
             console.log("UPDATE SUCCESSFULLY")
             toast.success("Update Successfully")
+            backToIndex(0);
         })
         .catch((e) => {
             console.log("Fail to Update", e)
