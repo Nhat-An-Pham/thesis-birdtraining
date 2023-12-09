@@ -322,7 +322,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   {trainingPricePolicies
                     .filter((policy) => policy.name != "Success Requested")
                     .map((policy) => (
-                      <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                      <MenuItem value={policy.id}>
+                        {policy.name}: {policy.chargeRate * 100}%
+                      </MenuItem>
                     ))}
                 </Select>
               </FormControl>

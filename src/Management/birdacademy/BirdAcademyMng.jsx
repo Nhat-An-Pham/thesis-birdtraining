@@ -311,9 +311,7 @@ export default function BirdAcademyMng() {
                                   <TableCell>{cls.registeredDate}</TableCell>
                                   <TableCell>
                                     {cls.startTrainingDate != null
-                                      ? addonService.formatDate(
-                                          cls.startTrainingDate
-                                        )
+                                      ? cls.startTrainingDate
                                       : ""}
                                   </TableCell>
                                   <TableCell>
