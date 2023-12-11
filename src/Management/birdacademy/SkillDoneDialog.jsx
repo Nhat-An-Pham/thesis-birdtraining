@@ -50,7 +50,11 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
     let check = true;
     if (!videos || videos.length < 1) {
       check = false;
-      toast.error("Please provide course image");
+      toast.error("Please provide evidences video");
+    }
+    if (selectedStatus == null) {
+      check = false;
+      toast.error("Please select training status");
     }
     if (check) {
       const formData = new FormData();
@@ -62,15 +66,16 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
         formData.append(`Evidences`, video);
       });
       try {
-        let response = await TrainingCourseManagement.createTrainingCourse(
+        console.log(formData);
+        let response = await TrainingCourseManagement.markTrainingSkillDone(
           formData
         );
         console.log(response);
-        if (response.status === 200) {
+        if (response.status === 500) {
+          toast.error("An error has occured!");
+        } else {
           toast.success("Upload successfully!");
           callbackDone();
-        } else {
-          toast.error("An error has occured!");
         }
       } catch (error) {
         console.log(error);
@@ -84,21 +89,15 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
         {renderIndex == 1 ? <>Upload training done evidences video</> : <></>}
       </DialogTitle>
       <DialogContent>
-        <div className="form-container">
-          <form
-            onSubmit={handleConfirm}
-            className="form"
-            encType="multipart/form-data"
-          >
-            <Typography variant="h6" gutterBottom>
-              General information
-            </Typography>
+        <div style={{ margin: 2 }}>
+          <form onSubmit={handleConfirm} encType="multipart/form-data">
             <FormControl
               sx={{
-                margin: 2,
-                width: 600,
+                width: 500,
                 maxWidth: 610,
+                padding: 3,
               }}
+              required
             >
               <InputLabel id="selectLabel_ChooseStatus">
                 Choose Status

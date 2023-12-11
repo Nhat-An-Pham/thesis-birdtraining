@@ -10,13 +10,18 @@ import BirdAcademyMng from "./BirdAcademyMng";
 import TrainingCourseMng from "./manager/TrainingCourseMng";
 import PricePolicyMng from "./PricePolicy/PricePolicyMng";
 import "../workshoppane/workshoppane.scss";
+import TrainerAssignedTrainingSkill from "./TrainerAssignedTrainingSkill";
 const BirdAcademyTab = () => {
   //Check ROLE
   const userRole = jwtDecode(
     JSON.parse(localStorage.getItem("user-token"))
   ).role;
-
   const [value, setValue] = React.useState(0);
+  useEffect(() => {
+    if (userRole != null && userRole == "Trainer") {
+      setValue(3);
+    }
+  }, [userRole]);
 
   const handleChange = (event, newValue) => {
     console.log("change tab: ", newValue);
@@ -37,6 +42,11 @@ const BirdAcademyTab = () => {
       label: "Price Policy Management",
       component: <PricePolicyMng />,
       roles: ["Manager"],
+    },
+    {
+      label: "Assigned Training Skill",
+      component: <TrainerAssignedTrainingSkill />,
+      roles: ["Trainer"],
     },
   ];
   const tabsFull = [

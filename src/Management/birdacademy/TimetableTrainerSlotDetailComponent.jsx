@@ -86,7 +86,7 @@ const TimetableTrainerSlotDetailComponent = ({
         if (response.status == 200) {
           toast.success("Mark slot done!");
         }
-        callBackTimetable();
+        //callBackTimetable();
       })
       .catch((error) => {
         // Handle errors
@@ -100,13 +100,13 @@ const TimetableTrainerSlotDetailComponent = ({
   }
   return (
     <ThemeProvider padding={20} theme={ochreTheme}>
-      {/* {renderDialog == 1 && (
+      {renderDialog == 1 && (
         <SkillDoneDialog
-          //trainingProgressId={timetableDetail?.progressId}
+          trainingProgressId={timetableDetail?.progressId}
           renderIndex={renderDialog}
           callbackDone={oncallbackDone}
         />
-      )} */}
+      )}
       <ToastContainer />
       <AppBar position="static" color="ochre">
         <Toolbar>
