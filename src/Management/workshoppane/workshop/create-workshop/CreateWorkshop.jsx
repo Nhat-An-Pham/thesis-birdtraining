@@ -23,7 +23,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
   const [totalSlot, setTotalSlot] = useState(0);
   const [registerEnd, setRegisterEnd] = useState(0);
   const [price, setPrice] = useState(0.0);
-  const [location, setLocation] = useState("");
+  // const [location, setLocation] = useState("");
   const [minAmount, setMinAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(0);
   const [description, setDescription] = useState("");
@@ -105,7 +105,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
       formData.append("Description", tempDesc);
       formData.append("RegisterEnd", registerEnd);
       formData.append("Price", price);
-      formData.append("Location", location);
+      // formData.append("Location", location);
       formData.append("MinimumRegistration", minAmount);
       formData.append("MaximumRegistration", maxAmount);
       formData.append("TotalSlot", totalSlot);
@@ -239,7 +239,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
                   </Typography>
                 </Grid>
                 <Grid container item xs={12} spacing={3}>
-                  <Grid item>
+                  {/* <Grid item>
                     <TextField
                       required
                       label={"Location"}
@@ -247,7 +247,7 @@ const CreateWorkshopComponent = ({ callbackCreateWorkshop, callbackBack }) => {
                       type="text"
                       onChange={(e) => setLocation(e.target.value)}
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid item>
                     <FormControl required>
                       <TextField
