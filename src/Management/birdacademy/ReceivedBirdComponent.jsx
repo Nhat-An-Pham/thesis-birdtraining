@@ -121,7 +121,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
               </Typography>
               <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
+            <FormControl required style={{ marginBottom: 15, maxWidth: 650 }}>
               <Typography variant="h6" gutterBottom>
                 Pictures
               </Typography>

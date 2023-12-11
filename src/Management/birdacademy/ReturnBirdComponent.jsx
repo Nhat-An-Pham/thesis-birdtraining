@@ -299,6 +299,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
             </Typography> */}
             {birdTrainingCourse?.status != "TrainingDone" && (
               <FormControl
+                required
                 sx={{
                   marginTop: 4,
                   marginBottom: 3,
@@ -332,7 +333,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               </Typography>
               <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
+            <FormControl required style={{ marginBottom: 15, maxWidth: 650 }}>
               <Typography variant="h6" gutterBottom>
                 Pictures
               </Typography>
