@@ -68,11 +68,14 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
         .then((response) => {
           // Handle the response data
           console.log("Success:", response);
+          toast.success("Check-in successfully!");
+
           callBackMainManagement();
         })
         .catch((error) => {
           // Handle errors
           console.error("Error:", error);
+          toast.error("An error has occured!");
         });
     }
   };
