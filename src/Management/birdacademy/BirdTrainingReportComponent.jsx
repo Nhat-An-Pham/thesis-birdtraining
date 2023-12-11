@@ -84,7 +84,6 @@ const BirdTrainingReportComponent = ({
                 <TableCell>Trainer Email</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell></TableCell>
-                <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (
                 <TableBody>
@@ -118,8 +117,16 @@ const BirdTrainingReportComponent = ({
               ))}
             </Table>
 
-            <div className="main-button-container">
+            <div
+              className="main-button-container"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Button
+                sx={{
+                  marginTop: 3,
+                  padding: "5px 25px 5px 25px",
+                  border: "1px solid black",
+                }}
                 className="button"
                 onClick={() => handleCallBackSkillButton()}
               >

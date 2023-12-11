@@ -11,6 +11,8 @@ const stripePromise = loadStripe(
 );
 
 export default function StripeCheckout({
+  wclassid,
+  oclassid,
   customerEmail,
   customerName,
   billAmount,
@@ -58,7 +60,7 @@ export default function StripeCheckout({
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise} key={clientSecret}>
-          <CheckoutForm />
+          <CheckoutForm workshopClassId={wclassid} onlineClassId={oclassid}  paymentSecret={clientSecret}/>
         </Elements>
       )}
     </div>

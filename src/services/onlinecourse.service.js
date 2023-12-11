@@ -38,11 +38,12 @@ class OnlineCourseService {
     }
 
     //SUBMIT PAYMENT
-    async postSubmitPayment({ courseId, coursePrice, discountedPrice, totalPrice, discountRate, membershipName }) {
+    async postSubmitPayment({ courseId , paymentCode}) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'))
         const response = await axios
             .post(API_URL + `/enroll`, {
-                courseId, coursePrice, discountedPrice, totalPrice, discountRate, membershipName
+                courseId,
+                paymentCode
             }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`

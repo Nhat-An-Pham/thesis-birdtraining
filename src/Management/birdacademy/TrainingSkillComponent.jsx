@@ -91,7 +91,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   return (
     <div>
       <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -106,7 +106,11 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Training Details By BirdSkill
             </Typography>
@@ -114,21 +118,31 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
         </AppBar>
       </Grid>
       {renderProgress && (
-        <>
+        <div style={{ padding: 20 }}>
           <TableContainer
-            style={{ padding: 20 }}
+            sx={{
+              boxShadow:
+                "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+              borderRadius: 3,
+            }}
             className="table-container"
             component={Paper}
           >
             <Table className="table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Bird Skill Name</TableCell>
-                  <TableCell>Trainer Name</TableCell>
-                  <TableCell>Training Progression</TableCell>
-                  <TableCell>Total Training Slot</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>
+                    Bird Skill Name
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>
+                    Training Progression
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>
+                    Total Training Slot
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -151,6 +165,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                           background: "#eee",
                           padding: "5px",
                           borderRadius: "4px",
+                          border: '0.5px solid black'
                         }}
                       >
                         <div
@@ -165,9 +180,11 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                       </div>
                       <p>{`${item.trainingProgression * 100}% Complete`}</p>
                     </TableCell>
-                    <TableCell>{item.totalTrainingSlot}</TableCell>
+                    <TableCell sx={{ padding: "16px 16px 16px 70px" }}>
+                      {item.totalTrainingSlot}
+                    </TableCell>
                     <TableCell>{item.status}</TableCell>
-                    {item.status == "WaitingForAssign" && ( //WaitingForAssign
+                    {item.status === "WaitingForAssign" && ( //WaitingForAssign
                       <TableCell>
                         <Button
                           onClick={() =>
@@ -178,7 +195,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                         </Button>
                       </TableCell>
                     )}
-                    {item.status == "Assigned" && (
+                    {item.status === "Assigned" && (
                       <TableCell>
                         <Button
                           onClick={() =>
@@ -189,6 +206,11 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                         </Button>
                       </TableCell>
                     )}
+                    {item.status !== "Assigned" &&
+                      item.status !== "WaitingForAssign" && (
+                        <TableCell></TableCell>
+                      )}
+
                     <TableCell>
                       <Button
                         onClick={() =>
@@ -207,25 +229,36 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div style={{ padding: 20 }}>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button
-              sx={{ float: "right", marginBottom: "20px" }}
-              variant="contained"
-              color="ochre"
-              className="button"
-              onClick={() => handleCallBackMainButton()}
-            >
-              Confirm
-            </Button>
-            <Button
-              sx={{ float: "right", marginRight: "10px", marginBottom: "20px" }}
+              sx={{
+                marginTop: "20px",
+                paddingLeft: "35px",
+                paddingRight: "35px",
+                border: "1px solid black",
+                marginRight: "25px",
+              }}
               className="button"
               onClick={() => handleCallBackMainButton()}
             >
               Cancel
             </Button>
+
+            <Button
+              sx={{
+                marginTop: "20px",
+                paddingLeft: "35px",
+                paddingRight: "35px",
+              }}
+              variant="contained"
+              color="success"
+              className="button"
+              onClick={() => handleCallBackMainButton()}
+            >
+              Confirm
+            </Button>
           </div>
-        </>
+        </div>
       )}
 
       {renderTrainer && (
