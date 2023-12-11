@@ -31,8 +31,7 @@ const PricePolicyView = () => {
   const [changeConsultantPrice, setChangeConsultantPrice] = useState(null);
   const [changeDistancePrice, setChangeDistancePrice] = useState(null);
 
-  const [renderConsultantPriceIndex, setRenderConsultantPriceIndex] =
-    useState(0); // 0: Default, 1: Update
+  const [renderConsultantPriceIndex, setRenderConsultantPriceIndex] = useState(0); // 0: Default, 1: Update
   const [renderDistancePriceIndex, setRenderDistancePriceIndex] = useState(0); // 0: Default, 1: Update
 
   const [listConsultantPricePolicy, setListConsultantPricePolicy] = useState(
@@ -49,6 +48,7 @@ const PricePolicyView = () => {
         console.log("Fail Get Consultant Price Policy list test", e)
       );
   }, [renderConsultantPriceIndex]);
+  const sortedPricePolicyList = [...listConsultantPricePolicy].sort((a, b) => a.id - b.id);
 
   const [listDistancePricePolicy, setListDistancePricePolicy] = useState([]);
   useEffect(() => {
@@ -60,6 +60,7 @@ const PricePolicyView = () => {
       })
       .catch((e) => console.log("Fail Get Distance Price Policy list test", e));
   }, [renderDistancePriceIndex]);
+  const sortedDistancePriceList = [...listDistancePricePolicy].sort((a, b) => a.id - b.id);
 
   const handleUpdateConsultantOnClick = (rowId, price) => {
     setSelectedPriceId(rowId);
@@ -136,7 +137,7 @@ const PricePolicyView = () => {
           spacing={2}
         >
           <Grid item xs={12}>
-            {listConsultantPricePolicy && (
+            {sortedPricePolicyList && (
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
@@ -152,10 +153,10 @@ const PricePolicyView = () => {
                     {userRole === "Manager" ? <TableCell></TableCell> : <></>}
                   </TableHead>
                   <TableBody>
-                    {listConsultantPricePolicy.map((row) => (
+                    {sortedPricePolicyList.map((row) => (
                       <TableRow>
                         <TableCell>
-                          <Typography>{row.id}</Typography>
+                          {sortedPricePolicyList.indexOf(row) + 1}
                         </TableCell>
                         <TableCell>
                           <Typography>
@@ -216,7 +217,10 @@ const PricePolicyView = () => {
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateConsultantOnClick(row.id, row.price);
+                                handleUpdateConsultantOnClick(
+                                  row.id,
+                                  row.price
+                                );
                               }}
                             >
                               Update
@@ -253,7 +257,7 @@ const PricePolicyView = () => {
           spacing={2}
         >
           <Grid item xs={12}>
-            {listDistancePricePolicy && (
+            {sortedDistancePriceList && (
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
@@ -269,10 +273,10 @@ const PricePolicyView = () => {
                     {userRole === "Manager" ? <TableCell></TableCell> : <></>}
                   </TableHead>
                   <TableBody>
-                    {listDistancePricePolicy.map((row) => (
+                    {sortedDistancePriceList.map((row) => (
                       <TableRow>
                         <TableCell>
-                          <Typography>{row.id}</Typography>
+                          <Typography>{sortedDistancePriceList.indexOf(row) + 1}</Typography>
                         </TableCell>
                         <TableCell>
                           <Typography>
@@ -333,7 +337,10 @@ const PricePolicyView = () => {
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateDistanceOnClick(row.id, row.pricePerKm);
+                                handleUpdateDistanceOnClick(
+                                  row.id,
+                                  row.pricePerKm
+                                );
                               }}
                             >
                               Update
