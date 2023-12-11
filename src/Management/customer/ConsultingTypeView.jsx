@@ -17,6 +17,7 @@ import {
   Button,
 } from "@mui/material";
 import { ochreTheme } from "../themes/Theme";
+import { toast } from "react-toastify";
 
 const ConsultingTypeView = () => {
   const accessToken = JSON.parse(localStorage.getItem("user-token"));
@@ -44,9 +45,10 @@ const ConsultingTypeView = () => {
       .UpdateConsultingType({ id: selectedTypeId, name: changedName })
       .then((res) => {
         console.log("Success Consulting Type Update test", res.data);
+        toast.success("Update Consultant Type Success");
         setUpdateRenderIndex(0);
       })
-      .catch((e) => console.log("Fail Consulting Type Update test", e));
+      .catch((e) => toast.error(e));
   };
 
   const handleUpdateOnClick = (id, name) => {
