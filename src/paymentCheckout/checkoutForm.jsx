@@ -5,8 +5,15 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import Loader from "./Loader";
+import WorkshopService from "../services/workshop.service";
+import OnlinecourseService from "../services/onlinecourse.service";
+import { toast } from "react-toastify";
 
-export default function CheckoutForm() {
+export default function CheckoutForm({
+  workshopClassId,
+  onlineClassId,
+  paymentSecret,
+}) {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -44,6 +51,46 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
+    if (workshopClassId && paymentSecret) {
+      WorkshopService.postPurchaseWsClass({ workshopClassId: workshopClassId, paymentCode: paymentSecret})
+        .then((res) => {
+          toast.success("Successfully Paid", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: 0,
+            theme: "colored",
+          });
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+          toast.error("FAIL TO SUBMIT ORDER");
+        });
+    }
+
+    if (onlineClassId) {
+      OnlinecourseService.postSubmitPayment({courseId: onlineClassId, paymentCode: paymentSecret})
+        .then((res) => {
+          toast.success("Successfully Paid", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: 0,
+            theme: "colored",
+          });
+        })
+        .catch((err) => {
+          console.log("False to submit Order: ", err.response);
+          toast.error("FAIL TO SUBMIT ORDER");
+        });
+    }
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -60,6 +107,11 @@ export default function CheckoutForm() {
 
     setIsLoading(false);
   };
+
+  console.log('workshopClassId', workshopClassId)
+  console.log('onlineClassId', onlineClassId)
+
+  console.log('paymentSecret', paymentSecret)
 
   return (
     <form onSubmit={handleSubmit}>

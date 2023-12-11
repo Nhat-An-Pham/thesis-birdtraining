@@ -67,31 +67,40 @@ const TrainerListByBirdSkill = ({
       });
   }
   return (
-    <TableContainer padding={20} component={Paper}>
-      <Table className="table">
-        <TableHead>
-          <h2>Trainer</h2>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {trainers.map((trainer) => (
-            <TableRow key={trainer.id}>
-              <TableCell>{trainer.name}</TableCell>
-              <TableCell>{trainer.email}</TableCell>
-              <TableCell>
-                <Button onClick={() => handleAssignButton(trainer.id)}>
-                  Assign
-                </Button>
-              </TableCell>
+    <div style={{ padding: 20 }}>
+      <h2>Trainer</h2>
+      <TableContainer
+        sx={{
+          boxShadow:
+            "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+          borderRadius: 3,
+        }}
+        component={Paper}
+      >
+        <Table className="table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell></TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {trainers.map((trainer) => (
+              <TableRow key={trainer.id}>
+                <TableCell>{trainer.name}</TableCell>
+                <TableCell>{trainer.email}</TableCell>
+                <TableCell>
+                  <Button onClick={() => handleAssignButton(trainer.id)}>
+                    Assign
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 

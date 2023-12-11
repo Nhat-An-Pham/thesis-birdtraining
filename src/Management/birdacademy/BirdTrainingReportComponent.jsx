@@ -20,12 +20,16 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import { Tab } from "@coreui/coreui";
 import { ochreTheme } from "../themes/Theme";
 import ReportModifyComponent from "./ReportModifyComponent";
+import { jwtDecode } from "jwt-decode";
 
 const BirdTrainingReportComponent = ({
   selectedProgress,
   birdSkillId,
   callbackAssigned,
 }) => {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [reportList, setReportList] = useState([]);
   const [selectedReport, setSelectedReport] = useState();
   const [renderModifyReport, setRenderModifyReport] = useState(false);
@@ -84,7 +88,6 @@ const BirdTrainingReportComponent = ({
                 <TableCell>Trainer Email</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell></TableCell>
-                <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (
                 <TableBody>
@@ -102,7 +105,7 @@ const BirdTrainingReportComponent = ({
                     <TableCell>{rsl.trainerEmail}</TableCell>
                     <TableCell>{rsl.status}</TableCell>
                     <TableCell>
-                      {rsl.status == "NotYet" && (
+                      {rsl.status == "NotYet" && userRole != "Trainer" && (
                         <Button
                           sx={{ float: "right", marginBottom: "20px" }}
                           variant="contained"
@@ -118,8 +121,16 @@ const BirdTrainingReportComponent = ({
               ))}
             </Table>
 
-            <div className="main-button-container">
+            <div
+              className="main-button-container"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Button
+                sx={{
+                  marginTop: 3,
+                  padding: "5px 25px 5px 25px",
+                  border: "1px solid black",
+                }}
                 className="button"
                 onClick={() => handleCallBackSkillButton()}
               >
