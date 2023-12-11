@@ -68,7 +68,7 @@ const TrainerAssignedTrainingSkill = () => {
     // Simulate fetching bird information based on customerId
     // Replace this with your actual API call or data fetching logic
     fetchData();
-  }, [user]);
+  }, []);
   const onCallbackAssigned = async () => {
     fetchData();
     setRenderProgress(true);

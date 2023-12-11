@@ -238,7 +238,7 @@ class TrainingCourseManagementService {
   async getBirdTrainingReportByProgressId(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-staff/birdtrainingreport-progressid`,
+        `${BASE_URL}/api/trainingcourse/birdtrainingreport-progressid`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,

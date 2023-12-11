@@ -89,13 +89,34 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
         {renderIndex == 1 ? <>Upload training done evidences video</> : <></>}
       </DialogTitle>
       <DialogContent>
-        <div style={{ margin: 2 }}>
-          <form onSubmit={handleConfirm} encType="multipart/form-data">
+        <div>
+          <form
+            style={{ margin: 2 }}
+            onSubmit={handleConfirm}
+            encType="multipart/form-data"
+          >
+            <FormControl required style={{ maxWidth: 500, marginBottom: 15 }}>
+              <Typography variant="h6" gutterBottom>
+                Videos
+              </Typography>
+              <Button variant="contained" color="ochre">
+                <UploadComponent onChange={handleFileChange} accept="video/*">
+                  Upload video(s)
+                </UploadComponent>
+              </Button>
+              {/* Display submitted files here */}
+              <div>
+                {submittedVideos.map((videoName, index) => (
+                  <div key={index}>{videoName}</div>
+                ))}
+              </div>
+            </FormControl>
             <FormControl
               sx={{
                 width: 500,
                 maxWidth: 610,
-                padding: 3,
+                marginTop: 3,
+                marginBottom: 3,
               }}
               required
             >
@@ -112,22 +133,7 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
                 <MenuItem value={"NotPass"}>Not Pass</MenuItem>
               </Select>
             </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
-              <Typography variant="h6" gutterBottom>
-                Videos
-              </Typography>
-              <Button variant="contained" color="ochre">
-                <UploadComponent onChange={handleFileChange} accept="video/*">
-                  Upload video(s)
-                </UploadComponent>
-              </Button>
-              {/* Display submitted files here */}
-              <div>
-                {submittedVideos.map((videoName, index) => (
-                  <div key={index}>{videoName}</div>
-                ))}
-              </div>
-            </FormControl>
+
             <br />
             <Button
               sx={{ float: "right", marginBottom: "20px" }}
