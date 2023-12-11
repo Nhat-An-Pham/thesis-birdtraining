@@ -2,7 +2,7 @@ import { Alert, Button, CircularProgress, Divider, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Img } from "react-image";
 import { Carousel } from "react-responsive-carousel";
-import './upload.scss';
+import "./upload.scss";
 export const UploadComponent = ({
   children,
   value,
@@ -50,7 +50,7 @@ export const UploadComponent = ({
         spacing={3}
         padding={2}
       >
-        <Grid container item xs={12} justifyContent={'center'}>
+        <Grid container item xs={12} justifyContent={"center"}>
           <Button variant="contained" color="ochre">
             <label htmlFor="contained-button-file">
               <input
@@ -96,7 +96,7 @@ export const UploadComponent = ({
           </Grid>
         ) : (
           <Grid item xs={12}>
-            <Alert severity="info">No picture is provided!</Alert>
+            <Alert severity="info">No file is provided!</Alert>
           </Grid>
         )}
       </Grid>
