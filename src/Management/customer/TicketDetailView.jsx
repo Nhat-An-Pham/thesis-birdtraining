@@ -62,7 +62,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Assign Trainer test", e));
-      onClose();
+    onClose();
   };
 
   const CancelTicket = (ticketId) => {
@@ -72,7 +72,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Cancel Ticket");
       })
       .catch((e) => console.log("fail Cancel Ticket tes", e));
-      onClose();
+    onClose();
   };
 
   const ConfirmTicket = (ticketId, distance) => {
@@ -82,7 +82,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
-      onClose();
+    onClose();
   };
 
   const PreCalculatePrice = (ticketId, distance) => {
@@ -204,6 +204,9 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
                       <TextField
                         label={"Km"}
                         type="number"
+                        inputProps={{
+                          min: 0,
+                        }}
                         onChange={(e) =>
                           hanldeDistanceChange(ticketDetail.id, e.target.value)
                         }

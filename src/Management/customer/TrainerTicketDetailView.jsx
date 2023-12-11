@@ -42,27 +42,30 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .then((res) => {
         // console.log("success Consulting Ticket Detail test", res.data);
         setTicketDetail(res.data);
+        console.log(res.data.actualSlotStart);
+        GetSlotTime(res.data.actualSlotStart);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
   }, []);
 
   const [selectedSLotTime, setSelectedSlotTime] = useState(-1);
-  const [slotTime, setSlotTIme] = useState([]);
-  useEffect(() => {
-    timetableService
-      .getSlotTime()
-      .then((res) => {
-        console.log("Success Get Time SLot test", res.data);
-        setSlotTIme(res.data);
-      })
-      .catch((e) => console.log("Fail Get Time SLot test", e));
-  }, []);
+  const [slotTime, setSlotTime] = useState([]);
+  const GetSlotTime = (actualSlotStart) => {
+    consultantService
+    .GetAvailableFinishTime({actualSlotStart})
+    .then((res) => {
+      console.log("Success Get Available Time SLot test", res.data);
+      setSlotTime(res.data);
+    })
+    .catch((e) => console.log("Fail Get Available Time Slot test", e));
+  }
 
-  const FinishTicket = (id, actualEndSlot, evidence) => {
+  const FinishTicket = (id, actualSlotStart, actualEndSlot, evidence) => {
     console.log("Evidence: " + evidence);
     consultantService
       .finishAppointment({
         id: id,
+        actualSlotStart: actualSlotStart,
         actualEndSlot: actualEndSlot,
         evidence: evidence,
       })
@@ -72,13 +75,14 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .catch((e) => console.log("Fail Finish Ticket test", e));
   };
 
-  const FinishOnlineTicket = (id, actualEndSlot, evidence) => {
+  const FinishOnlineTicket = (id, actualSlotStart, actualEndSlot, evidence) => {
     console.log("id", id);
     console.log("actualEndSlot", actualEndSlot);
     console.log("evidence", evidence);
     consultantService
       .finishOnlineAppointment({
         id: id,
+        actualSlotStart: actualSlotStart,
         actualEndSlot: actualEndSlot,
         evidence: evidence,
       })
@@ -88,12 +92,14 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .catch((e) => console.log("Fail Finish Ticket test", e));
   };
 
-  const handleFinishClick = (id, actualEndSlot, evidence) => {
-    FinishTicket(id, actualEndSlot, evidence);
+  const handleFinishClick = (id, actualSlotStart, actualEndSlot, evidence) => {
+    FinishTicket(id, actualSlotStart, actualEndSlot, evidence);
+    onClose();
   };
 
-  const handleFinishOnlineClick = (id, actualEndSlot, evidence) => {
-    FinishOnlineTicket(id, actualEndSlot, evidence);
+  const handleFinishOnlineClick = (id, actualSlotStart, actualEndSlot, evidence) => {
+    FinishOnlineTicket(id, actualSlotStart, actualEndSlot, evidence);
+    onClose();
   };
 
   return (
@@ -325,8 +331,8 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                     color="ochre"
                     onClick={() =>
                       handleFinishOnlineClick(
-                        1,
                         ticketDetail.id,
+                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         onlineEvidence
                       )
@@ -340,8 +346,8 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                     color="ochre"
                     onClick={() =>
                       handleFinishClick(
-                        1,
                         ticketDetail.id,
+                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         evidence
                       )
