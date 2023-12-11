@@ -68,11 +68,14 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
         .then((response) => {
           // Handle the response data
           console.log("Success:", response);
+          toast.success("Check-in successfully!");
+
           callBackMainManagement();
         })
         .catch((error) => {
           // Handle errors
           console.error("Error:", error);
+          toast.error("An error has occured!");
         });
     }
   };
@@ -118,7 +121,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
               </Typography>
               <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
+            <FormControl required style={{ marginBottom: 15, maxWidth: 650 }}>
               <Typography variant="h6" gutterBottom>
                 Pictures
               </Typography>

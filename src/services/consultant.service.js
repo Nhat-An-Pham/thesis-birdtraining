@@ -163,11 +163,11 @@ class ConsultantService {
     return response;
   }
 
-  async finishAppointment({ id, actualEndSlot, evidence }) {
+  async finishAppointment({ id, actualSlotStart, actualEndSlot, evidence }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
       API_URL_TRAINER + `finishAppointment`,
-      { id, actualEndSlot, evidence },
+      { id, actualSlotStart, actualEndSlot, evidence },
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -178,12 +178,13 @@ class ConsultantService {
     return response;
   }
 
-  async finishOnlineAppointment({ id, actualEndSlot, evidence }) {
+  async finishOnlineAppointment({ id, actualSlotStart, actualEndSlot, evidence }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
       API_URL_TRAINER + `finishOnlineAppointment`,
       {
         id,
+        actualSlotStart,
         actualEndSlot,
         evidence,
       },
@@ -252,6 +253,14 @@ class ConsultantService {
           Authorization: `Bearer ${accessToken}`,
         },
       }
+    );
+    return response;
+  }
+
+  async GetAvailableFinishTime({ actualSlotStart }) {
+    const response = await axios.get(
+      API_URL_TRAINER +
+        `getAvailableFinishTime?actualStartSlot=${actualSlotStart}`
     );
     return response;
   }

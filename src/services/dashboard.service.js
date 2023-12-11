@@ -5,6 +5,70 @@ const BASE_URL = process.env.REACT_APP_API;
 // const BASE_URL = 'https://localhost:7176';
 const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 class DashboardService {
+  async GetConsultingTicketOverview(params = null){
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/consulting-ticket`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async GetWorkshopClassOverview(params = null){
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/workshop`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async GetTransactions(params = null){
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/transactions`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async GetOnlineCourseOverview(params = null){
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/online-course`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
   async GetListSpecies(params) {
     try {
       let response = await axios.get(

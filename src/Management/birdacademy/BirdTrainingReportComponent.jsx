@@ -20,12 +20,16 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import { Tab } from "@coreui/coreui";
 import { ochreTheme } from "../themes/Theme";
 import ReportModifyComponent from "./ReportModifyComponent";
+import { jwtDecode } from "jwt-decode";
 
 const BirdTrainingReportComponent = ({
   selectedProgress,
   birdSkillId,
   callbackAssigned,
 }) => {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [reportList, setReportList] = useState([]);
   const [selectedReport, setSelectedReport] = useState();
   const [renderModifyReport, setRenderModifyReport] = useState(false);
@@ -101,7 +105,7 @@ const BirdTrainingReportComponent = ({
                     <TableCell>{rsl.trainerEmail}</TableCell>
                     <TableCell>{rsl.status}</TableCell>
                     <TableCell>
-                      {rsl.status == "NotYet" && (
+                      {rsl.status == "NotYet" && userRole != "Trainer" && (
                         <Button
                           sx={{ float: "right", marginBottom: "20px" }}
                           variant="contained"

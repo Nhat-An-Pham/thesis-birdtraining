@@ -299,6 +299,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
             </Typography> */}
             {birdTrainingCourse?.status != "TrainingDone" && (
               <FormControl
+                required
                 sx={{
                   marginTop: 4,
                   marginBottom: 3,
@@ -321,7 +322,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   {trainingPricePolicies
                     .filter((policy) => policy.name != "Success Requested")
                     .map((policy) => (
-                      <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                      <MenuItem value={policy.id}>
+                        {policy.name}: {policy.chargeRate * 100}%
+                      </MenuItem>
                     ))}
                 </Select>
               </FormControl>
@@ -332,7 +335,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               </Typography>
               <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
             </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
+            <FormControl required style={{ marginBottom: 15, maxWidth: 650 }}>
               <Typography variant="h6" gutterBottom>
                 Pictures
               </Typography>

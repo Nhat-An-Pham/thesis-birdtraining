@@ -28,11 +28,14 @@ import timetableService from "../../services/timetable.service";
 import trainingCourseManagementService from "../../services/trainingcourse-management.service";
 import { ochreTheme } from "../themes/Theme";
 import { ToastContainer, toast } from "react-toastify";
+import SkillDoneDialog from "./SkillDoneDialog";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
   callBackTimetable,
 }) => {
+  const [renderDialog, setRenderDialog] = useState(0);
+
   const [slotList, setSlotList] = useState([]);
   const [timetableDetail, setTimetableDetail] = useState(null);
   // Simulate fetching bird information based on customerId
@@ -46,6 +49,7 @@ const TimetableTrainerSlotDetailComponent = ({
       let res = await trainingCourseManagementService
         .getTimetableReportView(params)
         .then((response) => {
+          console.log(response);
           setTimetableDetail(response);
         });
     } catch (error) {
@@ -77,11 +81,12 @@ const TimetableTrainerSlotDetailComponent = ({
         console.log("Success:", response);
         if (response.status == 206) {
           toast.success("Training skill have done!");
+          setRenderDialog(1);
         }
         if (response.status == 200) {
           toast.success("Mark slot done!");
         }
-        callBackTimetable();
+        //callBackTimetable();
       })
       .catch((error) => {
         // Handle errors
@@ -89,9 +94,19 @@ const TimetableTrainerSlotDetailComponent = ({
         console.log(error.response);
       });
   };
-
+  function oncallbackDone() {
+    setRenderDialog(0);
+    callBackTimetable();
+  }
   return (
     <ThemeProvider padding={20} theme={ochreTheme}>
+      {renderDialog == 1 && (
+        <SkillDoneDialog
+          trainingProgressId={timetableDetail?.progressId}
+          renderIndex={renderDialog}
+          callbackDone={oncallbackDone}
+        />
+      )}
       <ToastContainer />
       <AppBar position="static" color="ochre">
         <Toolbar>
