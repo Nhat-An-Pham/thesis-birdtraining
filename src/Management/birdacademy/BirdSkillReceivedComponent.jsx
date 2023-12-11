@@ -32,17 +32,17 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
     fetchData();
   }, [birdId]);
   return (
-    <div>
+    <>
       {birdSkillList != null && birdSkillList.length > 0 && (
-        <TableContainer padding={20}>
+        <TableContainer style={{padding: 20}}>
           <h2>Bird Skill Received For Bird {birdId}</h2>
           <Table>
             <TableHead>
-              <TableCell>Bird Name</TableCell>
-              <TableCell>Bird Skill Name</TableCell>
-              <TableCell>Bird Skill Description</TableCell>
-              <TableCell>Received Date</TableCell>
-              <TableCell>Bird Skill Picture</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Name</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Name</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Description</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Received Date</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Picture</TableCell>
             </TableHead>
             {birdSkillList.map((rsl) => (
               <TableRow key={rsl.id}>
@@ -60,7 +60,7 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
                   >
                     <img
                       src={rsl.birdSkillPicture}
-                      alt="Description of the image"
+                      alt="Description"
                       style={{ width: "200px", height: "150px" }}
                     />
                   </a>
@@ -70,7 +70,7 @@ const BirdSkillReceivedComponent = ({ birdId }) => {
           </Table>
         </TableContainer>
       )}
-    </div>
+    </>
   );
 };
 

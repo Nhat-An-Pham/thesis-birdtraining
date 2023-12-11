@@ -65,10 +65,13 @@ class WorkshopService {
     }
 
     //Purchase
-    async postPurchaseWsClass({ wclassId }) {
+    async postPurchaseWsClass({ workshopClassId ,paymentCode}) {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .post(API_URL + `/purchase?workshopClassId=${wclassId}`, null, {
+            .post(API_URL + `/purchase`, {
+                workshopClassId,
+                paymentCode
+            }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

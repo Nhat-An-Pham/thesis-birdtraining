@@ -184,16 +184,22 @@ export default function BirdAcademyMng() {
     <div className="workshop-container">
       {/* <BirdAcademyTab /> */}
       {/* <ToastContainer /> */}
-      {currentUser.role != "Trainer" && (
-        <ThemeProvider theme={ochreTheme}>
-          {/* <ReworkSidebar selectTab={5} /> */}
-          {/* <div style={{ margin: "20px" }} className="workshop_section-wrapper"> */}
-          <Grid container>
-            <Grid item xs={12}>
-              {renderCustomer && (
-                // <div className="workshop_section_table workshop_section_table-workshop">
-                <div style={{ padding: 20 }}>
-                  {/* {currentUser.role == "Manager" && (
+      <ThemeProvider theme={ochreTheme}>
+        {/* <ReworkSidebar selectTab={5} /> */}
+        {/* <div style={{ margin: "20px" }} className="workshop_section-wrapper"> */}
+        <Grid container>
+          <Grid item xs={12}>
+            {renderCustomer && (
+              // <div className="workshop_section_table workshop_section_table-workshop">
+              <div
+                style={{
+                  paddingLeft: 40,
+                  paddingRight: 40,
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                }}
+              >
+                {/* {currentUser.role == "Manager" && (
                   <Button
                     sx={{ float: "right", marginBottom: "20px" }}
                     variant="contained"
@@ -203,218 +209,182 @@ export default function BirdAcademyMng() {
                     Training course management
                   </Button>
                 )} */}
-                  <h2>Customers</h2>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Customer Name</TableCell>
-                          <TableCell>Email</TableCell>
-                          <TableCell>Phone Number</TableCell>
-                          <TableCell>Avatar</TableCell>
-                          <TableCell></TableCell>
-                          <TableCell></TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {users && users.length > 0
-                          ? users.map((user) => (
-                              <TableRow
-                                key={user.id}
-                                style={{
-                                  cursor: "pointer",
-                                  background:
-                                    selectedUser === user.id
-                                      ? "#f0f0f0"
-                                      : "white",
+                <h2>Customers</h2>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: 3,
+                  }}
+                >
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Customer Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Email</TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Phone Number
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Avatar</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                      {users && users.length > 0
+                        ? users.map((user) => (
+                            <TableRow
+                              key={user.id}
+                              style={{
+                                cursor: "pointer",
+                                background:
+                                  selectedUser === user.id
+                                    ? "#f0f0f0"
+                                    : "white",
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
                                 }}
                               >
-                                <TableCell>{user.name}</TableCell>
-                                <TableCell>{user.email}</TableCell>
-                                <TableCell>{user.phoneNumber}</TableCell>
-                                <TableCell className="image-cell">
-                                  <a
-                                    href={user.avatar}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    <img
-                                      src={user.avatar}
-                                      alt="Customer avatar"
-                                    />
-                                  </a>
-                                </TableCell>
-                                <TableCell>
-                                  <Button
-                                    variant="contained"
-                                    color="ochre"
-                                    onClick={() => handleUserClick(user.id)}
-                                  >
-                                    View Request
-                                  </Button>
-                                </TableCell>
-                                <TableCell>
-                                  <Button
-                                    variant="contained"
-                                    color="ochre"
-                                    onClick={() => handleShowBirdList(user.id)}
-                                  >
-                                    Show Bird List
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
-                            ))
-                          : null}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </div>
-              )}
-              {renderCustomerRequest && (
-                // <div className="workshop_section_table workshop_section_table-classes">
-                <div style={{ padding: 40 }}>
-                  <h2>Registered TrainingCourse</h2>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Bird Name</TableCell>
-                          <TableCell>Owner Name</TableCell>
-                          <TableCell>Course Title</TableCell>
-                          <TableCell>Registered</TableCell>
-                          <TableCell>Training start date</TableCell>
-                          <TableCell>Training done date</TableCell>
-                          <TableCell>Status</TableCell>
-                          <TableCell
-                            style={{ width: 75 }}
-                            align="center"
-                          ></TableCell>
-                          <TableCell
-                            style={{ width: 75 }}
-                            align="center"
-                          ></TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {selectedUser !== null &&
-                        birdTrainingCourse &&
-                        birdTrainingCourse.length > 0
-                          ? birdTrainingCourse
-                              .filter((cls) => cls.customerId === selectedUser)
-                              .map((cls) => (
-                                <>
-                                  <TableRow key={cls.id}>
-                                    <TableCell>{cls.birdName}</TableCell>
-                                    <TableCell>{cls.customerName}</TableCell>
-                                    <TableCell>
-                                      {cls.trainingCourseTitle}
-                                    </TableCell>
-                                    <TableCell>{cls.registeredDate}</TableCell>
-                                    <TableCell>
-                                      {cls.startTrainingDate != null
-                                        ? cls.startTrainingDate
-                                        : ""}
-                                    </TableCell>
-                                    <TableCell>
-                                      {cls.trainingDoneDate != null
-                                        ? addonService.formatDate(
-                                            cls.trainingDoneDate
-                                          )
-                                        : ""}
-                                    </TableCell>
-                                    <TableCell>{cls.status}</TableCell>
-                                    {cls.status === "Registered" && ( //Registered
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleConfirmButtonClick(cls.id);
-                                            // setRenderCustomerRequest(false);
-                                          }}
-                                        >
-                                          Confirm
-                                        </Button>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCancelButtonClick(cls.id);
-                                            // setRenderCustomerRequest(false);
-                                          }}
-                                        >
-                                          Cancel
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {cls.status === "Confirmed" && (
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCheckInButtonClick(cls.id);
-                                          }}
-                                        >
-                                          Check In
-                                        </Button>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCancelButtonClick(cls.id);
-                                            // setRenderCustomerRequest(false);
-                                          }}
-                                        >
-                                          Cancel
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {cls.status === "CheckIn" && (
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCheckOutButtonClick(cls.id);
-                                          }}
-                                        >
-                                          Check Out
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {cls.status === "Training" && (
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCheckOutButtonClick(cls.id);
-                                          }}
-                                        >
-                                          Check Out
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {cls.status === "TrainingDone" && (
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleCheckOutButtonClick(cls.id);
-                                          }}
-                                        >
-                                          Check Out
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {cls.status === "CheckOut" && (
-                                      <TableCell>
-                                        <Button style={{ fontSize: 14 }}>
-                                          Payment
-                                        </Button>
-                                      </TableCell>
-                                    )}
-                                    {/* {cls.status === "Complete" && (
+                                {user.name}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                              >
+                                {user.email}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                              >
+                                {user.phoneNumber}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                                className="image-cell"
+                              >
+                                <a
+                                  href={user.avatar}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  <img
+                                    src={user.avatar}
+                                    alt="Customer avatar"
+                                  />
+                                </a>
+                              </TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="contained"
+                                  color="ochre"
+                                  onClick={() => handleUserClick(user.id)}
+                                >
+                                  View Request
+                                </Button>
+                              </TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="contained"
+                                  color="ochre"
+                                  onClick={() => handleShowBirdList(user.id)}
+                                >
+                                  Show Bird List
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        : null}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            )}
+            {renderCustomerRequest && (
+              // <div className="workshop_section_table workshop_section_table-classes">
+              <div style={{ padding: 40 }}>
+                <h2>Registered TrainingCourse</h2>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: 3,
+                  }}
+                >
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Bird Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Owner Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Course Title
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Registered
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Training start date
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Training done date
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {selectedUser !== null &&
+                      birdTrainingCourse &&
+                      birdTrainingCourse.length > 0
+                        ? birdTrainingCourse
+                            .filter((cls) => cls.customerId === selectedUser)
+                            .map((cls) => (
+                              <>
+                                <TableRow key={cls.id}>
+                                  <TableCell>{cls.birdName}</TableCell>
+                                  <TableCell>{cls.customerName}</TableCell>
                                   <TableCell>
-                                    <button></button>
+                                    {cls.trainingCourseTitle}
                                   </TableCell>
-                                )} */}
-                                    {cls.status === "Cancel" && (
+                                  <TableCell>{cls.registeredDate}</TableCell>
+                                  <TableCell>
+                                    {cls.startTrainingDate != null
+                                      ? addonService.formatDate(
+                                          cls.startTrainingDate
+                                        )
+                                      : ""}
+                                  </TableCell>
+                                  <TableCell>
+                                    {cls.trainingDoneDate != null
+                                      ? addonService.formatDate(
+                                          cls.trainingDoneDate
+                                        )
+                                      : ""}
+                                  </TableCell>
+                                  <TableCell>{cls.status}</TableCell>
+                                  {cls.status === "Registered" && ( //Registered
+                                    <TableCell>
                                       <Button
                                         style={{ fontSize: 14 }}
                                         onClick={() => {
@@ -424,66 +394,155 @@ export default function BirdAcademyMng() {
                                       >
                                         Confirm
                                       </Button>
-                                    )}
-                                    {cls.status != "Registered" &&
-                                      cls.status != "Cancel" && (
-                                        <TableCell>
-                                          <Button
-                                            style={{ fontSize: 14 }}
-                                            onClick={() => {
-                                              handleTrainingSkillViewClick(
-                                                cls.id
-                                              );
-                                            }}
-                                          >
-                                            View Details
-                                          </Button>
-                                        </TableCell>
-                                      )}
-                                  </TableRow>
-                                </>
-                              ))
-                          : null}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </div>
-              )}
-              {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCancelButtonClick(cls.id);
+                                          // setRenderCustomerRequest(false);
+                                        }}
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "Confirmed" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCheckInButtonClick(cls.id);
+                                        }}
+                                      >
+                                        Check In
+                                      </Button>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCancelButtonClick(cls.id);
+                                          // setRenderCustomerRequest(false);
+                                        }}
+                                      >
+                                        Cancel
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "CheckIn" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCheckOutButtonClick(cls.id);
+                                        }}
+                                      >
+                                        Check Out
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "Training" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCheckOutButtonClick(cls.id);
+                                        }}
+                                      >
+                                        Check Out
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "TrainingDone" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleCheckOutButtonClick(cls.id);
+                                        }}
+                                      >
+                                        Check Out
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "CheckOut" && (
+                                    <TableCell>
+                                      <Button style={{ fontSize: 14 }}>
+                                        Payment
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status === "Complete" && (
+                                    <TableCell></TableCell>
+                                  )}
+                                  {cls.status === "Cancel" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleConfirmButtonClick(cls.id);
+                                          // setRenderCustomerRequest(false);
+                                        }}
+                                      >
+                                        Confirm
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status !== "Registered" &&
+                                  cls.status !== "Cancel" ? (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleTrainingSkillViewClick(cls.id);
+                                        }}
+                                      >
+                                        View Details
+                                      </Button>
+                                    </TableCell>
+                                  ) : (
+                                    <TableCell></TableCell>
+                                  )}
+                                </TableRow>
+                              </>
+                            ))
+                        : null}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            )}
+            {/* <button onClick={handleShowBirdList()}>Show Bird List</button> */}
 
-              {renderTrainingSkill && (
-                <TrainingSkillComponent
-                  requestedId={birdTrainingCourseId} //birdTrainingCourseId
-                  callBackMainManagement={onCallBackMainManagement}
-                />
-              )}
-              {showBirdList && (
-                <CustomerBirdComponent
-                  customerId={selectedUser}
-                  callBackMainManagement={onCallBackMainManagement}
-                />
-              )}
-              {renderReceiveBirdForm && (
-                <ReceivedBirdComponent
-                  requestedId={birdTrainingCourseId} //birdTrainingCourseId
-                  callBackMainManagement={onCallBackMainManagement}
-                />
-              )}
-              {renderReturnBirdForm && (
-                <ReturnBirdComponent
-                  requestedId={birdTrainingCourseId} //birdTrainingCourseId
-                  callBackMainManagement={onCallBackMainManagement}
-                />
-              )}
-              {renderManager && (
-                <TrainingCourseMng
-                  callBackMainManagement={onCallBackMainManagement}
-                />
-              )}
-            </Grid>
+            {renderTrainingSkill && (
+              <TrainingSkillComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {showBirdList && (
+              <CustomerBirdComponent
+                customerId={selectedUser}
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {renderReceiveBirdForm && (
+              <ReceivedBirdComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {renderReturnBirdForm && (
+              <ReturnBirdComponent
+                requestedId={birdTrainingCourseId} //birdTrainingCourseId
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
+            {renderManager && (
+              <TrainingCourseMng
+                callBackMainManagement={onCallBackMainManagement}
+              />
+            )}
           </Grid>
-        </ThemeProvider>
-      )}
+        </Grid>
+      </ThemeProvider>
     </div>
   );
 }
