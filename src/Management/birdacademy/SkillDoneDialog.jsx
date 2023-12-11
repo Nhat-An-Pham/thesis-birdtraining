@@ -89,27 +89,27 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
         {renderIndex == 1 ? <>Upload training done evidences video</> : <></>}
       </DialogTitle>
       <DialogContent>
-        <div>
+        <div style={{ padding: 2 }}>
           <form
             style={{ margin: 2 }}
             onSubmit={handleConfirm}
             encType="multipart/form-data"
           >
-            <FormControl required style={{ maxWidth: 500, marginBottom: 15 }}>
+            <FormControl
+              required
+              style={{
+                maxWidth: 500,
+                maxHeight: 400,
+                marginBottom: 15,
+              }}
+            >
               <Typography variant="h6" gutterBottom>
                 Videos
               </Typography>
-              <Button variant="contained" color="ochre">
-                <UploadComponent onChange={handleFileChange} accept="video/*">
-                  Upload video(s)
-                </UploadComponent>
-              </Button>
+              <UploadComponent onChange={handleFileChange} accept="video/*">
+                Upload video(s)
+              </UploadComponent>
               {/* Display submitted files here */}
-              <div>
-                {submittedVideos.map((videoName, index) => (
-                  <div key={index}>{videoName}</div>
-                ))}
-              </div>
             </FormControl>
             <FormControl
               sx={{
