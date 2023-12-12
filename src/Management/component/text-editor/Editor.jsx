@@ -4,7 +4,7 @@ import BlotFormatter from 'quill-blot-formatter';
 import 'quill/dist/quill.snow.css';
 import './editor.scss';
 
-const Editor = ({ onGetHtmlValue, htmlValue }) => {
+const Editor = ({ onGetHtmlValue, htmlValue, stylePropEditor, stylePropContainer }) => {
   const { quill, quillRef, Quill } = useQuill({
     modules: { blotFormatter: {} },
   });
@@ -41,8 +41,8 @@ const Editor = ({ onGetHtmlValue, htmlValue }) => {
   }, [quill]);
 
   return (
-    <div className="editor-container">
-      <div className="editor" ref={quillRef} />
+    <div className="editor-container" style={stylePropContainer}>
+      <div className="editor" ref={quillRef} style={stylePropEditor} />
     </div>
   );
 };
