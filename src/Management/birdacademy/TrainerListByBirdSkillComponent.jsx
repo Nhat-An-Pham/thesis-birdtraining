@@ -80,8 +80,8 @@ const TrainerListByBirdSkill = ({
         <Table className="table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>Name</TableCell>
+              <TableCell sx={{ fontWeight: 700 }}>Email</TableCell>
               <TableCell></TableCell>
             </TableRow>
           </TableHead>

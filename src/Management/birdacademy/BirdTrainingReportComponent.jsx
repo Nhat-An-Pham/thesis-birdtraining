@@ -78,15 +78,25 @@ const BirdTrainingReportComponent = ({
     <div style={{ padding: 20 }}>
       <ThemeProvider theme={ochreTheme}>
         {reportList != null && reportList.length > 0 && (
-          <TableContainer>
+          <TableContainer style={{ padding: 20 }}>
             <h2>Bird Training Report {selectedProgress.id}</h2>
             <Table>
               <TableHead>
-                <TableCell>Slot</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Trainer Name</TableCell>
-                <TableCell>Trainer Email</TableCell>
-                <TableCell>Status</TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Slot
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Date
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Trainer Name
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Trainer Email
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Status
+                </TableCell>
                 <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (
@@ -129,7 +139,8 @@ const BirdTrainingReportComponent = ({
                 sx={{
                   marginTop: 3,
                   padding: "5px 25px 5px 25px",
-                  border: "1px solid black",
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
                 }}
                 className="button"
                 onClick={() => handleCallBackSkillButton()}
