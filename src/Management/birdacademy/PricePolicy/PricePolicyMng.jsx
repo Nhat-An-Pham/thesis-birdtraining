@@ -34,7 +34,7 @@ import CreatePricePolicyComponent from "./CreatePricePolicyComponent";
 import DetailPricePolicyComponent from "./DetailPricePolicyComponent";
 // import { toast } from 'react-toastify';
 
-const PricePolicyMng = ({ callBackMainManagement }) => {
+const PricePolicyMng = () => {
   // let BASE_URL = 'https://localhost:7176/api';
 
   const [renderAllPolicies, setRenderAllPolicies] = useState(true);
