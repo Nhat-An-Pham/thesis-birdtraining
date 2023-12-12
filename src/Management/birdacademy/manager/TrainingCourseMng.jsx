@@ -184,17 +184,24 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
               Back
             </Button> */}
             <Grid item xs={12}>
-              <TableContainer component={Paper}>
+              <TableContainer
+                component={Paper}
+                style={{
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                  borderRadius: "5px",
+                }}
+              >
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Image</TableCell>
-                      <TableCell>Title</TableCell>
-                      <TableCell>Bird Species</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Image</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Title</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Bird Species</TableCell>
                       {/* <TableCell>Description</TableCell> */}
-                      <TableCell>Total Slot</TableCell>
-                      <TableCell>Price (USD)</TableCell>
-                      <TableCell>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Total Slot</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Price (USD)</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Status</TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                     </TableRow>
@@ -252,7 +259,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                             <TableCell>
                               <Button
                                 variant="contained"
-                                color="ochre"
+                                color="warning"
                                 onClick={() => handleDisableCourse(course)}
                               >
                                 Disable
