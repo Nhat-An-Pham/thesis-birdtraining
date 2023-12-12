@@ -33,13 +33,14 @@ export default function CustomerReqComponent() {
 
   const tabs = [
     {
-      label: "List Assigned",
-      component: <AssignedTicketView />,
-    },
-    {
       label: "List Not Assigned",
       component: <NotAssignedTicketView />,
     },
+    {
+      label: "List Assigned",
+      component: <AssignedTicketView />,
+    },
+
     {
       label: "List Handled",
       component: <HandledTicketView />,
