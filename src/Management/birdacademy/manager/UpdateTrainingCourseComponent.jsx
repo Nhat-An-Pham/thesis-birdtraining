@@ -147,7 +147,7 @@ const UpdateTrainingCourseComponent = ({
   return (
     <div>
       <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -162,7 +162,11 @@ const UpdateTrainingCourseComponent = ({
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Training Course Detail
             </Typography>
@@ -172,138 +176,167 @@ const UpdateTrainingCourseComponent = ({
       {selectedTrainingCourse ? (
         <>
           <div>
-            <div className="form-container">
+            <div
+              className="form-container"
+              style={{
+                display: "flex",
+                width: "100%",
+                padding: "20px 48px",
+                minHeight: "auto",
+              }}
+            >
               <form
+                style={{ width: "100%", display: "flex" }}
                 onSubmit={handleSubmit}
                 className="form"
                 encType="multipart/form-data"
               >
-                <Typography
-                  variant="h6"
-                  gutterBottom
-                  style={{ marginBottom: 35 }}
-                >
-                  General information
-                </Typography>
-                <FormControl
-                  required
-                  fullWidth
-                  sx={{
-                    marginBottom: "25px",
-                    width: "100%",
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "55%",
+                    maxWidth: "610px",
                   }}
                 >
-                  <InputLabel id="selectLabel_ChooseSpecies">
-                    Bird Species Name
-                  </InputLabel>
-                  {/* <Select
-              labelId="selectLabel_ChooseSpecies"
-              label="Choose Species"
-              value={selectedTrainingCourse.birdSpeciesId}
-              onChange={handleSelectSpecies}
-            >
-              {birdSpecies.map((speciy) => (
-                <MenuItem value={speciy.id}>{speciy.name}</MenuItem>
-              ))}
-            </Select> */}
-                  <Input
-                    type="text"
-                    value={selectedTrainingCourse?.birdSpeciesName}
-                    readOnly
-                  ></Input>
-                </FormControl>
-                <FormControl fullWidth required style={{ marginBottom: 20 }}>
-                  <InputLabel htmlFor="title">Title</InputLabel>
-                  <Input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  required
-                  variant="outlined"
-                  style={{ marginBottom: 20 }}
-                >
-                  <InputLabel>Price</InputLabel>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    onChange={(e) => setPrice(e.target.value)}
-                    required
-                    value={price}
-                  />
-                </FormControl>
-                <FormControl
-                  fullWidth
-                  required
-                  variant="outlined"
-                  style={{ marginBottom: 20 }}
-                >
-                  <InputLabel>Slot</InputLabel>
-                  <Input
-                    type="number"
-                    step="0.01"
-                    required
-                    value={slot}
-                    readOnly
-                  />
-                </FormControl>
-                <FormControl fullWidth required style={{ marginBottom: 20 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Description
+                  {/* general infor */}
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    style={{ marginBottom: 35 }}
+                  >
+                    General information
                   </Typography>
-                  <Editor
-                    onGetHtmlValue={handleEditorChange}
-                    htmlValue={tmpDesc}
-                  />
-                </FormControl>
-                <FormControl required style={{ marginBottom: 15 }}>
-                  <Typography variant="h6" gutterBottom>
-                    Pictures
-                  </Typography>
-                  <Img
-                    src={selectedTrainingCourse?.picture}
-                    alt="BirdPicture"
-                    style={{ width: "200px", height: "150px", margin: "20px" }}
-                  />
-                  <Button variant="contained" color="ochre">
+                  {/* bird species name */}
+                  <FormControl
+                    required
+                    fullWidth
+                    sx={{
+                      marginBottom: "25px",
+                      width: "100%",
+                    }}
+                  >
+                    <InputLabel id="selectLabel_ChooseSpecies">
+                      Bird Species Name
+                    </InputLabel>
+                    <Input
+                      type="text"
+                      value={selectedTrainingCourse?.birdSpeciesName}
+                      readOnly
+                    ></Input>
+                  </FormControl>
+                  {/* Title */}
+                  <FormControl fullWidth required style={{ marginBottom: 20 }}>
+                    <InputLabel htmlFor="title">Title</InputLabel>
+                    <Input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </FormControl>
+                  {/* price */}
+                  <FormControl
+                    fullWidth
+                    required
+                    variant="outlined"
+                    style={{ marginBottom: 20 }}
+                  >
+                    <InputLabel>Price</InputLabel>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      onChange={(e) => setPrice(e.target.value)}
+                      required
+                      value={price}
+                    />
+                  </FormControl>
+                  {/* slot */}
+                  <FormControl
+                    fullWidth
+                    required
+                    variant="outlined"
+                    style={{ marginBottom: 20 }}
+                  >
+                    <InputLabel>Slot</InputLabel>
+                    <Input
+                      type="number"
+                      step="0.01"
+                      required
+                      value={slot}
+                      readOnly
+                    />
+                  </FormControl>
+                  {/* describe */}
+                  <FormControl fullWidth required style={{ marginBottom: 20 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Description
+                    </Typography>
+                    <Editor
+                      onGetHtmlValue={handleEditorChange}
+                      htmlValue={tmpDesc}
+                    />
+                  </FormControl>
+                </div>
+
+                <div
+                  style={{
+                    marginLeft: 15,
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "55%",
+                    maxWidth: "610px",
+                  }}
+                >
+                  <FormControl required style={{ marginBottom: 15 }}>
+                    <Typography variant="h6" gutterBottom>
+                      Pictures
+                    </Typography>
+                    <Img
+                      src={selectedTrainingCourse?.picture}
+                      alt="BirdPicture"
+                      style={{
+                        width: "200px",
+                        height: "150px",
+                        margin: "20px",
+                      }}
+                    />
                     <UploadComponent
                       onChange={handleFileChange}
                       accept="image/*"
                     >
                       Upload image(s)
                     </UploadComponent>
-                  </Button>
-                  {/* Display submitted files here */}
-                  <div>
-                    {submittedImages.map((imageName, index) => (
-                      <div key={index}>{imageName}</div>
-                    ))}
+                    {/* Display submitted files here */}
+                    <div>
+                      {submittedImages.map((imageName, index) => (
+                        <div key={index}>{imageName}</div>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Button
+                      sx={{
+                        marginRight: 2,
+                        marginBottom: "20px",
+                        padding: "5px 25px 5px 25px",
+                        boxShadow:
+                          "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                        borderRadius: "4px",
+                      }}
+                      onClick={() => callbackUpdateCourse(trainingCourse)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      sx={{ marginBottom: "20px" }}
+                      variant="contained"
+                      color="ochre"
+                      type="submit"
+                    >
+                      Confirm update course
+                    </Button>
                   </div>
-                </FormControl>
-                <br />
-                <Button
-                  sx={{ float: "right", marginBottom: "20px" }}
-                  variant="contained"
-                  color="ochre"
-                  type="submit"
-                >
-                  Confirm update course
-                </Button>
-                <Button
-                  sx={{
-                    float: "right",
-                    marginBottom: "20px",
-                    marginRight: "10px",
-                  }}
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => callbackUpdateCourse(trainingCourse)}
-                >
-                  Cancel
-                </Button>
+                </div>
               </form>
             </div>
             <BirdSkillListComponent

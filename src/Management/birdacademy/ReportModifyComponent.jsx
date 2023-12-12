@@ -117,9 +117,18 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
 
   return (
     <ThemeProvider theme={ochreTheme}>
-      <p>Update For Trainer Slot</p>
-      <Grid container item direction="row" alignItems="center" spacing={1}>
-        <Grid item xs={3}>
+      <span style={{ fontWeight: 700, fontSize: 20 }}>
+        Update For Trainer Slot
+      </span>
+      <Grid
+        container
+        item
+        direction="row"
+        alignItems="center"
+        justifyContent="flex-start"
+        style={{ marginTop: 12, width: "100%" }}
+      >
+        <Grid item xs={3} style={{ marginRight: "80px" }}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               minDate={ideal}
@@ -130,7 +139,7 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item xs={1.5} style={{ marginRight: "40px" }}>
           <FormControl sx={{ width: 150, maxWidth: 300 }}>
             <InputLabel id="selectLabel_ChooseSlot">Choose Slot</InputLabel>
             <Select
@@ -166,34 +175,41 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid
-          container
-          item
-          direction="row"
-          justifyContent="flex-end"
-          alignItems="center"
-          spacing={2}
+      </Grid>
+      <Grid
+        container
+        item
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        style={{ marginTop: 15, paddingRight: 20 }}
+      >
+        <Button
+          style={{
+            color: "#404040",
+            marginRight: "10px",
+            padding: "8px 25px ",
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            borderRadius: "4px",
+          }}
+          onClick={() => handleCancelChanges()}
         >
-          <Grid item xs={6.5}>
-            <Button
-              color="ochre"
-              variant="contained"
-              style={{ marginRight: "10px" }}
-              onClick={handleSaveChanges}
-            >
-              <SaveOutlined />
-              Save
-            </Button>
-            <Button
-              color="ochre"
-              variant="contained"
-              onClick={() => handleCancelChanges()}
-            >
-              <SaveOutlined />
-              Cancel
-            </Button>
-          </Grid>
-        </Grid>
+          Cancel
+        </Button>
+        <Button
+          style={{
+            padding: "8px 25px ",
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            borderRadius: "4px",
+          }}
+          variant="contained"
+          onClick={handleSaveChanges}
+        >
+          <SaveOutlined />
+          Save
+        </Button>
       </Grid>
     </ThemeProvider>
   );

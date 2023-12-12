@@ -165,7 +165,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                           background: "#eee",
                           padding: "5px",
                           borderRadius: "4px",
-                          border: '0.5px solid black'
+                          border: "0.5px solid black",
                         }}
                       >
                         <div
@@ -235,7 +235,8 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                 marginTop: "20px",
                 paddingLeft: "35px",
                 paddingRight: "35px",
-                border: "1px solid black",
+                boxShadow:
+                  "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
                 marginRight: "25px",
               }}
               className="button"

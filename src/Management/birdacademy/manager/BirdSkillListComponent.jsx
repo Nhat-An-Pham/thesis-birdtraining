@@ -73,8 +73,8 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
     callbackUpdate();
   };
   return (
-    <Grid padding={20}>
-      {renderDialog != 0 && (
+    <Grid>
+      {renderDialog !== 0 && (
         <ExtendDialog
           trainingCourse={selectedCourse}
           birdSkillId={selectedBirdSkillId}
@@ -82,18 +82,26 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
           callbackUpdate={onCallBackDialog}
         />
       )}
-      <Grid marginBottom={5} container spacing={2}>
-        <Typography gutterBottom variant="h6">
+      <Grid container spacing={2} padding={7} marginTop={5}>
+        <Typography gutterBottom variant="h6" sx={{ fontWeight: 700 }}>
           Bird Skills in Course
         </Typography>
-        <TableContainer margin={3} component={Paper}>
+        <TableContainer
+          margin={3}
+          component={Paper}
+          sx={{
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            borderRadius: 3,
+          }}
+        >
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Picture</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Train Slot</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Picture</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Name</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Description</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Train Slot</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -133,17 +141,25 @@ const BirdSkillListComponent = ({ selectedCourse, callbackUpdate }) => {
           </Table>
         </TableContainer>
       </Grid>
-      <Grid container spacing={2}>
-        <Typography gutterBottom variant="h6">
+      <Grid container spacing={2} padding={7}>
+        <Typography gutterBottom variant="h6" sx={{ fontWeight: 700 }}>
           Bird Skills out Course
         </Typography>
-        <TableContainer margin={3} component={Paper}>
+        <TableContainer
+          margin={3}
+          component={Paper}
+          sx={{
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            borderRadius: 3,
+          }}
+        >
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>Picture</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Description</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Picture</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Name</TableCell>
+                <TableCell sx={{ fontWeight: 700 }}>Description</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
