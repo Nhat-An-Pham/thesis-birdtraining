@@ -14,15 +14,19 @@ import {
   IconButton,
   Typography,
   Grid,
+  ThemeProvider,
 } from "@mui/material";
 import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import BirdTrainingReportComponent from "./BirdTrainingReportComponent";
 import { Close } from "@mui/icons-material";
 import { jwtDecode } from "jwt-decode";
+import SkillDoneDialog from "./SkillDoneDialog";
+import { ochreTheme } from "../themes/Theme";
 
 const TrainerAssignedTrainingSkill = () => {
   const user = trainingCourseManagementService.getCurrentUser();
+  const [renderUpload, setRenderUpload] = useState(0);
   const [renderReport, setRenderReport] = useState(false);
   const [renderProgress, setRenderProgress] = useState(true);
 
@@ -75,11 +79,16 @@ const TrainerAssignedTrainingSkill = () => {
     setRenderReport(false);
     console.log("onCallbackAssigned");
     setSelectedProgressId(null);
+    setRenderUpload(0);
+  };
+  const handleUpload = (progressId) => {
+    setRenderUpload(1);
+    setSelectedProgressId(progressId);
   };
   return (
     <div>
       {renderProgress && (
-        <>
+        <ThemeProvider theme={ochreTheme}>
           <TableContainer
             style={{ padding: 20 }}
             className="table-container"
@@ -132,6 +141,14 @@ const TrainerAssignedTrainingSkill = () => {
                     <TableCell>{item.totalTrainingSlot}</TableCell>
                     <TableCell>{item.status}</TableCell>
                     <TableCell>
+                      {(item.status == "Pass" || item.status == "NotPass") && (
+                        <Button
+                          sx={{ marginRight: 0.5 }}
+                          onClick={() => handleUpload(item.id)}
+                        >
+                          Upload Evidences
+                        </Button>
+                      )}
                       <Button
                         onClick={() =>
                           handleViewTrainingDetail(
@@ -149,14 +166,21 @@ const TrainerAssignedTrainingSkill = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </>
-      )}
-      {renderReport && (
-        <BirdTrainingReportComponent
-          selectedProgress={selectedProgress}
-          birdSkillId={selectedBirdSkillId}
-          callbackAssigned={onCallbackAssigned}
-        />
+          {renderReport && (
+            <BirdTrainingReportComponent
+              selectedProgress={selectedProgress}
+              birdSkillId={selectedBirdSkillId}
+              callbackAssigned={onCallbackAssigned}
+            />
+          )}
+          {renderUpload == 1 && (
+            <SkillDoneDialog
+              trainingProgressId={selectedProgressId}
+              renderIndex={renderUpload}
+              callbackDone={onCallbackAssigned}
+            />
+          )}
+        </ThemeProvider>
       )}
     </div>
   );
