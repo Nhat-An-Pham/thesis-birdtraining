@@ -18,7 +18,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import WorkshopModifyPopupComponent from "./WorkshopModifyPopupComponent";
 import { ochreTheme } from "../../themes/Theme";
 import WorkshopModifyPictureComponent from "./WorkshopModifyPictureComponent";
+import { jwtDecode } from "jwt-decode";
 export default function WorkshopViewComponent({ workshopId }) {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [pictures, setPictures] = useState([]);
   const [workshop, setWorkshop] = useState();
   const [open, setOpen] = useState(false);
@@ -43,6 +47,9 @@ export default function WorkshopViewComponent({ workshopId }) {
     setOpenPictureUpload(false);
   };
   const switchStatus = async (workshop) => {
+    if (userRole !== "Manager") {
+      toast.error("Manager is authorized to do this function");
+    }
     try {
       let result = await WorkshopManagementService.switchWorkshopStatus(
         workshop
@@ -79,7 +86,7 @@ export default function WorkshopViewComponent({ workshopId }) {
           handleClose={() => setOpen(false)}
           callbackModifyWorkshop={handleCallbackModifyWorkshop}
         />
-         <WorkshopModifyPictureComponent
+        <WorkshopModifyPictureComponent
           callbackBack={() => {
             setOpenPictureUpload(false);
           }}
@@ -118,11 +125,17 @@ export default function WorkshopViewComponent({ workshopId }) {
                 ))}
               </Carousel>
             </Grid>
-            <Grid item>
-              <Button color="ochre" variant="contained" onClick={() => setOpenPictureUpload(true)}>
-                Upload new image(s)
-              </Button>
-            </Grid>
+            {userRole === "Manager" ? (
+              <Grid item>
+                <Button
+                  color="ochre"
+                  variant="contained"
+                  onClick={() => setOpenPictureUpload(true)}
+                >
+                  Upload new image(s)
+                </Button>
+              </Grid>
+            ) : null}
           </Grid>
           <Grid container item xs={6} spacing={2} component={Paper}>
             <Grid container item xs={12} spacing={3}>
@@ -279,35 +292,6 @@ export default function WorkshopViewComponent({ workshopId }) {
               <Divider />
             </Grid>
             <Grid container item xs={12}>
-              <Grid
-                container
-                item
-                xs={2}
-                justifyContent={"flex-start"}
-                alignItems={"center"}
-              >
-                <Typography fontWeight={"bold"}>Location:</Typography>
-              </Grid>
-              <Grid item xs={9}>
-                <TextField
-                  fullWidth
-                  label={"Hosted Location"}
-                  type={"text"}
-                  multiline
-                  maxRows={3}
-                  defaultValue={workshop.location}
-                  value={workshop.location}
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                {/* <Typography>{workshop.title}</Typography> */}
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Divider />
-            </Grid>
-            <Grid container item xs={12}>
               <Grid item xs={2}>
                 <Typography fontWeight={"bold"}>Description:</Typography>
               </Grid>
@@ -349,15 +333,17 @@ export default function WorkshopViewComponent({ workshopId }) {
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Button
-                  color={"ochre"}
-                  variant="contained"
-                  onClick={() => setOpen(true)}
-                >
-                  Edit workshop information
-                </Button>
-              </Grid>
+              {userRole === "Manager" ? (
+                <Grid item>
+                  <Button
+                    color={"ochre"}
+                    variant="contained"
+                    onClick={() => setOpen(true)}
+                  >
+                    Edit workshop information
+                  </Button>
+                </Grid>
+              ) : null}
             </Grid>
           </Grid>
         </Grid>

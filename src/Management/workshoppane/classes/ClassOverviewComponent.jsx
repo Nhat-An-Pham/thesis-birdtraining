@@ -101,6 +101,9 @@ export default function ClassOverviewComponent({
               <TableCell align="center">
                 <>{formatRegistrationAmount(classItem.registrationAmount)}</>
               </TableCell>
+              <TableCell align="center">
+                <>{classItem.location}</>
+              </TableCell>
               {/* <TableCell align="center">{classItem.status}</TableCell> */}
               {classItem.status === "Completed" ? (
                 <TableCell align="center">Completed</TableCell>
@@ -185,6 +188,7 @@ export default function ClassOverviewComponent({
                   <TableCell align="center">Open Registration</TableCell>
                   <TableCell align="center">Closed Registration</TableCell>
                   <TableCell align="center">Registration</TableCell>
+                  <TableCell align="center">Location</TableCell>
                   <TableCell align="center">Status</TableCell>
                 </TableRow>
               </TableHead>
