@@ -5,6 +5,8 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  Input,
+  InputLabel,
   Stack,
   TextField,
 } from "@mui/material";
@@ -73,7 +75,7 @@ export default function DetailRefundPolicyComponent({
       <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>Modify refund policy: </DialogTitle>
         <DialogContent>
-          <Stack spacing={3}>
+          <Stack sx={{ paddingTop: 4 }} spacing={3}>
             <FormControl sx={{ paddingTop: "5px" }}>
               <InputLabel>Duration before start</InputLabel>
               <Input

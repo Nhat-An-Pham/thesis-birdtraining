@@ -8,6 +8,7 @@ import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
 import ClassAddNewComponent from "./classes/ClassAddNewComponent";
+import RefundPoliciesManagement from "./refundPolicy/RefundPoliciesManagement";
 
 export default function WorkshopManagementComponent() {
   const [renderedIndex, setRenderedIndex] = useState(0);
@@ -51,7 +52,6 @@ export default function WorkshopManagementComponent() {
       onClassesRequest={onClassView}
       onCreateClassRequest={handleOpenModal}
       renderIndex={renderedIndex}
-
     />,
     <CreateWorkshopComponent
       callbackCreateWorkshop={handleCreateWorkshop}
@@ -65,6 +65,7 @@ export default function WorkshopManagementComponent() {
       selectedWorkshop={selectedWorkshop}
       callbackBack={handleCallbackBack}
     />,
+    <RefundPoliciesManagement callbackMainManagement={handleCallbackBack} />,
     // <TrainerSlotDetailComponent entityId={28}/>
   ];
   const handleChange = (event, newValue) => {
@@ -116,9 +117,17 @@ export default function WorkshopManagementComponent() {
                     <Button
                       color="ochre"
                       variant="contained"
+                      sx={{ marginRight: 1 }}
                       onClick={() => setRenderedIndex(1)}
                     >
                       Create workshop
+                    </Button>
+                    <Button
+                      color="ochre"
+                      variant="contained"
+                      onClick={() => setRenderedIndex(4)}
+                    >
+                      Price policies management
                     </Button>
                   </Grid>
                 </Grid>
