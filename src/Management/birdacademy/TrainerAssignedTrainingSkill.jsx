@@ -42,6 +42,7 @@ const TrainerAssignedTrainingSkill = () => {
     setSelectedProgress(item);
     setRenderReport(true);
     setRenderProgress(false);
+    console.log("render rp");
   };
 
   // const [selectedProgress, setSelectedProgress] = useState(null);
@@ -89,98 +90,97 @@ const TrainerAssignedTrainingSkill = () => {
     <div>
       {renderProgress && (
         <ThemeProvider theme={ochreTheme}>
-        <div style={{padding: '20px'}}>
-          <TableContainer
-            className="table-container"
-            component={Paper}
-            sx={{
-              boxShadow:
-                "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-              borderRadius: 3,
-            }}
-          >
-            <Table className="table">
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ fontWeight: 700 }}>Bird Skill Name</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Training Progression</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Total Training Slot</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {trainingProgress.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    style={{
-                      cursor: "pointer",
-                      background:
-                        selectedProgressId === item.id ? "#f0f0f0" : "white",
-                    }}
-                  >
-                    <TableCell>{item.birdSkillName}</TableCell>
-                    <TableCell>{item.trainerName}</TableCell>
-                    <TableCell>
-                      <div
-                        style={{
-                          width: "100%",
-                          background: "#eee",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          border: '0.5px solid #404040'
-                        }}
-                      >
+          <div style={{ padding: "20px" }}>
+            <TableContainer
+              className="table-container"
+              component={Paper}
+              sx={{
+                boxShadow:
+                  "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                borderRadius: 3,
+              }}
+            >
+              <Table className="table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      Bird Skill Name
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      Training Progression
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>
+                      Total Training Slot
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {trainingProgress.map((item) => (
+                    <TableRow
+                      key={item.id}
+                      style={{
+                        cursor: "pointer",
+                        background:
+                          selectedProgressId === item.id ? "#f0f0f0" : "white",
+                      }}
+                    >
+                      <TableCell>{item.birdSkillName}</TableCell>
+                      <TableCell>{item.trainerName}</TableCell>
+                      <TableCell>
                         <div
                           style={{
-                            width: `${item.trainingProgression * 100}%`,
-                            height: "20px",
-                            background: "#4caf50",
+                            width: "100%",
+                            background: "#eee",
+                            padding: "5px",
                             borderRadius: "4px",
-                            transition: "width 0.5s",
+                            border: "0.5px solid #404040",
                           }}
-                        ></div>
-                      </div>
-                      <p>{`${item.trainingProgression * 100}% Complete`}</p>
-                    </TableCell>
-                    <TableCell>{item.totalTrainingSlot}</TableCell>
-                    <TableCell>{item.status}</TableCell>
-                    <TableCell>
-                      {(item.status == "Pass" || item.status == "NotPass") && (
-                        <Button
-                          sx={{ marginRight: 0.5 }}
-                          onClick={() => handleUpload(item.id)}
                         >
-                          Upload Evidences
+                          <div
+                            style={{
+                              width: `${item.trainingProgression * 100}%`,
+                              height: "20px",
+                              background: "#4caf50",
+                              borderRadius: "4px",
+                              transition: "width 0.5s",
+                            }}
+                          ></div>
+                        </div>
+                        <p>{`${item.trainingProgression * 100}% Complete`}</p>
+                      </TableCell>
+                      <TableCell>{item.totalTrainingSlot}</TableCell>
+                      <TableCell>{item.status}</TableCell>
+                      <TableCell>
+                        {(item.status == "Pass" ||
+                          item.status == "NotPass") && (
+                          <Button
+                            sx={{ marginRight: 0.5 }}
+                            onClick={() => handleUpload(item.id)}
+                          >
+                            Upload Evidences
+                          </Button>
+                        )}
+                        <Button
+                          onClick={() =>
+                            handleViewTrainingDetail(
+                              item.birdSkillId,
+                              item.id,
+                              item
+                            )
+                          }
+                        >
+                          View training details
                         </Button>
-                      )}
-                      <Button
-                        onClick={() =>
-                          handleViewTrainingDetail(
-                            item.birdSkillId,
-                            item.id,
-                            item
-                          )
-                        }
-                      >
-                        View training details
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-        </div>
-        {renderReport && (
-            <BirdTrainingReportComponent
-              selectedProgress={selectedProgress}
-              birdSkillId={selectedBirdSkillId}
-              callbackAssigned={onCallbackAssigned}
-            />
-          )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
           {renderUpload == 1 && (
             <SkillDoneDialog
               trainingProgressId={selectedProgressId}
@@ -190,7 +190,13 @@ const TrainerAssignedTrainingSkill = () => {
           )}
         </ThemeProvider>
       )}
-      
+      {renderReport && (
+        <BirdTrainingReportComponent
+          selectedProgress={selectedProgress}
+          birdSkillId={selectedBirdSkillId}
+          callbackAssigned={onCallbackAssigned}
+        />
+      )}
     </div>
   );
 };
