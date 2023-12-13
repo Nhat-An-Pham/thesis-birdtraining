@@ -23,7 +23,7 @@ export default function StripeCheckout({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    axios("http://localhost:4000/payments/create-checkout", {
+    axios("https://13.214.85.41/payments/create-checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       params: {
