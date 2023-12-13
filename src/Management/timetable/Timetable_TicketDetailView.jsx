@@ -8,14 +8,10 @@ import {
   Toolbar,
   Typography,
   ThemeProvider,
-  TableContainer,
   Paper,
-  TableHead,
-  TableBody,
-  TableCell,
-  Table,
   Divider,
   Grid,
+  TextField,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import addonService from "../../services/addon.service";
@@ -136,21 +132,31 @@ const Timetable_TicketDetailView = ({
                     {ticketDetail.customerEmail}
                   </Typography>
                 </Grid>
+                <Grid item xs={3}>
+                  <Typography style={{ fontWeight: "bold", color: "blue" }}>
+                    Phone:
+                  </Typography>
+                </Grid>
+                <Grid item xs={9}>
+                  <Typography style={{ color: "blue" }}>
+                    {ticketDetail.customerPhone}
+                  </Typography>
+                </Grid>
                 {ticketDetail.onlineOrOffline ? (
                   <></>
                 ) : (
                   <>
                     <Grid item xs={3}>
-                      <Typography fontWeight={"bold"}>Address:</Typography>
+                      <Typography style={{ fontWeight: "bold", color: "blue" }}>Address:</Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography>{ticketDetail.addressDetail}</Typography>
+                      <Typography style={{ color: "blue" }}>{ticketDetail.addressDetail}</Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography fontWeight={"bold"}>Distance:</Typography>
+                      <Typography style={{ fontWeight: "bold", color: "blue" }}>Distance:</Typography>
                     </Grid>
                     <Grid item xs={3}>
-                      <Typography>{ticketDetail.distance}Km</Typography>
+                      <Typography style={{ color: "blue" }}>{ticketDetail.distance}Km</Typography>
                     </Grid>
                   </>
                 )}
@@ -186,6 +192,10 @@ const Timetable_TicketDetailView = ({
                     <Typography style={{ color: "green" }}>
                       {ticketDetail.status}
                     </Typography>
+                  ) : ticketDetail.status === "Finished" ? (
+                    <Typography style={{ color: "green" }}>
+                      {ticketDetail.status}
+                    </Typography>
                   ) : (
                     <Typography style={{ color: "red" }}>
                       {ticketDetail.status}
@@ -193,43 +203,26 @@ const Timetable_TicketDetailView = ({
                   )}
                 </Grid>
 
-                {userRole === "Trainer" ? (
+                {ticketDetail.onlineOrOffline === true &&
+                ticketDetail.status !== "Finished" ? (
                   <>
-                    {ticketDetail.onlineOrOffline === true &&
-                    ticketDetail.status !== "Finished" ? (
-                      <>
-                        <Grid item xs={3}>
-                          <Typography fontWeight={"bold"}>
-                            Google Meet Link
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Typography>
-                            {
-                              <input
-                                type="text"
-                                width="500px"
-                                defaultValue={ticketDetail.ggMeetLink}
-                                onChange={(e) =>
-                                  setGoogleMeetLink(e.target.value)
-                                }
-                              />
-                            }
-                          </Typography>
-                        </Grid>
-                      </>
-                    ) : ticketDetail.status === "Finished" ? (
-                      <>
-                        <Grid item xs={3}>
-                          <Typography fontWeight={"bold"}>Evidence</Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                          <Typography>{ticketDetail.evidence}</Typography>
-                        </Grid>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <Grid item xs={3}>
+                      <Typography fontWeight={"bold"}>
+                        Google Meet Link
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3}>
+                      <Typography>{ticketDetail.ggMeetLink}</Typography>
+                    </Grid>
+                  </>
+                ) : ticketDetail.status === "Finished" ? (
+                  <>
+                    <Grid item xs={3}>
+                      <Typography fontWeight={"bold"}>Evidence</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography>{ticketDetail.evidence}</Typography>
+                    </Grid>
                   </>
                 ) : (
                   <></>

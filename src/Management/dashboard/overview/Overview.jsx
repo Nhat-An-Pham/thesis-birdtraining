@@ -1,4 +1,12 @@
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { tokens } from "./components/theme";
 import { mockTransactions } from "./data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
@@ -12,10 +20,84 @@ import GeographyChart from "./components/GeographyChart";
 import BarChart from "./components/BarChart";
 import StatBox from "./components/StatBox";
 import ProgressCircle from "./components/ProgressCircle";
+import dashboardService from "../../../services/dashboard.service";
+import addonService from "../../../services/addon.service";
+import { toast } from "react-toastify";
+import { useState } from "react";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Overview = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [consultingData, setConsultingData] = useState(null);
+  const [elearningData, setElearningData] = useState(null);
+  const [workshopData, setWorkshopData] = useState(null);
+  const [transactions, setTransactions] = useState(null);
+  
+  const navigate = useNavigate();
+
+  const fetchConsultingTicketOverviewData = async () => {
+    try {
+      let res = await dashboardService.GetConsultingTicketOverview();
+      // console.log(res.data);
+      setConsultingData(res.data);
+    } catch (error) {
+      toast.error("An error has occured!");
+    }
+  };
+  const fetchTransactionData = async () => {
+    try {
+      let params = {
+        $orderby: `dateTime desc`,
+      };
+      let res = await dashboardService.GetTransactions(params);
+      console.log(res.data);
+      setTransactions(res.data);
+    } catch (error) {
+      toast.error("An error has occured!");
+    }
+  };
+  const fetchOnlineCourseOverviewData = async () => {
+    try {
+      let res = await dashboardService.GetOnlineCourseOverview();
+      // console.log(res.data);
+      setElearningData(res.data);
+    } catch (error) {
+      toast.error("An error has occured!");
+    }
+  };
+  const fetchWorkshopOverviewData = async () => {
+    try {
+      let res = await dashboardService.GetWorkshopClassOverview();
+      // console.log(res.data);
+      setWorkshopData(res.data);
+    } catch (error) {
+      toast.error("An error has occured!");
+    }
+  };
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     fetchConsultingTicketOverviewData();
+  //     fetchOnlineCourseOverviewData();
+  //     fetchWorkshopOverviewData();
+  //     fetchTransactionData();
+  //   }, 1000 * 2); // in millisecondsfirst
+
+  //   return () => intervalId;
+  // }, []);
+const navTo = (route) => {
+  navigate(`/management/${route}`)
+}
+
+  useEffect(() => {
+    fetchConsultingTicketOverviewData();
+    fetchOnlineCourseOverviewData();
+    fetchWorkshopOverviewData();
+    fetchTransactionData();
+
+    return () => {};
+  }, []);
 
   return (
     <Box m="20px">
@@ -40,16 +122,26 @@ const Overview = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          onClick={() => navTo('customerreq')}
+          sx={{
+            cursor: 'pointer'
+          }}
         >
-          <StatBox
-            title="12,361 total"
-            subtitle="Consulting Ticket"
-            // progress="0.75"
-            increase="+14%"
-            icon={
-              <EmailIcon sx={{ color: colors.grey[100], fontSize: "26px" }} />
-            }
-          />
+          {consultingData ? (
+            <StatBox
+              title={`${consultingData.totalAmount} tickets`}
+              subtitle="Consulting Ticket"
+              progress={consultingData.handledRatio}
+              increase={`${consultingData.unhandledTicket} Unchecked`}
+              icon={
+                <EmailIcon sx={{ color: colors.grey[100], fontSize: "26px" }} />
+              }
+            />
+          ) : (
+            <>
+              <CircularProgress />
+            </>
+          )}
         </Box>
 
         {/* Sales Obtained box */}
@@ -59,18 +151,26 @@ const Overview = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          onClick={() => navTo('onlinecourse')}
+          sx={{
+            cursor: 'pointer'
+          }}
         >
-          <StatBox
-            title="431,225 enrolled"
-            subtitle="E-learning Attempts"
-            progress="0.50"
-            increase="+21%"
-            icon={
-              <PointOfSaleIcon
-                sx={{ color: colors.grey[100], fontSize: "26px" }}
-              />
-            }
-          />
+          {elearningData ? (
+            <StatBox
+              title={`${elearningData.totalAttempts} enrolled`}
+              subtitle="E-learning Attempts"
+              progress={elearningData.completeCourseRatio}
+              increase={`${elearningData.customerCompleted} completed`}
+              icon={
+                <PointOfSaleIcon
+                  sx={{ color: colors.grey[100], fontSize: "26px" }}
+                />
+              }
+            />
+          ) : (
+            <CircularProgress />
+          )}
         </Box>
 
         {/* New Clients boz */}
@@ -80,18 +180,26 @@ const Overview = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          onClick={() => navTo('workshop')}
+          sx={{
+            cursor: 'pointer'
+          }}
         >
-          <StatBox
-            title="32,441 classes"
-            subtitle="Workshop Enrolled"
-            progress="0.30"
-            increase="+5%"
-            icon={
-              <PersonAddIcon
-                sx={{ color: colors.grey[100], fontSize: "26px" }}
-              />
-            }
-          />
+          {workshopData ? (
+            <StatBox
+              title={`${workshopData.workshopClass} classes`}
+              subtitle="Workshop Enrolled"
+              progress={`${workshopData.presentRatio}`}
+              increase={`${workshopData.customerAttempts} enrolled`}
+              icon={
+                <PersonAddIcon
+                  sx={{ color: colors.grey[100], fontSize: "26px" }}
+                />
+              }
+            />
+          ) : (
+            <CircularProgress />
+          )}
         </Box>
 
         {/* Traffic Received */}
@@ -103,10 +211,10 @@ const Overview = () => {
           justifyContent="center"
         >
           <StatBox
-            title="1,325 courses"
+            title="0 courses"
             subtitle="Training Attempts"
-            progress="0.80"
-            increase="+43%"
+            progress="1"
+            increase="0"
             icon={
               <TrafficIcon sx={{ color: colors.grey[100], fontSize: "26px" }} />
             }
@@ -164,37 +272,56 @@ const Overview = () => {
               Recent Transactions
             </Typography>
           </Box>
-          {mockTransactions.map((transaction, i) => (
-            <Box
-              key={`${transaction.txId}-${i}`}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              borderBottom={`1px solid ${colors.primary[500]}`}
-              p="12px"
-            >
-              <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  fontSize={18}
-                  fontWeight="600"
-                >
-                  {transaction.txId}
-                </Typography>
-                <Typography color={colors.grey[100]}>
-                  {transaction.user}
-                </Typography>
-              </Box>
-              <Box color={colors.grey[100]}>{transaction.date}</Box>
+          {transactions ? (
+            transactions.map((transaction, i) => (
               <Box
-                backgroundColor={colors.greenAccent[500]}
-                p="5px 10px"
-                borderRadius="4px"
+                key={`${transaction.paymentcCode}-${i}`}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`1px solid ${colors.primary[500]}`}
+                p="12px"
               >
-                VND {transaction.cost}
+                <Box>
+                  <Typography
+                    color={colors.greenAccent[500]}
+                    fontSize={18}
+                    fontWeight="600"
+                  >
+                    {transaction.paymentCode}
+                  </Typography>
+                  <Typography color={colors.grey[100]}>
+                    {transaction.email}
+                  </Typography>
+                </Box>
+                <Box color={colors.grey[100]}>
+                  <Typography>
+                    {addonService.formatDate(transaction.dateTime)}
+                  </Typography>
+                  <Typography>{transaction.type}</Typography>
+                </Box>
+                <Box
+                  backgroundColor={colors.greenAccent[500]}
+                  p="5px 10px"
+                  borderRadius="4px"
+                >
+                  VND {transaction.cost}
+                </Box>
               </Box>
-            </Box>
-          ))}
+            ))
+          ) : (
+            <Grid container>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          )}
         </Box>
 
         {/* ROW 3 */}
@@ -221,7 +348,9 @@ const Overview = () => {
             >
               $48,352 revenue generated
             </Typography>
-            <Typography>Modify: Success rate of passed birds in tranining course</Typography>
+            <Typography>
+              Modify: Success rate of passed birds in tranining course
+            </Typography>
           </Box>
         </Box>
         <Box

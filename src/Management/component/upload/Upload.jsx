@@ -2,7 +2,7 @@ import { Alert, Button, CircularProgress, Divider, Grid } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Img } from "react-image";
 import { Carousel } from "react-responsive-carousel";
-
+import "./upload.scss";
 export const UploadComponent = ({
   children,
   value,
@@ -50,7 +50,7 @@ export const UploadComponent = ({
         spacing={3}
         padding={2}
       >
-        <Grid item>
+        <Grid container item xs={12} justifyContent={"center"}>
           <Button variant="contained" color="ochre">
             <label htmlFor="contained-button-file">
               <input
@@ -68,25 +68,36 @@ export const UploadComponent = ({
           </Button>
         </Grid>
         {filePreviews && filePreviews.length > 0 ? (
-          <Grid item xs={12}>
-            <Carousel width={"100%"} swipeable>
-              {filePreviews?.map((picture) => (
+          <Grid item>
+            <Carousel swipeable>
+              {filePreviews?.map((file) => (
                 <div style={{ height: 300 }}>
-                  <Img
-                    // srcSet={`${picture}`}
-                    src={`${picture.dataURL}`}
-                    alt={`error`}
-                    fill                    
-                    style={{ height: "100%", width: "auto", objectFit:"contain", border:"0.4px grey solid" }}
-                    loading={<CircularProgress />}
-                  />
+
+                  {file.dataURL.includes("image") ? (
+                    <Img
+                      // srcSet={`${picture}`}
+                      src={`${file.dataURL}`}
+                      alt={`error`}
+                      style={{ height: "100%", width: "auto", objectFit:"contain", border:"0.4px grey solid" }}
+                      loading={<CircularProgress />}
+                    />
+                  ) : file.dataURL.includes("video") ? (
+                    <video
+                      // srcSet={`${picture}`}
+                      controls
+                      src={`${file.dataURL}`}
+                      alt={`error`}
+                      style={{ height: "100%", width: "auto" }}
+                      loading={<CircularProgress />}
+                    />
+                  ) : null}
                 </div>
               ))}
             </Carousel>
           </Grid>
         ) : (
           <Grid item xs={12}>
-            <Alert severity="info">No picture is provided!</Alert>
+            <Alert severity="info">No file is provided!</Alert>
           </Grid>
         )}
       </Grid>

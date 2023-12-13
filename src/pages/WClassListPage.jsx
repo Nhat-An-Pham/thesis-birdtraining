@@ -17,7 +17,7 @@ const WClassListPage = () => {
   const [classData, setClassData] = useState([]);
   const [classId, setClassId] = useState([]);
 
-  const accessToken = localStorage.getItem("user-role")
+  const accessToken = localStorage.getItem("user-token")
 
 
   // API

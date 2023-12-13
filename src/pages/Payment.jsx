@@ -3,10 +3,11 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WorkshopService from "../services/workshop.service";
-import dateFormat from "dateformat";
 import OnlinecourseService from "../services/onlinecourse.service";
+import dateFormat from "dateformat";
 import StripeCheckout from "../paymentCheckout/stripePayment";
 import Loader from "../paymentCheckout/Loader";
+import { toast } from "react-toastify";
 
 const Payment = () => {
   const token = localStorage.getItem("user-token");
@@ -84,9 +85,6 @@ const Payment = () => {
     //                 progress: 0,
     //                 theme: "colored",
     //             });
-    //             setTimeout(() => {
-    //                 navigate('/home')
-    //             }, 3000);
     //         })
     //         .catch((err) => {
     //             console.log(err.response.data)
@@ -106,9 +104,6 @@ const Payment = () => {
     //                 progress: 0,
     //                 theme: "colored",
     //             });
-    //             setTimeout(() => {
-    //                 navigate('/home')
-    //             }, 3000);
     //         })
     //         .catch((err) => {
     //             console.log("False to submit Order: ", err.response)
@@ -205,6 +200,8 @@ const Payment = () => {
 
               <div>
                 <StripeCheckout
+                  wclassid={wclassid}
+                  oclassid={oclassid}
                   billAmount={billingInfo?.totalPrice}
                   customerName={userName?.name}
                   customerEmail={userName?.email}

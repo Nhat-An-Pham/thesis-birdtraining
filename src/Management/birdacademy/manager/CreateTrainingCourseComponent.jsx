@@ -121,7 +121,7 @@ const CreateTrainingCourseComponent = ({
   return (
     <div>
       <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -136,122 +136,159 @@ const CreateTrainingCourseComponent = ({
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Create Training Course
             </Typography>
           </Toolbar>
         </AppBar>
       </Grid>
-      <div className="form-container">
+      <div
+        className="form-container"
+        style={{
+          display: "flex",
+          width: "100%",
+          padding: "20px",
+          minHeight: 'auto'
+        }}
+      >
         <form
+          style={{ width: "100%", display: "flex" }}
           onSubmit={handleSubmit}
           className="form"
           encType="multipart/form-data"
         >
-          <Typography variant="h6" gutterBottom>
-            General information
-          </Typography>
-          <FormControl
-            sx={{
-              margin: 2,
-              width: 600,
-              maxWidth: 610,
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "55%",
+              maxWidth: "610px",
             }}
           >
-            <InputLabel id="selectLabel_ChooseSpecies">
-              Choose Species
-            </InputLabel>
-            <Select
-              labelId="selectLabel_ChooseSpecies"
-              label="Choose Species"
-              value={selectedSpecies}
-              onChange={handleSelectSpecies}
+            {/* general infor */}
+            <Typography variant="h6" gutterBottom>
+              General information
+            </Typography>
+            {/* label selector */}
+            <FormControl
+              sx={{
+                margin: 2,
+                width: "90%",
+                maxWidth: 610,
+              }}
             >
-              {birdSpecies.map((speciy) => (
-                <MenuItem value={speciy.id}>{speciy.name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl
-            fullWidth
-            required
-            style={{ margin: 10, marginBottom: 10 }}
-          >
-            <InputLabel htmlFor="title">Title</InputLabel>
-            <Input type="text" onChange={(e) => setTitle(e.target.value)} />
-          </FormControl>
-          {/* <FormControl fullWidth required variant="outlined">
-              <InputLabel>Total Slot</InputLabel>
+              <InputLabel id="selectLabel_ChooseSpecies">
+                Choose Species
+              </InputLabel>
+              <Select
+                labelId="selectLabel_ChooseSpecies"
+                label="Choose Species"
+                value={selectedSpecies}
+                onChange={handleSelectSpecies}
+              >
+                {birdSpecies.map((speciy) => (
+                  <MenuItem value={speciy.id}>{speciy.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            {/* input title */}
+            <FormControl
+              fullWidth
+              required
+              style={{
+                margin: "10px 20px",
+                width: "90%",
+              }}
+            >
+              <InputLabel htmlFor="title">Title</InputLabel>
+              <Input type="text" onChange={(e) => setTitle(e.target.value)} />
+            </FormControl>
+            {/* input price */}
+            <FormControl
+              fullWidth
+              required
+              variant="outlined"
+              style={{ margin: "10px 20px", width: "90%" }}
+            >
+              <InputLabel>Price</InputLabel>
               <Input
                 type="number"
-                step="1"
-                onChange={(e) => setTotalSlot(e.target.value)}
+                step="0.01"
+                onChange={(e) => setPrice(e.target.value)}
                 required
               />
             </FormControl>
-          </Stack>
-          <Stack spacing={3} direction="row" sx={{ marginBottom: 4 }}>
-            <FormControl fullWidth required variant="outlined">
-              <InputLabel>Register End</InputLabel>
-              <Input
-                type="number"
-                onChange={(e) => setRegisterEnd(e.target.value)}
-                required
-              />
-            </FormControl> */}
-          <FormControl
-            fullWidth
-            required
-            variant="outlined"
-            style={{ margin: 10, marginBottom: 25 }}
-          >
-            <InputLabel>Price</InputLabel>
-            <Input
-              type="number"
-              step="0.01"
-              onChange={(e) => setPrice(e.target.value)}
+            {/* describe */}
+            <FormControl
+              fullWidth
               required
-            />
-          </FormControl>
-          <FormControl fullWidth required style={{ marginBottom: 10 }}>
-            <Typography variant="h6" gutterBottom>
-              Description
-            </Typography>
-            <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpDes} />
-          </FormControl>
-          <FormControl required style={{ marginBottom: 15 }}>
-            <Typography variant="h6" gutterBottom>
-              Pictures
-            </Typography>
-            <Button variant="contained" color="ochre">
+              style={{ margin: "10px 20px", width: "90%" }}
+            >
+              <Typography variant="h6" gutterBottom>
+                Description
+              </Typography>
+              <Editor
+                stylePropEditor={{ height: "80%" }}
+                onGetHtmlValue={handleEditorChange}
+                htmlValue={tmpDes}
+              />
+            </FormControl>
+          </div>
+
+          {/* upload picture */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "55%",
+              maxWidth: "610px",
+            }}
+          >
+            <FormControl required style={{ marginBottom: 15 }}>
+              <Typography variant="h6" gutterBottom>
+                Pictures
+              </Typography>
               <UploadComponent onChange={handleFileChange} accept="image/*">
                 Upload image(s)
               </UploadComponent>
-            </Button>
-            {/* Display submitted files here */}
-            <div>
-              {submittedImages.map((imageName, index) => (
-                <div key={index}>{imageName}</div>
-              ))}
+              {/* Display submitted files here */}
+              <div>
+                {submittedImages.map((imageName, index) => (
+                  <div key={index}>{imageName}</div>
+                ))}
+              </div>
+            </FormControl>
+
+            {/* group button */}
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                sx={{
+                  marginRight: 2,
+                  marginBottom: "20px",
+                  padding: "5px 25px 5px 25px",
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                  borderRadius: "4px",
+                }}
+                onClick={() => callbackList()}
+              >
+                Cancel
+              </Button>
+              <Button
+                sx={{ marginBottom: "20px" }}
+                variant="contained"
+                color="ochre"
+                type="submit"
+              >
+                Confirm create course
+              </Button>
             </div>
-          </FormControl>
-          <br />
-          <Button
-            sx={{ float: "right", marginBottom: "20px" }}
-            variant="contained"
-            color="ochre"
-            type="submit"
-          >
-            Confirm create course
-          </Button>
-          <Button
-            sx={{ float: "right", marginBottom: "20px", marginRight: "10px" }}
-            color="ochre"
-            onClick={() => callbackList()}
-          >
-            Cancel
-          </Button>
+          </div>
         </form>
       </div>
     </div>

@@ -28,11 +28,14 @@ import timetableService from "../../services/timetable.service";
 import trainingCourseManagementService from "../../services/trainingcourse-management.service";
 import { ochreTheme } from "../themes/Theme";
 import { ToastContainer, toast } from "react-toastify";
+import SkillDoneDialog from "./SkillDoneDialog";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
   callBackTimetable,
 }) => {
+  const [renderDialog, setRenderDialog] = useState(0);
+
   const [slotList, setSlotList] = useState([]);
   const [timetableDetail, setTimetableDetail] = useState(null);
   // Simulate fetching bird information based on customerId
@@ -46,6 +49,7 @@ const TimetableTrainerSlotDetailComponent = ({
       let res = await trainingCourseManagementService
         .getTimetableReportView(params)
         .then((response) => {
+          console.log(response);
           setTimetableDetail(response);
         });
     } catch (error) {
@@ -77,11 +81,12 @@ const TimetableTrainerSlotDetailComponent = ({
         console.log("Success:", response);
         if (response.status == 206) {
           toast.success("Training skill have done!");
+          setRenderDialog(1);
         }
         if (response.status == 200) {
           toast.success("Mark slot done!");
         }
-        callBackTimetable();
+        //callBackTimetable();
       })
       .catch((error) => {
         // Handle errors
@@ -89,11 +94,25 @@ const TimetableTrainerSlotDetailComponent = ({
         console.log(error.response);
       });
   };
-
+  function oncallbackDone() {
+    setRenderDialog(0);
+    callBackTimetable();
+  }
   return (
-    <ThemeProvider padding={20} theme={ochreTheme}>
+    <ThemeProvider theme={ochreTheme}>
+      {renderDialog == 1 && (
+        <SkillDoneDialog
+          trainingProgressId={timetableDetail?.progressId}
+          renderIndex={renderDialog}
+          callbackDone={oncallbackDone}
+        />
+      )}
       <ToastContainer />
-      <AppBar position="static" color="ochre">
+      <AppBar
+        position="static"
+        color="ochre"
+        sx={{ borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -108,94 +127,181 @@ const TimetableTrainerSlotDetailComponent = ({
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", sm: "block" },
+              fontWeight: 700,
+            }}
           >
             Training Course Detail
           </Typography>
         </Toolbar>
       </AppBar>
-      <Divider />
-      <div style={{ margin: "50px" }}>
+      <div>
         {timetableDetail != null && (
-          <div>
-            <Grid container spacing={1}>
-              {slotList != null &&
-                slotList
-                  .filter((cls) => cls.id == timetableDetail.slotId)
-                  .map((cls) => (
-                    <>
-                      <Grid item xs={1}>
-                        <>Start Time</>
-                      </Grid>
-                      <Grid item xs={1.25}>
-                        <>{cls.startTime}</>
-                      </Grid>
-                      <Grid item xs={1}>
-                        <>End Time</>
-                      </Grid>
-                      <Grid item xs={1.25}>
-                        <>{cls.endTime}</>
-                      </Grid>
-                    </>
-                  ))}
-              <Grid item xs={2}>
-                <>Training Date: </>
-              </Grid>
-              <Grid item xs={5}>
-                <>{addonService.formatDate(timetableDetail.trainingDate)}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Skill Name: </>
-              </Grid>
-              <Grid item xs={10}>
-                <>{timetableDetail.birdSkillName}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Skill Description: </>
-              </Grid>
-              <Grid item xs={10}>
-                <>{timetableDetail.birdSkillDescription}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Name: </>
-              </Grid>
-              <Grid item xs={10}>
-                <>{timetableDetail.birdName}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Species: </>
-              </Grid>
-              <Grid item xs={10}>
-                <>{timetableDetail.birdSpeciesName}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Color: </>
-              </Grid>
-              <Grid item xs={10}>
-                <>{timetableDetail.birdColor}</>
-              </Grid>
-              <Grid item xs={2}>
-                <>Bird Picture: </>
-              </Grid>
-              <Grid item xs={10}>
-                <Img
-                  src={timetableDetail.birdPicture}
-                  alt="Bird Picture"
-                  style={{ width: "200px", height: "150px" }}
-                />
-              </Grid>
-            </Grid>
-            {timetableDetail.status == "NotYet" && (
-              <ThemeProvider theme={ochreTheme}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => handleMarkSlotDone(timetableDetail.id)}
+          <div style={{ padding: "20px 40px" }}>
+            <table
+              style={{
+                border: "none",
+                padding: "0px",
+                borderCollapse: "separate",
+                borderSpacing: "1rem 0.5rem",
+                color: "#64645f",
+                fontSize: "1rem",
+                width: "100%",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-evenly",
+                }}
+              >
+                {/* show bird details */}
+                <div
+                  style={{
+                    width: "100%",
+                  }}
                 >
-                  Mark Training Done
-                </Button>
-              </ThemeProvider>
-            )}
+                  <tr>
+                    {/* bird skill name */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Skill Name: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdSkillName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* skill describe */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Skill Description: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdSkillDescription}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* bird name */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Name: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* species */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Species: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdSpeciesName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* color bird */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Color: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdColor}</>
+                    </td>
+                  </tr>
+                </div>
+
+                {/* show date, time and picture */}
+                <div
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  {slotList != null &&
+                    slotList
+                      .filter((cls) => cls.id == timetableDetail.slotId)
+                      .map((cls) => (
+                        <>
+                          <tr>
+                            <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                              <>Start Time</>
+                            </td>
+                            <td item xs={1.25}>
+                              <>{cls.startTime}</>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                              <>End Time</>
+                            </td>
+                            <td item xs={1.25}>
+                              <>{cls.endTime}</>
+                            </td>
+                          </tr>
+                        </>
+                      ))}
+                  {/* traning date */}
+                  <tr>
+                    <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                      <>Training Date: </>
+                    </td>
+                    <td item xs={5}>
+                      {addonService.formatDate(timetableDetail.trainingDate)}
+                    </td>
+                  </tr>
+                  {/* picture */}
+                  <tr
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginLeft: 16,
+                    }}
+                  >
+                    <td
+                      style={{
+                        fontSize: "1.2rem",
+                        fontWeight: 700,
+                        marginRight: 40,
+                      }}
+                    >
+                      <>Bird Picture: </>
+                    </td>
+                    <td>
+                      <Img
+                        src={timetableDetail.birdPicture}
+                        alt="Bird Picture"
+                        style={{ width: "200px", height: "150px" }}
+                      />
+                    </td>
+                  </tr>
+                </div>
+              </div>
+            </table>
+
+            <div
+              style={{
+                marginTop: 20,
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              {timetableDetail.status == "NotYet" && (
+                <ThemeProvider theme={ochreTheme}>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => handleMarkSlotDone(timetableDetail.id)}
+                  >
+                    Mark Training Done
+                  </Button>
+                </ThemeProvider>
+              )}
+            </div>
           </div>
         )}
       </div>

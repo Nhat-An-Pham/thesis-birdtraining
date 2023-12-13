@@ -63,7 +63,7 @@ export default function ClassSlotViewComponent( {slot, selectedClass, callbackUp
   async function fetchTrainers() {
     try {
       let params = {
-        category: "workshop",
+        // category: "workshop",
       };
       console.log("selectedSlotTime", selectedSlotTime)
       let date = dateSlot.format("YYYY-MM-DD");

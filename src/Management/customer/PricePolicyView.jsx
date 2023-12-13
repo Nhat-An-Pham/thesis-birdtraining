@@ -19,8 +19,12 @@ import {
 } from "@mui/material";
 import { ochreTheme } from "../themes/Theme";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const PricePolicyView = () => {
+  const accessToken = JSON.parse(localStorage.getItem("user-token"));
+  const userRole = jwtDecode(accessToken).role;
+
   const [selectedPriceId, setSelectedPriceId] = useState(null);
   const [selectedDistanceId, setSelectedDistanceId] = useState(null);
 
@@ -57,8 +61,9 @@ const PricePolicyView = () => {
       .catch((e) => console.log("Fail Get Distance Price Policy list test", e));
   }, [renderDistancePriceIndex]);
 
-  const handleUpdateConsultantOnClick = (rowId) => {
+  const handleUpdateConsultantOnClick = (rowId, price) => {
     setSelectedPriceId(rowId);
+    setChangeConsultantPrice(price);
     setRenderConsultantPriceIndex(1);
   };
 
@@ -70,8 +75,9 @@ const PricePolicyView = () => {
     setRenderConsultantPriceIndex(0);
   };
 
-  const handleUpdateDistanceOnClick = (rowId) => {
+  const handleUpdateDistanceOnClick = (rowId, pricePerKm) => {
     setSelectedDistanceId(rowId);
+    setChangeDistancePrice(pricePerKm);
     setRenderDistancePriceIndex(1);
   };
 
@@ -143,7 +149,7 @@ const PricePolicyView = () => {
                     <TableCell>
                       <Typography>Price Per Slot</Typography>
                     </TableCell>
-                    <TableCell></TableCell>
+                    {userRole === "Manager" ? <TableCell></TableCell> : <></>}
                   </TableHead>
                   <TableBody>
                     {listConsultantPricePolicy.map((row) => (
@@ -182,7 +188,8 @@ const PricePolicyView = () => {
                           </TableCell>
                         )}
                         {renderConsultantPriceIndex === 1 &&
-                        selectedPriceId === row.id ? (
+                        selectedPriceId === row.id &&
+                        userRole === "Manager" ? (
                           <TableCell>
                             <Button
                               variant="contained"
@@ -203,18 +210,20 @@ const PricePolicyView = () => {
                               Cancel
                             </Button>
                           </TableCell>
-                        ) : (
+                        ) : userRole === "Manager" ? (
                           <TableCell>
                             <Button
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateConsultantOnClick(row.id);
+                                handleUpdateConsultantOnClick(row.id, row.price);
                               }}
                             >
                               Update
                             </Button>
                           </TableCell>
+                        ) : (
+                          <></>
                         )}
                       </TableRow>
                     ))}
@@ -257,7 +266,7 @@ const PricePolicyView = () => {
                     <TableCell>
                       <Typography>Price Per Kilometer</Typography>
                     </TableCell>
-                    <TableCell></TableCell>
+                    {userRole === "Manager" ? <TableCell></TableCell> : <></>}
                   </TableHead>
                   <TableBody>
                     {listDistancePricePolicy.map((row) => (
@@ -296,7 +305,8 @@ const PricePolicyView = () => {
                           </TableCell>
                         )}
                         {renderDistancePriceIndex === 1 &&
-                        selectedDistanceId === row.id ? (
+                        selectedDistanceId === row.id &&
+                        userRole === "Manager" ? (
                           <TableCell>
                             <Button
                               variant="contained"
@@ -317,18 +327,20 @@ const PricePolicyView = () => {
                               Cancel
                             </Button>
                           </TableCell>
-                        ) : (
+                        ) : userRole === "Manager" ? (
                           <TableCell>
                             <Button
                               variant="contained"
                               color="ochre"
                               onClick={() => {
-                                handleUpdateDistanceOnClick(row.id);
+                                handleUpdateDistanceOnClick(row.id, row.pricePerKm);
                               }}
                             >
                               Update
                             </Button>
                           </TableCell>
+                        ) : (
+                          <></>
                         )}
                       </TableRow>
                     ))}

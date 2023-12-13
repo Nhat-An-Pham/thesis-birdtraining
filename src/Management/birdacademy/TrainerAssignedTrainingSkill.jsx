@@ -19,23 +19,16 @@ import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import BirdTrainingReportComponent from "./BirdTrainingReportComponent";
 import { Close } from "@mui/icons-material";
+import { jwtDecode } from "jwt-decode";
 
-const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
-  const [renderTrainer, setRenderTrainer] = useState(false);
+const TrainerAssignedTrainingSkill = () => {
+  const user = trainingCourseManagementService.getCurrentUser();
   const [renderReport, setRenderReport] = useState(false);
   const [renderProgress, setRenderProgress] = useState(true);
 
   const [selectedBirdSkillId, setSelectedBirdSkillId] = useState(null);
   const [selectedProgressId, setSelectedProgressId] = useState(null);
   const [selectedProgress, setSelectedProgress] = useState(null);
-  const handleTrainerAssign = (birdSkillId, progressId) => {
-    setSelectedProgressId(progressId);
-    console.log("progress " + progressId);
-    setSelectedBirdSkillId(birdSkillId);
-    console.log("progress " + birdSkillId);
-    setRenderTrainer(true);
-    setRenderReport(false);
-  };
   const handleViewTrainingDetail = (birdSkillId, progressId, item) => {
     console.log(progressId);
     setSelectedProgressId(progressId);
@@ -44,7 +37,6 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     console.log(item);
     setSelectedProgress(item);
     setRenderReport(true);
-    setRenderTrainer(false);
     setRenderProgress(false);
   };
 
@@ -58,12 +50,12 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const fetchData = async () => {
     try {
       // Replace this URL with your actual API endpoint //https://localhost:7176
-      console.log(requestedId);
+      console.log(user);
       let params = {
-        birdTrainingCourseId: requestedId,
+        trainerId: user.id,
       };
       let response =
-        await trainingCourseManagementService.getBirdTrainingProgressByRequestId(
+        await trainingCourseManagementService.getBirdTrainingProgressByTrainerId(
           params
         );
       console.log(response);
@@ -76,73 +68,35 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
     // Simulate fetching bird information based on customerId
     // Replace this with your actual API call or data fetching logic
     fetchData();
-  }, [requestedId]);
+  }, []);
   const onCallbackAssigned = async () => {
     fetchData();
     setRenderProgress(true);
-    setRenderTrainer(false);
     setRenderReport(false);
     console.log("onCallbackAssigned");
     setSelectedProgressId(null);
   };
-  function handleCallBackMainButton() {
-    callBackMainManagement();
-  }
   return (
     <div>
-      <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-              onClick={callBackMainManagement}
-            >
-              <Close />
-            </IconButton>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{
-                flexGrow: 1,
-                display: { xs: "none", sm: "block" },
-                fontWeight: 700,
-              }}
-            >
-              Training Details By BirdSkill
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Grid>
       {renderProgress && (
-        <div style={{ padding: 20 }}>
+        <div style={{padding: '20px'}}>
           <TableContainer
+            className="table-container"
+            component={Paper}
             sx={{
               boxShadow:
                 "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
               borderRadius: 3,
             }}
-            className="table-container"
-            component={Paper}
           >
             <Table className="table">
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 700 }}>
-                    Bird Skill Name
-                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Bird Skill Name</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>
-                    Training Progression
-                  </TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}>
-                    Total Training Slot
-                  </TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Training Progression</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Total Training Slot</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
-                  <TableCell sx={{ fontWeight: 700 }}></TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -165,7 +119,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                           background: "#eee",
                           padding: "5px",
                           borderRadius: "4px",
-                          border: "0.5px solid black",
+                          border: '0.5px solid #404040'
                         }}
                       >
                         <div
@@ -180,37 +134,8 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                       </div>
                       <p>{`${item.trainingProgression * 100}% Complete`}</p>
                     </TableCell>
-                    <TableCell sx={{ padding: "16px 16px 16px 70px" }}>
-                      {item.totalTrainingSlot}
-                    </TableCell>
+                    <TableCell>{item.totalTrainingSlot}</TableCell>
                     <TableCell>{item.status}</TableCell>
-                    {item.status === "WaitingForAssign" && ( //WaitingForAssign
-                      <TableCell>
-                        <Button
-                          onClick={() =>
-                            handleTrainerAssign(item.birdSkillId, item.id)
-                          }
-                        >
-                          Assign trainer
-                        </Button>
-                      </TableCell>
-                    )}
-                    {item.status === "Assigned" && (
-                      <TableCell>
-                        <Button
-                          onClick={() =>
-                            handleTrainerAssign(item.birdSkillId, item.id)
-                          }
-                        >
-                          Re-assign trainer
-                        </Button>
-                      </TableCell>
-                    )}
-                    {item.status !== "Assigned" &&
-                      item.status !== "WaitingForAssign" && (
-                        <TableCell></TableCell>
-                      )}
-
                     <TableCell>
                       <Button
                         onClick={() =>
@@ -229,45 +154,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               </TableBody>
             </Table>
           </TableContainer>
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              sx={{
-                marginTop: "20px",
-                paddingLeft: "35px",
-                paddingRight: "35px",
-                boxShadow:
-                  "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-                marginRight: "25px",
-              }}
-              className="button"
-              onClick={() => handleCallBackMainButton()}
-            >
-              Cancel
-            </Button>
-
-            <Button
-              sx={{
-                marginTop: "20px",
-                paddingLeft: "35px",
-                paddingRight: "35px",
-              }}
-              variant="contained"
-              color="success"
-              className="button"
-              onClick={() => handleCallBackMainButton()}
-            >
-              Confirm
-            </Button>
-          </div>
         </div>
-      )}
-
-      {renderTrainer && (
-        <TrainerListByBirdSkill
-          selectedProgressId={selectedProgressId}
-          birdSkillId={selectedBirdSkillId}
-          callbackAssigned={onCallbackAssigned}
-        />
       )}
       {renderReport && (
         <BirdTrainingReportComponent
@@ -280,4 +167,4 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   );
 };
 
-export default TrainingSkillComponent;
+export default TrainerAssignedTrainingSkill;

@@ -191,7 +191,14 @@ export default function BirdAcademyMng() {
           <Grid item xs={12}>
             {renderCustomer && (
               // <div className="workshop_section_table workshop_section_table-workshop">
-              <div style={{ padding: 20 }}>
+              <div
+                style={{
+                  paddingLeft: 40,
+                  paddingRight: 40,
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                }}
+              >
                 {/* {currentUser.role == "Manager" && (
                   <Button
                     sx={{ float: "right", marginBottom: "20px" }}
@@ -203,18 +210,30 @@ export default function BirdAcademyMng() {
                   </Button>
                 )} */}
                 <h2>Customers</h2>
-                <TableContainer component={Paper}>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: 3,
+                  }}
+                >
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Customer Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Phone Number</TableCell>
-                        <TableCell>Avatar</TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Customer Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Email</TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Phone Number
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Avatar</TableCell>
                         <TableCell></TableCell>
                         <TableCell></TableCell>
                       </TableRow>
                     </TableHead>
+
                     <TableBody>
                       {users && users.length > 0
                         ? users.map((user) => (
@@ -228,10 +247,37 @@ export default function BirdAcademyMng() {
                                     : "white",
                               }}
                             >
-                              <TableCell>{user.name}</TableCell>
-                              <TableCell>{user.email}</TableCell>
-                              <TableCell>{user.phoneNumber}</TableCell>
-                              <TableCell className="image-cell">
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                              >
+                                {user.name}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                              >
+                                {user.email}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                              >
+                                {user.phoneNumber}
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  wordBreak: "break-word",
+                                  maxWidth: "50em",
+                                }}
+                                className="image-cell"
+                              >
                                 <a
                                   href={user.avatar}
                                   target="_blank"
@@ -273,25 +319,38 @@ export default function BirdAcademyMng() {
               // <div className="workshop_section_table workshop_section_table-classes">
               <div style={{ padding: 40 }}>
                 <h2>Registered TrainingCourse</h2>
-                <TableContainer component={Paper}>
+                <TableContainer
+                  component={Paper}
+                  sx={{
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: 3,
+                  }}
+                >
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Bird Name</TableCell>
-                        <TableCell>Owner Name</TableCell>
-                        <TableCell>Course Title</TableCell>
-                        <TableCell>Registered</TableCell>
-                        <TableCell>Training start date</TableCell>
-                        <TableCell>Training done date</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell
-                          style={{ width: 75 }}
-                          align="center"
-                        ></TableCell>
-                        <TableCell
-                          style={{ width: 75 }}
-                          align="center"
-                        ></TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Bird Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Owner Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Course Title
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Registered
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Training start date
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>
+                          Training done date
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
+                        <TableCell></TableCell>
+                        <TableCell></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -311,16 +370,12 @@ export default function BirdAcademyMng() {
                                   <TableCell>{cls.registeredDate}</TableCell>
                                   <TableCell>
                                     {cls.startTrainingDate != null
-                                      ? addonService.formatDate(
-                                          cls.startTrainingDate
-                                        )
+                                      ? cls.startTrainingDate
                                       : ""}
                                   </TableCell>
                                   <TableCell>
                                     {cls.trainingDoneDate != null
-                                      ? addonService.formatDate(
-                                          cls.trainingDoneDate
-                                        )
+                                      ? cls.trainingDoneDate
                                       : ""}
                                   </TableCell>
                                   <TableCell>{cls.status}</TableCell>
@@ -410,37 +465,37 @@ export default function BirdAcademyMng() {
                                       </Button>
                                     </TableCell>
                                   )}
-                                  {/* {cls.status === "Complete" && (
-                                  <TableCell>
-                                    <button></button>
-                                  </TableCell>
-                                )} */}
-                                  {cls.status === "Cancel" && (
-                                    <Button
-                                      style={{ fontSize: 14 }}
-                                      onClick={() => {
-                                        handleConfirmButtonClick(cls.id);
-                                        // setRenderCustomerRequest(false);
-                                      }}
-                                    >
-                                      Confirm
-                                    </Button>
+                                  {cls.status === "Complete" && (
+                                    <TableCell></TableCell>
                                   )}
-                                  {cls.status != "Registered" &&
-                                    cls.status != "Cancel" && (
-                                      <TableCell>
-                                        <Button
-                                          style={{ fontSize: 14 }}
-                                          onClick={() => {
-                                            handleTrainingSkillViewClick(
-                                              cls.id
-                                            );
-                                          }}
-                                        >
-                                          View Details
-                                        </Button>
-                                      </TableCell>
-                                    )}
+                                  {cls.status === "Cancel" && (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleConfirmButtonClick(cls.id);
+                                          // setRenderCustomerRequest(false);
+                                        }}
+                                      >
+                                        Confirm
+                                      </Button>
+                                    </TableCell>
+                                  )}
+                                  {cls.status !== "Registered" &&
+                                  cls.status !== "Cancel" ? (
+                                    <TableCell>
+                                      <Button
+                                        style={{ fontSize: 14 }}
+                                        onClick={() => {
+                                          handleTrainingSkillViewClick(cls.id);
+                                        }}
+                                      >
+                                        View Details
+                                      </Button>
+                                    </TableCell>
+                                  ) : (
+                                    <TableCell></TableCell>
+                                  )}
                                 </TableRow>
                               </>
                             ))

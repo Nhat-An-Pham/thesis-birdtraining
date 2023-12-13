@@ -159,7 +159,7 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   return (
     <ThemeProvider theme={ochreTheme}>
       <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -174,197 +174,235 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Return Bird Form
             </Typography>
           </Toolbar>
         </AppBar>
       </Grid>
-      <div>
-        {birdTrainingCourse != null && (
-          // birdTrainingCourse
-          //   .filter((request) => request.id == requestedId)
-          //   .map((request) => (
-          <Card
-            style={{
-              maxWidth: 610,
-              margin: "auto",
-              marginTop: 4,
-            }}
-          >
-            <CardContent>
-              <Grid
-                style={{
-                  fontSize: 24,
-                  fontWeight: "bold",
-                  marginBottom: 2,
-                }}
-                color="textPrimary"
-              >
-                Billing Details
-              </Grid>
-              <Grid
-                style={{
-                  fontSize: 20,
-                  marginBottom: 2,
-                }}
-                color="textSecondary"
-              >
-                Requested Id: {birdTrainingCourse.id}
-              </Grid>
-              <Grid
-                style={{
-                  fontSize: 20,
-                  marginBottom: 2,
-                }}
-                color="textSecondary"
-              >
-                Customer: {birdTrainingCourse.customerName}
-              </Grid>
-
-              <Grid
-                style={{
-                  fontSize: 20,
-                  marginBottom: 2,
-                }}
-                color="textSecondary"
-              >
-                Course: {birdTrainingCourse.trainingCourseTitle}
-              </Grid>
-
-              <Grid
-                style={{
-                  fontSize: 20,
-                  marginBottom: 2,
-                }}
-                color="textSecondary"
-              >
-                Status: {birdTrainingCourse.status}
-              </Grid>
-
-              <div
-                style={{
-                  marginTop: 2,
-                }}
-              >
-                <Grid
-                  style={{
-                    fontSize: 20,
-                    marginBottom: 2,
-                  }}
-                  variant="body1"
-                  color="textPrimary"
-                >
-                  Total Price: {birdTrainingCourse.totalPrice.toFixed(2)}
-                </Grid>
-
-                <Grid
-                  style={{
-                    fontSize: 20,
-                    marginBottom: 2,
-                  }}
-                  variant="body1"
-                  color="textPrimary"
-                >
-                  Discounted Price:{" "}
-                  {birdTrainingCourse.discountedPrice.toFixed(2)}
-                </Grid>
-
-                <Grid
-                  style={{
-                    fontSize: 20,
-                    marginBottom: 2,
-                  }}
-                  variant="body1"
-                  color="textPrimary"
-                >
-                  Actual Price:{" "}
-                  {actualPrice != null
-                    ? actualPrice
-                    : birdTrainingCourse.actualPrice.toFixed(2)}
-                </Grid>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-        <div className="form-container">
+      <div
+        style={{
+          padding: "10px 40px",
+        }}
+      >
+        <div
+          className="form-container"
+          style={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <form
+            style={{ width: "100%", display: "flex" }}
             onSubmit={handleSubmit}
             className="form"
             encType="multipart/form-data"
           >
-            {/* <Typography variant="h6" gutterBottom>
-              Return bird form
-            </Typography> */}
-            {birdTrainingCourse?.status != "TrainingDone" && (
-              <FormControl
-                sx={{
-                  marginTop: 4,
-                  marginBottom: 3,
-                  width: 600,
-                  maxWidth: 610,
-                }}
-              >
-                <InputLabel id="selectLabel_ChoosePolicy">
-                  Choose Policy
-                </InputLabel>
-                <Select
-                  labelId="selectLabel_ChoosePolicy"
-                  label="Choose Policy"
-                  value={selectedPolicyId}
-                  // readOnly={
-                  //   birdTrainingCourse?.status == "TrainingDone" ? true : false
-                  // }
-                  onChange={handleSelectPolicy}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                padding: "10px 0 0 0",
+                width: "100%",
+              }}
+            >
+              {/* billing */}
+              {birdTrainingCourse != null && (
+                // birdTrainingCourse
+                //   .filter((request) => request.id == requestedId)
+                //   .map((request) => (
+                <div
+                  style={{
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: 5,
+                    width: "90%",
+                    height: "100%",
+                    padding: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "1rem",
+                  }}
                 >
-                  {trainingPricePolicies
-                    .filter((policy) => policy.name != "Success Requested")
-                    .map((policy) => (
-                      <MenuItem value={policy.id}>{policy.name}</MenuItem>
-                    ))}
-                </Select>
+                  <div
+                    style={{
+                      fontSize: "1.6rem",
+                      textAlign: "left",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Billing Details
+                  </div>
+                  <div>
+                    <table
+                      style={{
+                        border: "none",
+                        padding: "0px",
+                        borderCollapse: "separate",
+                        borderSpacing: "1rem 0.5rem",
+                        color: "#64645f",
+                        fontSize: "1rem",
+                        width: "100%",
+                      }}
+                    >
+                      <tr>
+                        <td>Requested Id </td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.id}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Customer</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.customerName}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Course</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.trainingCourseTitle}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Status</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.status}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Discounted Price</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.discountedPrice.toFixed(2)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Actual Price</td>
+                        <td style={{ textAlign: "end" }}>
+                          {actualPrice != null
+                            ? actualPrice
+                            : birdTrainingCourse.actualPrice.toFixed(2)}
+                        </td>
+                      </tr>
+                      <tr style={{ fontSize: "1.4rem", fontWeight: 700 }}>
+                        <td>Total Price</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.totalPrice.toFixed(2)}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* return note report */}
+              <FormControl
+                fullWidth
+                required
+                style={{ marginBottom: 20, marginTop: 20 }}
+              >
+                <Typography
+                  style={{ fontWeight: 700 }}
+                  variant="h6"
+                  gutterBottom
+                >
+                  Return Note
+                </Typography>
+                <Editor
+                  stylePropContainer={{ width: "90%" }}
+                  stylePropEditor={{ height: "80%" }}
+                  onGetHtmlValue={handleEditorChange}
+                  htmlValue={tmpNote}
+                />
               </FormControl>
-            )}
-            <FormControl fullWidth required style={{ marginBottom: 10 }}>
-              <Typography variant="h6" gutterBottom>
-                Return Note
-              </Typography>
-              <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
-            </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
-              <Typography variant="h6" gutterBottom>
-                Pictures
-              </Typography>
-              <Button variant="contained" color="ochre">
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                maxWidth: "600px",
+              }}
+            >
+              {/* status policy return  */}
+              {birdTrainingCourse?.status !== "TrainingDone" && (
+                <FormControl
+                  sx={{
+                    marginTop: 4,
+                    marginBottom: 3,
+                    width: 600,
+                    maxWidth: 610,
+                  }}
+                >
+                  <InputLabel id="selectLabel_ChoosePolicy">
+                    Choose Policy
+                  </InputLabel>
+                  <Select
+                    labelId="selectLabel_ChoosePolicy"
+                    label="Choose Policy"
+                    value={selectedPolicyId}
+                    // readOnly={
+                    //   birdTrainingCourse?.status == "TrainingDone" ? true : false
+                    // }
+                    onChange={handleSelectPolicy}
+                  >
+                    {trainingPricePolicies
+                      .filter((policy) => policy.name != "Success Requested")
+                      .map((policy) => (
+                        <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
+              )}
+
+              {/* upload image */}
+              <FormControl required style={{ marginBottom: 15 }}>
+                <Typography variant="h6" gutterBottom>
+                  Pictures
+                </Typography>
                 <UploadComponent onChange={handleFileChange} accept="image/*">
                   Upload image(s)
                 </UploadComponent>
-              </Button>
-              {/* Display submitted files here */}
-              <div>
-                {submittedImages.map((imageName, index) => (
-                  <div key={index}>{imageName}</div>
-                ))}
-              </div>
-            </FormControl>
-            <br />
-            <Button
-              sx={{ float: "right", marginBottom: "20px" }}
-              variant="contained"
-              color="ochre"
-              type="submit"
-            >
-              Confirm check out
-            </Button>
+                {/* Display submitted files here */}
+                <div>
+                  {submittedImages.map((imageName, index) => (
+                    <div key={index}>{imageName}</div>
+                  ))}
+                </div>
+              </FormControl>
 
-            <Button
-              sx={{ float: "right", marginBottom: "20px" }}
-              color="ochre"
-              onClick={() => handleCancelClick()}
-            >
-              Cancel
-            </Button>
+              {/* group button */}
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                  sx={{
+                    marginRight: 2,
+                    marginBottom: "20px",
+                    padding: "5px 25px 5px 25px",
+                    boxShadow:
+                      "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    borderRadius: "4px",
+                  }}
+                  onClick={() => handleCancelClick()}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  sx={{ marginBottom: "20px" }}
+                  variant="contained"
+                  color="ochre"
+                  type="submit"
+                >
+                  Confirm check out
+                </Button>
+              </div>
+            </div>
+
+            <br />
           </form>
         </div>
       </div>

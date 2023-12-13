@@ -68,11 +68,14 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
         .then((response) => {
           // Handle the response data
           console.log("Success:", response);
+          toast.success("Check-in successfully!");
+
           callBackMainManagement();
         })
         .catch((error) => {
           // Handle errors
           console.error("Error:", error);
+          toast.error("An error has occured!");
         });
     }
   };
@@ -81,7 +84,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
     <ThemeProvider theme={ochreTheme}>
       <div>
         <Grid sx={{ padding: 2 }}>
-          <AppBar position="static" color="ochre">
+          <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
             <Toolbar>
               <IconButton
                 size="large"
@@ -96,61 +99,109 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
                 variant="h6"
                 noWrap
                 component="div"
-                sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", sm: "block" },
+                  fontWeight: 700,
+                }}
               >
                 Receive Bird Form
               </Typography>
             </Toolbar>
           </AppBar>
         </Grid>
-        <div className="form-container">
+        <div
+          className="form-container"
+          style={{
+            display: "flex",
+            minHeight: "auto",
+          }}
+        >
           <form
             onSubmit={handleSubmit}
             className="form"
             encType="multipart/form-data"
+            style={{
+              width: "100%",
+              padding: 20,
+            }}
           >
-            {/* <Typography variant="h6" gutterBottom>
-            Receive bird form
-          </Typography> */}
-            <FormControl fullWidth required style={{ marginBottom: 10 }}>
-              <Typography variant="h6" gutterBottom>
-                Receive Note
-              </Typography>
-              <Editor onGetHtmlValue={handleEditorChange} htmlValue={tmpNote} />
-            </FormControl>
-            <FormControl required style={{ marginBottom: 15 }}>
-              <Typography variant="h6" gutterBottom>
-                Pictures
-              </Typography>
-              <Button variant="contained" color="ochre">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                width: "100%",
+                padding: "0 10px",
+              }}
+            >
+              <FormControl
+                fullWidth
+                required
+                style={{ marginBottom: 20, marginTop: 20, maxHeight: '352px' }}
+              >
+                <Typography
+                  style={{ fontWeight: 700 }}
+                  variant="h6"
+                  gutterBottom
+                >
+                  Receive Note
+                </Typography>
+                <Editor
+                  stylePropContainer={{ width: "90%" }}
+                  stylePropEditor={{ height: "80%" }}
+                  onGetHtmlValue={handleEditorChange}
+                  htmlValue={tmpNote}
+                />
+              </FormControl>
+
+              <FormControl required style={{ marginBottom: 15, width: "100%" }}>
+                <Typography variant="h6" gutterBottom>
+                  Pictures
+                </Typography>
                 <UploadComponent onChange={handleFileChange} accept="image/*">
                   Upload image(s)
                 </UploadComponent>
-              </Button>
-              {/* Display submitted files here */}
-              <div>
-                {submittedImages.map((imageName, index) => (
-                  <div key={index}>{imageName}</div>
-                ))}
-              </div>
-            </FormControl>
-            <br />
-            <Button
-              sx={{ float: "right", marginBottom: "20px" }}
-              variant="contained"
-              color="ochre"
-              type="submit"
-            >
-              Confirm check in
-            </Button>
+                {/* Display submitted files here */}
+                <div>
+                  {submittedImages.map((imageName, index) => (
+                    <div key={index}>{imageName}</div>
+                  ))}
+                </div>
+              </FormControl>
+            </div>
 
-            <Button
-              sx={{ float: "right", marginBottom: "20px" }}
-              color="ochre"
-              onClick={() => handleCancelClick()}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                padding: "0 20px",
+              }}
             >
-              Cancel
-            </Button>
+              <Button
+                sx={{
+                  marginRight: 2,
+                  padding: "5px 25px 5px 25px",
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                  borderRadius: "4px",
+                }}
+                onClick={() => handleCancelClick()}
+              >
+                Cancel
+              </Button>
+              <Button
+                sx={{
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                  borderRadius: "4px",
+                }}
+                variant="contained"
+                color="ochre"
+                type="submit"
+              >
+                Confirm check in
+              </Button>
+            </div>
           </form>
         </div>
       </div>

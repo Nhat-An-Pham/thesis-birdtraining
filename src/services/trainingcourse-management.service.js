@@ -102,6 +102,24 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async markTrainingSkillDone(model) {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/trainingcourse-trainer/mark-trainingskilldone`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async getTimetableReportView(params = null) {
     try {
       const response = await axios.get(
@@ -199,10 +217,28 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async getBirdTrainingProgressByTrainerId(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-trainer/birdtrainingprogress-trainer`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async getBirdTrainingReportByProgressId(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-staff/birdtrainingreport-progressid`,
+        `${BASE_URL}/api/trainingcourse/birdtrainingreport-progressid`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,

@@ -20,12 +20,16 @@ import trainingCourseManagementService from "../../../src/services/trainingcours
 import { Tab } from "@coreui/coreui";
 import { ochreTheme } from "../themes/Theme";
 import ReportModifyComponent from "./ReportModifyComponent";
+import { jwtDecode } from "jwt-decode";
 
 const BirdTrainingReportComponent = ({
   selectedProgress,
   birdSkillId,
   callbackAssigned,
 }) => {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [reportList, setReportList] = useState([]);
   const [selectedReport, setSelectedReport] = useState();
   const [renderModifyReport, setRenderModifyReport] = useState(false);
@@ -74,16 +78,25 @@ const BirdTrainingReportComponent = ({
     <div style={{ padding: 20 }}>
       <ThemeProvider theme={ochreTheme}>
         {reportList != null && reportList.length > 0 && (
-          <TableContainer>
+          <TableContainer style={{ padding: 20 }}>
             <h2>Bird Training Report {selectedProgress.id}</h2>
             <Table>
               <TableHead>
-                <TableCell>Slot</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Trainer Name</TableCell>
-                <TableCell>Trainer Email</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell></TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Slot
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Date
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Trainer Name
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Trainer Email
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                  Status
+                </TableCell>
                 <TableCell></TableCell>
               </TableHead>
               {reportList.map((rsl) => (
@@ -102,7 +115,7 @@ const BirdTrainingReportComponent = ({
                     <TableCell>{rsl.trainerEmail}</TableCell>
                     <TableCell>{rsl.status}</TableCell>
                     <TableCell>
-                      {rsl.status == "NotYet" && (
+                      {rsl.status == "NotYet" && userRole != "Trainer" && (
                         <Button
                           sx={{ float: "right", marginBottom: "20px" }}
                           variant="contained"
@@ -118,8 +131,17 @@ const BirdTrainingReportComponent = ({
               ))}
             </Table>
 
-            <div className="main-button-container">
+            <div
+              className="main-button-container"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Button
+                sx={{
+                  marginTop: 3,
+                  padding: "5px 25px 5px 25px",
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                }}
                 className="button"
                 onClick={() => handleCallBackSkillButton()}
               >
