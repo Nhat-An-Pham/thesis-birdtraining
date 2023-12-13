@@ -23,34 +23,40 @@ export default function StripeCheckout({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    axios("https://13.214.85.41/payments/create-checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      params: {
-        amount: billAmount,
-      },
-      data: JSON.stringify({
+    // console.log("name: ", customerName);
+    // console.log("email: ", customerEmail);
+    if (customerName && customerEmail) {
+      let data = {
         name: customerName,
         email: customerEmail,
-      }),
-    })
-      .then((val) => {
-        setIsLoading(true);
-        setClientSecret(val.data.paymentIntent.client_secret);
+      };
+      axios("https://13.214.85.41/payments/create-checkout", {
+        method: "POST",
+        data: data,
+        headers: { "Content-Type": "application/json" },
+        params: {
+          amount: billAmount,
+        },
+      })
+        .then((val) => {
+          setIsLoading(true);
+          setClientSecret(val.data.paymentIntent.client_secret);
 
-        if (val.status === 400) {
-          setErr(val.data);
-          console.log("val", val);
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // alert(error.message);
-        setIsLoading(false);
-      });
-  }, [billAmount, customerEmail, customerName]);
+          if (val.status === 400) {
+            setErr(val.data);
+            console.log("val", val);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          // alert(error.message);
+          setIsLoading(false);
+          console.log(error);
+        });
+    }
+  }, [customerEmail]);
 
   const options = {
     clientSecret,
@@ -60,7 +66,11 @@ export default function StripeCheckout({
     <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise} key={clientSecret}>
-          <CheckoutForm workshopClassId={wclassid} onlineClassId={oclassid}  paymentSecret={clientSecret}/>
+          <CheckoutForm
+            workshopClassId={wclassid}
+            onlineClassId={oclassid}
+            paymentSecret={clientSecret}
+          />
         </Elements>
       )}
     </div>
