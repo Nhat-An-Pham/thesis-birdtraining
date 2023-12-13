@@ -21,6 +21,7 @@ const CourseListPage = () => {
       .then((res) => {
         // console.log("All Online Courses: ", res.data)
         setOnlineCourse(res.data);
+        setFilteredList(res.data)
       })
       .catch((e) => {
         console.log("fail get all courses: ", e)
@@ -29,7 +30,7 @@ const CourseListPage = () => {
 
   const handleSearch = (query) => {
     const filteredResults = onlineCourse.filter((course) =>
-      course.title.toLowerCase().includes(query)
+      course.title.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredList(filteredResults);
   };
@@ -43,7 +44,7 @@ const CourseListPage = () => {
     <div className='courselistpage'>
       <div className='courselistpage_section courselistpage_section-search'>
         <input type='text' placeholder='Search For Courses'
-        // value={searchQuery} onChange={handleSearchInputChange} 
+        value={searchQuery} onChange={handleSearchInputChange} 
         />
       </div>
       <div className='courselistpage_section courselistpage_section-title'>
@@ -51,7 +52,7 @@ const CourseListPage = () => {
       </div>
       <div className='courselistpage_section courselistpage_section-list'>
         <div className='courselistpagelist_elements courselistpagelist_elements-cards'>
-          {onlineCourse.map((course, index) => (
+          {filteredList.map((course, index) => (
             <Cards id={course.id} title={course.title} key={index}
               thumbnail={course.picture} shortdescr={course.shortDescription}
               price={course.price} />
