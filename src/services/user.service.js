@@ -7,11 +7,14 @@ class UserService {
 
     //Management
     //CREATE User
-    async postCreateUser({ name, email, phoneNumber, password }) {
-
+    async postCreateUser(formData) {
+        console.log(formData)
+        const accessToken = JSON.parse(localStorage.getItem('user-token'))
         const response = await axios
-            .post(API_PROFILE + "auth/register", {
-                name, email, password, phoneNumber
+            .post(API_UM_URL + "create", formData, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
             })
         return response
     }

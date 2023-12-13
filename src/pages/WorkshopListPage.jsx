@@ -19,6 +19,7 @@ const WorkshopListPage = () => {
             .then((res) => {
                 console.log("success workshop list test", res.data);
                 setWorkshopList(res.data);
+                setFilteredList(res.data)
             })
             .catch((e) => console.log("fail workshop list test", e));
     }, []);
@@ -40,7 +41,7 @@ const WorkshopListPage = () => {
         <div className='workshoplistpage'>
             <div className='workshoplistpage_section workshoplistpage_section-search'>
                 <input type="text" required placeholder='Search For Events'
-                //  value={searchQuery} onChange={handleSearchInputChange}
+                 value={searchQuery} onChange={handleSearchInputChange}
                 />
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-title'>
@@ -48,7 +49,7 @@ const WorkshopListPage = () => {
             </div>
             <div className='workshoplistpage_section workshoplistpage_section-list'>
                 <div className='workshoplistpagelist_elements workshoplistpagelist_elements-cards'>
-                    {workshopList.map((workshop) => (
+                    {filteredList.map((workshop) => (
                         <Cards id={workshop.id} title={workshop.title} key={workshop.id}
                             thumbnail={workshop.picture.split(",")[0]} shortdescr={workshop.description}
                             price={workshop.price} >

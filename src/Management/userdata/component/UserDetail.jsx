@@ -6,6 +6,7 @@ import { Button } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import userService from '../../../services/user.service';
 import { jwtDecode } from 'jwt-decode';
+import '../userdata.scss'
 
 const UserDetail = ({ selectedUser, openDiv, handleCloseDiv }) => {
 
@@ -69,55 +70,62 @@ const UserDetail = ({ selectedUser, openDiv, handleCloseDiv }) => {
 
 
     return (
-        <Dialog open={openDiv} onClose={handleCloseDiv}>
+        <Dialog open={openDiv} onClose={handleCloseDiv} >
             <ToastContainer />
-            <DialogTitle>
-                <h3 style={{ textAlign: "center", margin: "0px" }}>{selectedUser.name}</h3>
+            <DialogTitle style={{ margin: "0px" }}>
+                <h3>{selectedUser.name}</h3>
             </DialogTitle>
-            <DialogContent style={{ width: "100%", padding: 0 }}>
-                <section className='userdetail-box-container' style={{ marginBottom: "20px" }}>
-                    <div>Name</div>
-                    <div>{selectedUser.name}</div>
-                    <div>Email</div>
-                    <div>{selectedUser.email}</div>
-                    <div>Phone Number</div>
-                    <div>(+84){selectedUser.phoneNumber}</div>
-                    <div>Address</div>
-                    <div>{selectedUser.address}</div>
-                    <div>Password</div>
-                    <div>{selectedUser.password}</div>
-                    <div>Membership</div>
-                    <div>{selectedUser.membership}</div>
-                    <div>Role</div>
-                    <div>
-                        <Select style={{ width: "130px" }} value={roleChange} onChange={(e) => roleChangeHandler(e.target.value)}>
-                            {rolesData.map((roles) => (
-                                <MenuItem value={roles}>{roles}</MenuItem>
-                            ))}
-                        </Select>
-                    </div>
-                    <div>Status</div>
-                    <div>
-                        {selectedUser.role === "Trainer" ?
-                            <Select style={{ width: "130px" }} value={statusChange} onChange={(e) => statusChangeHandler(e.target.value)}>
-                                {trainerStatuses.map((status) => (
-                                    <MenuItem value={status}>{status}</MenuItem>
-                                ))}
-                            </Select>
-                            : null}
-                        {selectedUser.role === "Customer" ?
-                            <Select style={{ width: "130px" }} value={statusChange} onChange={(e) => statusChangeHandler(e.target.value)}>
-                                {customerStatuses.map((status) => (
-                                    <MenuItem value={status}>{status}</MenuItem>
-                                ))}
-                            </Select>
-                            : null}
-                    </div>
+            <DialogContent>
+                <section className='userdetail_dialogcontent_section userdetail_dialogcontent_section-info'>
+
+                    <table class="userdetail_dialogcontent_info-table">
+                        <tbody>
+                            <tr>
+                                <td>Name</td><td>{selectedUser.name}</td></tr>
+                            <tr>
+                                <td>Email</td><td>{selectedUser.email}</td></tr>
+                            <tr>
+                                <td>Phone Number</td><td>(+84){selectedUser.phoneNumber}</td></tr>
+                            <tr>
+                                <td>Address</td><td>{selectedUser.address}</td></tr>
+                            <tr>
+                                <td>Password</td><td>{selectedUser.password}</td></tr>
+                            <tr>
+                                <td>Membership</td><td>{selectedUser.membership}</td></tr>
+                            <tr>
+                                <td>Role</td>
+                                <td><Select value={roleChange} onChange={(e) => roleChangeHandler(e.target.value)}>
+                                    {rolesData.map((roles) => (
+                                        <MenuItem value={roles}>{roles}</MenuItem>
+                                    ))}
+                                </Select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Status</td>
+                                <td>{selectedUser.role === "Trainer" ?
+                                    <Select value={statusChange} onChange={(e) => statusChangeHandler(e.target.value)}>
+                                        {trainerStatuses.map((status) => (
+                                            <MenuItem value={status}>{status}</MenuItem>
+                                        ))}
+                                    </Select>
+                                    : null}
+                                    {selectedUser.role === "Customer" ?
+                                        <Select value={statusChange} onChange={(e) => statusChangeHandler(e.target.value)}>
+                                            {customerStatuses.map((status) => (
+                                                <MenuItem value={status}>{status}</MenuItem>
+                                            ))}
+                                        </Select>
+                                        : null}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
-                <div style={{ marginTop: "20px" }}>
-                    <p style={{ color: "red" }}>{errMessage}</p>
+                <section className='userdetail_dialogcontent_section' >
+                    <p >{errMessage}</p>
                     <Button
-                        sx={{ float: "right", marginBottom: "20px" , marginLeft:"10px" }}
+                        sx={{ float: "right", marginBottom: "20px", marginLeft: "10px" }}
                         variant="contained"
                         color="ochre"
                         onClick={updateStatusClick}
@@ -135,9 +143,9 @@ const UserDetail = ({ selectedUser, openDiv, handleCloseDiv }) => {
                     <Button color="ochre" variant="contained" onClick={handleCloseDiv}>
                         Cancel
                     </Button>
-                </div>
+                </section>
             </DialogContent>
-        </Dialog>
+        </Dialog >
     )
 }
 

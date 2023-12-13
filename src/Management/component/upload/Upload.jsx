@@ -72,12 +72,13 @@ export const UploadComponent = ({
             <Carousel swipeable>
               {filePreviews?.map((file) => (
                 <div style={{ height: 300 }}>
+
                   {file.dataURL.includes("image") ? (
                     <Img
                       // srcSet={`${picture}`}
                       src={`${file.dataURL}`}
                       alt={`error`}
-                      style={{ height: "100%", width: "auto" }}
+                      style={{ height: "100%", width: "auto", objectFit:"contain", border:"0.4px grey solid" }}
                       loading={<CircularProgress />}
                     />
                   ) : file.dataURL.includes("video") ? (

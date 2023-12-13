@@ -58,7 +58,7 @@ export default function WorkshopDetailTemplateComponent({
           </Grid>
         </Grid>
       ) : (
-        <Grid item>
+        <Grid container item xs={10} justifyContent={'left'} alignItems={'center'} padding={5}>
           <Typography>
             <RawHTMLRenderer htmlContent={description} />
           </Typography>
