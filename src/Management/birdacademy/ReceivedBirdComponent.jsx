@@ -137,7 +137,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
               <FormControl
                 fullWidth
                 required
-                style={{ marginBottom: 20, marginTop: 20 }}
+                style={{ marginBottom: 20, marginTop: 20, maxHeight: '352px' }}
               >
                 <Typography
                   style={{ fontWeight: 700 }}
