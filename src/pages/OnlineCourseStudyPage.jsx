@@ -122,7 +122,7 @@ const OnlineCourseStudyPage = () => {
               ))}
             </div>
             {selectedCourse.status === "Completed" ?
-              <Link style={{width:"100%", display:"flex", justifyContent:"center",marginTop:"30px"}}>
+              <Link to={`/onlinecourse/certificate/${selectedCourse.id}`} style={{width:"100%", display:"flex", justifyContent:"center",marginTop:"30px"}}>
                 <Typography style={{color: "Green", width:"100%", textAlign:"center", textDecoration:"none"}}>You Have Completed This Course, Click Here</Typography>
               </Link>
               : null}

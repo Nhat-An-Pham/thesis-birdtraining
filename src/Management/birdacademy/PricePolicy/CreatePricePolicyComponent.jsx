@@ -74,7 +74,7 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
   return (
     <div>
       <Grid sx={{ padding: 2 }}>
-        <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
           <Toolbar>
             <IconButton
               size="large"
@@ -89,7 +89,11 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Create Training Price Policy
             </Typography>
@@ -127,21 +131,29 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
               required
             />
           </FormControl>
-          <Button
-            sx={{ float: "right", marginBottom: "20px" }}
-            variant="contained"
-            color="ochre"
-            type="submit"
-          >
-            Confirm create policy
-          </Button>
-          <Button
-            sx={{ float: "right", marginBottom: "20px", marginRight: "10px" }}
-            color="ochre"
-            onClick={() => callbackCreatePolicy()}
-          >
-            Cancel
-          </Button>
+          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <Button
+              sx={{
+                marginRight: 2,
+                marginBottom: "20px",
+                padding: "5px 25px 5px 25px",
+                boxShadow:
+                  "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                borderRadius: "4px",
+              }}
+              onClick={() => callbackCreatePolicy()}
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{ marginBottom: "20px" }}
+              variant="contained"
+              color="ochre"
+              type="submit"
+            >
+              Confirm create policy
+            </Button>
+          </div>
         </form>
       </div>
     </div>

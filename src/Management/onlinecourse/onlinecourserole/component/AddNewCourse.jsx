@@ -96,13 +96,11 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse, renderIndex }) => {
                         <Typography variant="h6" gutterBottom>
                             Pictures
                         </Typography>
-                        <Button variant="contained" color="ochre">
                             <UploadComponent
                                 onChange={handleFileChange}
                                 accept="image/*">
                                 Upload image
                             </UploadComponent>
-                        </Button>
                         {/* Display submitted files here */}
                         <div>
                             {submittedImages}

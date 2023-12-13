@@ -53,7 +53,6 @@ export const UserSettingPage = () => {
     setInputDisable(true);
   }
   function HandleImage(e) {
-    console.log(e.target.files);
     setImage(e.target.files[0]);
   }
 

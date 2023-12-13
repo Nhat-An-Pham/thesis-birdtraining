@@ -146,7 +146,7 @@ const WorkshopModifyPopupComponent = ({
             "& .MuiDialog-container": {
               "& .MuiPaper-root": {
                 width: "100%",
-                maxWidth: 530, // Set your width here
+                maxWidth: 540, // Set your width here
               },
             },
           }}
@@ -252,21 +252,6 @@ const WorkshopModifyPopupComponent = ({
                     spacing={3}
                     justifyContent={"space-between"}
                   >
-                    <Grid item>
-                      <TextField
-                        required
-                        label={"Location"}
-                        id="location"
-                        type="text"
-                        value={workshop.location}
-                        onChange={(e) =>
-                          setWorkshop((prevState) => ({
-                            ...prevState,
-                            location: e.target.value,
-                          }))
-                        }
-                      />
-                    </Grid>
                     <Grid item>
                       <FormControl required>
                         <TextField
