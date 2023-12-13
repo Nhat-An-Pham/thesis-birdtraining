@@ -9,8 +9,12 @@ import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
 import ClassAddNewComponent from "./classes/ClassAddNewComponent";
 import RefundPoliciesManagement from "./refundPolicy/RefundPoliciesManagement";
+import { jwtDecode } from "jwt-decode";
 
 export default function WorkshopManagementComponent() {
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  );
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState(0); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
@@ -114,14 +118,16 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
-                    <Button
-                      color="ochre"
-                      variant="contained"
-                      sx={{ marginRight: 1 }}
-                      onClick={() => setRenderedIndex(1)}
-                    >
-                      Create workshop
-                    </Button>
+                    {userRole === "Manager" ? (
+                      <Button
+                        color="ochre"
+                        variant="contained"
+                        sx={{ marginRight: 1 }}
+                        onClick={() => setRenderedIndex(1)}
+                      >
+                        Create workshop
+                      </Button>
+                    ) : null}
                     <Button
                       color="ochre"
                       variant="contained"

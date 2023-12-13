@@ -27,8 +27,10 @@ import { ochreTheme } from "../../themes/Theme";
 import { Search } from "@mui/icons-material";
 import TrainerSkillAddComponent from "./TrainerSkillAddComponent";
 import TrainerSkillUpdateComponent from "./TrainerSkillUpdateComponent";
+import { jwtDecode } from "jwt-decode";
 
 const TrainerSkillManagementComponent = ({}) => {
+  const userRole = jwtDecode(JSON.stringify(localStorage.getItem('user-token')));
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
