@@ -81,11 +81,12 @@ class ClassManagementService {
       throw error;
     }
   }
-  async CreateClass(workshopId, startTime) {
+  async CreateClass(workshopId, startTime, location) {
     try {
       let model = {
         workshopId : workshopId,
-        startTime : startTime
+        startTime : startTime,
+        location : location
       }
       const response = await axios.post(
         `${BASE_URL}/api/workshop/create-class`,
@@ -101,6 +102,29 @@ class ClassManagementService {
       return response;
     } catch (error) {
       console.error("Error update trainer slot:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async ModifyClass(classId, startTime, location) {
+    try {
+      let model = {
+        id : classId,
+        startTime : startTime,
+        location : location
+      }
+      const response = await axios.put(
+        `${BASE_URL}/api/workshop/modify-class`,
+        model,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error modify class:", error);
       // You might want to throw an error here or handle it as needed.
       throw error;
     }

@@ -16,6 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import addonService from "../../../services/addon.service";
@@ -23,11 +24,13 @@ import { ochreTheme } from "../../themes/Theme";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import ClassModifyComponent from "./ClassModifyComponent";
 export default function ClassDetailViewComponent({ selectedClassId }) {
   const [selectedClass, setSelectedClass] = useState();
   const [slot, setSlot] = useState();
   const [slots, setSlots] = useState([]);
   const [updateTrainerSlot, setUpdateTrainerSlot] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
   async function fetchClass() {
     try {
       let response = await classManagementService.GetClassById(selectedClassId);
@@ -37,6 +40,11 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
       toast.error(JSON.stringify(error));
     }
   }
+  const onCallbackCloseModify = async () => {
+    setOpenModify(false);
+    await fetchClass();
+    await fetchSlots();
+  };
   async function fetchSlots() {
     try {
       console.log(selectedClassId);
@@ -114,84 +122,185 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
   function loadClass() {
     return (
       <>
+        <ClassModifyComponent
+          handleClose={onCallbackCloseModify}
+          open={openModify}
+          selectedClass={selectedClass}
+          callbackModifyClass={onCallbackCloseModify}
+        />
         <Grid container item xs={12} alignItems={"center"}>
-          <Grid container item xs={12}>
-            <Grid container item xs={6} padding={5} spacing={2}>
+          <Grid container item xs={12} my={3}>
+            <Grid container item xs={5} padding={3} spacing={2}>
               <Grid item xs={4}>
-                Expected Open Registration:
+                <Typography fontWeight={"bold"}>Open Registration:</Typography>
               </Grid>
               <Grid item xs={8}>
-                {addonService.formatDate(selectedClass.startTime)}
+                {/* {addonService.formatDate(selectedClass.startTime)} */}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date"
+                    value={dayjs(selectedClass.startTime)}
+                    readOnly
+                    sx={{ width: "100%", maxWidth: "200px" }}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={4}>
-                Expected Closed Registration:
+                <Typography fontWeight={"bold"}>Closed Registration:</Typography>
               </Grid>
               <Grid item xs={8}>
-                {addonService.formatDate(selectedClass.registerEndDate)}
+                {/* {addonService.formatDate(selectedClass.registerEndDate)} */}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    readOnly
+                    label="Date"
+                    value={dayjs(selectedClass.registerEndDate)}
+                    sx={{ width: "100%", maxWidth: "200px" }}
+                  />
+                </LocalizationProvider>
               </Grid>
               <Grid item xs={4}>
-                Registered Amount
+                <Typography fontWeight={"bold"}>Hosted Location:</Typography>
               </Grid>
               <Grid item xs={8}>
-                {formatRegistrationAmount(selectedClass.registrationAmount)}
+                <TextField
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label={"Location"}
+                  type="text"
+                  value={selectedClass.location}
+                  fullWidth
+                />
               </Grid>
-              <Grid item xs={4}>
-                Status:
+              <Grid container item justifyContent={"flex-end"}>
+                <Button
+                  color="ochre"
+                  variant="contained"
+                  onClick={() => setOpenModify(true)}
+                  disabled={selectedClass.status !== 'Pending'}
+                >
+                  Modify
+                </Button>
               </Grid>
-              <Grid item xs={8}>
-                {selectedClass.status}
-              </Grid>
+            </Grid>
+            <Grid container item xs={1} justifyContent={"center"}>
+              <Divider orientation={"vertical"} />
             </Grid>
             <Grid
               container
               item
               direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
+              justifyContent="center"
+              alignItems="flex-end"
               xs={6}
-              my={2}
-              padding={5}
-              spacing={3}
+              padding={3}
+              spacing={2}
             >
-              <Grid item>
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={() => OnClickCloseRegistration()}
-                >
-                  Close Registration
-                </Button>
+              <Grid container item xs={12} spacing={3}>
+                <Grid item xs={12}>
+                  <Typography fontWeight={"bold"}>
+                    Registered Limitation:
+                  </Typography>
+                </Grid>
+                <Grid container item xs={6}>
+                  <Grid
+                    container
+                    item
+                    xs={4}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Typography>Minimum:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label={"Minimum Registered"}
+                      type={"number"}
+                      defaultValue={selectedClass.minimumRegistration}
+                      value={selectedClass.minimumRegistration}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container item xs={6}>
+                  <Grid
+                    container
+                    item
+                    xs={4}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Typography>Maximum:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label={"Maximum Registered"}
+                      type={"number"}
+                      defaultValue={selectedClass.maximumRegistration}
+                      value={selectedClass.maximumRegistration}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={() => OnClickSetOngoing()}
-                >
-                  Set OnGoing
-                </Button>
+              <Grid item xs={4}>
+                <Typography fontWeight={"bold"}>Registered Amount:</Typography>
               </Grid>
-              <Grid item>
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={() => OnClickSetComplete()}
-                >
-                  Set Complete
-                </Button>
+              <Grid item xs={8}>
+                {formatRegistrationAmount(selectedClass.registrationAmount)}
               </Grid>
-              <Grid item>
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={() => OnClickCancelClass()}
-                >
-                  Cancel
-                </Button>
+
+              <Grid item xs={4}>
+                <Typography fontWeight={"bold"}>Status:</Typography>
+              </Grid>
+              <Grid item xs={8}>
+                {selectedClass.status}
+              </Grid>
+              <Grid container item xs={12} spacing={2} alignItems={"flex-end"}>
+                <Grid item>
+                  <Button
+                    color="ochre"
+                    variant="contained"
+                    onClick={() => OnClickCloseRegistration()}
+                  >
+                    Close Registration
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    color="ochre"
+                    variant="contained"
+                    onClick={() => OnClickSetOngoing()}
+                  >
+                    Set OnGoing
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    color="ochre"
+                    variant="contained"
+                    onClick={() => OnClickSetComplete()}
+                  >
+                    Set Complete
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    color="ochre"
+                    variant="contained"
+                    onClick={() => OnClickCancelClass()}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Divider />
           <Grid container item xs={12} padding={5} alignItems="center">
             <Grid item xs={1} justifyItems={"flex-end"}>
               <Typography fontWeight={"bold"}>Slot Date:</Typography>
@@ -240,7 +349,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
             </Grid>
           </Grid>
         </Grid>
-        <Divider/>
+        <Divider />
         <Grid padding={5}>
           <Grid container item spacing={3}>
             <Grid item xs={3}>
