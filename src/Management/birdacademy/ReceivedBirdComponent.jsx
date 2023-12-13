@@ -144,7 +144,7 @@ const ReceivedBirdComponent = ({ requestedId, callBackMainManagement }) => {
                   variant="h6"
                   gutterBottom
                 >
-                  Return Note
+                  Receive Note
                 </Typography>
                 <Editor
                   stylePropContainer={{ width: "90%" }}

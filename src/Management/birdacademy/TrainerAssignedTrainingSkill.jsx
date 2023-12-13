@@ -79,20 +79,24 @@ const TrainerAssignedTrainingSkill = () => {
   return (
     <div>
       {renderProgress && (
-        <>
+        <div style={{padding: '20px'}}>
           <TableContainer
-            style={{ padding: 20 }}
             className="table-container"
             component={Paper}
+            sx={{
+              boxShadow:
+                "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+              borderRadius: 3,
+            }}
           >
             <Table className="table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Bird Skill Name</TableCell>
-                  <TableCell>Trainer Name</TableCell>
-                  <TableCell>Training Progression</TableCell>
-                  <TableCell>Total Training Slot</TableCell>
-                  <TableCell>Status</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Bird Skill Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Training Progression</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Total Training Slot</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Status</TableCell>
                   <TableCell></TableCell>
                 </TableRow>
               </TableHead>
@@ -115,6 +119,7 @@ const TrainerAssignedTrainingSkill = () => {
                           background: "#eee",
                           padding: "5px",
                           borderRadius: "4px",
+                          border: '0.5px solid #404040'
                         }}
                       >
                         <div
@@ -149,7 +154,7 @@ const TrainerAssignedTrainingSkill = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </>
+        </div>
       )}
       {renderReport && (
         <BirdTrainingReportComponent
