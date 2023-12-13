@@ -34,7 +34,7 @@ class OnlineCourseService {
                         'Authorization': `Bearer ${accessToken} `
                     }
                 })
-        return response;
+        return response; 
     }
 
     //SUBMIT PAYMENT
@@ -50,7 +50,6 @@ class OnlineCourseService {
             }
             )
         return response;
-
     }
 
 

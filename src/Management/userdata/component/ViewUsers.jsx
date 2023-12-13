@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import UserDetail from './UserDetail';
 
-const ViewUsers = ({ renderIndex }) => {
+const ViewUsers = ({ renderIndex, tablabel }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [userList, setUserList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
@@ -28,16 +28,21 @@ const ViewUsers = ({ renderIndex }) => {
             .getUserList()
             .then((res) => {
                 // console.log("success user list test", res.data);
-                setUserList(res.data);
-                setFilteredList(res.data);
+
+                //set vào userlist theo tablabel (chưa làm)
+                const filteredUsers = res.data.filter(user => user.role === tablabel.label);
+                setUserList(filteredUsers);
+                setFilteredList(filteredUsers);
             })
             .catch((e) => console.log("fail user list test", e));
-    }, [renderIndex, openDiv]);
+    }, [renderIndex, openDiv, tablabel.label]);
+
     const handleSearch = (query) => {
         const filteredResults = userList.filter((user) =>
-            user.email.includes(query) || user.name.includes(query) || user.phoneNumber.includes(query) || user.role.includes(query)
+            (user.email.includes(query) || user.name.includes(query) || user.phoneNumber.includes(query))
         );
         setFilteredList(filteredResults);
+
     };
     const handleSearchInputChange = (e) => {
         const query = e.target.value;
@@ -46,7 +51,7 @@ const ViewUsers = ({ renderIndex }) => {
     };
 
 
-    
+
     const [selectedUser, setSelectedUser] = useState()
     const handleCloseDiv = () => {
         setOpenDiv(0)
@@ -76,7 +81,9 @@ const ViewUsers = ({ renderIndex }) => {
                                     <TableCell>Phone Number</TableCell>
                                     <TableCell>Password</TableCell>
                                     <TableCell>Role</TableCell>
-                                    <TableCell>MemberShip</TableCell>
+                                    {tablabel.label === "Customer" ?
+                                        <TableCell>MemberShip</TableCell>
+                                        : null}
                                     <TableCell>Status</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -90,7 +97,9 @@ const ViewUsers = ({ renderIndex }) => {
                                         <TableCell>{row.phoneNumber}</TableCell>
                                         <TableCell>{row.password}</TableCell>
                                         <TableCell>{row.role}</TableCell>
-                                        <TableCell>{row.membership}</TableCell>
+                                        {tablabel.label === "Customer" ?
+                                            <TableCell>{row.membership}</TableCell>
+                                            : null}
                                         <TableCell>{row.status}</TableCell>
                                     </TableRow>
                                 ))}

@@ -77,7 +77,7 @@ export const UploadComponent = ({
                     src={`${picture.dataURL}`}
                     alt={`error`}
                     fill                    
-                    style={{ height: "100%", width: "auto" }}
+                    style={{ height: "100%", width: "auto", objectFit:"contain", border:"0.4px grey solid" }}
                     loading={<CircularProgress />}
                   />
                 </div>

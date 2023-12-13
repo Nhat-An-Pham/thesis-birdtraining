@@ -1,20 +1,83 @@
-.userdetail-box-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas:
-        ". ."
-        ". ."
-        ". ."
-        ". ."
-        ". ."
-        ". .";
-    border: 0.7px grey solid;
-    div {
-        border: 0.3px grey solid;
-        padding: 10px;
-        margin: 0px;
-        width: 300px;
+.userdata-container {
+    height: auto;
+    display: flex;
+    width: 100%;
+}
+
+.userdetail_dialogcontent_section {
+
+    &-info {
+        display: grid;
     }
+}
+
+
+table.userdetail_dialogcontent_info-table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+table.userdetail_dialogcontent_info-table td,
+table.userdetail_dialogcontent_info-table th {
+    border: 1px solid #AAAAAA;
+    padding: 5px 7px;
+}
+
+table.userdetail_dialogcontent_info-table tbody td {
+    font-size: 13px;
+    color: #000000;
+}
+
+table.userdetail_dialogcontent_info-table tfoot td {
+    font-size: 14px;
+}
+
+table.userdetail_dialogcontent_info-table tfoot .links {
+    text-align: right;
+}
+
+table.userdetail_dialogcontent_info-table tfoot .links a {
+    display: inline-block;
+    background: #1C6EA4;
+    color: #FFFFFF;
+    padding: 2px 8px;
+    border-radius: 5px;
+}
+
+table.userdetail_dialogcontent_info-table Select{
+    width: 50%;
+}
+
+
+
+
+// Add New User
+.form-container-addnewuser{
+    display: flex;
+
+    & .form_section{
+        width: 50%;
+
+        &-left{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &-right{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-left: 0.4px grey solid;
+            & img{
+                width: 50%;
+                aspect-ratio: 1 / 1;
+                border: 1px grey solid;
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+
 }
