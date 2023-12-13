@@ -29,11 +29,15 @@ import trainingCourseManagementService from "../../services/trainingcourse-manag
 import { ochreTheme } from "../themes/Theme";
 import { ToastContainer, toast } from "react-toastify";
 import SkillDoneDialog from "./SkillDoneDialog";
+import { jwtDecode } from "jwt-decode";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
   callBackTimetable,
 }) => {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [renderDialog, setRenderDialog] = useState(0);
 
   const [slotList, setSlotList] = useState([]);
@@ -200,7 +204,7 @@ const TimetableTrainerSlotDetailComponent = ({
                 />
               </Grid>
             </Grid>
-            {timetableDetail.status == "NotYet" && (
+            {timetableDetail.status == "NotYet" && userRole == "Trainer" && (
               <ThemeProvider theme={ochreTheme}>
                 <Button
                   variant="contained"
