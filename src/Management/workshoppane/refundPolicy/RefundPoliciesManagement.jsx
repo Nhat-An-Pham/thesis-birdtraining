@@ -30,13 +30,16 @@ import { ochreTheme } from "../../themes/Theme";
 import { Close, Search } from "@mui/icons-material";
 import AddRefundPolicyComponent from "../refundPolicy/AddRefundPolicyComponent";
 import DetailRefundPolicyComponent from "../refundPolicy/DetailRefundPolicyComponent";
+import { jwtDecode } from "jwt-decode";
 
 const RefundPoliciesManagement = ({ callbackMainManagement }) => {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedId, setSelectedId] = useState(1);
-
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  );
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -128,13 +131,16 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Button
-                color="ochre"
-                variant="contained"
-                onClick={handleOpenModal}
-              >
-                Add
-              </Button>
+              {userRole === "Manager" ? (
+                <Button
+                  color="ochre"
+                  variant="contained"
+                  onClick={handleOpenModal}
+                >
+                  Add
+                </Button>
+              ) : null}
+
               {/* <FormControl>
                 <OutlinedInput
                   fullWidth
@@ -171,15 +177,17 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
                             <TableCell>
                               <Typography>{row.refundRate}</Typography>
                             </TableCell>
-                            <TableCell>
-                              <Button
-                                color="ochre"
-                                variant="contained"
-                                onClick={() => handleOpenUpdateModal(row.id)}
-                              >
-                                Update
-                              </Button>
-                            </TableCell>
+                            {userRole === "Manager" ? (
+                              <TableCell>
+                                <Button
+                                  color="ochre"
+                                  variant="contained"
+                                  onClick={() => handleOpenUpdateModal(row.id)}
+                                >
+                                  Update
+                                </Button>
+                              </TableCell>
+                            ) : null}
                           </TableRow>
                         ))}
                       </TableBody>

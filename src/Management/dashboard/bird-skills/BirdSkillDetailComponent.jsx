@@ -22,7 +22,11 @@ import {
 } from "@mui/material";
 import { Add, Close, PlusOneOutlined, Search } from "@mui/icons-material";
 import AddTrainableSkillToBirdSkillComponent from "./AddTrainableSkillToBirdSkillComponent.jsx";
+import { jwtDecode } from "jwt-decode";
 export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  );
   const [birdSkill, setBirdSkill] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -32,7 +36,7 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
   async function fetchTrainableSkillsByBirdSkill() {
     try {
       let params = {
-        $filter: `contains(tolower(birdSkillName), tolower('${search}')) and birdSkillId eq ${birdSkillId}`
+        $filter: `contains(tolower(birdSkillName), tolower('${search}')) and birdSkillId eq ${birdSkillId}`,
       };
 
       let res = await dashboardService.GetListTrainableSkills(params);
@@ -45,7 +49,7 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
   async function fetchBirdSkill() {
     try {
       let params = {
-        $filter: `id eq ${birdSkillId}`
+        $filter: `id eq ${birdSkillId}`,
       };
       let response = await dashboardService.GetListSkills(params);
       console.log(response);
@@ -144,12 +148,20 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
                   <Stack direction="row" spacing={1}>
                     {skills.map((skill) => (
                       <>
-                        <Chip
-                          color="ochre"
-                          label={skill.skillName}
-                          variant="contained"
-                          onDelete={() => onClickDeleteChip(skill)}
-                        />
+                        {userRole === "Manager" ? (
+                          <Chip
+                            color="ochre"
+                            label={skill.skillName}
+                            variant="contained"
+                            onDelete={() => onClickDeleteChip(skill)}
+                          />
+                        ) : (
+                          <Chip
+                            color="ochre"
+                            label={skill.skillName}
+                            variant="contained"
+                          />
+                        )}
                       </>
                     ))}
                     <Chip
@@ -158,6 +170,7 @@ export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
                       variant="contained"
                       icon={<Add />}
                       onClick={() => setOpenAddSkill(true)}
+                      disabled={userRole !== "Manager"}
                     />
                   </Stack>
                 </>

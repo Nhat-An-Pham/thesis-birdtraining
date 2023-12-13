@@ -22,7 +22,11 @@ import {
 } from "@mui/material";
 import { Add, Close, PlusOneOutlined, Search } from "@mui/icons-material";
 import AddSkillToSpeciesComponent from "./AddSkillToSpeciesComponent";
+import { jwtDecode } from "jwt-decode";
 export default function BirdSpeciesDetailComponent({ birdSpeciesId, onClose }) {
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  );
   const [birdSpecies, setBirdSpecies] = useState(null);
   const [name, setName] = useState("");
   const [shortDetail, setDetail] = useState("");
@@ -35,7 +39,10 @@ export default function BirdSpeciesDetailComponent({ birdSpeciesId, onClose }) {
         $filter: `contains(tolower(birdSkillName), tolower('${search}'))`, // Replace 'speciesName' with the actual property you are searching
       };
 
-      let res = await dashboardService.GetListSkillsBySpeciesId(birdSpeciesId, params);
+      let res = await dashboardService.GetListSkillsBySpeciesId(
+        birdSpeciesId,
+        params
+      );
       setSkills(res.data);
     } catch (error) {
       toast.error(error.response.data.message);
@@ -145,12 +152,20 @@ export default function BirdSpeciesDetailComponent({ birdSpeciesId, onClose }) {
                   <Stack direction="row" spacing={1}>
                     {skills.map((skill) => (
                       <>
-                        <Chip
-                          color="ochre"
-                          label={skill.birdSkillName}
-                          variant="contained"
-                          onDelete={() => onClickDeleteChip(skill)}
-                        />
+                        {userRole === "Manager" ? (
+                          <Chip
+                            color="ochre"
+                            label={skill.birdSkillName}
+                            variant="contained"
+                            onDelete={() => onClickDeleteChip(skill)}
+                          />
+                        ) : (
+                          <Chip
+                            color="ochre"
+                            label={skill.birdSkillName}
+                            variant="contained"
+                          />
+                        )}
                       </>
                     ))}
                     <Chip
@@ -159,6 +174,7 @@ export default function BirdSpeciesDetailComponent({ birdSpeciesId, onClose }) {
                       variant="contained"
                       icon={<Add />}
                       onClick={() => setOpenAddSkill(true)}
+                      disabled={userRole !== "Manager"}
                     />
                   </Stack>
                 </>
