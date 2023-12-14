@@ -78,7 +78,6 @@ const AssignedTicketView = ({}) => {
             >
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
-                  <Table>
                     <TableHead>
                       <TableRow>
                         <TableCell>Ticket ID</TableCell>
@@ -113,7 +112,6 @@ const AssignedTicketView = ({}) => {
                         </TableRow>
                       ))}
                     </TableBody>
-                  </Table>
                 </TableContainer>
               </Grid>
             </Grid>
