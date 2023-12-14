@@ -23,8 +23,10 @@ import {
 } from "@mui/material";
 import { Add, Close, PlusOneOutlined, Search } from "@mui/icons-material";
 import AddSkillToTrainerComponent from "./AddTrainerSkillComponent.jsx";
+import { jwtDecode } from "jwt-decode";
 
 export default function TrainerDetailComponent({ trainerId, onClose }) {
+  const userRole = jwtDecode(JSON.stringify(localStorage.getItem('user-token')));
   const [trainer, setTrainer] = useState(null);
   const [skills, setSkills] = useState([]);
   const [search, setSearch] = useState("");

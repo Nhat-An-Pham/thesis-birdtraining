@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 const Payment = () => {
   const token = localStorage.getItem("user-token");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(null);
 
   const [err, setErr] = useState(null);
 
@@ -35,8 +35,9 @@ const Payment = () => {
   //API HANDLER
   useEffect(() => {
     if (token) {
-      const accessToken = jwtDecode(token);
+      const accessToken = jwtDecode(JSON.stringify(token));
       setUserName(accessToken);
+      // console.log(accessToken);
     }
     //GET BILL WORKSHOP
     if (wclassid) {
@@ -63,6 +64,7 @@ const Payment = () => {
       OnlinecourseService.getBillingInformation({ oclassid: oclassid })
         .then((res) => {
           setBillingInfo(res.data);
+          console.log('billing info: ', res.data) ;
         })
         .finally(() => {
           setIsLoading(false);
@@ -114,7 +116,7 @@ const Payment = () => {
 
   return (
     <div className="paymentpage">
-      {wclassid || oclassid ? (
+      {userName && billingInfo && ((wclassid && item) || oclassid) ? (
         <div className="paymentApp">
           <div class="checkout-container">
             <div class="left-side">
@@ -123,10 +125,10 @@ const Payment = () => {
                 {billingInfo && (
                   <>
                     {wclassid ? (
-                      <p class="home-price">{billingInfo.workshopPrice} USD</p>
+                      <p class="home-price">{billingInfo.workshopPrice} VND</p>
                     ) : null}
                     {oclassid ? (
-                      <p class="home-price">{billingInfo.coursePrice} USD</p>
+                      <p class="home-price">{billingInfo.coursePrice} VND</p>
                     ) : null}
                     <p class="home-desc">
                       {wclassid ? (
@@ -157,22 +159,22 @@ const Payment = () => {
                           <td>Price</td>
                           {wclassid ? (
                             <td class="price">
-                              {billingInfo.workshopPrice} USD
+                              {billingInfo.workshopPrice} VND
                             </td>
                           ) : null}
                           {oclassid ? (
-                            <td class="price">{billingInfo.coursePrice} USD</td>
+                            <td class="price">{billingInfo.coursePrice} VND</td>
                           ) : null}
                         </tr>
                         <tr>
                           <td>Discount</td>
                           <td class="price">
-                            {billingInfo.discountedPrice} USD
+                            {billingInfo.discountedPrice} VND
                           </td>
                         </tr>
                         <tr>
                           <td>Discounted Rate</td>
-                          <td class="price">{billingInfo.discountRate} USD</td>
+                          <td class="price">{billingInfo.discountRate} VND</td>
                         </tr>
                         <tr>
                           <td>Membership Name</td>
@@ -181,7 +183,7 @@ const Payment = () => {
 
                         <tr class="total">
                           <td>Total Price</td>
-                          <td class="price">{billingInfo.totalPrice} USD</td>
+                          <td class="price">{billingInfo.totalPrice} VND</td>
                         </tr>
                       </table>
                     </div>
@@ -202,9 +204,9 @@ const Payment = () => {
                 <StripeCheckout
                   wclassid={wclassid}
                   oclassid={oclassid}
-                  billAmount={billingInfo?.totalPrice}
-                  customerName={userName?.name}
-                  customerEmail={userName?.email}
+                  billAmount={billingInfo.totalPrice}
+                  customerName={userName.name}
+                  customerEmail={userName.email}
                 />
               </div>
             </div>

@@ -123,7 +123,7 @@ class TrainingCourseManagementService {
   async getTimetableReportView(params = null) {
     try {
       const response = await axios.get(
-        `${BASE_URL}/api/trainingcourse-trainer/timetable-slot-itemdetail`,
+        `${BASE_URL}/api/trainingcourse/timetable-slot-itemdetail`,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
