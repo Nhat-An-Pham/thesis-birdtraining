@@ -64,6 +64,7 @@ const Payment = () => {
       OnlinecourseService.getBillingInformation({ oclassid: oclassid })
         .then((res) => {
           setBillingInfo(res.data);
+          console.log('billing info: ', res.data) ;
         })
         .finally(() => {
           setIsLoading(false);
@@ -115,7 +116,7 @@ const Payment = () => {
 
   return (
     <div className="paymentpage">
-      {item && userName && (wclassid || oclassid) ? (
+      {userName && billingInfo && ((wclassid && item) || oclassid) ? (
         <div className="paymentApp">
           <div class="checkout-container">
             <div class="left-side">
@@ -203,7 +204,7 @@ const Payment = () => {
                 <StripeCheckout
                   wclassid={wclassid}
                   oclassid={oclassid}
-                  billAmount={billingInfo?.totalPrice}
+                  billAmount={billingInfo.totalPrice}
                   customerName={userName.name}
                   customerEmail={userName.email}
                 />
