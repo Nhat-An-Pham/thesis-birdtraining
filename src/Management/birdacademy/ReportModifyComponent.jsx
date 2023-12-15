@@ -29,7 +29,7 @@ import { Tab } from "@coreui/coreui";
 import { ochreTheme } from "../themes/Theme";
 
 const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
-  const ideal = dayjs(new Date()).add(2, "day");
+  const ideal = dayjs(new Date()).add(1, "day");
   const [dateSlot, setDateSlot] = useState(null);
   const [slotTimes, setSlotTimes] = useState([]);
   const [trainers, setTrainers] = useState([]);
@@ -116,102 +116,104 @@ const ReportModifyComponent = ({ reportId, birdSkillId, callbackModify }) => {
   };
 
   return (
-    <ThemeProvider theme={ochreTheme}>
-      <span style={{ fontWeight: 700, fontSize: 20 }}>
-        Update For Trainer Slot
-      </span>
-      <Grid
-        container
-        item
-        direction="row"
-        alignItems="center"
-        justifyContent="flex-start"
-        style={{ marginTop: 12, width: "100%" }}
-      >
-        <Grid item xs={3} style={{ marginRight: "80px" }}>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              minDate={ideal}
-              label="Date"
-              value={dateSlot}
-              onChange={(value) => handleChangeDate(value)}
-              sx={{ width: 350, maxWidth: 1000 }}
-            />
-          </LocalizationProvider>
-        </Grid>
-        <Grid item xs={1.5} style={{ marginRight: "40px" }}>
-          <FormControl sx={{ width: 150, maxWidth: 300 }}>
-            <InputLabel id="selectLabel_ChooseSlot">Choose Slot</InputLabel>
-            <Select
-              labelId="selectLabel_ChooseSlot"
-              label="Choose Slot"
-              onChange={handleSelectSlotTime}
-              value={selectedSlotTime}
-            >
-              {slotTimes.map((slot) => (
-                <MenuItem value={slot.id}>
-                  {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={4}>
-          <FormControl sx={{ width: 350, maxWidth: 500 }}>
-            <InputLabel id="selectLabel_ChooseTrainer">
-              Choose Trainer
-            </InputLabel>
-            <Select
-              labelId="selectLabel_ChooseTrainer"
-              label="Choose Trainer"
-              // value={selectedTrainer}
-              onChange={handleSelectTrainer}
-            >
-              {trainers.map((trainer) => (
-                <MenuItem value={trainer.id}>
-                  {trainer.name}: {trainer.email}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        item
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        style={{ marginTop: 15, paddingRight: 20 }}
-      >
-        <Button
-          style={{
-            color: "#404040",
-            marginRight: "10px",
-            padding: "8px 25px ",
-            boxShadow:
-              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-            borderRadius: "4px",
-          }}
-          onClick={() => handleCancelChanges()}
+    <div style={{ padding: 10 }}>
+      <ThemeProvider theme={ochreTheme}>
+        <span style={{ fontWeight: 700, fontSize: 20 }}>
+          Update For Trainer Slot
+        </span>
+        <Grid
+          container
+          item
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-start"
+          style={{ marginTop: 12, width: "100%" }}
         >
-          Cancel
-        </Button>
-        <Button
-          style={{
-            padding: "8px 25px ",
-            boxShadow:
-              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-            borderRadius: "4px",
-          }}
-          variant="contained"
-          onClick={handleSaveChanges}
+          <Grid item xs={3} style={{ marginRight: "80px" }}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                minDate={ideal}
+                label="Training Date"
+                value={dateSlot}
+                onChange={(value) => handleChangeDate(value)}
+                sx={{ width: 350, maxWidth: 1000 }}
+              />
+            </LocalizationProvider>
+          </Grid>
+          <Grid item xs={1.5} style={{ marginRight: "40px" }}>
+            <FormControl sx={{ width: 150, maxWidth: 300 }}>
+              <InputLabel id="selectLabel_ChooseSlot">Choose Slot</InputLabel>
+              <Select
+                labelId="selectLabel_ChooseSlot"
+                label="Choose Slot"
+                onChange={handleSelectSlotTime}
+                value={selectedSlotTime}
+              >
+                {slotTimes.map((slot) => (
+                  <MenuItem value={slot.id}>
+                    {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={4}>
+            <FormControl sx={{ width: 350, maxWidth: 500 }}>
+              <InputLabel id="selectLabel_ChooseTrainer">
+                Choose Trainer
+              </InputLabel>
+              <Select
+                labelId="selectLabel_ChooseTrainer"
+                label="Choose Trainer"
+                // value={selectedTrainer}
+                onChange={handleSelectTrainer}
+              >
+                {trainers.map((trainer) => (
+                  <MenuItem value={trainer.id}>
+                    {trainer.name}: {trainer.email}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          item
+          direction="row"
+          justifyContent="flex-end"
+          alignItems="center"
+          style={{ marginTop: 15, paddingRight: 20 }}
         >
-          <SaveOutlined />
-          Save
-        </Button>
-      </Grid>
-    </ThemeProvider>
+          <Button
+            style={{
+              color: "#404040",
+              marginRight: "10px",
+              padding: "8px 25px ",
+              boxShadow:
+                "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+              borderRadius: "4px",
+            }}
+            onClick={() => handleCancelChanges()}
+          >
+            Cancel
+          </Button>
+          <Button
+            style={{
+              padding: "8px 25px ",
+              boxShadow:
+                "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+              borderRadius: "4px",
+            }}
+            variant="contained"
+            onClick={handleSaveChanges}
+          >
+            <SaveOutlined />
+            Save
+          </Button>
+        </Grid>
+      </ThemeProvider>
+    </div>
   );
 };
 export default ReportModifyComponent;
