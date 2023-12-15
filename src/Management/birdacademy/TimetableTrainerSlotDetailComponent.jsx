@@ -139,6 +139,7 @@ const TimetableTrainerSlotDetailComponent = ({
       </AppBar>
       <div>
         {timetableDetail != null && (
+<<<<<<< Updated upstream
           <div style={{ padding: "20px 40px" }}>
             <table
               style={{
@@ -280,29 +281,68 @@ const TimetableTrainerSlotDetailComponent = ({
                     </td>
                   </tr>
                 </div>
+=======
+          <>
+            <div className="timetable-birdtraining-container">
+              <div className="timetable-birdtraining-left">
+                <h3>BIRD INFO</h3>
+                <div className="timetable-birdtraining-small">
+                  <p id="label" >Bird Name:</p>
+                  <p id="info">{timetableDetail.birdName}</p>
+                </div>
+                <div className="timetable-birdtraining-small">
+                  <p id="label">Species:</p>
+                  <p id="info">{timetableDetail.birdSpeciesName}</p>
+                </div>
+                <div className="timetable-birdtraining-small">
+                  <p id="label">Color:</p>
+                  <p id="info">{timetableDetail.birdColor}</p>
+                </div>
+                <img src={timetableDetail.birdPicture}></img>
               </div>
-            </table>
-
-            <div
-              style={{
-                marginTop: 20,
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              {timetableDetail.status == "NotYet" && (
-                <ThemeProvider theme={ochreTheme}>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => handleMarkSlotDone(timetableDetail.id)}
-                  >
-                    Mark Training Done
-                  </Button>
-                </ThemeProvider>
-              )}
+              <div className="timetable-birdtraining-right">
+                <div className="timetable-birdtraining-small">
+                  <p id="label">Skill:</p>
+                  <p id="info">{timetableDetail.birdSkillName}</p>
+                </div>
+                <div className="timetable-birdtraining-small">
+                  <p id="label">Training Date:</p>
+                  <p id="info">{addonService.formatDate(timetableDetail.trainingDate)}</p>
+                </div>
+                {slotList != null &&
+                  slotList
+                    .filter((cls) => cls.id == timetableDetail.slotId)
+                    .map((cls) => (
+                      <>
+                        <div className="timetable-birdtraining-small">
+                          <p id="label">Start Time:</p>
+                          <p id="info">{cls.startTime}</p>
+                        </div>
+                        <div className="timetable-birdtraining-small">
+                          <p id="label">End Time:</p>
+                          <p id="info">{cls.endTime}</p>
+                        </div>
+                      </>
+                    ))}
+                <div className="timetable-birdtraining-small">
+                  <p id="label">Training Description:</p>
+                  <p id="info">{timetableDetail.birdSkillDescription}</p>
+                </div>
+                {timetableDetail.status == "NotYet" && (
+                  <ThemeProvider theme={ochreTheme}>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      onClick={() => handleMarkSlotDone(timetableDetail.id)}
+                    >
+                      Mark Training Done
+                    </Button>
+                  </ThemeProvider>
+                )}
+>>>>>>> Stashed changes
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
     </ThemeProvider>
