@@ -38,6 +38,10 @@ const AssignedTicketView = ({}) => {
       );
   }, [renderIndex]);
 
+  const sortedlistAssignedConsultingTicket = [
+    ...listAssignedConsultingTicket,
+  ].sort((a, b) => b.id - a.id);
+
   const handleDetailClick = (ticketId) => {
     setTicketIdForDetail(ticketId);
     setRenderIndex(0);
@@ -78,40 +82,40 @@ const AssignedTicketView = ({}) => {
             >
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Ticket ID</TableCell>
-                        <TableCell>Service</TableCell>
-                        <TableCell>Date</TableCell>
-                        <TableCell>Time</TableCell>
-                        <TableCell>Detail</TableCell>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Ticket ID</TableCell>
+                      <TableCell>Service</TableCell>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Time</TableCell>
+                      <TableCell>Detail</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {sortedlistAssignedConsultingTicket.map((row, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{row.id}</TableCell>
+                        <TableCell>
+                          {row.onlineOrOffline ? "Online" : "Offine"}
+                        </TableCell>
+                        <TableCell>
+                          {addonService.formatDate(row.appointmentDate)}
+                        </TableCell>
+                        <TableCell>{row.actualSlotStart}</TableCell>
+                        <TableCell>
+                          <Button
+                            variant="contained"
+                            color="ochre"
+                            onClick={() => {
+                              handleDetailClick(row.id);
+                            }}
+                          >
+                            Detail
+                          </Button>
+                        </TableCell>
                       </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {listAssignedConsultingTicket.map((row, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{row.id}</TableCell>
-                          <TableCell>
-                            {row.onlineOrOffline ? "Online" : "Offine"}
-                          </TableCell>
-                          <TableCell>
-                            {addonService.formatDate(row.appointmentDate)}
-                          </TableCell>
-                          <TableCell>{row.actualSlotStart}</TableCell>
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleDetailClick(row.id);
-                              }}
-                            >
-                              Detail
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
+                    ))}
+                  </TableBody>
                 </TableContainer>
               </Grid>
             </Grid>
