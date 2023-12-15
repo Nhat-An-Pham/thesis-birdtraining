@@ -135,6 +135,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                     Bird Skill Name
                   </TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Trainer Email</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>
                     Training Progression
                   </TableCell>
@@ -158,6 +159,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                   >
                     <TableCell>{item.birdSkillName}</TableCell>
                     <TableCell>{item.trainerName}</TableCell>
+                    <TableCell>{item.trainerEmail}</TableCell>
                     <TableCell>
                       <div
                         style={{
