@@ -19,6 +19,7 @@ import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import BirdTrainingReportComponent from "./BirdTrainingReportComponent";
 import { Close } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const [renderTrainer, setRenderTrainer] = useState(false);
@@ -87,6 +88,21 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   };
   function handleCallBackMainButton() {
     callBackMainManagement();
+  }
+  async function handleCallBackConfirmButton() {
+    let param = {
+      requestedId: requestedId,
+    };
+    let res = await trainingCourseManagementService.sendNotiConfirmedRequest(
+      param
+    );
+    if (res.status == 200) {
+      toast.success("Send notify email success!");
+      callBackMainManagement();
+    } else {
+      toast.error("An error has occur!");
+      console.log(res);
+    }
   }
   return (
     <div>
@@ -256,7 +272,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               variant="contained"
               color="success"
               className="button"
-              onClick={() => handleCallBackMainButton()}
+              onClick={() => handleCallBackConfirmButton()}
             >
               Confirm
             </Button>

@@ -26,6 +26,42 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async sendNotiConfirmedRequest(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/sendnoticonfirmedrequest`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
+  async sendNotiTrainingdoneRequest(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse/sendnotitrainingdonerequest`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
   async confirmBirdTrainingCourse(params = null) {
     try {
       const response = await axios.post(
