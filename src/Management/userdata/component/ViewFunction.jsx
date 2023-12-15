@@ -97,9 +97,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       >
         <Grid container item xs={6} spacing={2}>
           <Grid item xs={12}>
-            <h2 style={{ borderBottom: "0.5px grey solid" }}>
-              Slot
-            </h2>
+            <h2 style={{ borderBottom: "0.5px grey solid" }}>Slot</h2>
           </Grid>
           <TableContainer component={Paper}>
             <Table>
@@ -125,7 +123,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
             <Grid
               container
               item
-              xs={1}
+              xs={2}
               justifyContent={"center"}
               alignContent={"center"}
             >
@@ -133,7 +131,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
                 Duration:
               </Grid>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <TextField
                 label={"Minute"}
                 type="number"
@@ -145,7 +143,13 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
                 onChange={(e) => setChangedMinute(e.target.value)}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid
+              container
+              item
+              xs={4}
+              justifyContent={"center"}
+              alignContent={"center"}
+            >
               <Button
                 color="ochre"
                 variant="contained"
