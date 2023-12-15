@@ -42,7 +42,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   useEffect(() => {
     fetchSlot();
 
-    return () => {};
+    return () => { };
   }, []);
 
   return (
@@ -74,11 +74,11 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
           {slotDetail ? (
             <>
               <Grid container item>
-                <Grid container item spacing={2} padding={3} style={{borderBottom:"0.2px grey solid"}}>
+                <Grid container item spacing={2} padding={3} style={{ borderBottom: "0.2px grey solid" }}>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography >Title:</Typography> 
-                   </Grid>
+                      <Typography >Title:</Typography>
+                    </Grid>
                     <Grid
                       container
                       item
@@ -98,7 +98,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                       item
                       xs={10}
                       justifyContent={"flex-start"}
-        
+
                     >
                       <Typography>
                         {addonService.formatDate(slotDetail.date)}
@@ -109,7 +109,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                     <Grid item xs={1}>
                       <Typography>From:</Typography>
                     </Grid>
-                    
+
                     <Grid
                       container
                       item
@@ -126,43 +126,42 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                       item
                       xs={2}
                     >
-                    <Grid
-                      container
-                      justifyContent={"flex-start"}
-                     
-                      item
-                      xs={2}
-                    >
-                      <Typography>{slotDetail.endTime}</Typography>
+                      <Grid
+                        container
+                        justifyContent={"flex-start"}
+
+                        item
+                        xs={2}
+                      >
+                        <Typography>{slotDetail.endTime}</Typography>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography>Detail:</Typography>
+                    <Grid container item xs={12}>
+                      <Grid item xs={1}>
+                        <Typography>Detail:</Typography>
+                      </Grid>
+                      <Grid item xs={10} >
+                        <RawHTMLRenderer htmlContent={slotDetail.detail} />
+                      </Grid>
                     </Grid>
-                    <Grid item xs={10} >
-                      <RawHTMLRenderer htmlContent={slotDetail.detail} />
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography >Location:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={10}
-                      justifyContent={"flex-start"}
-                     
-                    >
-                      <Typography>{slotDetail.location}</Typography>
+                    <Grid container item xs={12}>
+                      <Grid item xs={1}>
+                        <Typography >Location:</Typography>
+                      </Grid>
+                      <Grid
+                        container
+                        item
+                        xs={10}
+                        justifyContent={"flex-start"}>
+                        <Typography>{slotDetail.location}</Typography>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Divider />
-              <Grid container item>
-                <AttendancePaletteComponent slotId={entityId} />
+                <Divider />
+                <Grid container item>
+                  <AttendancePaletteComponent slotId={entityId} />
+                </Grid>
               </Grid>
             </>
           ) : (
