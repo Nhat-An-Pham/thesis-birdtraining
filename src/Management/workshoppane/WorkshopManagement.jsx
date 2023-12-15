@@ -12,9 +12,9 @@ import RefundPoliciesManagement from "./refundPolicy/RefundPoliciesManagement";
 import { jwtDecode } from "jwt-decode";
 
 export default function WorkshopManagementComponent() {
-  const userRole = jwtDecode(
+  const user = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState(0); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
@@ -118,7 +118,7 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
-                    {userRole === "Manager" ? (
+                    {user?.role === "Manager" ? (
                       <Button
                         color="ochre"
                         variant="contained"

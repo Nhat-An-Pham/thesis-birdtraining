@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./timetable.scss";
-import "../workshoppane/workshoppane.scss";
 import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -11,10 +10,13 @@ import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
 import dashboardService from "../../services/dashboard.service";
 import { ToastContainer, toast } from "react-toastify";
 import timetableService from "../../services/timetable.service";
-import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 import { jwtDecode } from "jwt-decode";
+
+
 import Timetable_TicketDetailView from "./Timetable_TicketDetailView";
+import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 import TimetableTrainerSlotDetailComponent from "../birdacademy/TimetableTrainerSlotDetailComponent";
+
 
 function TimetableStaff() {
   const userRole = jwtDecode(
@@ -78,18 +80,11 @@ function TimetableStaff() {
     }
   }
   const handleRangeChange = useCallback(async (range) => {
-    // console.log(range);
-    // // let start = new Date(range[0]);
-    // // let end = new Date(range[range.length - 1]);
-    // // console.log('start: ', start, '\nend: ', end);
-    // // let from = moment(start).format("YYYY-MM-DD");
-    // // let to = moment(end).format("YYYY-MM-DD");
-    // await fetchTrainerTimetable(from, to);
   }, []);
   async function fetchTrainerTimetable(from, to) {
     try {
-      console.log("from: ", from);
-      console.log("to: ", to);
+      // console.log("from: ", from);
+      // console.log("to: ", to);
       let response = await timetableService.getTrainerTimetable(
         selectedTrainer.id,
         from,
@@ -98,8 +93,8 @@ function TimetableStaff() {
       );
       // setOccupied(response.data);
       setOccupied(response.data);
-      console.log(response.data);
-      console.log("re-fetch event");
+      // console.log(response.data);
+      // console.log("re-fetch event");
     } catch (error) {
       toast.error(error?.response?.data?.message);
     }
@@ -112,7 +107,7 @@ function TimetableStaff() {
   useEffect(() => {
     fetchTrainers();
 
-    return () => {};
+    return () => { };
   }, []);
   useEffect(() => {
     const currentDate = moment();
@@ -138,22 +133,16 @@ function TimetableStaff() {
     // // Calculate to 300 days after the current date
     // const to = currentDate.clone().add(3, "days").format("YYYY-MM-DD");
     fetchTrainerTimetable(from, to);
-    return () => {};
+    return () => { };
   }, [selectedTrainer]);
 
   const CalendarRender = () => {
     return (
-      <Grid
-        container
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-      >
-        <Grid item>
+      <div className="timetable-container">
+        <div className="timetable-title">
           <Typography variant="h6">TRAINER SCHEDULE</Typography>
-        </Grid>
-        <Grid item>
+        </div>
+        <div className="timetable-search" >
           {userRole !== "Trainer" ? (
             <Autocomplete
               value={selectedTrainer}
@@ -166,14 +155,14 @@ function TimetableStaff() {
               }}
               options={trainers}
               getOptionLabel={(trainer) => trainer.email}
-              sx={{ width: 300 }}
+              style={{width:"300px"}}
               renderInput={(params) => (
                 <TextField {...params} label="Trainer" />
               )}
             />
           ) : null}
-        </Grid>
-        <Grid item>
+        </div>
+        <div className="timetable-calender-container">
           {selectedTrainer && (
             <Calendar
               localizer={localizer}
@@ -192,7 +181,7 @@ function TimetableStaff() {
               endAccessor={(event) => {
                 return new Date(event.end);
               }}
-              style={{ width: 1000, height: 700 }}
+              style={{ width: "100%", height: 600 }}
               min={moment()
                 .set({ hour: 8, minute: 0, second: 0, millisecond: 0 })
                 .toDate()}
@@ -206,15 +195,17 @@ function TimetableStaff() {
               eventPropGetter={(event) => {
                 return {
                   style: {
+                    //0, 1: workshop, 3 training course, 2 consultant, 
                     backgroundColor: event.typeId === 3 ? 'ocean' : event.typeId === 2 ? 'orange' : 'green',
                     // Add more styles as needed
+                    width:"100%",
                   },
                 };
               }}
             />
           )}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
     );
   };
 
@@ -236,7 +227,7 @@ function TimetableStaff() {
   return (
     <>
       <div className="workshop-container">
-        <ReworkSidebar selectTab={3}/>
+        <ReworkSidebar selectTab={3} />
         <ToastContainer />
         <Box sx={{ borderBottom: 1, borderColor: "divider", width: "100%" }}>
           {renderComponents[renderedIndex]}

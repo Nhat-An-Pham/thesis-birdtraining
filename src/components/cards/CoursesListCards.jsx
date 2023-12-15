@@ -15,7 +15,7 @@ const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => 
                         <h2>{title}</h2>
                         <RawHTMLRenderer htmlContent={shortdescr} />
                         <p style={{height:"30px"}}>
-                            {price}$
+                            {price} <span style={{color:"grey", fontWeight:"light"}}>(vnd)</span>
                         </p>
                         <a href={`/courseslist/${id}`} class="read-more">
                             Read more <span classz="sr-only"></span>

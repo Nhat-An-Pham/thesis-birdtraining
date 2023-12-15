@@ -48,7 +48,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
-      <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre">
           <Toolbar>
             <IconButton
               size="large"
@@ -73,46 +73,84 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
         <Grid container spacing={2}>
           {slotDetail ? (
             <>
-              <Grid container item margin={2}>
-                <Grid container item spacing={3}>
+              <Grid container item>
+                <Grid container item spacing={3} padding={3}>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography>Title:</Typography>
+                      <Typography variant="h6">Title:</Typography>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid
+                      container
+                      item
+                      xs={10}
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                    >
                       <Typography>{slotDetail.title}</Typography>
                     </Grid>
                   </Grid>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography>Date:</Typography>
+                      <Typography variant="h6">Date:</Typography>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid
+                      container
+                      item
+                      xs={10}
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                    >
                       <Typography>
                         {addonService.formatDate(slotDetail.date)}
                       </Typography>
-                  </Grid>
+                    </Grid>
                   </Grid>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography>From:</Typography>
+                      <Typography variant="h6">From:</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid
+                      container
+                      item
+                      xs={2}
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                    >
                       <Typography>{slotDetail.startTime}</Typography>
                     </Grid>
                     <Grid item xs={1}>
-                      <Typography>To:</Typography>
+                      <Typography variant="h6">To:</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid
+                      container
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                      item
+                      xs={2}
+                    >
                       <Typography>{slotDetail.endTime}</Typography>
                     </Grid>
                   </Grid>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography>Detail:</Typography>
+                      <Typography variant="h6">Detail:</Typography>
                     </Grid>
                     <Grid item xs={10} justifyContent={"center"}>
                       <RawHTMLRenderer htmlContent={slotDetail.detail} />
+                    </Grid>
+                  </Grid>
+                  <Grid container item xs={12}>
+                    <Grid item xs={1}>
+                      <Typography variant="h6">Location:</Typography>
+                    </Grid>
+                    <Grid
+                      container
+                      item
+                      xs={10}
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                    >
+                      <Typography>{slotDetail.location}</Typography>
                     </Grid>
                   </Grid>
                 </Grid>

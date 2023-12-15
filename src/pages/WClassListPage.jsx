@@ -89,16 +89,23 @@ const WClassListPage = () => {
       {workshopList ?
         <div className='wclasslistpage'>
           {isDivVisible && (
+            // Popup
             <div className='wclpdiv-background'>
               <div className='wclpdiv-container'>
                 <h2 className='wclpdiv_section wclpdiv_section-title' style={{ fontSize: "25px" }}>{workshopList.title}</h2>
-                <p className='wclpdiv_section wclpdiv_section-title' style={{ fontSize: "20px" }}>Date: <span style={{ color: "red", fontSize: "20px" }}>{dateFormat(selectedClass.startTime, "mmmm dS, yyyy")}</span></p>
+                <p className='wclpdiv_section wclpdiv_section-title' style={{ fontSize: "20px" }}>Date: <span style={{ color: "red", fontSize: "20px" }}>{dateFormat(selectedClass.date, "mmmm dS, yyyy")}</span></p>
                 <div className='wclpdiv_section wclpdiv_section-mapping'>
                   {selectedClass.classSlots.map((workshopClass) => (
-                    <div className='wclpdiv_section_mapping-content' key={workshopClass.id}>
-                      <p className='wclpdiv_content wclpdiv_content-detail '>Description: <span><RawHTMLRenderer htmlContent={workshopClass.detail} /></span></p>
-                      <p className='wclpdiv_content wclpdiv_content-registered'>Start-Time: {workshopClass.startTime}/End-Time: {workshopClass.endTime}</p>
-                      -----------------------
+                    <div className='wclpdiv_section_mapping-container'>
+                      <div className='wclpdiv_section_mapping-content' key={workshopClass.id}>
+                        <p className='wclpdiv_content wclpdiv_content-detail '>Description: <span><RawHTMLRenderer htmlContent={workshopClass.detail} /></span></p>
+                        <p className='wclpdiv_content wclpdiv_content-trainer'>Trainer: {workshopClass.trainer.name}</p>
+                        <p className='wclpdiv_content wclpdiv_content-registered'>Start-Time: {workshopClass.startTime}/End-Time: {workshopClass.endTime}</p>
+                        -----------------------
+                      </div>
+                      {workshopClass.trainer.avatar ?
+                        <img src={workshopClass.trainer.avatar}></img>
+                        : null}
                     </div>
                   ))}
                 </div>
@@ -118,9 +125,11 @@ const WClassListPage = () => {
               {classData.map((classeses, index) => (
                 <Link key={index} className='wclp_card-container' onClick={() => twoFunctionOnClick(classeses)}>
                   <div className='wclp_card_section wclp_card_section-bottom'>
-                    <h2>{dateFormat(classeses.startTime, "mmmm dS, yyyy")}</h2><br />
+                    <h2>Location: {classeses.location}</h2>
+                    <h5>Register Start Date: {dateFormat(classeses.startTime, "mmmm dS, yyyy")}</h5><br />
                     <p>Register End Date: <span> {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}</span></p>
-                      <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p>
+                    <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p>
+                    {/* Hỏi về cái class status có bao nhiêu status  */}
                   </div>
                   <div className='wclp_card_section wclp_card_section-top'>
                     <div className='wclp_card_section_top wclp_card_section_top-button'>

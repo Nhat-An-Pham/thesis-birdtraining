@@ -39,7 +39,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
   const [selectedId, setSelectedId] = useState(1);
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -131,7 +131,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              {userRole === "Manager" ? (
+              {userRole?.role === "Manager" ? (
                 <Button
                   color="ochre"
                   variant="contained"
@@ -177,7 +177,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
                             <TableCell>
                               <Typography>{row.refundRate}</Typography>
                             </TableCell>
-                            {userRole === "Manager" ? (
+                            {userRole?.role === "Manager" ? (
                               <TableCell>
                                 <Button
                                   color="ochre"
