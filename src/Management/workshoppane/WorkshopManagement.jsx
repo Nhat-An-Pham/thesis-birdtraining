@@ -14,7 +14,7 @@ import { jwtDecode } from "jwt-decode";
 export default function WorkshopManagementComponent() {
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState(0); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();

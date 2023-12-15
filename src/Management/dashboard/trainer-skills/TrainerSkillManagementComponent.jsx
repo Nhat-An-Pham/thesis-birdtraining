@@ -30,7 +30,9 @@ import TrainerSkillUpdateComponent from "./TrainerSkillUpdateComponent";
 import { jwtDecode } from "jwt-decode";
 
 const TrainerSkillManagementComponent = ({}) => {
-  const userRole = jwtDecode(JSON.stringify(localStorage.getItem('user-token')));
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  )?.role;
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -85,82 +87,86 @@ const TrainerSkillManagementComponent = ({}) => {
     <>
       <ThemeProvider theme={ochreTheme}>
         <TrainerSkillAddComponent open={open} handleClose={handleCloseModal} />
-        <TrainerSkillUpdateComponent open={openUpdate} handleClose={handleCloseUpdateModal} trainerSkillId={selectedId}/>
-        <Container sx={{padding: 2}}>
-        <Grid container spacing={2}>
-              <Grid
-                container
-                item
-                xs={12}
-                direction="row"
-                justifyContent="space-between"
-                alignItems="center"
+        <TrainerSkillUpdateComponent
+          open={openUpdate}
+          handleClose={handleCloseUpdateModal}
+          trainerSkillId={selectedId}
+        />
+        <Container sx={{ padding: 2 }}>
+          <Grid container spacing={2}>
+            <Grid
+              container
+              item
+              xs={12}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Button
+                color="ochre"
+                variant="contained"
+                onClick={handleOpenModal}
               >
-                <Button
-                  color="ochre"
-                  variant="contained"
-                  onClick={handleOpenModal}
-                >
-                  Add
-                </Button>
-                <FormControl>
-                  <OutlinedInput
-                    fullWidth
-                    placeholder="Search by name"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    }
-                    onChange={(e) => setSearch(e.target.value)}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
-                {rows ? (
-                  <>
-                    <TableContainer>
-                      <Table>
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>No</TableCell>
-                            <TableCell width={"25%"}>Name</TableCell>
-                            <TableCell width={"50%"}>Description</TableCell>
-                            <TableCell>Action</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.map((row, index) => (
-                            <TableRow hover key={row.id}>
-                              <TableCell>{index + 1}</TableCell>
-                              <TableCell>
-                                <Typography>{row.name}</Typography>
-                              </TableCell>
-                              <TableCell>
-                                <Typography>{row.description}</Typography>
-                              </TableCell>
-                              <TableCell>
-                                <Button
-                                  color="ochre"
-                                  variant="contained"
-                                  onClick={() => handleOpenUpdateModal(row.id)}
-                                >
-                                  Update
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </>
-                ) : (
-                  <>
-                    <CircularProgress />
-                  </>
-                )}
-              </Grid>
+                Add
+              </Button>
+              <FormControl>
+                <OutlinedInput
+                  fullWidth
+                  placeholder="Search by name"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  }
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </FormControl>
             </Grid>
+            <Grid item xs={12}>
+              {rows ? (
+                <>
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>No</TableCell>
+                          <TableCell width={"25%"}>Name</TableCell>
+                          <TableCell width={"50%"}>Description</TableCell>
+                          <TableCell>Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {rows.map((row, index) => (
+                          <TableRow hover key={row.id}>
+                            <TableCell>{index + 1}</TableCell>
+                            <TableCell>
+                              <Typography>{row.name}</Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Typography>{row.description}</Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                color="ochre"
+                                variant="contained"
+                                onClick={() => handleOpenUpdateModal(row.id)}
+                              >
+                                Update
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </>
+              ) : (
+                <>
+                  <CircularProgress />
+                </>
+              )}
+            </Grid>
+          </Grid>
         </Container>
       </ThemeProvider>
     </>
