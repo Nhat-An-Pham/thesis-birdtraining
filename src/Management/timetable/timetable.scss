@@ -2,157 +2,167 @@
     height: auto;
     display: flex;
     width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
-.timetable-wrapper {
+.timetable-title {
+    margin: 20px 0px;
+    padding: 10px 20px;
+
+    h6 {
+        font-weight: bold;
+    }
+}
+
+.timetable-search {
+    margin: 0px 20px;
+}
+
+.timetable-calender-container {
     width: 100%;
-    margin-left: 200px;
+    padding: 20px;
+}
+
+
+//Ticket Detail Consultant
+.ticketdetail-consultant-container {
+    margin: 10px 10px;
+}
+
+.ticketdetail-consultant-customerinfo {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
+    height: auto;
 
-.timetable_section {
-    width: 80%;
-    margin-top: 30px;
-    margin-bottom: 30px;
-
-    & h2 {
-        border-bottom: 1px black solid;
-        margin-bottom: 40px;
+    h3 {
+        margin: 0px;
+        padding: 10px;
+        width: auto;
+        width: 90%;
     }
 
-    &-center {}
-
-    &-employee {
-        //date picking
-        & .react-datepicker-wrapper{
-            height: auto;
-            width: 250px;
-            & .react-datepicker__input-container{
-                height: 100%;
-                width: 100%;
-                & input{
-                    height: 70%;
-                    width: 70%;
-                    border-radius: 15px;
-                    border: 1px grey solid;
-                    padding: 10px;
-                }
-            }
-        }
-        & .react-datepicker-popper{
-            z-index: 20;
-        }
-    }
-
-}
-
-
-//Commons
-.timetable_section_center {
-    &-button {
-        width: 100%;
+    &-detailbox {
+        border: 1px black solid;
+        width: 90%;
         display: flex;
-        justify-content: end;
-        margin-top: 20px;
-        height: 50px;
-
-        & button {
-            cursor: pointer;
-            background-color: #C8AE7D;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.5s ease-in-out;
-
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
-    }
-}
-
-.timetable_section_employee {
-    &-button {
-        width: 100%;
-        display: flex;
-        justify-content: end;
-        margin-top: 20px;
-        height: 50px;
-
-        & button {
-            cursor: pointer;
-            background-color: #C8AE7D;
-            border: none;
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            transition: all 0.5s ease-in-out;
-
-            &:hover {
-                transform: scale(1.05);
-            }
-        }
-    }
-    &-select{
-        margin-top: 10px;
-        margin-bottom: 20px;
+        justify-content: center;
         height: auto;
-        & select{
-            height: 100%;
+        border: 2.3px outset #65451f;
+
+        &-info {
+            width: 50%;
+            padding: 10px 10px;
+            border-right: 0.3px grey solid;
+
+        }
+
+        &-avatar {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0px;
+
+            img {
+                width: 50%;
+                aspect-ratio: 1/1;
+                object-fit: contain;
+            }
+        }
+    }
+
+    & .ticketdetail-consultant-detailbox-small {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0px 10px;
+
+        p {
+            width: 50%;
+            margin: 15px 0px;
+        }
+
+        ;
+    }
+}
+
+.ticketdetail-consultant-ticketinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+
+    h3 {
+        margin: 0px;
+        padding: 10px;
+        width: auto;
+        width: 90%;
+    }
+
+    &-detailbox {
+        border: 1px black solid;
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        height: auto;
+        border: 2.3px outset #65451f;
+
+        &-info {
+            width: 50%;
+            padding: 10px 10px;
+            border-right: 0.3px grey solid;
+
+        }
+
+        &-avatar {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            padding: 10px 0px;
+
+            img {
+                width: 100%;
+                aspect-ratio: 1/1;
+                object-fit: contain;
+            }
+        }
+    }
+
+    & .ticketdetail-consultant-detailbox-small {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0px 10px;
+
+        p {
             width: 40%;
-            padding: 10px;
-            border-radius: 15px;
-            background-color: bisque;
+            margin: 10px 0px;
+        }
+
+        ;
+
+        & #info {
+            width: 60%;
         }
     }
 }
 
-.timetable-consulting-trainer {
-    &-container {
-        height: 600px;
-        margin-bottom: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        align-items: flex-start;
+.ticketdetail-consultant-evidence {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+
+    h3 {
+        margin: 0px;
+        padding: 10px;
+        width: auto;
+        width: 90%;
     }
-
-    &-wrapper {
-        width: 40%;
-        margin-right: 30px;
-        padding: 20px;
-        margin-bottom: 20px;
-        border: 2px groove #c8ae7d;
-        height: 250px;
-        box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
-        -webkit-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
-        -moz-box-shadow: 8px 8px 17px -4px rgba(200, 174, 125, 0.75);
-
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-        gap: 0px 0px;
-
-
-
-        &-detail {
-            display: flex;
-            flex-direction: column;
-            min-height: 300px;
-            max-height: 400px;
-            margin-bottom: 0px;
-
-            p {
-                height: 100%;
-                width: 100%;
-                padding-left: 10px;
-                border-left: 0.3px grey solid;
-                overflow: scroll;
-            }
-        }
+    p{
+        width: 100%;
+        padding: 10px;
     }
 }

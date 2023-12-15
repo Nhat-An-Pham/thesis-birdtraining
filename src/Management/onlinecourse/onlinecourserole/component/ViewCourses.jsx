@@ -16,6 +16,7 @@ import {
     Drawer,
     Typography,
     Box,
+    Button,
 } from "@mui/material";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 
@@ -48,17 +49,17 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
             <h1 style={{ borderBottom: "0.5px grey solid" }}> Courses</h1>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <TableContainer component={Paper}>
-                        <Table>
+                    <TableContainer>
+                        <Table stickyHeader>
                             <TableHead>
-                                <TableRow>
+                                <TableRow style={{ "height": '35px' }}>
                                     <TableCell style={{ width: 0.125 }} align="center">
                                         Image
                                     </TableCell>
                                     <TableCell style={{ width: 0.125 }}>Title</TableCell>
                                     <TableCell style={{ width: 0.25 }}> Short Description</TableCell>
                                     <TableCell style={{ width: 0.125 }} align="center">
-                                        Price (USD)
+                                        Price (vnd)
                                     </TableCell>
                                     <TableCell style={{ width: 0.125 }} align="center">
                                         Status
@@ -70,7 +71,7 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
                                     onlineCourses.map((course) => (
                                         <TableRow
                                             hover
-                                            // selected
+                                            style={{ maxHeight: "35px" }}
                                             onClick={() => handleCourseClick(course)}
                                             key={course.id}
                                         >
@@ -84,10 +85,13 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
                                                 {course.title}
                                             </TableCell>
                                             <TableCell  >
-                                                <Typography><RawHTMLRenderer htmlContent={course.shortDescription} /></Typography>
+                                                <Typography>
+                                                    {/* <RawHTMLRenderer htmlContent={course.shortDescription} /> */}
+                                                    <Button>View Detail</Button>
+                                                </Typography>
                                             </TableCell>
                                             <TableCell style={{ width: 0.125 }} align="center">
-                                                {course.price}$
+                                                {course.price}(vnd)
                                             </TableCell>
                                             <TableCell style={{ width: 0.125 }} align="center">
                                                 <Checkbox

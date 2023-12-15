@@ -22,7 +22,6 @@ import CheckOutComplete from '../paymentCheckout/checkOutComplete';
 import HideComponent from "../components/hidecomponent/HideComponent";
 import Dashboard from "../Management/dashboard/Dashboard";
 import UserData from "../Management/userdata/UserData";
-import TimeTable from "../Management/timetable/Timetable";
 import SignUp from "../pages/SignUp";
 import Payment from "../pages/Payment";
 import CustomerReqComponent from "../Management/customer/CustomerReq";

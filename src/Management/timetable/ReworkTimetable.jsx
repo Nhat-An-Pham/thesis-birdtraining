@@ -1,9 +1,9 @@
-import TimetableStaff from "./TimetableStaff";
+import Timetable from "./TimetableComponent";
 
-export default function ReworkTimetableComponent ({}) {
+export default function ReworkTimetableComponent({ }) {
     return (
         <>
-        <TimetableStaff/>
+            <Timetable />
         </>
-    );   
+    );
 }
