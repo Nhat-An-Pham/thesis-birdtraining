@@ -48,7 +48,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
-      <AppBar position="static" color="ochre">
+        <AppBar position="static" color="ochre">
           <Toolbar>
             <IconButton
               size="large"
@@ -73,21 +73,19 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
         <Grid container spacing={2}>
           {slotDetail ? (
             <>
-<<<<<<< Updated upstream
-              <Grid container item margin={2}>
-                <Grid container item spacing={3}>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography>Title:</Typography>
-=======
               <Grid container item>
                 <Grid container item spacing={2} padding={3} style={{borderBottom:"0.2px grey solid"}}>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-                      <Typography >Title:</Typography>
->>>>>>> Stashed changes
-                    </Grid>
-                    <Grid item xs={10}>
+                      <Typography >Title:</Typography> 
+                   </Grid>
+                    <Grid
+                      container
+                      item
+                      xs={10}
+                      justifyContent={"flex-start"}
+                      alignItems={"center"}
+                    >
                       <Typography>{slotDetail.title}</Typography>
                     </Grid>
                   </Grid>
@@ -95,58 +93,57 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                     <Grid item xs={1}>
                       <Typography>Date:</Typography>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid
+                      container
+                      item
+                      xs={10}
+                      justifyContent={"flex-start"}
+        
+                    >
                       <Typography>
                         {addonService.formatDate(slotDetail.date)}
                       </Typography>
-                  </Grid>
+                    </Grid>
                   </Grid>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
                       <Typography>From:</Typography>
                     </Grid>
-<<<<<<< Updated upstream
-                    <Grid item xs={2}>
-=======
+                    
                     <Grid
                       container
                       item
                       xs={2}
-                      justifyContent={"flex-start"}
-                    >
->>>>>>> Stashed changes
+                      justifyContent={"flex-start"}>
                       <Typography>{slotDetail.startTime}</Typography>
                     </Grid>
                     <Grid item xs={1}>
                       <Typography>To:</Typography>
                     </Grid>
-<<<<<<< Updated upstream
-                    <Grid item xs={2}>
-=======
                     <Grid
                       container
                       justifyContent={"flex-start"}
                       item
                       xs={2}
                     >
->>>>>>> Stashed changes
+                    <Grid
+                      container
+                      justifyContent={"flex-start"}
+                     
+                      item
+                      xs={2}
+                    >
                       <Typography>{slotDetail.endTime}</Typography>
                     </Grid>
                   </Grid>
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
-<<<<<<< Updated upstream
                       <Typography>Detail:</Typography>
-=======
-                      <Typography >Detail:</Typography>
->>>>>>> Stashed changes
                     </Grid>
                     <Grid item xs={10} >
                       <RawHTMLRenderer htmlContent={slotDetail.detail} />
                     </Grid>
                   </Grid>
-<<<<<<< Updated upstream
-=======
                   <Grid container item xs={12}>
                     <Grid item xs={1}>
                       <Typography >Location:</Typography>
@@ -156,12 +153,11 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                       item
                       xs={10}
                       justifyContent={"flex-start"}
-                      alignItems={"center"}
+                     
                     >
                       <Typography>{slotDetail.location}</Typography>
                     </Grid>
                   </Grid>
->>>>>>> Stashed changes
                 </Grid>
               </Grid>
               <Divider />

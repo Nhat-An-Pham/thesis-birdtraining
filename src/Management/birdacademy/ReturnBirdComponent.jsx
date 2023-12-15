@@ -28,7 +28,7 @@ import { Close } from "@mui/icons-material";
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [trainingPricePolicies, setTrainingPricePolicies] = useState([]);
   const [selectedPolicyId, setSelectedPolicyId] = useState();
-  const [actualPrice, setActualPrice] = useState();
+  const [actualPrice, setActualPrice] = useState(null);
 
   const [birdTrainingCourse, setBirdTrainingCourse] = useState(null);
   const [returnNote, setReturnNote] = useState("");
@@ -275,23 +275,29 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                         </td>
                       </tr>
                       <tr>
+                        <td>Actual Price</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.totalPrice.toFixed(2)}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Membership Rank</td>
+                        <td style={{ textAlign: "end" }}>
+                          {birdTrainingCourse.membershipRank}
+                        </td>
+                      </tr>
+                      <tr>
                         <td>Discounted Price</td>
                         <td style={{ textAlign: "end" }}>
                           {birdTrainingCourse.discountedPrice.toFixed(2)}
                         </td>
                       </tr>
-                      <tr>
-                        <td>Actual Price</td>
+                      <tr style={{ fontSize: "1.4rem", fontWeight: 700 }}>
+                        <td>Total Price</td>
                         <td style={{ textAlign: "end" }}>
                           {actualPrice != null
                             ? actualPrice
                             : birdTrainingCourse.actualPrice.toFixed(2)}
-                        </td>
-                      </tr>
-                      <tr style={{ fontSize: "1.4rem", fontWeight: 700 }}>
-                        <td>Total Price</td>
-                        <td style={{ textAlign: "end" }}>
-                          {birdTrainingCourse.totalPrice.toFixed(2)}
                         </td>
                       </tr>
                     </table>
@@ -354,7 +360,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                     {trainingPricePolicies
                       .filter((policy) => policy.name != "Success Requested")
                       .map((policy) => (
-                        <MenuItem value={policy.id}>{policy.name}</MenuItem>
+                        <MenuItem value={policy.id}>
+                          {policy.name}: {policy.chargeRate * 100}%
+                        </MenuItem>
                       ))}
                   </Select>
                 </FormControl>

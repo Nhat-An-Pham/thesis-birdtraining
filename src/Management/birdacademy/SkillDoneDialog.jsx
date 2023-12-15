@@ -82,8 +82,11 @@ const SkillDoneDialog = ({ trainingProgressId, renderIndex, callbackDone }) => {
       }
     }
   };
+  const handleClose = (event) => {
+    handleConfirm(event);
+  };
   return (
-    <Dialog open={renderIndex} onClose={callbackDone}>
+    <Dialog open={renderIndex} onClose={handleClose}>
       <ToastContainer />
       <DialogTitle>
         {renderIndex == 1 ? <>Upload training done evidences video</> : <></>}

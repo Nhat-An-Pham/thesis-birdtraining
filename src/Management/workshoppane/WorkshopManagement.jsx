@@ -8,8 +8,13 @@ import ReworkSidebar from "../component/sidebar/ReworkSidebar";
 import ClassManagementComponent from "./classes/ClassManagementComponent";
 import { ToastContainer } from "react-toastify";
 import ClassAddNewComponent from "./classes/ClassAddNewComponent";
+import RefundPoliciesManagement from "./refundPolicy/RefundPoliciesManagement";
+import { jwtDecode } from "jwt-decode";
 
 export default function WorkshopManagementComponent() {
+  const user = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  )?.role;
   const [renderedIndex, setRenderedIndex] = useState(0);
   const [statusFilter, setStatusFilter] = useState(0); // State for status filter
   const [selectedWorkshop, setSelectedWorkshop] = useState();
@@ -51,7 +56,6 @@ export default function WorkshopManagementComponent() {
       onClassesRequest={onClassView}
       onCreateClassRequest={handleOpenModal}
       renderIndex={renderedIndex}
-
     />,
     <CreateWorkshopComponent
       callbackCreateWorkshop={handleCreateWorkshop}
@@ -65,6 +69,7 @@ export default function WorkshopManagementComponent() {
       selectedWorkshop={selectedWorkshop}
       callbackBack={handleCallbackBack}
     />,
+    <RefundPoliciesManagement callbackMainManagement={handleCallbackBack} />,
     // <TrainerSlotDetailComponent entityId={28}/>
   ];
   const handleChange = (event, newValue) => {
@@ -113,12 +118,22 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
+                    {user?.role === "Manager" ? (
+                      <Button
+                        color="ochre"
+                        variant="contained"
+                        sx={{ marginRight: 1 }}
+                        onClick={() => setRenderedIndex(1)}
+                      >
+                        Create workshop
+                      </Button>
+                    ) : null}
                     <Button
                       color="ochre"
                       variant="contained"
-                      onClick={() => setRenderedIndex(1)}
+                      onClick={() => setRenderedIndex(4)}
                     >
-                      Create workshop
+                      Price policies management
                     </Button>
                   </Grid>
                 </Grid>

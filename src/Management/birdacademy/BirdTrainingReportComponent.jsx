@@ -75,11 +75,28 @@ const BirdTrainingReportComponent = ({
     setSelectedReport(null);
   };
   return (
-    <div style={{ padding: 20 }}>
+    <div style={{ padding: 5 }}>
       <ThemeProvider theme={ochreTheme}>
         {reportList != null && reportList.length > 0 && (
-          <TableContainer style={{ padding: 20 }}>
-            <h2>Bird Training Report {selectedProgress.id}</h2>
+          <TableContainer style={{ padding: 10 }}>
+            {/* <h2>Bird Training Report {selectedProgress.id}</h2> */}
+            <div
+              className="main-button-container"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <Button
+                sx={{
+                  marginRight: 3,
+                  padding: "5px 25px 5px 25px",
+                  boxShadow:
+                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                }}
+                className="button"
+                onClick={() => handleCallBackSkillButton()}
+              >
+                Back
+              </Button>
+            </div>
             <Table>
               <TableHead>
                 <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
@@ -130,24 +147,6 @@ const BirdTrainingReportComponent = ({
                 </TableBody>
               ))}
             </Table>
-
-            <div
-              className="main-button-container"
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <Button
-                sx={{
-                  marginTop: 3,
-                  padding: "5px 25px 5px 25px",
-                  boxShadow:
-                    "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-                }}
-                className="button"
-                onClick={() => handleCallBackSkillButton()}
-              >
-                Back
-              </Button>
-            </div>
           </TableContainer>
         )}
       </ThemeProvider>

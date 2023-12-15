@@ -195,13 +195,25 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Image</TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Title</TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Bird Species</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Image
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Title
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Bird Species
+                      </TableCell>
                       {/* <TableCell>Description</TableCell> */}
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Total Slot</TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Price (USD)</TableCell>
-                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Total Slot
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Price (VND)
+                      </TableCell>
+                      <TableCell sx={{ fontWeight: 700, fontSize: "1rem" }}>
+                        Status
+                      </TableCell>
                       <TableCell></TableCell>
                       <TableCell></TableCell>
                     </TableRow>

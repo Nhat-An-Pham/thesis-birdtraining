@@ -1,10 +1,12 @@
 import {
+  AppBar,
   Box,
   Button,
   CircularProgress,
   Container,
   FormControl,
   Grid,
+  IconButton,
   Input,
   InputAdornment,
   OutlinedInput,
@@ -16,6 +18,7 @@ import {
   TableRow,
   TextField,
   ThemeProvider,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
@@ -24,20 +27,24 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useEffect } from "react";
 import { ochreTheme } from "../../themes/Theme";
-import { Search } from "@mui/icons-material";
+import { Close, Search } from "@mui/icons-material";
 import AddRefundPolicyComponent from "../refundPolicy/AddRefundPolicyComponent";
 import DetailRefundPolicyComponent from "../refundPolicy/DetailRefundPolicyComponent";
+import { jwtDecode } from "jwt-decode";
 
-const RefundPoliciesManagement = ({}) => {
+const RefundPoliciesManagement = ({ callbackMainManagement }) => {
   const [rows, setRows] = useState([]);
   const [open, setOpen] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedId, setSelectedId] = useState(1);
-
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  )?.role;
   const handleOpenModal = () => {
     setOpen(true);
   };
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
+    await fetchPricePolicies();
     setOpen(false);
   };
   const handleOpenUpdateModal = (id) => {
@@ -51,7 +58,7 @@ const RefundPoliciesManagement = ({}) => {
   useEffect(() => {
     fetchPricePolicies();
     return () => {};
-  }, []);
+  }, [rows]);
   async function fetchPricePolicies() {
     try {
       // let params = {
@@ -81,6 +88,33 @@ const RefundPoliciesManagement = ({}) => {
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
+        <Grid sx={{ padding: 2 }}>
+          <AppBar position="static" color="ochre" sx={{ borderRadius: 3 }}>
+            <Toolbar>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                sx={{ mr: 2 }}
+                onClick={callbackMainManagement}
+              >
+                <Close />
+              </IconButton>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", sm: "block" },
+                  fontWeight: 700,
+                }}
+              >
+                Refund Policies Management
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Grid>
         <AddRefundPolicyComponent open={open} handleClose={handleCloseModal} />
         <DetailRefundPolicyComponent
           open={openUpdate}
@@ -97,13 +131,16 @@ const RefundPoliciesManagement = ({}) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Button
-                color="ochre"
-                variant="contained"
-                onClick={handleOpenModal}
-              >
-                Add
-              </Button>
+              {userRole?.role === "Manager" ? (
+                <Button
+                  color="ochre"
+                  variant="contained"
+                  onClick={handleOpenModal}
+                >
+                  Add
+                </Button>
+              ) : null}
+
               {/* <FormControl>
                 <OutlinedInput
                   fullWidth
@@ -127,6 +164,7 @@ const RefundPoliciesManagement = ({}) => {
                           <TableCell>No</TableCell>
                           <TableCell>Duration before start</TableCell>
                           <TableCell>Refund rate</TableCell>
+                          <TableCell></TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -139,15 +177,17 @@ const RefundPoliciesManagement = ({}) => {
                             <TableCell>
                               <Typography>{row.refundRate}</Typography>
                             </TableCell>
-                            <TableCell>
-                              <Button
-                                color="ochre"
-                                variant="contained"
-                                onClick={() => handleOpenUpdateModal(row.id)}
-                              >
-                                Update
-                              </Button>
-                            </TableCell>
+                            {userRole?.role === "Manager" ? (
+                              <TableCell>
+                                <Button
+                                  color="ochre"
+                                  variant="contained"
+                                  onClick={() => handleOpenUpdateModal(row.id)}
+                                >
+                                  Update
+                                </Button>
+                              </TableCell>
+                            ) : null}
                           </TableRow>
                         ))}
                       </TableBody>

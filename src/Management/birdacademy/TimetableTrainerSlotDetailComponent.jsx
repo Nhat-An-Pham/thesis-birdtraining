@@ -29,11 +29,15 @@ import trainingCourseManagementService from "../../services/trainingcourse-manag
 import { ochreTheme } from "../themes/Theme";
 import { ToastContainer, toast } from "react-toastify";
 import SkillDoneDialog from "./SkillDoneDialog";
+import { jwtDecode } from "jwt-decode";
 
 const TimetableTrainerSlotDetailComponent = ({
   trainerSlotId,
   callBackTimetable,
 }) => {
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  ).role;
   const [renderDialog, setRenderDialog] = useState(0);
 
   const [slotList, setSlotList] = useState([]);
@@ -139,149 +143,6 @@ const TimetableTrainerSlotDetailComponent = ({
       </AppBar>
       <div>
         {timetableDetail != null && (
-<<<<<<< Updated upstream
-          <div style={{ padding: "20px 40px" }}>
-            <table
-              style={{
-                border: "none",
-                padding: "0px",
-                borderCollapse: "separate",
-                borderSpacing: "1rem 0.5rem",
-                color: "#64645f",
-                fontSize: "1rem",
-                width: "100%",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                {/* show bird details */}
-                <div
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  <tr>
-                    {/* bird skill name */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Skill Name: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSkillName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* skill describe */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Skill Description: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSkillDescription}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* bird name */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Name: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* species */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Species: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSpeciesName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* color bird */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Color: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdColor}</>
-                    </td>
-                  </tr>
-                </div>
-
-                {/* show date, time and picture */}
-                <div
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  {slotList != null &&
-                    slotList
-                      .filter((cls) => cls.id == timetableDetail.slotId)
-                      .map((cls) => (
-                        <>
-                          <tr>
-                            <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                              <>Start Time</>
-                            </td>
-                            <td item xs={1.25}>
-                              <>{cls.startTime}</>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                              <>End Time</>
-                            </td>
-                            <td item xs={1.25}>
-                              <>{cls.endTime}</>
-                            </td>
-                          </tr>
-                        </>
-                      ))}
-                  {/* traning date */}
-                  <tr>
-                    <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                      <>Training Date: </>
-                    </td>
-                    <td item xs={5}>
-                      {addonService.formatDate(timetableDetail.trainingDate)}
-                    </td>
-                  </tr>
-                  {/* picture */}
-                  <tr
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginLeft: 16,
-                    }}
-                  >
-                    <td
-                      style={{
-                        fontSize: "1.2rem",
-                        fontWeight: 700,
-                        marginRight: 40,
-                      }}
-                    >
-                      <>Bird Picture: </>
-                    </td>
-                    <td>
-                      <Img
-                        src={timetableDetail.birdPicture}
-                        alt="Bird Picture"
-                        style={{ width: "200px", height: "150px" }}
-                      />
-                    </td>
-                  </tr>
-                </div>
-=======
           <>
             <div className="timetable-birdtraining-container">
               <div className="timetable-birdtraining-left">
@@ -339,7 +200,6 @@ const TimetableTrainerSlotDetailComponent = ({
                     </Button>
                   </ThemeProvider>
                 )}
->>>>>>> Stashed changes
               </div>
             </div>
           </>

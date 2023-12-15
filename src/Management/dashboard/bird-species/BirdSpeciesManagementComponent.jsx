@@ -28,8 +28,12 @@ import { ochreTheme } from "../../themes/Theme";
 import { Search } from "@mui/icons-material";
 import BirdSpeciesDetailComponent from "./BirdSpeciesDetailComponent";
 import BirdSpeciesUpdateComponent from "./BirdSpeciesUpdateComponent";
+import { jwtDecode } from "jwt-decode";
 
 const BirdSpeciesManagementComponent = ({}) => {
+  const userRole = jwtDecode(
+    JSON.stringify(localStorage.getItem("user-token"))
+  )?.role;
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -83,16 +87,20 @@ const BirdSpeciesManagementComponent = ({}) => {
 
   const handleDetailClick = (id) => {
     setSelectedId(id);
-    setRenderIndex(1);    
-  }
+    setRenderIndex(1);
+  };
   const handleCloseDetail = () => {
     setRenderIndex(0);
-  }
+  };
   return (
     <>
       <ThemeProvider theme={ochreTheme}>
         <BirdSpeciesAddComponent open={open} handleClose={handleCloseModal} />
-        <BirdSpeciesUpdateComponent open={openUpdate} handleClose={handleCloseUpdateModal} birdSpeciesId={selectedId}/>
+        <BirdSpeciesUpdateComponent
+          open={openUpdate}
+          handleClose={handleCloseUpdateModal}
+          birdSpeciesId={selectedId}
+        />
         <Container sx={{ padding: 2 }}>
           {renderIndex === 0 ? (
             <Grid container spacing={2}>
@@ -108,6 +116,7 @@ const BirdSpeciesManagementComponent = ({}) => {
                   color="ochre"
                   variant="contained"
                   onClick={handleOpenModal}
+                  disabled={userRole !== "Manager"}
                 >
                   Add
                 </Button>
@@ -153,12 +162,17 @@ const BirdSpeciesManagementComponent = ({}) => {
                                   color="ochre"
                                   variant="contained"
                                   onClick={() => handleOpenUpdateModal(row.id)}
+                                  disabled={userRole !== "Manager"}
                                 >
                                   Update
                                 </Button>
                               </TableCell>
                               <TableCell>
-                                <Button color="ochre" variant="contained" onClick={() => handleDetailClick(row.id)}>
+                                <Button
+                                  color="ochre"
+                                  variant="contained"
+                                  onClick={() => handleDetailClick(row.id)}
+                                >
                                   Detail
                                 </Button>
                               </TableCell>
@@ -177,7 +191,10 @@ const BirdSpeciesManagementComponent = ({}) => {
             </Grid>
           ) : (
             <>
-              <BirdSpeciesDetailComponent birdSpeciesId={selectedId} onClose={handleCloseDetail}/>
+              <BirdSpeciesDetailComponent
+                birdSpeciesId={selectedId}
+                onClose={handleCloseDetail}
+              />
             </>
           )}
         </Container>
