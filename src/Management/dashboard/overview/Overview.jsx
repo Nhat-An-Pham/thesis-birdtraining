@@ -34,7 +34,7 @@ const Overview = () => {
   const [elearningData, setElearningData] = useState(null);
   const [workshopData, setWorkshopData] = useState(null);
   const [transactions, setTransactions] = useState(null);
-  
+
   const navigate = useNavigate();
 
   const fetchConsultingTicketOverviewData = async () => {
@@ -52,7 +52,7 @@ const Overview = () => {
         $orderby: `dateTime desc`,
       };
       let res = await dashboardService.GetTransactions(params);
-      console.log(res.data);
+      // console.log(res.data);
       setTransactions(res.data);
     } catch (error) {
       toast.error("An error has occured!");
@@ -86,17 +86,18 @@ const Overview = () => {
 
   //   return () => intervalId;
   // }, []);
-const navTo = (route) => {
-  navigate(`/management/${route}`)
-}
+  const navTo = (route) => {
+    navigate(`/management/${route}`);
+  };
 
   useEffect(() => {
-    fetchConsultingTicketOverviewData();
-    fetchOnlineCourseOverviewData();
-    fetchWorkshopOverviewData();
-    fetchTransactionData();
-
-    return () => {};
+    const intervalId = setInterval(() => {
+      fetchConsultingTicketOverviewData();
+      fetchOnlineCourseOverviewData();
+      fetchWorkshopOverviewData();
+      fetchTransactionData();
+    }, 1000 * 3);
+    return () => intervalId;
   }, []);
 
   return (
@@ -122,9 +123,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('customerreq')}
+          onClick={() => navTo("customerreq")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {consultingData ? (
@@ -151,9 +152,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('onlinecourse')}
+          onClick={() => navTo("onlinecourse")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {elearningData ? (
@@ -180,9 +181,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('workshop')}
+          onClick={() => navTo("workshop")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {workshopData ? (
@@ -283,13 +284,16 @@ const navTo = (route) => {
                 p="12px"
               >
                 <Box>
-                  <Typography
-                    color={colors.greenAccent[500]}
-                    fontSize={18}
-                    fontWeight="600"
-                  >
-                    {transaction.paymentCode}
-                  </Typography>
+                  <div style={{ overflow: "hidden" }}>
+                    <Typography
+                      width={90}
+                      color={colors.greenAccent[500]}
+                      fontSize={18}
+                      fontWeight="600"
+                    >
+                      {transaction.paymentCode}
+                    </Typography>
+                  </div>
                   <Typography color={colors.grey[100]}>
                     {transaction.email}
                   </Typography>

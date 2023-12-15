@@ -12,7 +12,7 @@ import RefundPoliciesManagement from "./refundPolicy/RefundPoliciesManagement";
 import { jwtDecode } from "jwt-decode";
 
 export default function WorkshopManagementComponent() {
-  const userRole = jwtDecode(
+  const user = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
   )?.role;
   const [renderedIndex, setRenderedIndex] = useState(0);
@@ -118,7 +118,7 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
-                    {userRole === "Manager" ? (
+                    {user?.role === "Manager" ? (
                       <Button
                         color="ochre"
                         variant="contained"
