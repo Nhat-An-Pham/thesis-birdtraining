@@ -36,6 +36,9 @@ if (token) {
 const drawerWidth = 250;
 const elements = [
   {
+    name:`Hello ${userName}`
+  },
+  {
     route: "/management",
     icon: <SpaceDashboardOutlined />,
     name: "Dashboard",
@@ -190,14 +193,6 @@ export default function ReworkSidebar({ selectTab }) {
               </>
             ))}
           </List>
-          {userName ?
-            <Link style={{
-              position: "absolute", bottom: "0", width: "100%", height: "60px",
-              border: "1px black solid", display: "flex", justifyContent: "center", alignItems: "center", textDecoration:"none", color:"black"
-            }}>
-              Hi {userName}<LogoutIcon />
-            </Link>
-            : null}
         </Drawer>
       </Box>
     </ThemeProvider>

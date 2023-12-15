@@ -161,8 +161,85 @@
         width: auto;
         width: 90%;
     }
-    p{
+
+    p {
         width: 100%;
         padding: 10px;
+    }
+}
+
+
+//timetable-birdtraining
+
+.timetable-birdtraining-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 40px;
+    margin-top: 20px;
+
+    & .timetable-birdtraining-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 45%;
+        border: 2.3px outset #65451f;
+
+        & .timetable-birdtraining-small {
+            display: flex;
+            width: 90%;
+            & p {
+                width: 50%;
+                padding: 10px;
+                margin: 0px;
+            }
+
+            & #label {
+                font-weight: bold;
+            }
+
+            & #info {
+                text-align: left;
+            }
+        }
+
+        & img {
+            width: 90%;
+            aspect-ratio: 1/1;
+            object-fit: fill;
+            border: 0.2px grey solid;
+            margin-bottom: 20px;
+            border-radius: 15px;
+        }
+    }
+
+    & .timetable-birdtraining-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 54%;
+        border: 2.3px outset #65451f;
+        padding: 10px;
+
+        & .timetable-birdtraining-small {
+            display: flex;
+            width: 100%;
+
+            & p {
+                width: 50%;
+                padding: 10px;
+                margin: 0px;
+            }
+
+            & #label {
+                font-weight: bold;
+                width: 40%;
+            }
+
+            & #info {
+                width: 60%;
+                text-align: left;
+            }
+        }
     }
 }

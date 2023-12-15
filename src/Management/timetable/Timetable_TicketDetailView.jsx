@@ -83,7 +83,7 @@ const Timetable_TicketDetailView = ({
                     </div>
                   </div>
                   <div className="ticketdetail-consultant-customerinfo-detailbox-avatar">
-                    <img src={ticketDetail.customerAvatar}></img>
+                    <img style={{border:"0.2px grey solid"}} alt="customer img" src={ticketDetail.customerAvatar}></img>
                   </div>
                 </div>
               </div>
