@@ -17,7 +17,7 @@ const WorkshopListPage = () => {
         WorkshopService
             .getWorkshopList()
             .then((res) => {
-                console.log("success workshop list test", res.data);
+                // console.log("success workshop list test", res.data);
                 setWorkshopList(res.data);
                 setFilteredList(res.data)
             })
