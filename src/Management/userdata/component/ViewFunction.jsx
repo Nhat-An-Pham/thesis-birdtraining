@@ -6,6 +6,7 @@ import {
   Divider,
   Grid,
   Paper,
+  Table,
   TableBody,
   TableCell,
   TableContainer,
@@ -16,13 +17,17 @@ import {
 } from "@mui/material";
 import "../userdata.scss";
 import { toast } from "react-toastify";
+import MembershipDetail from "./MembershipDetail";
 
 const ViewFunction = ({ renderIndex, tablabel }) => {
-  const [listSlot, setListSlot] = useState([]);
+  const [openDiv, setOpenDiv] = useState(0);
+
   useEffect(() => {
     GetListSlot();
+    GetListMembership();
   }, [renderIndex, tablabel]);
 
+  const [listSlot, setListSlot] = useState([]);
   const GetListSlot = () => {
     timetableService
       .getSlotTime()
@@ -34,7 +39,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
   };
 
   const [listMembership, setListMembership] = useState([]);
-  useEffect(() => {
+  const GetListMembership = () => {
     membershipService
       .getListMembership()
       .then((res) => {
@@ -42,7 +47,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
         setListMembership(res.data);
       })
       .catch((e) => console.log("Fail Get List Membership test", e));
-  }, [renderIndex, tablabel]);
+  };
 
   const [changedMinute, setChangedMinute] = useState("");
 
@@ -55,43 +60,67 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
         GetListSlot();
       })
       .catch((e) => {
-        toast.error("Fail Update Slot Time")
+        toast.error("Fail Update Slot Time");
         console.log(e);
       });
   };
 
-  const handleMembershipClick = (row) => {};
+  const [selectedMembership, setSelectedMembership] = useState();
+
+  const handleCloseDiv = () => {
+    setOpenDiv(0);
+    GetListMembership();
+  };
+
+  const handleMembershipClick = (row) => {
+    setOpenDiv(1);
+    setSelectedMembership(row);
+  };
 
   return (
     <>
+      {selectedMembership ? (
+        <MembershipDetail
+          selectedMembership={selectedMembership}
+          openDiv={openDiv}
+          handleCloseDiv={handleCloseDiv}
+        ></MembershipDetail>
+      ) : (
+        <></>
+      )}
       <h1 style={{ borderBottom: "0.5px grey solid" }}> Function</h1>
-      <Grid container direction="row" spacing={2}>
+      <Grid
+        container
+        spacing={2}
+        justifyContent={"flex-start"}
+        alignItems={"flex-start"}
+      >
         <Grid container item xs={6} spacing={2}>
           <Grid item xs={12}>
-            <h2 style={{ borderBottom: "0.5px grey solid" }}>Slot</h2>
+            <h2 style={{ borderBottom: "0.5px grey solid" }}>
+              Slot
+            </h2>
           </Grid>
-          <Grid item xs={4}>
-            Slot
-          </Grid>
-          <Grid item xs={4}>
-            Start time
-          </Grid>
-          <Grid item xs={4}>
-            End Time
-          </Grid>
-          {listSlot.map((row, index) => (
-            <Grid container item xs={12} direction="row" spacing={2}>
-              <Grid item xs={4}>
-                {row.id}
-              </Grid>
-              <Grid item xs={4}>
-                {row.startTime}
-              </Grid>
-              <Grid item xs={4}>
-                {row.endTime}
-              </Grid>
-            </Grid>
-          ))}
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Slot</TableCell>
+                  <TableCell>Start Time</TableCell>
+                  <TableCell>End Time</TableCell>
+                </TableRow>
+              </TableHead>
+              {listSlot.map((row, index) => (
+                <TableBody>
+                  <TableRow key={index}>
+                    <TableCell>{row.id}</TableCell>
+                    <TableCell>{row.startTime}</TableCell>
+                    <TableCell>{row.endTime}</TableCell>
+                  </TableRow>
+                </TableBody>
+              ))}
+            </Table>
+          </TableContainer>
           <Grid container item xs={12}>
             <Grid
               container
@@ -117,7 +146,11 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
               />
             </Grid>
             <Grid item xs={4}>
-              <Button color="ochre" variant="contained" onClick={() => handleUpdateSlotClick()}>
+              <Button
+                color="ochre"
+                variant="contained"
+                onClick={() => handleUpdateSlotClick()}
+              >
                 Update
               </Button>
             </Grid>
@@ -130,32 +163,42 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
               Membership Rank
             </h2>
           </Grid>
-          <Grid item xs={12}>
+          <Grid
+            container
+            item
+            xs={12}
+            justifyContent={"flex-start"}
+            alignItems={"flex-start"}
+          >
+            `
             <TableContainer component={Paper}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Discount</TableCell>
-                  <TableCell>Requirement</TableCell>
-                </TableRow>
-              </TableHead>
-              {listMembership.map((row, index) => (
-                <TableBody>
-                  <TableRow
-                    key={index}
-                    hover
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleMembershipClick(row)}
-                  >
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.discount}</TableCell>
-                    <TableCell>{row.requirement}</TableCell>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Discount</TableCell>
+                    <TableCell>Requirement</TableCell>
                   </TableRow>
-                </TableBody>
-              ))}
+                </TableHead>
+                {listMembership.map((row, index) => (
+                  <TableBody>
+                    <TableRow
+                      key={index}
+                      hover
+                      style={{ cursor: "pointer" }}
+                      onClick={() => handleMembershipClick(row)}
+                    >
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.discount}</TableCell>
+                      <TableCell>{row.requirement}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                ))}
+              </Table>
             </TableContainer>
+            `
           </Grid>
         </Grid>
       </Grid>
