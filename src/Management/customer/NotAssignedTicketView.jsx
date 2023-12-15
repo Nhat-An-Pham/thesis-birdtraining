@@ -39,6 +39,9 @@ const NotAssignedTicketView = ({}) => {
       );
   }, [renderIndex]);
 
+  const sortedlistNotAssignedConsultingTicket = [
+    ...listNotAssignedConsultingTicket,
+  ].sort((a, b) => b.id - a.id);
   const handleDetailClick = (ticketId) => {
     setTicketIdForDetail(ticketId);
     setRenderIndex(0);
@@ -92,29 +95,31 @@ const NotAssignedTicketView = ({}) => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {listNotAssignedConsultingTicket.map((row, index) => (
-                        <TableRow key={index}>
-                          <TableCell>{row.id}</TableCell>
-                          <TableCell>
-                            {row.onlineOrOffline ? "Online" : "Offine"}
-                          </TableCell>
-                          <TableCell>
-                            {addonService.formatDate(row.appointmentDate)}
-                          </TableCell>
-                          <TableCell>{row.actualSlotStart}</TableCell>
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleDetailClick(row.id);
-                              }}
-                            >
-                              Detail
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {sortedlistNotAssignedConsultingTicket.map(
+                        (row, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{row.id}</TableCell>
+                            <TableCell>
+                              {row.onlineOrOffline ? "Online" : "Offine"}
+                            </TableCell>
+                            <TableCell>
+                              {addonService.formatDate(row.appointmentDate)}
+                            </TableCell>
+                            <TableCell>{row.actualSlotStart}</TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleDetailClick(row.id);
+                                }}
+                              >
+                                Detail
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        )
+                      )}
                     </TableBody>
                   </Table>
                 </TableContainer>
