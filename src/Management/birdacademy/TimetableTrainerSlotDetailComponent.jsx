@@ -165,64 +165,7 @@ const TimetableTrainerSlotDetailComponent = ({
                 {/* show bird details */}
                 <div
                   style={{
-                    width: "100%",
-                  }}
-                >
-                  <tr>
-                    {/* bird skill name */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Skill Name: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSkillName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* skill describe */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Skill Description: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSkillDescription}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* bird name */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Name: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* species */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Species: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdSpeciesName}</>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    {/* color bird */}
-                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
-                      <>Bird Color: </>
-                    </td>
-                    <td item xs={10}>
-                      <>{timetableDetail.birdColor}</>
-                    </td>
-                  </tr>
-                </div>
-
-                {/* show date, time and picture */}
-                <div
-                  style={{
-                    width: "100%",
+                    width: "70%",
                   }}
                 >
                   {slotList != null &&
@@ -232,7 +175,7 @@ const TimetableTrainerSlotDetailComponent = ({
                         <>
                           <tr>
                             <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                              <>Start Time</>
+                              <>Start Time:</>
                             </td>
                             <td item xs={1.25}>
                               <>{cls.startTime}</>
@@ -241,7 +184,7 @@ const TimetableTrainerSlotDetailComponent = ({
 
                           <tr>
                             <td style={{ fontSize: "1.2rem", fontWeight: 700 }}>
-                              <>End Time</>
+                              <>End Time:</>
                             </td>
                             <td item xs={1.25}>
                               <>{cls.endTime}</>
@@ -263,7 +206,7 @@ const TimetableTrainerSlotDetailComponent = ({
                     style={{
                       display: "flex",
                       alignItems: "center",
-                      marginLeft: 16,
+                      marginLeft: 18,
                     }}
                   >
                     <td
@@ -281,6 +224,63 @@ const TimetableTrainerSlotDetailComponent = ({
                         alt="Bird Picture"
                         style={{ width: "200px", height: "150px" }}
                       />
+                    </td>
+                  </tr>
+                </div>
+                {/* show date, time and picture */}
+                <div
+                  style={{
+                    width: "100%",
+                    paddingRight: 50,
+                  }}
+                >
+                  <tr>
+                    {/* bird name */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Name: </>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <>{timetableDetail.birdName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* species */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Species: </>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <>{timetableDetail.birdSpeciesName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* color bird */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Color: </>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <>{timetableDetail.birdColor}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* bird skill name */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Bird Skill Name: </>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <>{timetableDetail.birdSkillName}</>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    {/* skill describe */}
+                    <td style={{ fontSize: "1rem", fontWeight: 700 }}>
+                      <>Training Description: </>
+                    </td>
+                    <td item xs={10}>
+                      <>{timetableDetail.birdSkillDescription}</>
                     </td>
                   </tr>
                 </div>
