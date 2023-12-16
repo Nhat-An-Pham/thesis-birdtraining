@@ -26,15 +26,28 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 const Overview = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [consultingData, setConsultingData] = useState(null);
   const [elearningData, setElearningData] = useState(null);
   const [workshopData, setWorkshopData] = useState(null);
-  const [transactions, setTransactions] = useState(null);
-  
+  const [transactionsWorkshop, setTransactionsWorkshop] = useState([]);
+  const [transactionsOnlineCourse, setTransactionsOnlineCourse] = useState([]);
+  const [campaign, setCampaign] = useState(null);
+  const [transactionsTrainingCourse, setTransactionsTrainingCourse] = useState(
+    []
+  );
+  // const [transactionsConsultant, setTransactionsConsultant] = useState([]);
+
+  const type = [
+    "Others",
+    "AdviceConsulting",
+    "WorkshopClass",
+    "OnlineCourse",
+    "TrainingCourse",
+    "Topup",
+  ];
   const navigate = useNavigate();
 
   const fetchConsultingTicketOverviewData = async () => {
@@ -46,14 +59,37 @@ const Overview = () => {
       toast.error("An error has occured!");
     }
   };
-  const fetchTransactionData = async () => {
+  const fetchCampaign = async () => {
+    let dateObj = new Date();
+    let month = dateObj.getUTCMonth() + 1;
+    let year = dateObj.getUTCFullYear();
+    try {
+      let res = await dashboardService.GetCampaignRevenue(month, year);
+      setCampaign(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchTransactionData = async (typeQuery) => {
     try {
       let params = {
         $orderby: `dateTime desc`,
+        type: typeQuery,
       };
       let res = await dashboardService.GetTransactions(params);
-      console.log(res.data);
-      setTransactions(res.data);
+      // console.log(res.data);
+      if (typeQuery === type[0]) {
+      } else if (typeQuery === type[1]) {
+        // setTransactionsConsultant(res.data);
+      } else if (typeQuery === type[2]) {
+        setTransactionsWorkshop(res.data);
+      } else if (typeQuery === type[3]) {
+        setTransactionsOnlineCourse(res.data);
+      } else if (typeQuery === type[4]) {
+        setTransactionsTrainingCourse(res.data);
+      } else {
+      }
     } catch (error) {
       toast.error("An error has occured!");
     }
@@ -76,27 +112,30 @@ const Overview = () => {
       toast.error("An error has occured!");
     }
   };
+  const navTo = (route) => {
+    navigate(`/management/${route}`);
+  };
   // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     fetchConsultingTicketOverviewData();
-  //     fetchOnlineCourseOverviewData();
-  //     fetchWorkshopOverviewData();
-  //     fetchTransactionData();
-  //   }, 1000 * 2); // in millisecondsfirst
-
-  //   return () => intervalId;
+  //   fetchConsultingTicketOverviewData();
+  //   fetchOnlineCourseOverviewData();
+  //   fetchWorkshopOverviewData();
+  //   fetchTransactionData(type[1]);
+  //   fetchTransactionData(type[2]);
+  //   fetchTransactionData(type[3]);
+  //   fetchTransactionData(type[4]);
   // }, []);
-const navTo = (route) => {
-  navigate(`/management/${route}`)
-}
-
   useEffect(() => {
-    fetchConsultingTicketOverviewData();
-    fetchOnlineCourseOverviewData();
-    fetchWorkshopOverviewData();
-    fetchTransactionData();
-
-    return () => {};
+    const intervalId = setInterval(() => {
+      fetchConsultingTicketOverviewData();
+      fetchOnlineCourseOverviewData();
+      fetchWorkshopOverviewData();
+      fetchTransactionData(type[1]);
+      fetchTransactionData(type[2]);
+      fetchTransactionData(type[3]);
+      fetchTransactionData(type[4]);
+    }, 1000 * 3);
+    fetchCampaign();
+    return () => intervalId;
   }, []);
 
   return (
@@ -114,7 +153,6 @@ const navTo = (route) => {
         gap="20px"
       >
         {/* *********************  ROW 1   *************************/}
-
         {/* Email Sent box */}
         <Box
           gridColumn="span 3"
@@ -122,9 +160,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('customerreq')}
+          onClick={() => navTo("customerreq")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {consultingData ? (
@@ -143,7 +181,6 @@ const navTo = (route) => {
             </>
           )}
         </Box>
-
         {/* Sales Obtained box */}
         <Box
           gridColumn="span 3"
@@ -151,9 +188,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('onlinecourse')}
+          onClick={() => navTo("onlinecourse")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {elearningData ? (
@@ -172,7 +209,6 @@ const navTo = (route) => {
             <CircularProgress />
           )}
         </Box>
-
         {/* New Clients boz */}
         <Box
           gridColumn="span 3"
@@ -180,9 +216,9 @@ const navTo = (route) => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          onClick={() => navTo('workshop')}
+          onClick={() => navTo("workshop")}
           sx={{
-            cursor: 'pointer'
+            cursor: "pointer",
           }}
         >
           {workshopData ? (
@@ -201,7 +237,6 @@ const navTo = (route) => {
             <CircularProgress />
           )}
         </Box>
-
         {/* Traffic Received */}
         <Box
           gridColumn="span 3"
@@ -220,9 +255,8 @@ const navTo = (route) => {
             }
           />
         </Box>
-
         {/* **********************   ROW 2   *********************** */}
-        <Box
+        {/* <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -250,8 +284,7 @@ const navTo = (route) => {
           <Box height="250px" m="-30px 0 0 0">
             <LineChart isDashboard={true} />
           </Box>
-        </Box>
-
+        </Box> */}
         {/*Recent Transactions  */}
         <Box
           gridColumn="span 4"
@@ -269,11 +302,11 @@ const navTo = (route) => {
             p="10px 20px"
           >
             <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
-              Recent Transactions
+              Recent Transactions (Online Course)
             </Typography>
           </Box>
-          {transactions ? (
-            transactions.map((transaction, i) => (
+          {transactionsOnlineCourse ? (
+            transactionsOnlineCourse.map((transaction, i) => (
               <Box
                 key={`${transaction.paymentcCode}-${i}`}
                 display="flex"
@@ -283,13 +316,16 @@ const navTo = (route) => {
                 p="12px"
               >
                 <Box>
-                  <Typography
-                    color={colors.greenAccent[500]}
-                    fontSize={18}
-                    fontWeight="600"
-                  >
-                    {transaction.paymentCode}
-                  </Typography>
+                  <div style={{ overflow: "hidden" }}>
+                    <Typography
+                      width={90}
+                      color={colors.greenAccent[500]}
+                      fontSize={18}
+                      fontWeight="600"
+                    >
+                      {transaction.paymentCode}
+                    </Typography>
+                  </div>
                   <Typography color={colors.grey[100]}>
                     {transaction.email}
                   </Typography>
@@ -305,7 +341,80 @@ const navTo = (route) => {
                   p="5px 10px"
                   borderRadius="4px"
                 >
-                  VND {transaction.cost}
+                  VND {addonService.formatCurrency(transaction.cost)}
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <Grid container>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          )}
+        </Box>
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          overflow="auto"
+          borderRadius={2}
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            borderBottom={`2px solid ${colors.primary[500]}`}
+            colors={colors.grey[100]}
+            p="10px 20px"
+          >
+            <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
+              Recent Transactions (Workshop)
+            </Typography>
+          </Box>
+          {transactionsWorkshop ? (
+            transactionsWorkshop.map((transaction, i) => (
+              <Box
+                key={`${transaction.paymentcCode}-${i}`}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`1px solid ${colors.primary[500]}`}
+                p="12px"
+              >
+                <Box>
+                  <div style={{ overflow: "hidden" }}>
+                    <Typography
+                      width={90}
+                      color={colors.greenAccent[500]}
+                      fontSize={18}
+                      fontWeight="600"
+                    >
+                      {transaction.paymentCode}
+                    </Typography>
+                  </div>
+                  <Typography color={colors.grey[100]}>
+                    {transaction.email}
+                  </Typography>
+                </Box>
+                <Box color={colors.grey[100]}>
+                  <Typography>
+                    {addonService.formatDate(transaction.dateTime)}
+                  </Typography>
+                  <Typography>{transaction.type}</Typography>
+                </Box>
+                <Box
+                  backgroundColor={colors.greenAccent[500]}
+                  p="5px 10px"
+                  borderRadius="4px"
+                >
+                  VND {addonService.formatCurrency(transaction.cost)}
                 </Box>
               </Box>
             ))
@@ -324,36 +433,129 @@ const navTo = (route) => {
           )}
         </Box>
 
+        <Box
+          gridColumn="span 4"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          overflow="auto"
+          borderRadius={2}
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            borderBottom={`2px solid ${colors.primary[500]}`}
+            colors={colors.grey[100]}
+            p="10px 20px"
+          >
+            <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
+              Recent Transactions (Training Course)
+            </Typography>
+          </Box>
+          {transactionsTrainingCourse ? (
+            transactionsTrainingCourse.map((transaction, i) => (
+              <Box
+                key={`${transaction.paymentcCode}-${i}`}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`1px solid ${colors.primary[500]}`}
+                p="12px"
+              >
+                <Box>
+                  <div style={{ overflow: "hidden" }}>
+                    <Typography
+                      width={90}
+                      color={colors.greenAccent[500]}
+                      fontSize={18}
+                      fontWeight="600"
+                    >
+                      {transaction.paymentCode}
+                    </Typography>
+                  </div>
+                  <Typography color={colors.grey[100]}>
+                    {transaction.email}
+                  </Typography>
+                </Box>
+                <Box color={colors.grey[100]}>
+                  <Typography>
+                    {addonService.formatDate(transaction.dateTime)}
+                  </Typography>
+                  <Typography>{transaction.type}</Typography>
+                </Box>
+                <Box
+                  backgroundColor={colors.greenAccent[500]}
+                  p="5px 10px"
+                  borderRadius="4px"
+                >
+                  VND {addonService.formatCurrency(transaction.cost)}
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <Grid container>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          )}
+        </Box>
         {/* ROW 3 */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"
+          
         >
           <Typography variant="h5" fontWeight="600">
             Campaign
           </Typography>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            mt="25px"
-          >
-            <ProgressCircle progress="0.75" size="125" />
-            <Typography
-              variant="h5"
-              color={colors.greenAccent[500]}
-              sx={{ mt: "15px" }}
+          {campaign ? (
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt="25px"
             >
-              $48,352 revenue generated
-            </Typography>
-            <Typography>
-              Modify: Success rate of passed birds in tranining course
-            </Typography>
-          </Box>
+              <ProgressCircle
+                progress={campaign.percentRevenueFromLastMonth}
+                size="125"
+              />
+              <Typography
+                variant="h5"
+                color={colors.greenAccent[500]}
+                sx={{ mt: "15px" }}
+              >
+                {addonService.formatCurrency(campaign.revenueInMonth)} VND
+                revenue (this month)
+              </Typography>
+              <Typography>
+                {addonService.formatCurrency(campaign.revenueInYear)} VND Total
+                revenue in year
+              </Typography>
+            </Box>
+          ) : (
+            <Grid container>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          )}
         </Box>
-        <Box
+        {/* <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -368,7 +570,7 @@ const navTo = (route) => {
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box>
-        </Box>
+        </Box> */}
         {/* <Box
           gridColumn="span 4"
           gridRow="span 2"

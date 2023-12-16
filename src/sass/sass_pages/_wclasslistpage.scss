@@ -39,7 +39,7 @@
         color: black;
         border-radius: 10px;
         overflow: hidden;
-        border: 0.5px rgba(200, 174, 125, 0.75) solid ;
+        border: 0.5px rgba(200, 174, 125, 0.75) solid;
         box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
         -webkit-box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
         -moz-box-shadow: 7px 10px 25px -8px rgba(200, 174, 125, 0.75);
@@ -99,6 +99,10 @@
             font-size: 20px;
         }
 
+        & h5 {
+            margin: 0px;    
+        }
+
         & p {
             margin: 0px;
             font-size: 13px;
@@ -129,8 +133,9 @@
     }
 
     &-container {
-        background-image: url("../../assets/pages/payment/pexels-sergio-souza-3250454.jpg");
-        color: white;
+        // background-image: url("../../assets/pages/payment/pexels-sergio-souza-3250454.jpg");
+        background-color: white;
+        color: black;
         width: 900px;
         height: auto;
         padding: 20px;
@@ -146,11 +151,12 @@
     display: block;
     margin: 0px;
     margin-bottom: 30px;
-    &-title{
+
+    &-title {
         margin-bottom: 0px;
     }
 
-    &-mapping {
+    &_mapping {
         width: 100%;
     }
 
@@ -186,6 +192,8 @@
 
 //wclpdiv_section-mapping
 .wclpdiv_section_mapping-content {
+    width: 70%;
+
     & .wclpdiv_content {
         width: 100%;
 
@@ -197,10 +205,26 @@
             }
         }
 
+        &-trainer {
+            width: 95%;
+            text-align: right;
+        }
+
         &-registered {
             font-size: 15px;
             text-align: right;
-            margin-top: 30px;
+            width: 95%;
         }
+    }
+}
+
+.wclpdiv_section_mapping-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    img {
+        width: 30%;
+
     }
 }

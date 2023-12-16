@@ -127,7 +127,7 @@ const UserData = () => {
                 <Grid
                   container
                   spacing={1}
-                  style={{ padding: "20px", marginTop: "20px" }}
+                  style={{ padding: "20px" }}
                 >
                   <Grid item xs={12}>
                     {renderedComponents[2]}

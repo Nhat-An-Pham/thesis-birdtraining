@@ -53,6 +53,26 @@ class DashboardService {
       throw error;
     }
   }
+  async GetCampaignRevenue(month, year){
+    try {
+      let params = {
+        month: month,
+        year:year
+      }
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/campaign-revenue`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
   async GetOnlineCourseOverview(params = null){
     try {
       let response = await axios.get(

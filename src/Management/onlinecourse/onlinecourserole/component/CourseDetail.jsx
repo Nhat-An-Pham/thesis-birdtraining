@@ -136,7 +136,7 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                                 <TableCell style={{ width: 0.125 }}>Title</TableCell>
                                 <TableCell style={{ width: 0.25 }}> Short Description</TableCell>
                                 <TableCell style={{ width: 0.125 }} align="center">
-                                    Price (USD)
+                                    Price (vnd)
                                 </TableCell>
                                 <TableCell style={{ width: 0.125 }} align="center">
                                     Status
@@ -165,7 +165,7 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
                                     <Typography style={{ fontSize: "12px" }}><RawHTMLRenderer htmlContent={selectedCourse.shortDescription} /></Typography>
                                 </TableCell>
                                 <TableCell style={{ width: 0.125 }} align="center">
-                                    {selectedCourse.price}$
+                                    {selectedCourse.price}(vnd)
                                 </TableCell>
                                 <TableCell style={{ width: 0.125 }} align="center">
                                     {userRole === "Manager" ?

@@ -16,8 +16,9 @@ const OnlineCourseStudyPage = () => {
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [checkLesson, setCheckLesson] = useState(null);
   const [lessonStatus, setLessonStatus] = useState(null);
-
   const navigate = useNavigate();
+
+  const [buttonClickCount, setButtonClickCount ] = useState(0);
 
   //FUNCTION
   const handleSectionClick = (sectionId) => {
@@ -28,6 +29,11 @@ const OnlineCourseStudyPage = () => {
       setSelectedSection(foundItem);
     }
   };
+
+  const handleToNext = (event) => {
+
+  }
+
 
   const handleLessonClick = (lessonId) => {
     if (lessonId) {
@@ -42,6 +48,7 @@ const OnlineCourseStudyPage = () => {
   };
 
   const FinishLesson = () => {
+    setButtonClickCount(prevCount => prevCount + 1);
     setCheckLesson(selectedLesson.id);
   };
 
@@ -51,7 +58,7 @@ const OnlineCourseStudyPage = () => {
         sectionId: selectedSection.id,
       }).then(() => {
         setSelectedSection({ ...selectedSection, status: "Completed" });
-        console.log("Finish Section");
+        setButtonClickCount(prevCount => prevCount + 1);
       });
     }
   };
@@ -72,7 +79,7 @@ const OnlineCourseStudyPage = () => {
           console.log("Fail Get Course By Id: ", e);
         });
     }
-  }, [checkLesson, selectedLesson]);
+  }, [checkLesson, selectedLesson, lessonStatus, buttonClickCount]);
 
   useEffect(() => {
     if (checkLesson) {
@@ -122,8 +129,8 @@ const OnlineCourseStudyPage = () => {
               ))}
             </div>
             {selectedCourse.status === "Completed" ?
-              <Link to={`/onlinecourse/certificate/${selectedCourse.id}`} style={{width:"100%", display:"flex", justifyContent:"center",marginTop:"30px"}}>
-                <Typography style={{color: "Green", width:"100%", textAlign:"center", textDecoration:"none"}}>You Have Completed This Course, Click Here</Typography>
+              <Link to={`/onlinecourse/certificate/${selectedCourse.id}`} style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: "30px" }}>
+                <Typography style={{ color: "Green", width: "100%", textAlign: "center", textDecoration: "none" }}>You Have Completed This Course, Click Here</Typography>
               </Link>
               : null}
           </div>
@@ -184,7 +191,7 @@ const OnlineCourseStudyPage = () => {
                     </button>
                   ) : null}
                   {selectedLesson && lessonStatus === "Completed" ? (
-                    <button>Completed</button>
+                    <button onClick={() => handleToNext(selectedLesson.id)}>Completed</button>
                   ) : null}
                 </>
               ) : (

@@ -32,6 +32,7 @@ const HandledTicketView = ({}) => {
       .catch((e) => console.log("fail Handled Consulting Ticket list test", e));
   }, [renderIndex]);
 
+  const sortedlistHandledConsultingTicket = [...listHandledConsultingTicket].sort((a, b) => b.id - a.id);
   const handleDetailClick = (ticketId) => {
     setTicketIdForDetail(ticketId);
     setRenderIndex(0);
@@ -78,7 +79,7 @@ const HandledTicketView = ({}) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {listHandledConsultingTicket.map((row, index) => (
+                  {sortedlistHandledConsultingTicket.map((row, index) => (
                     <TableRow key={index}>
                       <TableCell>{row.id}</TableCell>
                       <TableCell>

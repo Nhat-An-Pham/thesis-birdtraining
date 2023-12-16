@@ -25,8 +25,10 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ClassModifyComponent from "./ClassModifyComponent";
+import ClassRegistrationComponent from "./ClassRegistrationComponent";
 export default function ClassDetailViewComponent({ selectedClassId }) {
   const [selectedClass, setSelectedClass] = useState();
+  const [open, setOpen] = useState(false);
   const [slot, setSlot] = useState();
   const [slots, setSlots] = useState([]);
   const [updateTrainerSlot, setUpdateTrainerSlot] = useState(false);
@@ -34,11 +36,14 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
   async function fetchClass() {
     try {
       let response = await classManagementService.GetClassById(selectedClassId);
-      console.log("Check for fetchClass: ", response.data);
+      // console.log("Check for fetchClass: ", response.data);
       setSelectedClass(response.data);
     } catch (error) {
       toast.error(JSON.stringify(error));
     }
+  }
+  const onHandleClose = () => {
+    setOpen(false);
   }
   const onCallbackCloseModify = async () => {
     setOpenModify(false);
@@ -52,6 +57,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
         workshopClassId: selectedClassId,
       };
       let response = await classManagementService.getSlots(params);
+      console.log(response.data);
       setSlots(response.data);
     } catch (error) {
       toast.error(error);
@@ -128,6 +134,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
           selectedClass={selectedClass}
           callbackModifyClass={onCallbackCloseModify}
         />
+        <ClassRegistrationComponent handleClose={onHandleClose} open={open} slotId={slots[0]?.slotId}/>
         <Grid container item xs={12} alignItems={"center"}>
           <Grid container item xs={12} my={3}>
             <Grid container item xs={5} padding={3} spacing={2}>
@@ -146,7 +153,9 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                 </LocalizationProvider>
               </Grid>
               <Grid item xs={4}>
-                <Typography fontWeight={"bold"}>Closed Registration:</Typography>
+                <Typography fontWeight={"bold"}>
+                  Closed Registration:
+                </Typography>
               </Grid>
               <Grid item xs={8}>
                 {/* {addonService.formatDate(selectedClass.registerEndDate)} */}
@@ -178,7 +187,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                   color="ochre"
                   variant="contained"
                   onClick={() => setOpenModify(true)}
-                  disabled={selectedClass.status !== 'Pending'}
+                  disabled={selectedClass.status !== "Pending"}
                 >
                   Modify
                 </Button>
@@ -251,10 +260,14 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
               <Grid item xs={4}>
                 <Typography fontWeight={"bold"}>Registered Amount:</Typography>
               </Grid>
-              <Grid item xs={8}>
+              <Grid container item  xs={1} alignItems={'center'}>
                 {formatRegistrationAmount(selectedClass.registrationAmount)}
               </Grid>
-
+              <Grid item xs={7}>
+                <Button  variant="outlined" onClick={() => setOpen(true)}>
+                  View List
+                </Button>
+              </Grid>
               <Grid item xs={4}>
                 <Typography fontWeight={"bold"}>Status:</Typography>
               </Grid>
@@ -301,6 +314,9 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
               </Grid>
             </Grid>
           </Grid>
+          <Grid item xs={12}>
+            <Divider />
+          </Grid>
           <Grid container item xs={12} padding={5} alignItems="center">
             <Grid item xs={1} justifyItems={"flex-end"}>
               <Typography fontWeight={"bold"}>Slot Date:</Typography>
@@ -323,10 +339,11 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                 </>
               )}
             </Grid>
-            <Grid item xs={1}>
+            {/* <Divider orientation="vertical" flexItem /> */}
+            <Grid item xs={1} >
               <Typography fontWeight={"bold"}>Slot Time:</Typography>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <Typography>
                 {slot && slot.startTime ? (
                   slot.startTime.slice(0, -3)
