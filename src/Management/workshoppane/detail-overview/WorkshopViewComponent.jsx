@@ -292,11 +292,11 @@ export default function WorkshopViewComponent({ workshopId }) {
               <Divider />
             </Grid>
             <Grid container item xs={12}>
-              <Grid item xs={2}>
+              <Grid container item xs={2} alignItems={'flex-start'}>
                 <Typography fontWeight={"bold"}>Description:</Typography>
               </Grid>
-              <Grid item xs={9}>
-                <Typography>
+              <Grid item xs={9} >
+                <Typography mt={0}>
                   <RawHTMLRenderer htmlContent={workshop.description} />
                 </Typography>
               </Grid>
