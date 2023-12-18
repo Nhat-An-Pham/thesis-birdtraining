@@ -256,7 +256,7 @@ const Overview = () => {
           />
         </Box>
         {/* **********************   ROW 2   *********************** */}
-        {/* <Box
+        <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -284,7 +284,7 @@ const Overview = () => {
           <Box height="250px" m="-30px 0 0 0">
             <LineChart isDashboard={true} />
           </Box>
-        </Box> */}
+        </Box>
         {/*Recent Transactions  */}
         <Box
           gridColumn="span 4"

@@ -18,6 +18,7 @@ import RawHTMLRenderer from "../../component/htmlRender/htmlRender";
 import AttendancePaletteComponent from "./AttendancePalette";
 import { Close } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
+import '../workshoppane.scss';
 
 const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   const [slotDetail, setSlotDetail] = useState(null);
@@ -132,11 +133,13 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
                     </Grid>
                   </Grid>
                   <Grid container item xs={12}>
-                    <Grid item xs={1}>
+                    <Grid container item xs={1} alignItems={'flex-start'} justifyContent={'flex-start'}>
                       <Typography variant="h6">Detail:</Typography>
                     </Grid>
                     <Grid item xs={10} justifyContent={"center"}>
-                      <RawHTMLRenderer htmlContent={slotDetail.detail} />
+                      <Typography>
+                        <RawHTMLRenderer htmlContent={slotDetail.detail} />
+                      </Typography>
                     </Grid>
                   </Grid>
                   <Grid container item xs={12}>
