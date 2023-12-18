@@ -222,7 +222,7 @@ export const UserSettingPage = () => {
               )}
               {userRole === "Customer" ? (
                 <p>
-                  MemberShip:{" "}
+                  Membership:{" "}
                   {user.membership ? (
                     <span>{user.membership}</span>
                   ) : (

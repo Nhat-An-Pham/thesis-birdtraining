@@ -178,7 +178,7 @@ const Payment = () => {
                           <td class="price">{billingInfo.discountRate} VND</td>
                         </tr>
                         <tr>
-                          <td>Membership Name</td>
+                          <td>Membership Rank</td>
                           <td class="price">{billingInfo.membershipName}</td>
                         </tr>
 
