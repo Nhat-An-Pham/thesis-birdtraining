@@ -19,6 +19,7 @@ import TrainerListByBirdSkill from "./TrainerListByBirdSkillComponent";
 import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
 import BirdTrainingReportComponent from "./BirdTrainingReportComponent";
 import { Close } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const [renderTrainer, setRenderTrainer] = useState(false);
@@ -88,6 +89,21 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   function handleCallBackMainButton() {
     callBackMainManagement();
   }
+  async function handleCallBackConfirmButton() {
+    let param = {
+      requestedId: requestedId,
+    };
+    let res = await trainingCourseManagementService.sendNotiConfirmedRequest(
+      param
+    );
+    if (res.status == 200) {
+      toast.success("Send notify email success!");
+      callBackMainManagement();
+    } else {
+      toast.error("An error has occur!");
+      console.log(res);
+    }
+  }
   return (
     <div>
       <Grid sx={{ padding: 2 }}>
@@ -135,6 +151,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                     Bird Skill Name
                   </TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>Trainer Name</TableCell>
+                  <TableCell sx={{ fontWeight: 700 }}>Trainer Email</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>
                     Training Progression
                   </TableCell>
@@ -158,6 +175,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                   >
                     <TableCell>{item.birdSkillName}</TableCell>
                     <TableCell>{item.trainerName}</TableCell>
+                    <TableCell>{item.trainerEmail}</TableCell>
                     <TableCell>
                       <div
                         style={{
@@ -254,7 +272,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               variant="contained"
               color="success"
               className="button"
-              onClick={() => handleCallBackMainButton()}
+              onClick={() => handleCallBackConfirmButton()}
             >
               Confirm
             </Button>

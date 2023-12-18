@@ -178,7 +178,12 @@ class ConsultantService {
     return response;
   }
 
-  async finishOnlineAppointment({ id, actualSlotStart, actualEndSlot, evidence }) {
+  async finishOnlineAppointment({
+    id,
+    actualSlotStart,
+    actualEndSlot,
+    evidence,
+  }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
       API_URL_TRAINER + `finishOnlineAppointment`,
@@ -220,6 +225,23 @@ class ConsultantService {
 
   async GetConsultingType() {
     const response = await axios.get(API_URL_AllROLE + "GetConsultingType");
+    return response;
+  }
+
+  async UpdateConsultingType({ id, name }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
+    const response = await axios.put(
+      API_URL_STAFF + `updateConsultingType`,
+      {
+        id,
+        name,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return response;
   }
 

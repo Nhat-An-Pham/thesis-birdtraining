@@ -313,7 +313,6 @@ export const UserSettingPage = () => {
                               htmlContent={workshop.description}
                             ></RawHTMLRenderer>
                           </Typography>
-                          <Typography>Location: {workshop.location}</Typography>
                         </div>
                       </div>
                     ))}

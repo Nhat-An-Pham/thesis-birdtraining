@@ -33,7 +33,7 @@ import { jwtDecode } from "jwt-decode";
 const BirdSpeciesManagementComponent = ({}) => {
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);

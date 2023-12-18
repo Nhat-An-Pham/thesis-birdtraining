@@ -13,6 +13,7 @@ import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import PricePolicyView from "./PricePolicyView";
 import { ToastContainer } from "react-toastify";
+import ConsultingTypeView from "./ConsultingTypeView";
 
 export default function CustomerReqComponent() {
   const navigate = useNavigate();
@@ -32,20 +33,11 @@ export default function CustomerReqComponent() {
   };
 
   const tabs = [
-    {
-      label: "List Not Assigned",
-      component: <NotAssignedTicketView />,
-    },
-    {
-      label: "List Assigned",
-      component: <AssignedTicketView />,
-    },
-
-    {
-      label: "List Handled",
-      component: <HandledTicketView />,
-    },
+    { label: "List Not Assigned", component: <NotAssignedTicketView /> },
+    { label: "List Assigned", component: <AssignedTicketView /> },
+    { label: "List Handled", component: <HandledTicketView /> },
     { label: "Price Policy", component: <PricePolicyView /> },
+    { label: "Consultant Type", component: <ConsultingTypeView /> },
   ];
 
   return (

@@ -39,7 +39,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
   const [selectedId, setSelectedId] = useState(1);
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const handleOpenModal = () => {
     setOpen(true);
   };

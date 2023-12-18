@@ -80,9 +80,9 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .then((res) => {
         console.log("succes Confirm Ticket test", res.data);
         toast.success("Success Approve Ticket");
+        onClose();
       })
       .catch((e) => console.log("fail Confirm Ticket tes", e));
-    onClose();
   };
 
   const PreCalculatePrice = (ticketId, distance) => {

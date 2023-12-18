@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import RawHTMLRenderer from '../../Management/component/htmlRender/htmlRender';
+import AddonService from '../../services/addon.service'
 
 const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => {
 
@@ -14,9 +15,9 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => 
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
-                        <RawHTMLRenderer htmlContent={shortdescr}/>
-                        <p style={{height:"30px"}}>
-                            {price}$
+                        <RawHTMLRenderer htmlContent={shortdescr} />
+                        <p style={{ height: "30px" }}>
+                            {AddonService.formatCurrency(price)} <span style={{ color: "grey", fontWeight: "light" }}>(vnd)</span>
                         </p>
                         <a href={`/workshopslist/${id}`} class="read-more">
                             Read more <span classz="sr-only"></span>

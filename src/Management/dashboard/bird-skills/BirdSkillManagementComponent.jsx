@@ -32,7 +32,9 @@ import { Img } from "react-image";
 import { jwtDecode } from "jwt-decode";
 
 const BirdSkillManagementComponent = ({}) => {
-  const userRole = jwtDecode(JSON.parse(localStorage.getItem('user-token')));
+  const userRole = jwtDecode(
+    JSON.parse(localStorage.getItem("user-token"))
+  )?.role;
   const [rows, setRows] = useState([]);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
@@ -115,7 +117,7 @@ const BirdSkillManagementComponent = ({}) => {
                   color="ochre"
                   variant="contained"
                   onClick={handleOpenModal}
-                  disabled={userRole !== 'Manager'}
+                  disabled={userRole !== "Manager"}
                 >
                   Add
                 </Button>
@@ -151,7 +153,10 @@ const BirdSkillManagementComponent = ({}) => {
                           {rows.map((row, index) => (
                             <TableRow hover key={row.id}>
                               <TableCell>{index + 1}</TableCell>
-                              <TableCell className="image-cell" sx={{minWidth: '200px'}}>
+                              <TableCell
+                                className="image-cell"
+                                sx={{ minWidth: "200px" }}
+                              >
                                 <Img
                                   src={row.picture}
                                   unloader={<CircularProgress />}
@@ -168,7 +173,7 @@ const BirdSkillManagementComponent = ({}) => {
                                   color="ochre"
                                   variant="contained"
                                   onClick={() => handleOpenUpdateModal(row.id)}
-                                  disabled={userRole !== 'Manager'}
+                                  disabled={userRole !== "Manager"}
                                 >
                                   Update
                                 </Button>
