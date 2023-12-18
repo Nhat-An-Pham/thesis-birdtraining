@@ -195,6 +195,7 @@ const TimetableTrainerSlotDetailComponent = ({
                       variant="contained"
                       color="success"
                       onClick={() => handleMarkSlotDone(timetableDetail.id)}
+                      style={{marginTop:"40px"}}
                     >
                       Mark Training Done
                     </Button>

@@ -4,6 +4,7 @@ import OnlinecourseService from '../services/onlinecourse.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { jwtDecode } from 'jwt-decode';
 import RawHTMLRenderer from '../Management/component/htmlRender/htmlRender';
+import addonService from '../services/addon.service';
 
 function CourseDetailPage() {
 
@@ -79,7 +80,7 @@ function CourseDetailPage() {
               {selectedCourse.status === "Completed" ?
                 <p style={{ color: "green", margin: 0 }}>(Completed)</p>
                 : null}
-              <p className='cdtp_sidebar-price'>Price: {selectedCourse.price}$</p>
+              <p className='cdtp_sidebar-price'>Price: {addonService.formatCurrency(selectedCourse.price)}$</p>
               {selectedCourse.status === "Unenrolled" ? <button onClick={handleBuyButton}>Enroll Now</button>
                 : null}
               {selectedCourse.status === "Enrolled" || selectedCourse.status === "Completed" ? <button onClick={handleStudyButton}>Study</button> : null}
