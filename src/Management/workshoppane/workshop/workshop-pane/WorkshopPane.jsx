@@ -24,6 +24,7 @@ import { Img } from "react-image";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 import WorkshopManagementService from "../../../../services/workshop-management.service";
 import { AddBoxOutlined, InfoOutlined } from "@mui/icons-material";
+import addonService from "../../../../services/addon.service";
 // import { toast } from 'react-toastify';
 
 const WorkshopPane = ({
@@ -156,7 +157,7 @@ const WorkshopPane = ({
                         {workshop.totalSlot}
                       </TableCell>
                       <TableCell style={{ width: 0.125 }} align="center">
-                        {workshop.price}
+                        {addonService.formatCurrency(workshop.price)}
                       </TableCell>
                       <TableCell style={{ width: 0.125 }} align="center">
                         <Checkbox
