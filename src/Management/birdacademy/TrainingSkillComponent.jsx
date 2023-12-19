@@ -26,6 +26,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   const [renderReport, setRenderReport] = useState(false);
   const [renderProgress, setRenderProgress] = useState(true);
 
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedBirdSkillId, setSelectedBirdSkillId] = useState(null);
   const [selectedProgressId, setSelectedProgressId] = useState(null);
   const [selectedProgress, setSelectedProgress] = useState(null);
@@ -73,10 +74,26 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
       console.error("Error fetching bird trainingProgress data:", error);
     }
   };
+  const fetchRequestData = async () => {
+    try {
+      // Replace this URL with your actual API endpoint //https://localhost:7176
+      console.log(requestedId);
+      let params = {
+        $filter: `id eq ${requestedId}`,
+      };
+      let response =
+        await trainingCourseManagementService.getAllBirdTrainingCourse(params);
+      console.log(response);
+      setSelectedRequest(response[0]);
+    } catch (error) {
+      console.error("Error fetching bird trainingProgress data:", error);
+    }
+  };
   useEffect(() => {
     // Simulate fetching bird information based on customerId
     // Replace this with your actual API call or data fetching logic
     fetchData();
+    fetchRequestData();
   }, [requestedId]);
   const onCallbackAssigned = async () => {
     fetchData();
@@ -263,19 +280,21 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
               Cancel
             </Button>
 
-            <Button
-              sx={{
-                marginTop: "20px",
-                paddingLeft: "35px",
-                paddingRight: "35px",
-              }}
-              variant="contained"
-              color="success"
-              className="button"
-              onClick={() => handleCallBackConfirmButton()}
-            >
-              Confirm
-            </Button>
+            {selectedRequest?.status == "Confirmed" && (
+              <Button
+                sx={{
+                  marginTop: "20px",
+                  paddingLeft: "35px",
+                  paddingRight: "35px",
+                }}
+                variant="contained"
+                color="success"
+                className="button"
+                onClick={() => handleCallBackConfirmButton()}
+              >
+                Send Mail Confirm
+              </Button>
+            )}
           </div>
         </div>
       )}
