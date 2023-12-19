@@ -154,15 +154,15 @@ const TrainerAssignedTrainingSkill = () => {
                       <TableCell>{item.totalTrainingSlot}</TableCell>
                       <TableCell>{item.status}</TableCell>
                       <TableCell>
-                        {(item.status == "Pass" ||
-                          item.status == "NotPass") && (
-                          <Button
-                            sx={{ marginRight: 0.5 }}
-                            onClick={() => handleUpload(item.id)}
-                          >
-                            Upload Evidences
-                          </Button>
-                        )}
+                        {(item.status == "Pass" || item.status == "NotPass") &&
+                          (item.evidence == null || item.evidence == "") && (
+                            <Button
+                              sx={{ marginRight: 0.5 }}
+                              onClick={() => handleUpload(item.id)}
+                            >
+                              Upload Evidences
+                            </Button>
+                          )}
                         <Button
                           onClick={() =>
                             handleViewTrainingDetail(
