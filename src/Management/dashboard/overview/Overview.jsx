@@ -275,6 +275,7 @@ const Overview = () => {
           />
         </Box>
         {/* **********************   ROW 2   *********************** */}
+        {/* LAST year over view LINE CHART */}
         <Box
           marginTop="20px"
           gridColumn="span 8"
@@ -289,9 +290,9 @@ const Overview = () => {
         >
           <Box
             mt="15px"
-            p="0 30px"
+            p="0 0 0 30px"
             display="flex "
-            justifyContent="space-between"
+            // justifyContent="space-between"
             alignItems="center"
           >
             <Box marginTop="-20%">
@@ -311,8 +312,11 @@ const Overview = () => {
             </Box>
           </Box>
         </Box>
+
+        {/* THIS year over view LINE CHART */}
         <Box
-          gridColumn="span 4"
+          marginTop="20px"
+          gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           sx={{
@@ -320,50 +324,33 @@ const Overview = () => {
             borderRadius: "10px",
             boxShadow:
               "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-            padding: "15px 20px 5px 20px",
           }}
         >
-          <Typography variant="h5" fontWeight="600">
-            Campaign
-          </Typography>
-          {campaign ? (
-            <Box
-              display="flex"
-              flexDirection="column"
-              alignItems="center"
-              mt="25px"
-            >
-              <ProgressCircle
-                progress={campaign.percentRevenueFromLastMonth}
-                size="125"
-              />
+          <Box
+            mt="15px"
+            p="0 0 0 30px"
+            display="flex "
+            // justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box marginTop="-20%">
               <Typography
-                variant="h5"
-                color={colors.greenAccent[500]}
-                sx={{ mt: "20px", fontSize: "1.3rem" }}
+                fontSize={20}
+                fontWeight="600"
+                color={colors.grey[100]}
               >
-                {addonService.formatCurrency(campaign.revenueInMonth)} VND
-                revenue (this month)
+                Revenue Generated
               </Typography>
-              <Typography>
-                {addonService.formatCurrency(campaign.revenueInYear)} VND Total
-                revenue in year
+              <Typography fontSize={28} fontWeight="bold" color={"#E3D026"}>
+                $59,342.32
               </Typography>
             </Box>
-          ) : (
-            <Grid container>
-              <Grid
-                container
-                item
-                xs={12}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <CircularProgress />
-              </Grid>
-            </Grid>
-          )}
+            <Box width="525px" height="250px">
+              <LineChart isDashboard={true} />
+            </Box>
+          </Box>
         </Box>
+
         {/*Recent Transactions  */}
 
         {/* ROW 3 */}
@@ -504,81 +491,47 @@ const Overview = () => {
         </Box>
 
         <Box
+          gridColumn="span 4"
+          gridRow="span 2"
           backgroundColor={colors.primary[400]}
-          overflow="auto"
-          borderRadius={2}
           sx={{
             cursor: "pointer",
             borderRadius: "10px",
             boxShadow:
               "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            padding: "15px 20px 5px 20px",
             width: "48%",
             height: "300px",
             marginTop: "25px",
           }}
         >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            borderBottom={`2px solid ${colors.primary[500]}`}
-            colors={colors.grey[100]}
-            p="10px 20px"
-          >
-            <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
-              Recent Transactions (Workshop)
-            </Typography>
-          </Box>
-          {transactionsWorkshop ? (
-            transactionsWorkshop.map((transaction, i) => (
-              <Box
-                key={`${transaction.paymentcCode}-${i}`}
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                borderBottom={`1px solid ${colors.primary[500]}`}
-                p="12px"
+          <Typography variant="h5" fontWeight="600">
+            Campaign
+          </Typography>
+          {campaign ? (
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              mt="25px"
+            >
+              <ProgressCircle
+                progress={campaign.percentRevenueFromLastMonth}
+                size="125"
+              />
+              <Typography
+                variant="h5"
+                color={colors.greenAccent[500]}
+                sx={{ mt: "20px", fontSize: "1.3rem" }}
               >
-                <Box>
-                  <div
-                    style={{
-                      width: "250px",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Typography
-                      width="100%"
-                      color={colors.greenAccent[500]}
-                      fontSize={18}
-                      fontWeight="600"
-                      sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {transaction.paymentCode}
-                    </Typography>
-                  </div>
-                  <Typography color={colors.grey[100]}>
-                    {transaction.email}
-                  </Typography>
-                </Box>
-                <Box color={colors.grey[100]}>
-                  <Typography>
-                    {addonService.formatDate(transaction.dateTime)}
-                  </Typography>
-                  <Typography>{transaction.type}</Typography>
-                </Box>
-                <Box
-                  backgroundColor={colors.greenAccent[500]}
-                  p="5px 10px"
-                  borderRadius="4px"
-                >
-                  VND {addonService.formatCurrency(transaction.cost)}
-                </Box>
-              </Box>
-            ))
+                {addonService.formatCurrency(campaign.revenueInMonth)} VND
+                revenue (this month)
+              </Typography>
+              <Typography>
+                {addonService.formatCurrency(campaign.revenueInYear)} VND Total
+                revenue in year
+              </Typography>
+            </Box>
           ) : (
             <Grid container>
               <Grid
@@ -654,6 +607,97 @@ const Overview = () => {
                       color={colors.greenAccent[500]}
                       fontSize={18}
                       fontWeight="600"
+                    >
+                      {transaction.paymentCode}
+                    </Typography>
+                  </div>
+                  <Typography color={colors.grey[100]}>
+                    {transaction.email}
+                  </Typography>
+                </Box>
+                <Box color={colors.grey[100]}>
+                  <Typography>
+                    {addonService.formatDate(transaction.dateTime)}
+                  </Typography>
+                  <Typography>{transaction.type}</Typography>
+                </Box>
+                <Box
+                  backgroundColor={colors.greenAccent[500]}
+                  p="5px 10px"
+                  borderRadius="4px"
+                >
+                  VND {addonService.formatCurrency(transaction.cost)}
+                </Box>
+              </Box>
+            ))
+          ) : (
+            <Grid container>
+              <Grid
+                container
+                item
+                xs={12}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <CircularProgress />
+              </Grid>
+            </Grid>
+          )}
+        </Box>
+
+        <Box
+          backgroundColor={colors.primary[400]}
+          overflow="auto"
+          borderRadius={2}
+          sx={{
+            cursor: "pointer",
+            borderRadius: "10px",
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            width: "48%",
+            height: "300px",
+            marginTop: "25px",
+          }}
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            borderBottom={`2px solid ${colors.primary[500]}`}
+            colors={colors.grey[100]}
+            p="10px 20px"
+          >
+            <Typography color={colors.grey[100]} fontSize={22} fontWeight="600">
+              Recent Transactions (Workshop)
+            </Typography>
+          </Box>
+          {transactionsWorkshop ? (
+            transactionsWorkshop.map((transaction, i) => (
+              <Box
+                key={`${transaction.paymentcCode}-${i}`}
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                borderBottom={`1px solid ${colors.primary[500]}`}
+                p="12px"
+              >
+                <Box>
+                  <div
+                    style={{
+                      width: "250px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    <Typography
+                      width="100%"
+                      color={colors.greenAccent[500]}
+                      fontSize={18}
+                      fontWeight="600"
+                      sx={{
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
                     >
                       {transaction.paymentCode}
                     </Typography>
