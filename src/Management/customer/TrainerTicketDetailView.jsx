@@ -20,8 +20,11 @@ import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
 import timetableService from "../../services/timetable.service";
 import { UploadComponent } from "../component/upload/Upload";
+import { toast } from "react-toastify";
+import TicketBillView from "./TicketBillView";
 
 const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
+  const [openDiv, setOpenDiv] = useState(0);
   const [onlineEvidence, setOnlineEvidence] = useState(null);
   const [evidence, setEvidence] = useState(null);
   const [submittedEvidence, setSubmittedEvidence] = useState([]);
@@ -42,7 +45,6 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .then((res) => {
         // console.log("success Consulting Ticket Detail test", res.data);
         setTicketDetail(res.data);
-        console.log(res.data.actualSlotStart);
         GetSlotTime(res.data.actualSlotStart);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
@@ -52,27 +54,43 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
   const [slotTime, setSlotTime] = useState([]);
   const GetSlotTime = (actualSlotStart) => {
     consultantService
-    .GetAvailableFinishTime({actualSlotStart})
-    .then((res) => {
-      console.log("Success Get Available Time SLot test", res.data);
-      setSlotTime(res.data);
-    })
-    .catch((e) => console.log("Fail Get Available Time Slot test", e));
-  }
+      .GetAvailableFinishTime({ actualSlotStart })
+      .then((res) => {
+        console.log("Success Get Available Time SLot test", res.data);
+        setSlotTime(res.data);
+      })
+      .catch((e) => console.log("Fail Get Available Time Slot test", e));
+  };
 
-  const FinishTicket = (id, actualSlotStart, actualEndSlot, evidence) => {
-    console.log("Evidence: " + evidence);
+  const UpdateEvidence = (id, actualEndSlot, evidence) => {
     consultantService
-      .finishAppointment({
+      .UpdateEvidence({
         id: id,
-        actualSlotStart: actualSlotStart,
         actualEndSlot: actualEndSlot,
         evidence: evidence,
       })
       .then((res) => {
-        console.log("Success Finish Ticket test", res.data);
+        console.log("Success Update Evidence");
+        toast.success("Update Evidence Successfully");
       })
-      .catch((e) => console.log("Fail Finish Ticket test", e));
+      .catch((e) => {
+        toast.error("Fail Update Evidence");
+        console.log("Error::::", e);
+      });
+  };
+
+  const UpdateRecord = (id, actualEndSlot, evidence) => {
+    consultantService
+      .UpdateRecord({
+        id: id,
+        actualEndSlot: actualEndSlot,
+        evidence: evidence,
+      })
+      .then((res) => {
+        console.log("Success Update Evidence");
+        toast.success("Update Evidence Successfully");
+      })
+      .catch((e) => toast.error("Fail Update Evidence"));
   };
 
   const FinishOnlineTicket = (id, actualSlotStart, actualEndSlot, evidence) => {
@@ -92,18 +110,21 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .catch((e) => console.log("Fail Finish Ticket test", e));
   };
 
-  const handleFinishClick = (id, actualSlotStart, actualEndSlot, evidence) => {
-    FinishTicket(id, actualSlotStart, actualEndSlot, evidence);
-    onClose();
-  };
-
-  const handleFinishOnlineClick = (id, actualSlotStart, actualEndSlot, evidence) => {
-    FinishOnlineTicket(id, actualSlotStart, actualEndSlot, evidence);
-    onClose();
-  };
+  const handleViewBillOnClick = () => {
+    setOpenDiv(1);
+  }
+  
+  const handleCloseDiv = () => {
+    setOpenDiv(0);
+  }
 
   return (
     <>
+    {openDiv === 1 ? (
+      <TicketBillView ticketDetail={ticketDetail}
+      openDiv={openDiv}
+      handleCloseDiv={handleCloseDiv}></TicketBillView>
+    ) : <></>}
       <AppBar position="static" color="ochre">
         <Toolbar>
           <IconButton
@@ -246,24 +267,32 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
           <Grid item xs={3}>
             <Typography fontWeight={"bold"}>End Time:</Typography>
           </Grid>
-          <Grid item xs={9}>
-            {ticketDetail.status === "Finished" ? (
+          {ticketDetail.actualEndSlot ? (
+            <Grid item xs={9}>
               <Typography>{ticketDetail.actualEndSlot}</Typography>
-            ) : (
-              <FormControl>
-                <Select
-                  onChange={(e) => setSelectedSlotTime(e.target.value)}
-                  value={selectedSLotTime}
-                >
-                  {slotTime.map((slot) => (
-                    <MenuItem value={slot.id}>
-                      {slot.startTime.slice(0, -3)}-{slot.endTime.slice(0, -3)}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          </Grid>
+            </Grid>
+          ) : (
+            <Grid item xs={9}>
+              {ticketDetail.status === "Finished" ? (
+                <Typography>{ticketDetail.actualEndSlot}</Typography>
+              ) : (
+                <FormControl>
+                  <Select
+                    onChange={(e) => setSelectedSlotTime(e.target.value)}
+                    value={selectedSLotTime}
+                  >
+                    {slotTime.map((slot) => (
+                      <MenuItem value={slot.id}>
+                        {slot.startTime.slice(0, -3)}-
+                        {slot.endTime.slice(0, -3)}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )}
+            </Grid>
+          )}
+
           <Grid item xs={3}>
             <Typography fontWeight={"bold"}>Evidence:</Typography>
           </Grid>
@@ -274,7 +303,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            {ticketDetail.status === "Finished" ? (
+            {ticketDetail.status === "Finished" || ticketDetail.evidence ? (
               <>
                 <Typography>
                   {ticketDetail.evidence.split(",").map((evidence) => (
@@ -302,6 +331,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                     <TextField
                       label={"Record"}
                       type="text"
+                      defaultValue={ticketDetail.evidence}
                       onChange={(e) => setOnlineEvidence(e.target.value)}
                     />
                   </FormControl>
@@ -320,43 +350,50 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
               </>
             )}
           </Grid>
-          <Grid item xs={3}>
-            {ticketDetail.status === "Finished" ? (
+          <Grid item xs={6}>
+            {ticketDetail.status === "Finished" || ticketDetail.evidence ? (
               <></>
             ) : (
               <>
-                {ticketDetail.onlineOrOffline === true ? (
+                {ticketDetail.onlineOrOffline === true && selectedSLotTime && onlineEvidence ? (
                   <Button
                     variant="contained"
                     color="ochre"
                     onClick={() =>
-                      handleFinishOnlineClick(
+                      UpdateRecord(
                         ticketDetail.id,
-                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         onlineEvidence
                       )
                     }
                   >
-                    Finish
+                    Save
                   </Button>
-                ) : ticketDetail.onlineOrOffline === false ? (
+                ) : ticketDetail.onlineOrOffline === false && selectedSLotTime && onlineEvidence ? (
                   <Button
                     variant="contained"
                     color="ochre"
                     onClick={() =>
-                      handleFinishClick(
+                      UpdateEvidence(
                         ticketDetail.id,
-                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         evidence
                       )
                     }
                   >
-                    Finish
+                    Save
                   </Button>
                 ) : null}
               </>
+            )}
+          </Grid>
+          <Grid item xs={3}>
+            {ticketDetail.status === "Finished" ? (
+              <></>
+            ) : (
+              <Button variant="contained" color="ochre" onClick={() => handleViewBillOnClick()}>
+                View Bill
+              </Button>
             )}
           </Grid>
         </Grid>
