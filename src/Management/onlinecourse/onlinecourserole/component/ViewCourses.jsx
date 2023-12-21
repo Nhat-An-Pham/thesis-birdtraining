@@ -19,6 +19,7 @@ import {
     Button,
 } from "@mui/material";
 import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
+import addonService from '../../../../services/addon.service';
 
 const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
 
@@ -91,7 +92,7 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
                                                 </Typography>
                                             </TableCell>
                                             <TableCell style={{ width: 0.125 }} align="center">
-                                                {course.price}(vnd)
+                                                {addonService.formatCurrency(course.price)}(vnd)
                                             </TableCell>
                                             <TableCell style={{ width: 0.125 }} align="center">
                                                 <Checkbox

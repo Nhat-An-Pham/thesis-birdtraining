@@ -1,18 +1,17 @@
 .footer_container{
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: #65451F;
     color: white;
-    // margin-bottom: 30px;
 }
 
 .footer_elements{
     width: 50%;
-    height: 300px;
+    height: 250px;
 
     &-content{
-        padding: 30px;
+        padding: 0 35px;
         display: flex;
         flex-direction: column;
         justify-content: center;
