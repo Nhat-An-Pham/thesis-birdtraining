@@ -259,11 +259,11 @@ class ConsultantService {
     return response;
   }
 
-  async finishAppointment({ id, actualSlotStart, actualEndSlot}) {
+  async finishAppointment({ id }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
-      API_URL_TRAINER + `finishAppointment`,
-      { id, actualSlotStart, actualEndSlot},
+      API_URL_TRAINER + `finishAppointment?ticketId=${id}`,
+      null,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -282,16 +282,11 @@ class ConsultantService {
     return response;
   }
 
-  async UpdateEvidence ({id, actualEndSlot, evidence}) {
+  async UpdateEvidence(formData) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
-      API_URL_TRAINER +
-      `updateEvidence`,
-      {
-        id,
-        actualEndSlot,
-        evidence,
-      },
+      API_URL_TRAINER + `updateEvidence`,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -301,11 +296,10 @@ class ConsultantService {
     return response;
   }
 
-  async UpdateRecord ({id, actualEndSlot, evidence}) {
+  async UpdateRecord({ id, actualEndSlot, evidence }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
-      API_URL_TRAINER + 
-      `updateRecord`,
+      API_URL_TRAINER + `updateRecord`,
       {
         id,
         actualEndSlot,
