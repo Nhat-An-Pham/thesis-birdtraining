@@ -24,6 +24,7 @@ import { ochreTheme } from "../themes/Theme";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Close } from "@mui/icons-material";
+import addonService from "../../services/addon.service";
 
 const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
   const [trainingPricePolicies, setTrainingPricePolicies] = useState([]);
@@ -277,7 +278,9 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                       <tr>
                         <td>Actual Price</td>
                         <td style={{ textAlign: "end" }}>
-                          {birdTrainingCourse.totalPrice.toFixed(2)}
+                          {addonService.formatCurrency(
+                            birdTrainingCourse.totalPrice
+                          )}
                         </td>
                       </tr>
                       <tr>
@@ -289,15 +292,19 @@ const ReturnBirdComponent = ({ requestedId, callBackMainManagement }) => {
                       <tr>
                         <td>Discounted Price</td>
                         <td style={{ textAlign: "end" }}>
-                          {birdTrainingCourse.discountedPrice.toFixed(2)}
+                          {addonService.formatCurrency(
+                            birdTrainingCourse.discountedPrice
+                          )}
                         </td>
                       </tr>
                       <tr style={{ fontSize: "1.4rem", fontWeight: 700 }}>
                         <td>Total Price</td>
                         <td style={{ textAlign: "end" }}>
                           {actualPrice != null
-                            ? actualPrice
-                            : birdTrainingCourse.actualPrice.toFixed(2)}
+                            ? addonService.formatCurrency(actualPrice)
+                            : addonService.formatCurrency(
+                                birdTrainingCourse.actualPrice
+                              )}
                         </td>
                       </tr>
                     </table>

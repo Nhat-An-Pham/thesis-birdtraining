@@ -18,6 +18,7 @@ import RawHTMLRenderer from "../../component/htmlRender/htmlRender";
 import AttendancePaletteComponent from "./AttendancePalette";
 import { Close } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
+import '../workshoppane.scss';
 
 const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   const [slotDetail, setSlotDetail] = useState(null);
@@ -42,7 +43,7 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
   useEffect(() => {
     fetchSlot();
 
-    return () => {};
+    return () => { };
   }, []);
 
   return (
@@ -72,94 +73,90 @@ const TrainerSlotDetailComponent = ({ entityId, callbackToCalendar }) => {
         <Divider />
         <Grid container spacing={2}>
           {slotDetail ? (
-            <>
-              <Grid container item>
-                <Grid container item spacing={3} padding={3}>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">Title:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={10}
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                    >
-                      <Typography>{slotDetail.title}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">Date:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={10}
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                    >
-                      <Typography>
-                        {addonService.formatDate(slotDetail.date)}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">From:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={2}
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                    >
-                      <Typography>{slotDetail.startTime}</Typography>
-                    </Grid>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">To:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                      item
-                      xs={2}
-                    >
-                      <Typography>{slotDetail.endTime}</Typography>
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">Detail:</Typography>
-                    </Grid>
-                    <Grid item xs={10} justifyContent={"center"}>
-                      <RawHTMLRenderer htmlContent={slotDetail.detail} />
-                    </Grid>
-                  </Grid>
-                  <Grid container item xs={12}>
-                    <Grid item xs={1}>
-                      <Typography variant="h6">Location:</Typography>
-                    </Grid>
-                    <Grid
-                      container
-                      item
-                      xs={10}
-                      justifyContent={"flex-start"}
-                      alignItems={"center"}
-                    >
-                      <Typography>{slotDetail.location}</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Divider />
-              <Grid container item>
-                <AttendancePaletteComponent slotId={entityId} />
-              </Grid>
-            </>
+           <Grid container item>
+           <Grid container item spacing={2} padding={3} style={{ borderBottom: "0.2px grey solid" }}>
+             <Grid container item xs={12}>
+               <Grid item xs={1}>
+                 <Typography >Title:</Typography>
+               </Grid>
+               <Grid
+                 container
+                 item
+                 xs={10}
+                 justifyContent={"flex-start"}
+                 alignItems={"center"}
+               >
+                 <Typography>{slotDetail.title}</Typography>
+               </Grid>
+             </Grid>
+             <Grid container item xs={12}>
+               <Grid item xs={1}>
+                 <Typography>Date:</Typography>
+               </Grid>
+               <Grid
+                 container
+                 item
+                 xs={10}
+                 justifyContent={"flex-start"}
+
+               >
+                 <Typography>
+                   {addonService.formatDate(slotDetail.date)}
+                 </Typography>
+               </Grid>
+             </Grid>
+             <Grid container item xs={12}>
+               <Grid item xs={1}>
+                 <Typography>From:</Typography>
+               </Grid>
+
+               <Grid
+                 container
+                 item
+                 xs={2}
+                 justifyContent={"flex-start"}>
+                 <Typography>{slotDetail.startTime}</Typography>
+               </Grid>
+               <Grid item xs={1}>
+                 <Typography>To:</Typography>
+               </Grid>
+               <Grid
+                 container
+                 justifyContent={"flex-start"}
+                 item
+                 xs={2}
+               >
+ <Typography>{slotDetail.endTime}</Typography>
+               </Grid>
+             </Grid>
+             <Grid container item xs={12}>
+               <Grid container item xs={1} alignItems={'flex-start'} justifyContent={'flex-start'}>
+                 <Typography variant="h6">Detail:</Typography>
+               </Grid>
+               <Grid item xs={10} justifyContent={"center"}>
+                 <Typography>
+                   <RawHTMLRenderer htmlContent={slotDetail.detail} />
+                 </Typography>
+               </Grid>
+               <Grid container item xs={12}>
+                 <Grid item xs={1}>
+                   <Typography >Location:</Typography>
+                 </Grid>
+                 <Grid
+                   container
+                   item
+                   xs={10}
+                   justifyContent={"flex-start"}>
+                   <Typography>{slotDetail.location}</Typography>
+                 </Grid>
+               </Grid>
+             </Grid>
+           </Grid>
+           <Divider />
+           <Grid container item>
+             <AttendancePaletteComponent slotId={entityId} />
+           </Grid>
+         </Grid>
           ) : (
             <CircularProgress sx={{ justifyContent: "centers" }} />
           )}

@@ -8,6 +8,7 @@ import dateFormat from "dateformat";
 import StripeCheckout from "../paymentCheckout/stripePayment";
 import Loader from "../paymentCheckout/Loader";
 import { toast } from "react-toastify";
+import addonService from "../services/addon.service";
 
 const Payment = () => {
   const token = localStorage.getItem("user-token");
@@ -125,7 +126,7 @@ const Payment = () => {
                 {billingInfo && (
                   <>
                     {wclassid ? (
-                      <p class="home-price">{billingInfo.workshopPrice} VND</p>
+                      <p class="home-price">{addonService.formatCurrency(billingInfo.workshopPrice)} VND</p>
                     ) : null}
                     {oclassid ? (
                       <p class="home-price">{billingInfo.coursePrice} VND</p>

@@ -1,11 +1,37 @@
-.dashboard-container{
+.dashboard-container {
     height: auto;
     display: flex;
     width: 100%;
 }
 
-.dashboard_section-wrapper{
+.dashboard_section-wrapper {
     margin-left: 200px;
     width: 100%;
 
+}
+
+::-webkit-scrollbar {
+    height: 120px;
+    width: 6px;
+    left: 0%;
+    top: 0%;
+    right: 1.9%;
+    bottom: 0%;
+    border-radius: 10px;
+    background: rgba(24, 26, 31, 0.12);
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(24, 26, 31, 0.2);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(24, 26, 31, 0.12);
 }

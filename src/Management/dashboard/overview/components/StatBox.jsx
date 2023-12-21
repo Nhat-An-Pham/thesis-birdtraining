@@ -8,12 +8,21 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
 
   return (
     <Box width="100%" m="0 30px">
+      <Typography
+        flexWrap={1}
+        fontSize={18}
+        sx={{ color: colors.grey[100] }}
+        fontWeight="bold"
+      >
+        {subtitle}
+      </Typography>
       <Box display="flex" justifyContent="space-between">
-        <Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
           {icon}
           <Typography
+            marginLeft="10px"
             flexWrap={1}
-            fontSize={24}
+            fontSize={20}
             fontWeight="bold"
             sx={{ color: colors.grey[100] }}
           >
@@ -31,15 +40,23 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
         mt="2px"
         alignItems={"flex-start"}
       >
-        <Typography flexWrap={1} fontSize={18} sx={{ color: colors.grey[100] }}>
-          {subtitle}
-        </Typography>
         <Typography
+          marginTop={2}
           flexWrap={1}
-          fontSize={18}
-          fontStyle="bold"
-          sx={{ color: colors.grey[100] }}
+          fontSize={16}
+          sx={{ color: colors.grey[200] }}
         >
+          <span
+            style={{
+              flexWrap: 1,
+              fontSize: 16,
+              color: colors.grey[100],
+              fontWeight: 700,
+              marginRight: 10,
+            }}
+          >
+            Status:{" "}
+          </span>
           {increase}
         </Typography>
       </Box>
