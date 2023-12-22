@@ -412,6 +412,27 @@ class DashboardService {
       throw error;
     }
   }
+
+  // get dashboard api base on year
+  async DashboardRevenueInYearData(year) {
+    try {
+      console.log(year);
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/revenue-in-year`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new DashboardService();

@@ -153,7 +153,7 @@ const Overview = () => {
         gap="30px"
       >
         {/* *********************  ROW 1   *************************/}
-        {/* Email Sent box */}
+        {/* Consulting Ticket */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -185,7 +185,7 @@ const Overview = () => {
             </>
           )}
         </Box>
-        {/* Sales Obtained box */}
+        {/* E-learning Attempt */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -217,7 +217,7 @@ const Overview = () => {
             <CircularProgress />
           )}
         </Box>
-        {/* New Clients boz */}
+        {/* Workshop Enrolled */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -249,7 +249,7 @@ const Overview = () => {
             <CircularProgress />
           )}
         </Box>
-        {/* Traffic Received */}
+        {/* Training Attempts */}
         <Box
           gridColumn="span 3"
           backgroundColor={colors.primary[400]}
@@ -275,85 +275,6 @@ const Overview = () => {
           />
         </Box>
         {/* **********************   ROW 2   *********************** */}
-        {/* LAST year over view LINE CHART */}
-        <Box
-          marginTop="20px"
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          sx={{
-            cursor: "pointer",
-            borderRadius: "10px",
-            boxShadow:
-              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Box
-            mt="15px"
-            p="0 0 0 30px"
-            display="flex "
-            // justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box marginTop="-20%">
-              <Typography
-                fontSize={20}
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography fontSize={28} fontWeight="bold" color={"#E3D026"}>
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box width="525px" height="250px">
-              <LineChart isDashboard={true} />
-            </Box>
-          </Box>
-        </Box>
-
-        {/* THIS year over view LINE CHART */}
-        <Box
-          marginTop="20px"
-          gridColumn="span 8"
-          gridRow="span 2"
-          backgroundColor={colors.primary[400]}
-          sx={{
-            cursor: "pointer",
-            borderRadius: "10px",
-            boxShadow:
-              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-          }}
-        >
-          <Box
-            mt="15px"
-            p="0 0 0 30px"
-            display="flex "
-            // justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box marginTop="-20%">
-              <Typography
-                fontSize={20}
-                fontWeight="600"
-                color={colors.grey[100]}
-              >
-                Revenue Generated
-              </Typography>
-              <Typography fontSize={28} fontWeight="bold" color={"#E3D026"}>
-                $59,342.32
-              </Typography>
-            </Box>
-            <Box width="525px" height="250px">
-              <LineChart isDashboard={true} />
-            </Box>
-          </Box>
-        </Box>
-
-        {/*Recent Transactions  */}
-
-        {/* ROW 3 */}
 
         {/* <Box
           gridColumn="span 4"
@@ -370,8 +291,8 @@ const Overview = () => {
           <Box height="250px" mt="-20px">
             <BarChart isDashboard={true} />
           </Box>
-        </Box> */}
-        {/* <Box
+        </Box>
+        <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
@@ -390,6 +311,44 @@ const Overview = () => {
         </Box> */}
       </Box>
 
+      {/* dashboard */}
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: "20px",
+        }}
+      >
+        {/* THIS year over view LINE CHART */}
+        <Box
+          width="65%"
+          marginTop="20px"
+          gridColumn="span 8"
+          gridRow="span 2"
+          backgroundColor={colors.primary[400]}
+          sx={{
+            cursor: "pointer",
+            borderRadius: "10px",
+            boxShadow:
+              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+            marginTop: "25px",
+          }}
+        >
+          <Box
+            p="0 20px 20px 10px"
+            display="flex "
+            justifyContent="flex-start"
+            alignItems="center"
+          >
+            <Box width="100%">
+              <LineChart isDashboard={true} />
+            </Box>
+          </Box>
+        </Box>
+      </div>
+
       {/* bottom row */}
       <div
         style={{
@@ -397,6 +356,7 @@ const Overview = () => {
           width: "100%",
           justifyContent: "space-between",
           alignItems: "center",
+          marginTop: "20px",
         }}
       >
         <Box
@@ -554,6 +514,7 @@ const Overview = () => {
           width: "100%",
           justifyContent: "space-between",
           alignItems: "center",
+          marginTop: "20px",
         }}
       >
         <Box
