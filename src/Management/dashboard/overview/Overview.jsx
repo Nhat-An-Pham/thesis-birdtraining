@@ -125,6 +125,14 @@ const Overview = () => {
   //   fetchTransactionData(type[4]);
   // }, []);
   useEffect(() => {
+    fetchConsultingTicketOverviewData();
+      fetchOnlineCourseOverviewData();
+      fetchWorkshopOverviewData();
+      fetchTransactionData(type[1]);
+      fetchTransactionData(type[2]);
+      fetchTransactionData(type[3]);
+      fetchTransactionData(type[4]);
+      
     const intervalId = setInterval(() => {
       fetchConsultingTicketOverviewData();
       fetchOnlineCourseOverviewData();
@@ -133,7 +141,7 @@ const Overview = () => {
       fetchTransactionData(type[2]);
       fetchTransactionData(type[3]);
       fetchTransactionData(type[4]);
-    }, 1000 * 3);
+    }, 1000 * 3 * 60);
     fetchCampaign();
     return () => intervalId;
   }, []);
@@ -316,14 +324,14 @@ const Overview = () => {
         style={{
           display: "flex",
           width: "100%",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
           marginTop: "20px",
         }}
       >
         {/* THIS year over view LINE CHART */}
         <Box
-          width="65%"
+          width="80%"
           marginTop="20px"
           gridColumn="span 8"
           gridRow="span 2"
