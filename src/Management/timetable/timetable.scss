@@ -243,3 +243,16 @@
         }
     }
 }
+
+.timetable-addtrainerschedule-box{
+    padding: 20px 0px;
+    display: flex;
+    justify-content: center;
+
+    & .oneday-submit{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}

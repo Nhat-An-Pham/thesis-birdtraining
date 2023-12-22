@@ -310,9 +310,8 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                       }}
                       to={evidence}
                       target="_blank"
-                      download
                     >
-                      {evidence.split("/").slice(-1)}
+                      {evidence}
                     </Link>
                   ))}
                 </Typography>

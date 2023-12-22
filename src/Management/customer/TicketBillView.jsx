@@ -50,12 +50,7 @@ const TicketBillView = ({
           </DialogTitle>
           <DialogContent>
             <section>
-              <table>
-                <div
-                  style={{
-                    padding: "10px 40px",
-                  }}
-                >
+                <div style={{width:"450px"}}>
                     <form
                       style={{ width: "100%", display: "flex" }}
                       onSubmit={FinishTicket}
@@ -75,7 +70,7 @@ const TicketBillView = ({
                             boxShadow:
                               "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
                             borderRadius: 5,
-                            width: "90%",
+                            width: "100%",
                             height: "100%",
                             padding: "20px",
                             display: "flex",
@@ -202,7 +197,6 @@ const TicketBillView = ({
                       </div>
                     </form>
                 </div>
-              </table>
             </section>
           </DialogContent>
           <DialogActions>
