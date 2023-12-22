@@ -433,6 +433,26 @@ class DashboardService {
       throw error;
     }
   }
+
+  async DashboardTopContributor() {
+    try {
+      // console.log(year);
+      let response = await axios.get(
+        `${BASE_URL}/api/overview/trainer-top`,
+        {
+          // params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default new DashboardService();
