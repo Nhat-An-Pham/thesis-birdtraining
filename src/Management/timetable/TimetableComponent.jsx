@@ -5,8 +5,8 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-datepicker/dist/react-datepicker.css";
-import consultantService from "../../services/consultant.service";
-import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, Grid, TextField, ThemeProvider, Typography } from "@mui/material";
+import { ochreTheme } from "../themes/Theme";
 import dashboardService from "../../services/dashboard.service";
 import { ToastContainer, toast } from "react-toastify";
 import timetableService from "../../services/timetable.service";
@@ -16,9 +16,10 @@ import { jwtDecode } from "jwt-decode";
 import Timetable_TicketDetailView from "./Timetable_TicketDetailView";
 import TrainerSlotDetailComponent from "../workshoppane/trainer/TrainerSlotDetailComponent";
 import TimetableTrainerSlotDetailComponent from "../birdacademy/TimetableTrainerSlotDetailComponent";
+import AddTrainerBusy from "./AddTrainerBusy";
 
 
-function TimetableStaff() {
+function TimetableComponent() {
   const userRole = jwtDecode(
     JSON.parse(localStorage.getItem("user-token"))
   ).role;
@@ -31,6 +32,11 @@ function TimetableStaff() {
   const [occupied, setOccupied] = useState([]);
   const [selected, setSelected] = useState(null);
   const [renderedIndex, setRenderedIndex] = useState(0);
+
+  const renderIndexFunction = (event) => {
+    setRenderedIndex(event)
+  }
+
   const handleSelected = (event) => {
     setSelected(event);
     console.info("[handleSelected - event]", event);
@@ -141,6 +147,7 @@ function TimetableStaff() {
       <div className="timetable-container">
         <div className="timetable-title">
           <Typography variant="h6">TRAINER SCHEDULE</Typography>
+
         </div>
         <div className="timetable-search" >
           {userRole !== "Trainer" ? (
@@ -149,18 +156,28 @@ function TimetableStaff() {
               onChange={(event, newValue) => {
                 setSelectedTrainer(newValue);
               }}
-              inputValue={inputValue}
-              onInputChange={(event, newInputValue) => {
-                setInputValue(newInputValue);
-              }}
+              // inputValue={inputValue}
+              // onInputChange={(event, newInputValue) => {
+              //   setInputValue(newInputValue);
+              // }}
               options={trainers}
               getOptionLabel={(trainer) => trainer.email}
-              style={{width:"300px"}}
+              style={{ width: "300px" }}
               renderInput={(params) => (
                 <TextField {...params} label="Trainer" />
               )}
             />
           ) : null}
+          {userRole === "Manager" ?
+            <ThemeProvider theme={ochreTheme}>
+              <Button variant="contained"
+                color="ochre"
+                style={{ marginTop: "20px" }}
+                onClick={() => setRenderedIndex(4)}>
+                Add Trainer Schedule
+              </Button>
+            </ThemeProvider>
+            : null}
         </div>
         <div className="timetable-calender-container">
           {selectedTrainer && (
@@ -198,7 +215,7 @@ function TimetableStaff() {
                     //0, 1: workshop, 3 training course, 2 consultant, 
                     backgroundColor: event.typeId === 3 ? 'ocean' : event.typeId === 2 ? 'orange' : 'green',
                     // Add more styles as needed
-                    width:"100%",
+                    width: "100%",
                   },
                 };
               }}
@@ -223,6 +240,7 @@ function TimetableStaff() {
       trainerSlotId={selected?.id}
       callBackTimetable={onCallbackToCalendar}
     />,
+    <AddTrainerBusy renderedIndex={renderIndexFunction} />
   ];
   return (
     <>
@@ -237,4 +255,4 @@ function TimetableStaff() {
   );
 }
 
-export default TimetableStaff;
+export default TimetableComponent;

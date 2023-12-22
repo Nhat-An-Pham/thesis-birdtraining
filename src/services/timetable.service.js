@@ -78,6 +78,32 @@ class TimetableService {
       }
     );
   }
+
+  // Add Trainer Schedule
+  async postLogInDay({selectedDate, option, trainerId, reason}) {
+    await axios.post(
+      BASE_URL + "/api/timetable/log-in-day", 
+      { selectedDate, option, trainerId, reason },
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      }
+    )
+  }
+  async postLogRange({from, to, trainerId, reason}) {
+    await axios.post(
+      BASE_URL + "/api/timetable/log-range", { from, to, trainerId, reason },
+      {
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      }
+    )
+  }
+
+
+
 }
 
 export default new TimetableService();

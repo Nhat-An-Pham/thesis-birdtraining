@@ -50,25 +50,12 @@ const TicketBillView = ({
           </DialogTitle>
           <DialogContent>
             <section>
-              <table>
-                <div
-                  style={{
-                    padding: "10px 40px",
-                  }}
-                >
-                  <form
-                    style={{ width: "100%", display: "flex" }}
-                    onSubmit={FinishTicket}
-                    className="form"
-                    encType="multipart/form-data"
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        padding: "10px 0 0 0",
-                        width: "100%",
-                      }}
+<div style={{width:"450px"}}>
+                    <form
+                      style={{ width: "100%", display: "flex" }}
+                      onSubmit={FinishTicket}
+                      className="form"
+                      encType="multipart/form-data"
                     >
                       <div
                         style={{
@@ -85,9 +72,15 @@ const TicketBillView = ({
                       >
                         <div
                           style={{
-                            fontSize: "1.6rem",
-                            textAlign: "left",
-                            fontWeight: 700,
+boxShadow:
+                              "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                            borderRadius: 5,
+                            width: "100%",
+                            height: "100%",
+                            padding: "20px",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "1rem",
                           }}
                         >
                           Billing Details
@@ -209,7 +202,6 @@ const TicketBillView = ({
                     </div>
                   </form>
                 </div>
-              </table>
             </section>
           </DialogContent>
           <DialogActions>

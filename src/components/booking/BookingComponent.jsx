@@ -92,12 +92,17 @@ function BookingComponent() {
             setErrorMessage("*Please select a service.")
             return;
         }
-        if (index === 1 && selectedTrainerId == null) {
-            setErrorMessage("*Please Choose A Trainer or let Us Choose For You")
+        if (index === 1 && selectedTrainerId === null) {
+            setErrorMessage("*Please Choose A Trainer Or Other")
             return;
         }
-        if (index === 2 && apptDate == null) {
-            setErrorMessage("*Please select a time.");
+        if ((index === 2 && apptDate === null)|| (index === 2 && slotId === null)) {
+            setErrorMessage("*Please select date and time.");
+            return;
+        }
+        if(index === 3 && consultingType === null ){
+            setErrorMessage("Please choose consulting type or other")
+            return;
         }
         else {
             setErrorMessage(null);
