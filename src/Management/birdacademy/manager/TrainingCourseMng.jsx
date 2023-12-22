@@ -32,6 +32,7 @@ import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
 import CreateTrainingCourseComponent from "./CreateTrainingCourseComponent";
 import UpdateTrainingCourseComponent from "./UpdateTrainingCourseComponent";
+import addonService from "../../../services/addon.service";
 // import { toast } from 'react-toastify';
 
 const TrainingCourseMng = ({ callBackMainManagement }) => {
@@ -258,7 +259,7 @@ const TrainingCourseMng = ({ callBackMainManagement }) => {
                             {course.totalSlot}
                           </TableCell>
                           <TableCell style={{ width: 0.125 }} align="center">
-                            {course.totalPrice}
+                            {addonService.formatCurrency(course.totalPrice)}
                           </TableCell>
                           <TableCell style={{ width: 0.125 }} align="center">
                             <Checkbox

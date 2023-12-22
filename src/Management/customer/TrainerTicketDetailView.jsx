@@ -40,7 +40,6 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
 
   //Lấy ticket detail
   const [ticketDetail, setTicketDetail] = useState({});
-
   useEffect(() => {
     consultantService
       .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
@@ -65,9 +64,10 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .catch((e) => console.log("Fail Get Available Time Slot test", e));
   };
 
-  const UpdateEvidence = (id, actualEndSlot, evidence) => {
+  const UpdateEvidence = (id, actualSlotStart, actualEndSlot, evidence) => {
     const formData = new FormData();
     formData.append("Id", id);
+    formData.append("ActualSlotStart", ticketDetail.actualSlotStart);
     formData.append("ActualEndSlot", actualEndSlot);
     evidence.forEach((file, index) => {
       formData.append("Evidence", file);
@@ -83,10 +83,11 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       });
   };
 
-  const UpdateRecord = (id, actualEndSlot, evidence) => {
+  const UpdateRecord = (id, actualSlotStart, actualEndSlot, evidence) => {
     consultantService
       .UpdateRecord({
         id: id,
+        actualSlotStart: actualSlotStart,
         actualEndSlot: actualEndSlot,
         evidence: evidence,
       })
@@ -378,6 +379,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                     onClick={() =>
                       UpdateRecord(
                         ticketDetail.id,
+                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         onlineEvidence
                       )
@@ -394,6 +396,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                     onClick={() =>
                       UpdateEvidence(
                         ticketDetail.id,
+                        ticketDetail.actualSlotStart,
                         selectedSLotTime,
                         evidence
                       )

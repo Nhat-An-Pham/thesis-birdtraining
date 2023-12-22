@@ -5,6 +5,9 @@ class AddonService {
         return  result;
       }
     formatCurrency(num) {
+      if (num === 0) {
+        return num
+      }
         return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
      }
 }
