@@ -18,8 +18,10 @@ import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import { Close } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import TicketBillView from "./TicketBillView";
 
 const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
+  const [openDiv, setOpenDiv] = useState(false);
   const [dateValue, setDateValue] = useState();
   const [slotValue, setSlotValue] = useState();
   const [distanceValue, setDistanceValue] = useState(null);
@@ -40,7 +42,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         setSlotValue(res.data.slotStartId);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
-  }, [ticketIdForDetail]);
+  }, []);
 
   const [listOfFreeTrainer, setListOfFreeTrainer] = useState([]);
   useEffect(() => {
@@ -70,9 +72,9 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .then((res) => {
         console.log("succes Cancel Ticket test", res.data);
         toast.success("Success Cancel Ticket");
+        onClose();
       })
-      .catch((e) => console.log("fail Cancel Ticket tes", e));
-    onClose();
+      .catch((e) => console.log("Fail Cancel Ticket tes"));
   };
 
   const ConfirmTicket = (ticketId, distance) => {
@@ -82,7 +84,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
         onClose();
       })
-      .catch((e) => console.log("fail Confirm Ticket tes", e));
+      .catch((e) => toast.error("Fail Approve Ticket", e));
   };
 
   const PreCalculatePrice = (ticketId, distance) => {
@@ -94,8 +96,26 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .catch((e) => console.log("fail Calcuate Price test", e));
   };
 
+  const handleViewBillOnClick = () => {
+    setOpenDiv(true);
+  };
+
+  const handleCloseDiv = () => {
+    setOpenDiv(false);
+  };
+
+  const handleFinishBill = () => {
+    onClose();
+  };
+
   return (
     <>
+      <TicketBillView
+        ticketDetail={ticketDetail}
+        openDiv={openDiv}
+        handleCloseDiv={handleCloseDiv}
+        callBackFinishBill={handleFinishBill}
+      ></TicketBillView>
       <AppBar position="static" color="ochre">
         <Toolbar>
           <IconButton
@@ -283,8 +303,12 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               <Typography style={{ color: "green" }}>
                 {ticketDetail.status}
               </Typography>
-            ) : (
+            ) : ticketDetail.status === "Cancelled" ? (
               <Typography style={{ color: "red" }}>
+                {ticketDetail.status}
+              </Typography>
+            ) : (
+              <Typography style={{ color: "green" }}>
                 {ticketDetail.status}
               </Typography>
             )}
@@ -353,6 +377,20 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
                 </Button>
               </Grid>
             </>
+          ) : (
+            <></>
+          )}
+
+          {ticketDetail.status === "Finished" ? (
+            <Grid item xs={1}>
+              <Button
+                variant="contained"
+                color="ochre"
+                onClick={() => handleViewBillOnClick()}
+              >
+                View Bill
+              </Button>
+            </Grid>
           ) : (
             <></>
           )}
