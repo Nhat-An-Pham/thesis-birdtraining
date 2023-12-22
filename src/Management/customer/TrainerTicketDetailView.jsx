@@ -38,18 +38,21 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
     setSubmittedEvidence(evidenceName);
   };
 
-  //Lấy ticket detail
-  const [ticketDetail, setTicketDetail] = useState({});
-  useEffect(() => {
+  const getTicketDetail = () => {
     consultantService
       .getConsultingTicketDetail({ ticketId: ticketIdForDetail })
       .then((res) => {
         // console.log("success Consulting Ticket Detail test", res.data);
         setTicketDetail(res.data);
-        console.log('check res: ', res.data);
+        console.log("check res: ", res.data);
         GetSlotTime(res.data.actualSlotStart);
       })
       .catch((e) => console.log("fail Consulting Ticket Detail test", e));
+  };
+  //Lấy ticket detail
+  const [ticketDetail, setTicketDetail] = useState({});
+  useEffect(() => {
+    getTicketDetail();
   }, []);
 
   const [selectedSLotTime, setSelectedSlotTime] = useState(-1);
@@ -77,6 +80,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .then((res) => {
         console.log("Success Update Evidence");
         toast.success("Update Evidence Successfully");
+        getTicketDetail();
       })
       .catch((e) => {
         toast.error("Fail Update Evidence");
@@ -94,6 +98,7 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
       .then((res) => {
         console.log("Success Update Evidence");
         toast.success("Update Evidence Successfully");
+        getTicketDetail();
       })
       .catch((e) => toast.error("Fail Update Evidence"));
   };
@@ -326,14 +331,10 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                       <TextField
                         label={"Record"}
                         type="text"
+                        defaultValue={ticketDetail.evidence}
                         onChange={(e) => setOnlineEvidence(e.target.value)}
                       />
                     </FormControl>
-                    {ticketDetail.evidence ? (
-                      <Typography>Old: {ticketDetail.evidence}</Typography>
-                    ) : (
-                      <></>
-                    )}
                   </>
                 ) : ticketDetail.onlineOrOffline === false ? (
                   <FormControl required style={{ marginBottom: 15 }}>
