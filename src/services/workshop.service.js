@@ -90,10 +90,10 @@ class WorkshopService {
             });
         return response;
     }
-    async getRegisterdClasses({ workshopId }) {
+    async getRegisterdClasses() {
         const accessToken = JSON.parse(localStorage.getItem('user-token'));
         const response = await axios
-            .get(API_URL + `/registered-class?workshopId=${workshopId}`, {
+            .get(API_URL + `/registered-class`, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

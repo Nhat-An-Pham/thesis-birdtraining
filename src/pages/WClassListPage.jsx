@@ -8,7 +8,7 @@ import WorkshopService from '../services/workshop.service';
 import { useNavigate } from 'react-router-dom';
 import RawHTMLRenderer from '../Management/component/htmlRender/htmlRender';
 import { Typography } from '@mui/material';
-
+import StopIcon from '@mui/icons-material/Stop';
 
 const WClassListPage = () => {
   //param
@@ -130,6 +130,12 @@ const WClassListPage = () => {
                     <p>Register End Date: <span> {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}</span></p>
                     <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p>
                     {/* Hỏi về cái class status có bao nhiêu status  */}
+                    {classeses.classStatus === "OpenRegistration" ?
+                      <p style={{color:"green" , marginTop:"30px"}}><StopIcon/> Open For Registration</p>
+                      : null}
+                    {classeses.classStatus === "CloseRegistration" ?
+                      <p style={{color:"red", marginTop:"30px"}}><StopIcon/> Registration closed</p>
+                      : null}
                   </div>
                   <div className='wclp_card_section wclp_card_section-top'>
                     <div className='wclp_card_section_top wclp_card_section_top-button'>
