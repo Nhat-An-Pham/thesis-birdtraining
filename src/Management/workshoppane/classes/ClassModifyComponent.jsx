@@ -95,10 +95,11 @@ export default function ClassModifyComponent({
               />
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  minDate={ideal}
+                  minDate={selectedClass.status !== "Pending" ? null : ideal}
                   label="Expected Open"
                   value={startDate}
                   onChange={(value) => handleChangeDate(value)}
+                  readOnly = {selectedClass.status !== "Pending"}
                   sx={{ width: "100%", maxWidth: "200px" }}
                 />
               </LocalizationProvider>
