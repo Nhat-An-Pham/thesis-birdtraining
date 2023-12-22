@@ -296,12 +296,13 @@ class ConsultantService {
     return response;
   }
 
-  async UpdateRecord({ id, actualEndSlot, evidence }) {
+  async UpdateRecord({ id, actualSlotStart, actualEndSlot, evidence }) {
     const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.put(
       API_URL_TRAINER + `updateRecord`,
       {
         id,
+        actualSlotStart,
         actualEndSlot,
         evidence,
       },
