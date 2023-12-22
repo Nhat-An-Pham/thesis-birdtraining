@@ -9,7 +9,7 @@ const WorkshopClassListCards = ({ id, title, thumbnail, shortdescr, price }) => 
     return (
         <Link class="card_container" to={`/workshopslist/${id}`}>
             <article>
-                <div class="article-wrapper">
+                <div class="article-wrapper" style={{maxWidth: '300px'}}>
                     <figure>
                         <img src={thumbnail} alt="" />
                     </figure>
