@@ -21,6 +21,7 @@ import { AddCircleOutlineOutlined } from "@mui/icons-material";
 import { ochreTheme } from "../../themes/Theme";
 import { toast } from "react-toastify";
 import ClassAddNewComponent from "./ClassAddNewComponent";
+import "../workshoppane.scss";
 
 export default function ClassOverviewComponent({
   workshop,
@@ -159,22 +160,22 @@ export default function ClassOverviewComponent({
                 setStatusFilterIndex(newValue);
               }}
               variant="scrollable"
-              // TabIndicatorProps={{
-              //   style: {
-              //     backgroundColor: "#c8ae7d",
-              //   },
-              // }}
-              // sx={{
-              //   ".Mui-selected": {
-              //     color: "rgb(200, 174, 125)",
-              //   },
-              // }}
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#c8ae7d",
+                },
+              }}
+              sx={{
+                ".Mui-selected": {
+                  color: "rgb(200, 174, 125)",
+                },
+              }}
               scrollButtons
               allowScrollButtonsMobile
               aria-label="scrollable force tabs example"
             >
               {statusFilter.map((statusTab) => (
-                <Tab label={statusTab.label} />
+                <Tab label={statusTab.label}/>
               ))}
             </Tabs>
           </Box>

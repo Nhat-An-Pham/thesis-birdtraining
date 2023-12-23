@@ -8,13 +8,13 @@ const CoursesListCards = ({ id, title, thumbnail, shortdescr, price, link }) => 
 
         <Link class="card_container" to={`/courseslist/${id}`}>
             <article>
-                <div class="article-wrapper">
+                <div class="article-wrapper" style={{maxWidth: '300px'}}>
                     <figure>
                         <img src={thumbnail} alt="" />
                     </figure>
                     <div class="article-body">
                         <h2>{title}</h2>
-                        <RawHTMLRenderer htmlContent={shortdescr} />
+                        <div style={{ textOverflow: "ellipsis", whiteSpace: "nowrap" }}><RawHTMLRenderer htmlContent={shortdescr} /></div>
                         <p style={{ height: "30px" }}>
                             {AddonService.formatCurrency(price)} <span style={{ color: "grey", fontWeight: "light" }}>(vnd)</span>
                         </p>

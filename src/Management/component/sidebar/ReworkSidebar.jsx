@@ -29,9 +29,12 @@ import { jwtDecode } from "jwt-decode";
 let token = localStorage.getItem("user-token");
 let userRole = null;
 let userName = null;
+let userAvatar = null;
+
 if (token) {
   userRole = jwtDecode(JSON.parse(token)).role;
   userName = jwtDecode(JSON.parse(token)).name;
+  userAvatar = jwtDecode(JSON.parse(token)).avatar;
 }
 const drawerWidth = 250;
 const elements = [
@@ -156,17 +159,60 @@ export default function ReworkSidebar({ selectTab }) {
                 height: "52px",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-start",
+                padding: "0 0 20px 10px",
               }}
             >
-              <Typography
+              {/* avatar */}
+              <div
                 style={{
-                  fontWeight: 500,
-                  fontSize: "1.2rem",
+                  width: "50px",
+                  height: "50px",
+                  borderWidth: "5px solid black",
+                  // backgroundColor: "black",
+                  borderRadius: 9999,
                 }}
               >
-                Hello {userName}
-              </Typography>
+                <img
+                  src={userAvatar}
+                  alt=""
+                  style={{
+                    width: "50px",
+                    height: "50px",
+                    borderWidth: "5px solid black",
+                    // backgroundColor: "black",
+                    borderRadius: 9999,
+                  }}
+                />
+              </div>
+              {/* name and role */}
+              <div
+                style={{
+                  height: "52px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: "0 0 0 20px",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  {userRole}
+                </Typography>
+                <Typography
+                  style={{
+                    fontWeight: 500,
+                    fontSize: "1rem",
+                  }}
+                >
+                  {userName}
+                </Typography>
+              </div>
             </div>
             <Divider />
             {elements.map((element, index) => (

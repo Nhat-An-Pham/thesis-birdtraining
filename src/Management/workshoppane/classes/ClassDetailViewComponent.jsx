@@ -187,7 +187,7 @@ export default function ClassDetailViewComponent({ selectedClassId }) {
                   color="ochre"
                   variant="contained"
                   onClick={() => setOpenModify(true)}
-                  disabled={selectedClass.status !== "Pending"}
+                  disabled={selectedClass.status === "Completed" || selectedClass.status === "Cancelled"}
                 >
                   Modify
                 </Button>

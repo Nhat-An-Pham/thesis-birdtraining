@@ -304,7 +304,7 @@ export const UserSettingPage = () => {
                 {enrolledWorkshop ? (
                   <>
                     {enrolledWorkshop.map((workshop) => (
-                      <div className="ustp-cards-container">
+                      <div className="ustp-cards-container-workshop">
                         <Img src={workshop.picture}></Img>
                         <div className="ustp-cards-content">
                           <h5>{workshop.title}</h5>
