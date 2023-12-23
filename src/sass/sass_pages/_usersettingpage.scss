@@ -151,6 +151,9 @@
     img {
         width: 40%;
         object-fit: cover;
+        
+        border-top-left-radius: 16px;
+        border-bottom-left-radius: 16px;
     }
 
     .ustp-cards-content {
