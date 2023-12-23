@@ -62,6 +62,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
       // Replace this URL with your actual API endpoint //https://localhost:7176
       console.log(requestedId);
       let params = {
+        $orderby: "id asc",
         birdTrainingCourseId: requestedId,
       };
       let response =
@@ -97,6 +98,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   }, [requestedId]);
   const onCallbackAssigned = async () => {
     fetchData();
+    fetchRequestData();
     setRenderProgress(true);
     setRenderTrainer(false);
     setRenderReport(false);
@@ -164,6 +166,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
             <Table className="table">
               <TableHead>
                 <TableRow>
+                  <TableCell sx={{ fontWeight: 700 }}>No</TableCell>
                   <TableCell sx={{ fontWeight: 700 }}>
                     Bird Skill Name
                   </TableCell>
@@ -181,7 +184,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {trainingProgress.map((item) => (
+                {trainingProgress.map((item, index) => (
                   <TableRow
                     key={item.id}
                     style={{
@@ -190,6 +193,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
                         selectedProgressId === item.id ? "#f0f0f0" : "white",
                     }}
                   >
+                    <TableCell>{index}</TableCell>
                     <TableCell>{item.birdSkillName}</TableCell>
                     <TableCell>{item.trainerName}</TableCell>
                     <TableCell>{item.trainerEmail}</TableCell>
