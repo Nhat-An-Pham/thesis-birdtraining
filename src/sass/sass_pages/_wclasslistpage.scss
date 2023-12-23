@@ -133,7 +133,6 @@
     }
 
     &-container {
-        // background-image: url("../../assets/pages/payment/pexels-sergio-souza-3250454.jpg");
         background-color: white;
         color: black;
         width: 900px;
@@ -199,6 +198,7 @@
 
         &-detail {
             font-weight: bold;
+            font-size: 13px;
 
             & span {
                 font-weight: normal;
@@ -224,7 +224,8 @@
     align-items: center;
 
     img {
-        width: 30%;
-
+        width: 20%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
     }
 }
