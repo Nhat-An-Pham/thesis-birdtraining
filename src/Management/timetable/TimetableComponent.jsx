@@ -48,11 +48,15 @@ function TimetableComponent() {
 
     if (event.typeId === 3) {
       setRenderedIndex(1);
+      console.log('event type id: ', event.typeId);
     } else if (event.typeId === 2) {
+      console.log('event type id: ', event.typeId);
       setRenderedIndex(2);
     } else if (event.typeId === 5) {
       setRenderedIndex(3);
+      console.log('event type id: ', event.typeId);
     } else if (event.typeId === 7) {
+      console.log('event type id: ', event.typeId);
       setOpen(true);
     }
   };
@@ -220,7 +224,7 @@ function TimetableComponent() {
                 return {
                   style: {
                     //3: workshop, 5 training course, 2 consultant, 7: off slot
-                    backgroundColor: event.typeId === 3 ? 'ocean' : event.typeId === 2 ? 'orange' : event.typeId === 5 ? 'green' : 'grey',
+                    backgroundColor: event.typeId === 3 ? 'brown' : event.typeId === 2 ? 'orange' : event.typeId === 5 ? 'green' : event.typeId === 7 ? 'grey' : 'red' ,
                     // Add more styles as needed
                     width: "100%",
                   },
