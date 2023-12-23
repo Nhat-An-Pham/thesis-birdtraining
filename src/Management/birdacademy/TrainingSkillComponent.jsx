@@ -62,6 +62,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
       // Replace this URL with your actual API endpoint //https://localhost:7176
       console.log(requestedId);
       let params = {
+        $orderby: "id asc",
         birdTrainingCourseId: requestedId,
       };
       let response =
@@ -97,6 +98,7 @@ const TrainingSkillComponent = ({ requestedId, callBackMainManagement }) => {
   }, [requestedId]);
   const onCallbackAssigned = async () => {
     fetchData();
+    fetchRequestData();
     setRenderProgress(true);
     setRenderTrainer(false);
     setRenderReport(false);
