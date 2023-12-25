@@ -54,6 +54,26 @@ const Workshop = () => {
 
   console.log("workshop.description", sliceWorkshop);
 
+  const getOnGoingClass = registeredClasses.filter(
+    (val) => val.classStatus === "OnGoing"
+  );
+
+  const getCloseRegistrationClass = registeredClasses.filter(
+    (val) => val.classStatus === "CloseRegistration"
+  );
+
+  const getOpenRegistrationClass = registeredClasses.filter(
+    (val) => val.classStatus === "OpenRegistration"
+  );
+
+  const getCompletedClass = registeredClasses.filter(
+    (val) => val.classStatus === "Completed"
+  );
+
+  const getCancelledClass = registeredClasses.filter(
+    (val) => val.classStatus === "Cancelled"
+  );
+
   return (
     <div className="workshopspage">
       {/* carousel */}
@@ -219,7 +239,10 @@ const Workshop = () => {
                 </div>
               ))}
             </div>
-            <div className="wclpdiv_section wclpdiv_section-button" style={{display:'flex', justifyContent: 'flex-end'}}>
+            <div
+              className="wclpdiv_section wclpdiv_section-button"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <button
                 className="wclpdiv_section_button-close"
                 onClick={handleCloseDiv}
@@ -289,9 +312,34 @@ const Workshop = () => {
           className="workshoppageevents_elements workshoppageevents_elements-cards"
           style={{ width: "100%" }}
         >
-          {registeredClasses ? (
-            <div className="wclp_section wclp_section-cards">
-              {registeredClasses.map((classeses, index) => (
+          {/* on-going class */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              backgroundColor: "#F7F7F7",
+              padding: "10px 25px",
+              marginBottom: "50px",
+            }}
+          >
+            <h2>On going</h2>
+            {getOnGoingClass.length > 0 ? (
+              <div
+                className="wclp_section wclp_section-cards"
+                style={{
+                  width: "100%",
+                  backgroundColor: " #F7F7F7",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {getOnGoingClass.map((classeses, index) => (
                   <Link
                     key={index}
                     className="wclp_card-container"
@@ -347,10 +395,420 @@ const Workshop = () => {
                     </div>
                   </Link>
                 ))}
-            </div>
-          ) : (
-            <Typography>This Workshop has no class yet</Typography>
-          )}
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  marginBottom: "50px",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  fontWeight: 600,
+                }}
+              >
+                This Workshop has no class yet
+              </div>
+            )}
+          </div>
+          {/* getCloseRegistrationClass */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              marginBottom: "50px",
+              backgroundColor: "#F7F7F7",
+              padding: "10px 25px",
+            }}
+          >
+            <h2>Close Registration</h2>
+            {getCloseRegistrationClass.length > 0 ? (
+              <>
+                <div
+                  className="wclp_section wclp_section-cards"
+                  style={{
+                    width: "100%",
+                    backgroundColor: " #F7F7F7",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    justifyContent: "flex-start",
+                    margin: 0,
+                    padding: 0,
+                  }}
+                >
+                  {getCloseRegistrationClass.map((classeses, index) => (
+                    <Link
+                      key={index}
+                      className="wclp_card-container"
+                      onClick={() => twoFunctionOnClick(classeses)}
+                    >
+                      <div className="wclp_card_section wclp_card_section-bottom">
+                        <h2>Location: {classeses.location}</h2>
+                        <p>
+                          Register End Date:{" "}
+                          <span>
+                            {" "}
+                            {dateFormat(
+                              classeses.registerEndDate,
+                              "mmmm dS, yyyy"
+                            )}
+                          </span>
+                        </p>
+                        <br />
+                        <div>
+                          Status:{" "}
+                          {classeses.classStatus === "Completed" && (
+                            <span
+                              style={{
+                                fontSize: 15,
+                                fontWeight: 600,
+                                color: "green",
+                              }}
+                            >
+                              {classeses.classStatus}
+                            </span>
+                          )}
+                          {classeses.classStatus === "Cancelled" && (
+                            <span
+                              style={{
+                                fontSize: 15,
+                                fontWeight: 600,
+                                color: "red",
+                              }}
+                            >
+                              {classeses.classStatus}
+                            </span>
+                          )}
+                          {(classeses.classStatus === "OnGoing" ||
+                            classeses.classStatus === "CloseRegistration" ||
+                            classeses.classStatus === "OpenRegistration") && (
+                            <span style={{ fontSize: 15, fontWeight: 600 }}>
+                              {classeses.classStatus}
+                            </span>
+                          )}
+                        </div>
+                        {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
+                        {/* Hỏi về cái class status có bao nhiêu status  */}
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "50px",
+                  fontSize: 16,
+                  fontWeight: 600,
+                }}
+              >
+                This Workshop has no class yet
+              </div>
+            )}
+          </div>
+          {/* getOpenRegistrationClass */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              backgroundColor: "#F7F7F7",
+              marginBottom: "50px",
+              padding: "10px 25px",
+            }}
+          >
+            <h2>Open Registration</h2>
+            {getOpenRegistrationClass.length > 0 ? (
+              <div
+                className="wclp_section wclp_section-cards"
+                style={{
+                  width: "100%",
+                  backgroundColor: " #F7F7F7",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {getOpenRegistrationClass.map((classeses, index) => (
+                  <Link
+                    key={index}
+                    className="wclp_card-container"
+                    onClick={() => twoFunctionOnClick(classeses)}
+                  >
+                    <div className="wclp_card_section wclp_card_section-bottom">
+                      <h2>Location: {classeses.location}</h2>
+                      <p>
+                        Register End Date:{" "}
+                        <span>
+                          {" "}
+                          {dateFormat(
+                            classeses.registerEndDate,
+                            "mmmm dS, yyyy"
+                          )}
+                        </span>
+                      </p>
+                      <br />
+                      <div>
+                        Status:{" "}
+                        {classeses.classStatus === "Completed" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "green",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {classeses.classStatus === "Cancelled" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "red",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {(classeses.classStatus === "OnGoing" ||
+                          classeses.classStatus === "CloseRegistration" ||
+                          classeses.classStatus === "OpenRegistration") && (
+                          <span style={{ fontSize: 15, fontWeight: 600 }}>
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                      </div>
+                      {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
+                      {/* Hỏi về cái class status có bao nhiêu status  */}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  marginBottom: "50px",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  fontWeight: 600,
+                }}
+              >
+                This Workshop has no class yet
+              </div>
+            )}
+          </div>
+          {/* getCompletedClass */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              backgroundColor: "#F7F7F7",
+              marginBottom: "50px",
+              padding: "10px 25px",
+            }}
+          >
+            <h2>Completed</h2>
+            {getCompletedClass.length > 0 ? (
+              <div
+                className="wclp_section wclp_section-cards"
+                style={{
+                  width: "100%",
+                  backgroundColor: " #F7F7F7",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {getCompletedClass.map((classeses, index) => (
+                  <Link
+                    key={index}
+                    className="wclp_card-container"
+                    onClick={() => twoFunctionOnClick(classeses)}
+                  >
+                    <div className="wclp_card_section wclp_card_section-bottom">
+                      <h2>Location: {classeses.location}</h2>
+                      <p>
+                        Register End Date:{" "}
+                        <span>
+                          {" "}
+                          {dateFormat(
+                            classeses.registerEndDate,
+                            "mmmm dS, yyyy"
+                          )}
+                        </span>
+                      </p>
+                      <br />
+                      <div>
+                        Status:{" "}
+                        {classeses.classStatus === "Completed" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "green",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {classeses.classStatus === "Cancelled" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "red",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {(classeses.classStatus === "OnGoing" ||
+                          classeses.classStatus === "CloseRegistration" ||
+                          classeses.classStatus === "OpenRegistration") && (
+                          <span style={{ fontSize: 15, fontWeight: 600 }}>
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                      </div>
+                      {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
+                      {/* Hỏi về cái class status có bao nhiêu status  */}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  marginBottom: "50px",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  fontWeight: 600,
+                }}
+              >
+                This Workshop has no class yet
+              </div>
+            )}
+          </div>
+          {/* getCancelledClass */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              backgroundColor: "#F7F7F7",
+              marginBottom: "50px",
+              padding: "10px 25px",
+            }}
+          >
+            <h2>Cancelled</h2>
+            {getCancelledClass.length > 0 ? (
+              <div
+                className="wclp_section wclp_section-cards"
+                style={{
+                  width: "100%",
+                  backgroundColor: " #F7F7F7",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  justifyContent: "flex-start",
+                  margin: 0,
+                  padding: 0,
+                }}
+              >
+                {getCancelledClass.map((classeses, index) => (
+                  <Link
+                    key={index}
+                    className="wclp_card-container"
+                    onClick={() => twoFunctionOnClick(classeses)}
+                  >
+                    <div className="wclp_card_section wclp_card_section-bottom">
+                      <h2>Location: {classeses.location}</h2>
+                      <p>
+                        Register End Date:{" "}
+                        <span>
+                          {" "}
+                          {dateFormat(
+                            classeses.registerEndDate,
+                            "mmmm dS, yyyy"
+                          )}
+                        </span>
+                      </p>
+                      <br />
+                      <div>
+                        Status:{" "}
+                        {classeses.classStatus === "Completed" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "green",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {classeses.classStatus === "Cancelled" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "red",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {(classeses.classStatus === "OnGoing" ||
+                          classeses.classStatus === "CloseRegistration" ||
+                          classeses.classStatus === "OpenRegistration") && (
+                          <span style={{ fontSize: 15, fontWeight: 600 }}>
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                      </div>
+                      {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
+                      {/* Hỏi về cái class status có bao nhiêu status  */}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  marginBottom: "50px",
+                  justifyContent: "center",
+                  fontSize: 16,
+                  fontWeight: 600,
+                }}
+              >
+                This Workshop has no class yet
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
