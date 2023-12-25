@@ -26,7 +26,7 @@ const Workshop = () => {
       .catch((e) => console.log("fail workshop list test", e));
     WorkshopService.getRegisterdClasses()
       .then((res) => {
-        console.log(res.data);
+        console.log("egister classed", res.data);
         setRegisteredClasses(res.data);
       })
       .catch((e) => {
@@ -76,35 +76,150 @@ const Workshop = () => {
                 {dateFormat(selectedClass.date, "mmmm dS, yyyy")}
               </span>
             </p>
+
             <div className="wclpdiv_section wclpdiv_section-mapping">
               {selectedClass.classSlots.map((workshopClass) => (
                 <div className="wclpdiv_section_mapping-container">
                   <div
-                    className="wclpdiv_section_mapping-content"
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      padding: "15px",
+                      marginTop: "15px",
+                    }}
                     key={workshopClass.id}
                   >
-                    <p className="wclpdiv_content wclpdiv_content-detail ">
-                      Description:{" "}
-                      <span>
+                    {/* trainer name and image */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      {workshopClass.trainer.avatar ? (
+                        <img
+                          src={workshopClass.trainer.avatar}
+                          alt=""
+                          style={{
+                            width: "200px",
+                            height: "200px",
+                            borderRadius: 9999,
+                          }}
+                        />
+                      ) : null}
+                      <p>
+                        <span
+                          style={{
+                            fontWeight: 600,
+                            fontSize: 18,
+                            marginRight: 5,
+                          }}
+                        >
+                          Trainer:
+                        </span>
+                        {workshopClass.trainer.name}
+                      </p>
+                    </div>
+
+                    {/* description and start time slot  */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        marginLeft: "20px",
+                        maxWidth: "660px",
+                        width: "630px",
+                      }}
+                    >
+                      <div className="wclpdiv_content wclpdiv_content-detail ">
+                        <span style={{ fontWeight: 700, fontSize: 18 }}>
+                          Description:
+                        </span>
                         <RawHTMLRenderer htmlContent={workshopClass.detail} />
-                      </span>
-                    </p>
-                    <p className="wclpdiv_content wclpdiv_content-trainer">
-                      Trainer: {workshopClass.trainer.name}
-                    </p>
-                    <p className="wclpdiv_content wclpdiv_content-registered">
-                      Start-Time: {workshopClass.startTime}/End-Time:{" "}
-                      {workshopClass.endTime}
-                    </p>
-                    -----------------------
+                      </div>
+
+                      <div
+                        className="wclpdiv_content wclpdiv_content-registered"
+                        style={{
+                          marginTop: "20px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            marginRight: "10px",
+                            color: "green",
+                          }}
+                        >
+                          Start-Time:
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: 18,
+                          }}
+                        >
+                          {workshopClass.startTime} /
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            marginRight: "10px",
+                            color: "red",
+                          }}
+                        >
+                          End-Time:
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: 18,
+                          }}
+                        >
+                          {workshopClass.endTime}
+                        </span>
+                      </div>
+
+                      <div
+                        style={{
+                          marginTop: "15px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            marginRight: "10px",
+                          }}
+                        >
+                          Date:
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: 18,
+                          }}
+                        >
+                          {dateFormat(workshopClass.date, "mmmm dS, yyyy")}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  {workshopClass.trainer.avatar ? (
-                    <img src={workshopClass.trainer.avatar}></img>
-                  ) : null}
                 </div>
               ))}
             </div>
-            <div className="wclpdiv_section wclpdiv_section-button">
+            <div className="wclpdiv_section wclpdiv_section-button" style={{display:'flex', justifyContent: 'flex-end'}}>
               <button
                 className="wclpdiv_section_button-close"
                 onClick={handleCloseDiv}
@@ -177,30 +292,61 @@ const Workshop = () => {
           {registeredClasses ? (
             <div className="wclp_section wclp_section-cards">
               {registeredClasses.map((classeses, index) => (
-                <Link
-                  key={index}
-                  className="wclp_card-container"
-                  onClick={() => twoFunctionOnClick(classeses)}
-                >
-                  <div className="wclp_card_section wclp_card_section-bottom">
-                    <h2>Location: {classeses.location}</h2>
-                    <h5>
-                      Register Start Date:{" "}
-                      {dateFormat(classeses.startTime, "mmmm dS, yyyy")}
-                    </h5>
-                    <br />
-                    <p>
-                      Register End Date:{" "}
-                      <span>
-                        {" "}
-                        {dateFormat(classeses.registerEndDate, "mmmm dS, yyyy")}
-                      </span>
-                    </p>
-                    {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
-                    {/* Hỏi về cái class status có bao nhiêu status  */}
-                  </div>
-                </Link>
-              ))}
+                  <Link
+                    key={index}
+                    className="wclp_card-container"
+                    onClick={() => twoFunctionOnClick(classeses)}
+                  >
+                    <div className="wclp_card_section wclp_card_section-bottom">
+                      <h2>Location: {classeses.location}</h2>
+                      <p>
+                        Register End Date:{" "}
+                        <span>
+                          {" "}
+                          {dateFormat(
+                            classeses.registerEndDate,
+                            "mmmm dS, yyyy"
+                          )}
+                        </span>
+                      </p>
+                      <br />
+                      <div>
+                        Status:{" "}
+                        {classeses.classStatus === "Completed" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "green",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {classeses.classStatus === "Cancelled" && (
+                          <span
+                            style={{
+                              fontSize: 15,
+                              fontWeight: 600,
+                              color: "red",
+                            }}
+                          >
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                        {(classeses.classStatus === "OnGoing" ||
+                          classeses.classStatus === "CloseRegistration" ||
+                          classeses.classStatus === "OpenRegistration") && (
+                          <span style={{ fontSize: 15, fontWeight: 600 }}>
+                            {classeses.classStatus}
+                          </span>
+                        )}
+                      </div>
+                      {/* <p>Registered: {classeses.registered.registered}/{classeses.registered.maximum}</p> */}
+                      {/* Hỏi về cái class status có bao nhiêu status  */}
+                    </div>
+                  </Link>
+                ))}
             </div>
           ) : (
             <Typography>This Workshop has no class yet</Typography>

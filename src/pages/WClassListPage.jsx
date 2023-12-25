@@ -149,7 +149,7 @@ const WClassListPage = () => {
                               flexDirection: "column",
                               marginLeft: "20px",
                               maxWidth: '660px',
-                              width: '660px'
+                              width: '630px'
                             }}
                           >
                             <div className="wclpdiv_content wclpdiv_content-detail ">
