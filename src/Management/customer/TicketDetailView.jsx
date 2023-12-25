@@ -62,9 +62,9 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
       .then((res) => {
         console.log("success Assign Trainer test", res.data);
         toast.success("Success Approve Ticket");
+        onClose();
       })
       .catch((e) => console.log("fail Assign Trainer test", e));
-    onClose();
   };
 
   const CancelTicket = (ticketId) => {
@@ -381,7 +381,10 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
             <></>
           )}
 
-          {ticketDetail.status === "Finished" ? (
+          {ticketDetail.status === "WaitingForApprove" ||
+          ticketDetail.status === "Cancelled" ? (
+            <></>
+          ) : (
             <Grid item xs={1}>
               <Button
                 variant="contained"
@@ -391,8 +394,6 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
                 View Bill
               </Button>
             </Grid>
-          ) : (
-            <></>
           )}
         </Grid>
       </Grid>
