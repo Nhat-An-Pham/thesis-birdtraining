@@ -52,7 +52,11 @@ const TicketBillView = ({
             <section>
               <div style={{ width: "450px" }}>
                 <form
-                  style={{ width: "100%", display: "flex", justifyContent: "center" }}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                   onSubmit={FinishTicket}
                   className="form"
                   encType="multipart/form-data"
@@ -72,7 +76,8 @@ const TicketBillView = ({
                   >
                     <div
                       style={{
-                        boxShadow:"0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                        boxShadow:
+                          "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
                         borderRadius: 5,
                         width: "100%",
                         height: "100%",
@@ -111,9 +116,7 @@ const TicketBillView = ({
                         <tr>
                           <td>Service</td>
                           <td style={{ textAlign: "end" }}>
-                            {ticketDetail.onlineOrOffline
-                              ? "Online"
-                              : "Offine"}
+                            {ticketDetail.onlineOrOffline ? "Online" : "Offine"}
                           </td>
                         </tr>
                         <tr>
@@ -136,10 +139,10 @@ const TicketBillView = ({
                                 {ticketDetail.distancePriceCalculate === 0
                                   ? 0
                                   : ticketDetail.distancePriceCalculate
-                                    ? addonService.formatCurrency(
+                                  ? addonService.formatCurrency(
                                       ticketDetail.distancePriceCalculate
                                     )
-                                    : null}{" "}
+                                  : null}{" "}
                                 VND
                               </td>
                             </tr>
@@ -152,14 +155,14 @@ const TicketBillView = ({
                           <td style={{ textAlign: "end" }}>
                             {ticketDetail.price +
                               ticketDetail.discountedPrice ===
-                              0
+                            0
                               ? 0
                               : ticketDetail.price
-                                ? addonService.formatCurrency(
+                              ? addonService.formatCurrency(
                                   ticketDetail.price +
-                                  ticketDetail.discountedPrice
+                                    ticketDetail.discountedPrice
                                 )
-                                : null}{" "}
+                              : null}{" "}
                             VND
                           </td>
                         </tr>
@@ -175,10 +178,10 @@ const TicketBillView = ({
                             {ticketDetail.discountedPrice === 0
                               ? 0
                               : ticketDetail.discountedPrice
-                                ? addonService.formatCurrency(
+                              ? addonService.formatCurrency(
                                   ticketDetail.discountedPrice
                                 )
-                                : null}{" "}
+                              : null}{" "}
                             VND
                           </td>
                         </tr>
@@ -188,10 +191,8 @@ const TicketBillView = ({
                             {ticketDetail.price === 0
                               ? 0
                               : ticketDetail.price
-                                ? addonService.formatCurrency(
-                                  ticketDetail.price
-                                )
-                                : null}{" "}
+                              ? addonService.formatCurrency(ticketDetail.price)
+                              : null}{" "}
                             VND
                           </td>
                         </tr>
@@ -201,19 +202,23 @@ const TicketBillView = ({
                 </form>
               </div>
             </section>
-          </DialogContent >
-          <DialogActions>
-            <Button
-              sx={{ marginBottom: "20px" }}
-              variant="contained"
-              color="ochre"
-              type="submit"
-              onClick={() => FinishTicket(ticketDetail.id)}
-            >
-              Confirm Finish Appointment
-            </Button>
-          </DialogActions>
-        </Dialog >
+          </DialogContent>
+          {ticketDetail.status === "Finished" ? (
+            <></>
+          ) : (
+            <DialogActions>
+              <Button
+                sx={{ marginBottom: "20px" }}
+                variant="contained"
+                color="ochre"
+                type="submit"
+                onClick={() => FinishTicket(ticketDetail.id)}
+              >
+                Confirm Finish Appointment
+              </Button>
+            </DialogActions>
+          )}
+        </Dialog>
       ) : (
         <></>
       )}
