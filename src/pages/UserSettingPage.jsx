@@ -278,7 +278,7 @@ export const UserSettingPage = () => {
           </div>
           {userRole === "Customer" ?
             <div className="ustp-participate-container">
-              <div className="ustp-participate-wrapper">
+              <div className="ustp-participate-wrapper ustp-participate-wrapper-left">
                 <h3>Finished Courses</h3>
                 {completedCourses ? (
                   <>
@@ -287,7 +287,7 @@ export const UserSettingPage = () => {
                         <Img src={course.picture}></Img>
                         <div className="ustp-cards-content">
                           <h5>{course.title}</h5>
-                          <Typography>
+                          <Typography sx={{maxHeight: '80px', textOverflow: 'ellipsis'}}>
                             <RawHTMLRenderer
                               htmlContent={course.shortDescription}
                             ></RawHTMLRenderer>
@@ -299,7 +299,7 @@ export const UserSettingPage = () => {
                   </>
                 ) : <>You Have No Completed Course</>}
               </div>
-              <div className="ustp-participate-wrapper">
+              <div className="ustp-participate-wrapper ustp-participate-wrapper-right">
                 <h3>Participated Workshops</h3>
                 {enrolledWorkshop ? (
                   <>

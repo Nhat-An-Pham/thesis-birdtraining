@@ -69,8 +69,8 @@ function CourseDetailPage() {
   return (
     <div
       style={{
-        minHeight: "76.5vh",
-        display: "flex",
+        // minHeight: "76.5vh",
+        // display: "flex",
       }}
     >
       <div className="coursedetailpage">
