@@ -84,7 +84,13 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
         onClose();
       })
-      .catch((e) => toast.error("Fail Approve Ticket", e));
+      .catch((e) => {
+        if (distance === null) {
+          toast.error("Please fill the distance");
+        } else {
+          toast.error("Fail Approve Ticket");
+        }
+      });
   };
 
   const PreCalculatePrice = (ticketId, distance) => {
