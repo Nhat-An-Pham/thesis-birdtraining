@@ -26,35 +26,33 @@ ChartJS.register(
   Legend
 );
 
-export default function LineChart() {
-  const renderYearContent = (valueYear) => {
-    const tooltipText = `Tooltip for year: ${valueYear}`;
-    return <span title={tooltipText}>{valueYear}</span>;
-  };
+export default function LineChart({ getYearPickerLineChart }) {
+  // const renderYearContent = (valueYear) => {
+  //   const tooltipText = `Tooltip for year: ${valueYear}`;
+  //   return <span title={tooltipText}>{valueYear}</span>;
+  // };
 
-  const [valueYearSelect, setValueYear] = useState(new Date());
+  // const [valueYearSelect, setValueYear] = useState(new Date());
   // return <Line options={options} data={data} />
 
   // fetch api
   const [dataFetchYear, setDataFetchYear] = useState([]);
 
-  const getDataDashBoard = async (data) => {
+  const getDataDashBoard = async () => {
     try {
       let params = {
-        year: data,
+        year: getYearPickerLineChart.getFullYear(),
       };
       const result = await dashboardService.DashboardRevenueInYearData(params);
       if (result) {
         setDataFetchYear(result.data);
       }
-    } catch (error) {
-      toast.error("An error has occured!");
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    getDataDashBoard(valueYearSelect.getFullYear());
-  }, []);
+    getDataDashBoard();
+  }, [getYearPickerLineChart]);
 
   const getDataSetOnlineCourse = dataFetchYear.filter(
     (val) => val.label === "Online Course"
@@ -144,7 +142,7 @@ export default function LineChart() {
 
   return (
     <>
-      <Grid
+      {/* <Grid
         item
         xs={3}
         sx={{
@@ -173,7 +171,7 @@ export default function LineChart() {
             getDataDashBoard(value.getFullYear());
           }}
         />
-      </Grid>
+      </Grid> */}
       <Line options={options} data={data} />
     </>
   );
