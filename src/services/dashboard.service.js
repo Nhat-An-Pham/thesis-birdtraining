@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_API;
 // const BASE_URL = 'https://localhost:7176';
 const ACCESS_TOKEN = JSON.parse(localStorage.getItem("user-token"));
 class DashboardService {
-  async GetConsultingTicketOverview(params = null){
+  async GetConsultingTicketOverview(params = null) {
     try {
       let response = await axios.get(
         `${BASE_URL}/api/overview/consulting-ticket`,
@@ -21,10 +21,24 @@ class DashboardService {
       throw error;
     }
   }
-  async GetWorkshopClassOverview(params = null){
+  async GetWorkshopClassOverview(params = null) {
+    try {
+      let response = await axios.get(`${BASE_URL}/api/overview/workshop`, {
+        params: params,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async GetTrainingCourseOverview(params = null) {
     try {
       let response = await axios.get(
-        `${BASE_URL}/api/overview/workshop`,
+        `${BASE_URL}/api/overview/training-course`,
         {
           params: params,
           headers: {
@@ -37,28 +51,26 @@ class DashboardService {
       throw error;
     }
   }
-  async GetTransactions(params = null){
+
+  async GetTransactions(params = null) {
     try {
-      let response = await axios.get(
-        `${BASE_URL}/api/overview/transactions`,
-        {
-          params: params,
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        }
-      );
+      let response = await axios.get(`${BASE_URL}/api/overview/transactions`, {
+        params: params,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      });
       return response;
     } catch (error) {
       throw error;
     }
   }
-  async GetCampaignRevenue(month, year){
+  async GetCampaignRevenue(month, year) {
     try {
       let params = {
         month: month,
-        year:year
-      }
+        year: year,
+      };
       let response = await axios.get(
         `${BASE_URL}/api/overview/campaign-revenue`,
         {
@@ -73,17 +85,14 @@ class DashboardService {
       throw error;
     }
   }
-  async GetOnlineCourseOverview(params = null){
+  async GetOnlineCourseOverview(params = null) {
     try {
-      let response = await axios.get(
-        `${BASE_URL}/api/overview/online-course`,
-        {
-          params: params,
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        }
-      );
+      let response = await axios.get(`${BASE_URL}/api/overview/online-course`, {
+        params: params,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      });
       return response;
     } catch (error) {
       throw error;
@@ -278,15 +287,12 @@ class DashboardService {
 
   async GetListTrainerSkills(params) {
     try {
-      let response = await axios.get(
-        `${BASE_URL}/api/trainingcourse/skill`,
-        {
-          params: params,
-          headers: {
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-          },
-        }
-      );
+      let response = await axios.get(`${BASE_URL}/api/trainingcourse/skill`, {
+        params: params,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+        },
+      });
       return response;
     } catch (error) {
       throw error;
@@ -416,7 +422,6 @@ class DashboardService {
   // get dashboard api base on year
   async DashboardRevenueInYearData(year) {
     try {
-      console.log(year);
       let response = await axios.get(
         `${BASE_URL}/api/overview/revenue-in-year`,
         {
@@ -437,10 +442,27 @@ class DashboardService {
   async DashboardTopContributor() {
     try {
       // console.log(year);
+      let response = await axios.get(`${BASE_URL}/api/overview/trainer-top`, {
+        // params: year,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // pie chart services
+  async DashboardPieServicesData(year) {
+    try {
       let response = await axios.get(
-        `${BASE_URL}/api/overview/trainer-top`,
+        `${BASE_URL}/api/overview/pie-services-data`,
         {
-          // params: year,
+          params: year,
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
             "Content-Type": "application/json",
@@ -448,6 +470,133 @@ class DashboardService {
         }
       );
 
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top revenue online courses
+  async TopRevenueCourseServicesData(year) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/top-revenue/online-course`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top registration online course
+  async TopRegistrationCourseServicesData(year) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/top-registration/online-course`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top revenue workshop
+  async TopRevenueWorkshopServicesData(year) {
+    try {
+      let response = await axios.get(`${BASE_URL}/api/top-revenue/workshop`, {
+        params: year,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top registration workshop
+  async TopRegistrationWorkshopServicesData(year) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/top-registration/workshop`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top revenue TrainingCourse
+  async TopRevenueTrainingCourseServicesData(year) {
+    try {
+      let response = await axios.get(`${BASE_URL}/api/top-revenue/training-course`, {
+        params: year,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // top registration TrainingCourse
+  async TopRegistrationTrainingCourseServicesData(year) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/top-registration/training-course`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // get-ticket-ratio-onl-off-by-year
+  async TicketRatioOnOffByYear(year) {
+    try {
+      let response = await axios.get(
+        `${BASE_URL}/api/AdviceConsultingStaff/get-ticket-ratio-onl-off-by-year`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
