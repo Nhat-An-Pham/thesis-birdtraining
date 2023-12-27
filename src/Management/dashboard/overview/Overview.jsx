@@ -49,7 +49,7 @@ const Overview = () => {
   );
 
   // date pikcer
-  const [valueYearSelect, setValueYear] = useState(new Date());
+  const [valueYearSelectAndMonth, setValueYearAndMonth] = useState(new Date());
 
   // revenue and registration
   const [valueSelectedByYear, setSelectedByYear] = useState("onlineCourse");
@@ -146,7 +146,7 @@ const Overview = () => {
   const fetchTopRevenueCourseOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TopRevenueCourseServicesData(params);
       setTopRevenueOnlineCourse(res.data);
@@ -161,7 +161,7 @@ const Overview = () => {
   const fetchTopRegistrationCourseOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TopRegistrationCourseServicesData(
         params
@@ -179,7 +179,7 @@ const Overview = () => {
   const fetchTopRevenueWorkshopOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TopRevenueWorkshopServicesData(params);
       setTopRevenueWorkshop(res.data);
@@ -194,7 +194,7 @@ const Overview = () => {
   const fetchTopRegistrationWorkshopOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TopRegistrationWorkshopServicesData(
         params
@@ -206,14 +206,14 @@ const Overview = () => {
   };
 
   // ********************************Training Course*************************************
-  // top revenue Workshop
+  // top revenue Training Course
   const [topRevenueTrainingCourse, setTopRevenueTrainingCourse] =
     useState(null);
 
   const fetchTopRevenueTrainingCourseOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TopRevenueTrainingCourseServicesData(
         params
@@ -224,14 +224,14 @@ const Overview = () => {
     }
   };
 
-  // top revenue registration workshop
+  // top revenue registration Training Course
   const [topRegistrationTrainingCourse, setTopRegistrationTrainingCourse] =
     useState(null);
 
   const fetchTopRegistrationTrainingCourseOverviewData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res =
         await dashboardService.TopRegistrationTrainingCourseServicesData(
@@ -250,10 +250,148 @@ const Overview = () => {
   const fetchTicketRatioOnOffByYearData = async () => {
     try {
       let params = {
-        year: valueYearSelect.getFullYear(),
+        year: valueYearSelectAndMonth.getFullYear(),
       };
       let res = await dashboardService.TicketRatioOnOffByYear(params);
       setTicketRatioOnOffByYear(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // ************************************ get by month *************************************
+  // ******************************* Online Course by month*****************************************
+  // top revenue online course
+  const [topRevenueOnlineCourseByMonth, setTopRevenueOnlineCourseByMonth] =
+    useState(null);
+  const fetchTopRevenueCourseOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res = await dashboardService.TopRevenueCourseServicesDataByMonth(
+        params
+      );
+      setTopRevenueOnlineCourseByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // top revenue registration course
+  const [topRegistrationByMonth, setTopRegistrationByMonth] = useState(null);
+
+  const fetchTopRegistrationCourseOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res = await dashboardService.TopRegistrationCourseServicesDataByMonth(
+        params
+      );
+      setTopRegistrationByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // ******************************** Workshop by month *************************************************
+  // top revenue workshop
+  const [topRevenueWorkshopByMonth, setTopRevenueWorkshopByMonth] =
+    useState(null);
+
+  const fetchTopRevenueWorkshopOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res = await dashboardService.TopRevenueWorkshopServicesDataByMonth(
+        params
+      );
+      setTopRevenueWorkshopByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // top revenue registration workshop
+  const [topRegistrationWorkshopByMonth, setTopRegistrationWorkshopByMonth] =
+    useState(null);
+
+  const fetchTopRegistrationWorkshopOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res =
+        await dashboardService.TopRegistrationWorkshopServicesDataByMonth(
+          params
+        );
+      setTopRegistrationWorkshopByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // ******************************** training courses by month *************************************************
+
+  // top revenue Training Course
+  const [topRevenueTrainingCourseByMonth, setTopRevenueTrainingCourseByMonth] =
+    useState(null);
+
+  const fetchTopRevenueTrainingCourseOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res =
+        await dashboardService.TopRevenueTrainingCourseServicesDataByMonth(
+          params
+        );
+      setTopRevenueTrainingCourseByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // top revenue registration Training Course
+  const [
+    topRegistrationTrainingCourseByMonth,
+    setTopRegistrationTrainingCourseByMonth,
+  ] = useState(null);
+
+  const fetchTopRegistrationTrainingCourseOverviewDataByMonth = async () => {
+    try {
+      let params = {
+        year: valueYearSelectAndMonth.getFullYear(),
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res =
+        await dashboardService.TopRegistrationTrainingCourseServicesDataByMonth(
+          params
+        );
+      setTopRegistrationTrainingCourseByMonth(res.data);
+    } catch (error) {
+      // toast.error("An error has occured!");
+    }
+  };
+
+  // *********************************** consulting ***************************************
+  // get-ticket-ratio-onl-off-by-year
+  const [ticketRatioOnOffByMonth, setTicketRatioOnOffByMonth] = useState(null);
+
+  const fetchTicketRatioOnOffByMonthData = async () => {
+    try {
+      let params = {
+        month: valueYearSelectAndMonth.getMonth(),
+      };
+      let res = await dashboardService.TicketRatioOnOffByMonth(params);
+      setTicketRatioOnOffByMonth(res.data);
     } catch (error) {
       // toast.error("An error has occured!");
     }
@@ -277,6 +415,7 @@ const Overview = () => {
     fetchWorkshopOverviewData();
     fetchTrainingCourseOverviewData();
 
+    // ******** get by year ****************
     // top revenue and registration online course
     fetchTopRevenueCourseOverviewData();
     fetchTopRegistrationCourseOverviewData();
@@ -288,6 +427,14 @@ const Overview = () => {
     fetchTopRegistrationTrainingCourseOverviewData();
     // ticket ratio on off
     fetchTicketRatioOnOffByYearData();
+    // ********* get by month number ********************************
+    fetchTopRevenueCourseOverviewDataByMonth();
+    fetchTopRegistrationCourseOverviewDataByMonth();
+    fetchTopRevenueWorkshopOverviewDataByMonth();
+    fetchTopRegistrationWorkshopOverviewDataByMonth();
+    fetchTopRevenueTrainingCourseOverviewDataByMonth();
+    fetchTopRegistrationTrainingCourseOverviewDataByMonth();
+    fetchTicketRatioOnOffByMonthData();
 
     fetchTransactionData(type[1]);
     fetchTransactionData(type[2]);
@@ -306,7 +453,7 @@ const Overview = () => {
     }, 1000 * 3 * 60);
     fetchCampaign();
     return () => intervalId;
-  }, [valueYearSelect]);
+  }, [valueYearSelectAndMonth]);
 
   return (
     <Box m="20px">
@@ -445,7 +592,7 @@ const Overview = () => {
       </Box>
 
       {/* dashboard */}
-      {/* year select to render */}
+      {/* YEAR select to render */}
       <Grid
         item
         xs={3}
@@ -466,26 +613,16 @@ const Overview = () => {
         >
           Select year:
         </Typography>
-        {/* <ReactDatePicker
-          selected={valueYearSelect}
-          renderYearContent={renderYearContent}
-          showYearPicker
-          dateFormat="yyyy"
-          onChange={(value) => {
-            console.log('data change', value)
-            setValueYear(value.getFullYear());
-          }}
-        /> */}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             // minDate={dayjs(new Date())}
             label="Year"
             views={["year"]}
-            value={dayjs(valueYearSelect, "yyyy")}
+            value={dayjs(valueYearSelectAndMonth)}
+            defaultValue={dayjs(valueYearSelectAndMonth)}
             onChange={(value) => {
-              setValueYear(new Date(value));
+              setValueYearAndMonth(new Date(value));
             }}
-            // sx={{ width: 350, maxWidth: 1000 }}
           />
         </LocalizationProvider>
       </Grid>
@@ -523,7 +660,7 @@ const Overview = () => {
             alignItems="center"
           >
             <Box width="100%">
-              <LineChart getYearPickerLineChart={valueYearSelect} />
+              <LineChart getYearPickerLineChart={valueYearSelectAndMonth} />
             </Box>
           </Box>
         </Box>
@@ -550,7 +687,7 @@ const Overview = () => {
             alignItems="center"
           >
             <Box width="70%">
-              <PieChart getYearPickerPieChart={valueYearSelect} />
+              <PieChart getYearPickerPieChart={valueYearSelectAndMonth} />
             </Box>
           </Box>
         </Box>
@@ -810,7 +947,7 @@ const Overview = () => {
       </div>
 
       {/* top by month */}
-      {/* <div style={{ marginTop: 35 }}>
+      <div style={{ marginTop: 35 }}>
         <div
           style={{
             display: "flex",
@@ -833,6 +970,38 @@ const Overview = () => {
             <option value="Workshop">Workshop</option>
             <option value="Training">Training Course</option>
           </select>
+          <Grid
+            item
+            xs={3}
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              marginLeft: 10,
+            }}
+          >
+            <Typography
+              style={{
+                fontWeight: 600,
+                fontSize: "16px",
+                marginRight: 10,
+              }}
+            >
+              Select month:
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker
+                label="Month"
+                views={["month"]}
+                value={dayjs(valueYearSelectAndMonth)}
+                defaultValue={dayjs(valueYearSelectAndMonth)}
+                onChange={(value) => {
+                  setValueYearAndMonth(new Date(value));
+                }}
+              />
+            </LocalizationProvider>
+          </Grid>
         </div>
         {valueSelectedByMonth === "onlineCourse" && (
           <div
@@ -864,7 +1033,7 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRevenueOnlineCourse} />
+                  <BarChart getData={topRevenueOnlineCourseByMonth} />
                 </Box>
               </Box>
             </Box>
@@ -890,7 +1059,43 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRegistration} />
+                  <BarChart getData={topRegistrationByMonth} />
+                </Box>
+              </Box>
+            </Box>
+          </div>
+        )}
+        {valueSelectedByMonth === "Consulting" && (
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              width="70%"
+              marginRight="35px"
+              marginTop="20px"
+              gridColumn="span 8"
+              gridRow="span 2"
+              sx={{
+                cursor: "pointer",
+                borderRadius: "10px",
+                boxShadow:
+                  "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
+                marginTop: "25px",
+              }}
+            >
+              <Box
+                p="0 20px 20px 10px"
+                display="flex "
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Box width="100%" sx={{ backgroundColor: "#f2f0f0" }}>
+                  <PercentChart data={ticketRatioOnOffByMonth} />
                 </Box>
               </Box>
             </Box>
@@ -926,7 +1131,7 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRevenueWorkshop} />
+                  <BarChart getData={topRevenueWorkshopByMonth} />
                 </Box>
               </Box>
             </Box>
@@ -951,7 +1156,7 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRegistrationWorkshop} />
+                  <BarChart getData={topRegistrationWorkshopByMonth} />
                 </Box>
               </Box>
             </Box>
@@ -987,7 +1192,7 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRevenueTrainingCourse} />
+                  <BarChart getData={topRevenueTrainingCourseByMonth} />
                 </Box>
               </Box>
             </Box>
@@ -1012,13 +1217,13 @@ const Overview = () => {
                 alignItems="center"
               >
                 <Box width="100%">
-                  <BarChart getData={topRegistrationTrainingCourse} />
+                  <BarChart getData={topRegistrationTrainingCourseByMonth} />
                 </Box>
               </Box>
             </Box>
           </div>
         )}
-      </div> */}
+      </div>
     </Box>
   );
 };
