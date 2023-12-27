@@ -155,7 +155,7 @@ export default function WorkshopViewComponent({ workshopId }) {
                     label={"Workshop Title"}
                     type={"text"}
                     multiline
-                    maxRows={2}
+                    rows={2}
                     defaultValue={workshop.title}
                     value={workshop.title}
                     InputProps={{
