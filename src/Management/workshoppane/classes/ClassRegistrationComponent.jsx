@@ -34,7 +34,7 @@ const ClassRegistrationComponent = ({ open, handleClose, slotId }) => {
     fetchList();
 
     return () => {};
-  }, []);
+  }, [open]);
   return (
     <>
       <Dialog open={open} onClose={handleClose} maxWidth={"xl"}>
