@@ -151,7 +151,7 @@ const Overview = () => {
       let res = await dashboardService.TopRevenueCourseServicesData(params);
       setTopRevenueOnlineCourse(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -168,7 +168,7 @@ const Overview = () => {
       );
       setTopRegistration(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -184,7 +184,7 @@ const Overview = () => {
       let res = await dashboardService.TopRevenueWorkshopServicesData(params);
       setTopRevenueWorkshop(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -201,7 +201,7 @@ const Overview = () => {
       );
       setTopRegistrationWorkshop(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -220,7 +220,7 @@ const Overview = () => {
       );
       setTopRevenueTrainingCourse(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -239,7 +239,7 @@ const Overview = () => {
         );
       setTopRegistrationTrainingCourse(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
@@ -255,7 +255,7 @@ const Overview = () => {
       let res = await dashboardService.TicketRatioOnOffByYear(params);
       setTicketRatioOnOffByYear(res.data);
     } catch (error) {
-      toast.error("An error has occured!");
+      // toast.error("An error has occured!");
     }
   };
 
