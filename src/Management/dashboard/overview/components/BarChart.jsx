@@ -9,7 +9,6 @@ var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 export default function BarChart({
   getData,
 }) {
-  console.log('topRevenueOnlineCourse :>> ', getData);
   const options = {
     animationEnabled: true,
     theme: "light2",
@@ -18,7 +17,7 @@ export default function BarChart({
     },
     axisX: {
       title: "Courses",
-      reversed: false,
+      reversed: true,
     },
     axisY: {
       title: "Revenue top",

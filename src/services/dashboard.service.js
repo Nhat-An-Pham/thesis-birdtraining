@@ -552,13 +552,16 @@ class DashboardService {
   // top revenue TrainingCourse
   async TopRevenueTrainingCourseServicesData(year) {
     try {
-      let response = await axios.get(`${BASE_URL}/api/top-revenue/training-course`, {
-        params: year,
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await axios.get(
+        `${BASE_URL}/api/top-revenue/training-course`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -603,7 +606,6 @@ class DashboardService {
     }
   }
 
-
   //  get by month
   // top revenue online courses
   async TopRevenueCourseServicesDataByMonth(year) {
@@ -643,17 +645,19 @@ class DashboardService {
     }
   }
 
-  
   // top revenue workshop
   async TopRevenueWorkshopServicesDataByMonth(year) {
     try {
-      let response = await axios.get(`${BASE_URL}/api/top-revenue/workshop-month`, {
-        params: year,
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await axios.get(
+        `${BASE_URL}/api/top-revenue/workshop-month`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -682,13 +686,16 @@ class DashboardService {
   // top revenue TrainingCourse
   async TopRevenueTrainingCourseServicesDataByMonth(year) {
     try {
-      let response = await axios.get(`${BASE_URL}/api/top-revenue/training-course-month`, {
-        params: year,
-        headers: {
-          Authorization: `Bearer ${ACCESS_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      });
+      let response = await axios.get(
+        `${BASE_URL}/api/top-revenue/training-course-month`,
+        {
+          params: year,
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       return response;
     } catch (error) {
       throw error;
@@ -727,6 +734,22 @@ class DashboardService {
           },
         }
       );
+      return response;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // get-ticket-ratio-onl-off-by-year
+  async TopTrainer(year) {
+    try {
+      let response = await axios.get(`${BASE_URL}/api/top-trainer`, {
+        params: year,
+        headers: {
+          Authorization: `Bearer ${ACCESS_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+      });
       return response;
     } catch (error) {
       throw error;
