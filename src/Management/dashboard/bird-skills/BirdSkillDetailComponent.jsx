@@ -26,7 +26,7 @@ import { jwtDecode } from "jwt-decode";
 export default function BirdSkillDetailComponent({ birdSkillId, onClose }) {
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const [birdSkill, setBirdSkill] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");

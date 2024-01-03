@@ -26,7 +26,7 @@ import { jwtDecode } from "jwt-decode";
 export default function BirdSpeciesDetailComponent({ birdSpeciesId, onClose }) {
   const userRole = jwtDecode(
     JSON.stringify(localStorage.getItem("user-token"))
-  );
+  )?.role;
   const [birdSpecies, setBirdSpecies] = useState(null);
   const [name, setName] = useState("");
   const [shortDetail, setDetail] = useState("");
