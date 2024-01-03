@@ -20,7 +20,7 @@ export default function ClassSlotsPaneComponent({
   callbackSelectSlot,
 }) {
   const [slots, setSlots] = useState(passedSlots);
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   
   useEffect(() => {
     setSlots(passedSlots);
@@ -50,7 +50,7 @@ export default function ClassSlotsPaneComponent({
             <>
               <ListItem disablePadding>
                 <ListItemButton
-                  selected={selectedIndex === index ? true : false}
+                  selected={ index === selectedIndex  ? true : false }
                   onClick={() => handleSelectSlot(index)}
                   sx={{
                     borderLeft: "1px solid #e0e0e0", // Left border
