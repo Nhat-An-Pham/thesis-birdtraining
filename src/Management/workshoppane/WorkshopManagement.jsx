@@ -118,7 +118,7 @@ export default function WorkshopManagementComponent() {
                     </Tabs>
                   </Grid>
                   <Grid item>
-                    {user?.role === "Manager" ? (
+                    {user === "Manager" ? (
                       <Button
                         color="ochre"
                         variant="contained"
