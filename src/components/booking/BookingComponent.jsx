@@ -22,7 +22,7 @@ function BookingComponent() {
 
     /*DATA AMD STATES*/
     //1 and customerID
-    const [serviceId, setServiceId] = useState(false);
+    const [serviceId, setServiceId] = useState(null);
     const customerId = JSON.parse(localStorage.getItem("user-token"))
     //2
     const [selectedTrainerId, setSelectedTrainerId] = useState(null);
@@ -154,8 +154,10 @@ function BookingComponent() {
     useEffect(() => {
         if (serviceId === true) {
             setServiceName("(Online Consultation)")
-        } else {
+        } else if ( serviceId === false) {
             setServiceName("(In-Home Consultation)")
+        } else {
+            setServiceName("")
         }
     }, [serviceId])
 
@@ -184,7 +186,7 @@ function BookingComponent() {
         <Box sx={{ maxWidth: 600 }}>
             <Stepper activeStep={activeStep} orientation="vertical" >
                 {steps.map((step, index) => (
-                    <Step key={step.label} >
+                    <Step key={index} >
                         <StepLabel
                             optional={
                                 index === 3 ? (

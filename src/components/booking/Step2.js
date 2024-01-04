@@ -8,7 +8,7 @@ import ConsultantService from '../../services/consultant.service';
 
 // STEP 2 IS WHERE WE GET AND SET TRAINER FOR THE APPLY
 export default function Step2({getTrainerId}) {
-  const [selectedIndex, setSelectedIndex] = useState(1);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const [listOfTrainers, setListOfTrainers] = useState([]);
 
 
@@ -25,7 +25,7 @@ export default function Step2({getTrainerId}) {
   const handleListItemClick = (trainerId, trainerName, index) => {
     //this function sets business id into state
     getTrainerId(trainerId);
-    setSelectedIndex(index);
+    setSelectedIndex(trainerId);
   };
 
   //  const serviceList = [{
@@ -53,7 +53,7 @@ export default function Step2({getTrainerId}) {
           return (
             <>
               <ListItemButton
-                selected={selectedIndex === idx}
+                selected={selectedIndex === trainer.id ? true : false}
                 onClick={(event) => handleListItemClick(trainer.id, trainer.name, idx)}
               >
                 <ListItemText primary={trainer.name} />
