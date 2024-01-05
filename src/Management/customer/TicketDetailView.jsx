@@ -65,7 +65,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         onClose();
       })
       .catch((e) => {if (assignedTrainer === null) {
-        toast.error("Please Assign Available Trainer!");
+        toast.error("Please choose a Trainer!");
       }
       else {
         toast.error("Fail Assign Trainer!");
