@@ -10,18 +10,26 @@ const PercentChart = ({data}) => {
   const options = {
     animationEnabled: true,
     title: {
-      text: "All Time Summer Olympic Medals",
+      text: "Consulting offline vs online",
     },
     legend: {
       verticalAlign: "center",
       horizontalAlign: "right",
       reversed: true,
       cursor: "pointer",
-      fontSize: 16,
+      fontSize: 20,
       // itemclick: this.toggleDataSeries
     },
     toolTip: {
+      reversed: true,
       shared: true,
+    },
+    axisY: {
+      title: "Offline vs online",
+      suffix: "%"
+    },
+    axisX: {
+      title: `Month`,
     },
     data: [
       {

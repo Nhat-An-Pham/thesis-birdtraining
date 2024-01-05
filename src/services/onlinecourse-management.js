@@ -126,10 +126,10 @@ class OnlineCourseManagementService {
         return response;
     }
 
-    async switchCourseStatus(selectedCourse) {
+    async switchCourseStatus(selectedCourse, action) {
         const accessToken = JSON.parse(localStorage.getItem("user-token"))
         try {
-            let action = selectedCourse.status === "ACTIVE" ? "deactivate" : "activate";
+            // let action = selectedCourse.status === "ACTIVE" ? "deactivate" : "activate";
             const endpoint = API_URL + `/${action}`;
 
             // Assuming you have the Bearer token stored in a variable called 'token'

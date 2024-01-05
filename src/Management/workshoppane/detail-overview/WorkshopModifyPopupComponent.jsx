@@ -175,8 +175,8 @@ const WorkshopModifyPopupComponent = ({
                     <Grid item xs={12}>
                       <TextField
                         fullWidth
-                        multiline={true}
                         rows={2}
+                        multiline
                         required
                         label={"Title"}
                         type="text"

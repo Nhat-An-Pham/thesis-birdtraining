@@ -20,7 +20,6 @@ export default function StripeCheckout({
   const [err, setErr] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     // console.log("name: ", customerName);
     // console.log("email: ", customerEmail);
@@ -32,7 +31,7 @@ export default function StripeCheckout({
       // };
       // console.log(data);
       // console.log(billAmount);
-      axios("https://13.214.85.41/payments/create-checkout", {
+      axios(process.env.REACT_APP_PAYMENT + "/payments/create-checkout", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         params: {

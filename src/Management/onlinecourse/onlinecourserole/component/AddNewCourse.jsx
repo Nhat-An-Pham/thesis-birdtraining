@@ -102,9 +102,9 @@ export const AddNewCourse = ({ callbackCreateOnlineCourse, renderIndex }) => {
                                 Upload image
                             </UploadComponent>
                         {/* Display submitted files here */}
-                        <div>
+                        {/* <div>
                             {submittedImages}
-                        </div>
+                        </div> */}
                         <p style={{ color: "red" }}>{errMessage}</p>
                     </FormControl>
                     <br />

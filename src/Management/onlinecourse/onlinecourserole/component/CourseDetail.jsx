@@ -83,11 +83,13 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
     }
 
     const switchcourseStatus = (course) => {
-        onlinecourseManagement.switchCourseStatus(course)
+        let action = status === "ACTIVE" ? "deactivate" : "activate";
+        console.log(status);
+        onlinecourseManagement.switchCourseStatus(course, action)
             .then((res) => {
                 toast.success("Successfully changed status");
-                let action = selectedCourse.status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
-                setStatus(action);
+                let changedStatus = status === "ACTIVE" ? "INACTIVE" : "ACTIVE";
+                setStatus(changedStatus);
             })
             .catch((e) => {
                 toast.error("Cannot change status")

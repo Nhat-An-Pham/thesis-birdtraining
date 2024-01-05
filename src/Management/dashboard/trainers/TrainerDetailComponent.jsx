@@ -26,7 +26,7 @@ import AddSkillToTrainerComponent from "./AddTrainerSkillComponent.jsx";
 import { jwtDecode } from "jwt-decode";
 
 export default function TrainerDetailComponent({ trainerId, onClose }) {
-  const userRole = jwtDecode(JSON.stringify(localStorage.getItem('user-token')));
+  const userRole = jwtDecode(JSON.stringify(localStorage.getItem('user-token')))?.role;
   const [trainer, setTrainer] = useState(null);
   const [skills, setSkills] = useState([]);
   const [search, setSearch] = useState("");
