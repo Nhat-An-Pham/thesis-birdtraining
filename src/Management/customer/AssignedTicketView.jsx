@@ -5,13 +5,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Grid,
   ThemeProvider,
+  Button,
+  Table,
+  Grid,
   Container,
 } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Table } from "@mui/material";
 import ConsultantService from "../../services/consultant.service";
 import addonService from "../../services/addon.service";
 import TicketDetailView from "./TicketDetailView";
@@ -82,40 +83,42 @@ const AssignedTicketView = ({}) => {
             >
               <Grid item xs={12}>
                 <TableContainer component={Paper}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Ticket ID</TableCell>
-                      <TableCell>Service</TableCell>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Time</TableCell>
-                      <TableCell>Detail</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {sortedlistAssignedConsultingTicket.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{row.id}</TableCell>
-                        <TableCell>
-                          {row.onlineOrOffline ? "Online" : "Offine"}
-                        </TableCell>
-                        <TableCell>
-                          {addonService.formatDate(row.appointmentDate)}
-                        </TableCell>
-                        <TableCell>{row.actualSlotStart}</TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="ochre"
-                            onClick={() => {
-                              handleDetailClick(row.id);
-                            }}
-                          >
-                            Detail
-                          </Button>
-                        </TableCell>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Ticket ID</TableCell>
+                        <TableCell>Service</TableCell>
+                        <TableCell>Date</TableCell>
+                        <TableCell>Time</TableCell>
+                        <TableCell>Detail</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
+                    </TableHead>
+                    <TableBody>
+                      {sortedlistAssignedConsultingTicket.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{row.id}</TableCell>
+                          <TableCell>
+                            {row.onlineOrOffline ? "Online" : "Offine"}
+                          </TableCell>
+                          <TableCell>
+                            {addonService.formatDate(row.appointmentDate)}
+                          </TableCell>
+                          <TableCell>{row.actualSlotStart}</TableCell>
+                          <TableCell>
+                            <Button
+                              variant="contained"
+                              color="ochre"
+                              onClick={() => {
+                                handleDetailClick(row.id);
+                              }}
+                            >
+                              Detail
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </TableContainer>
               </Grid>
             </Grid>
