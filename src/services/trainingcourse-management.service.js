@@ -659,6 +659,24 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async getAllBirdsByCustomer(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-customer/customer-bird`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error get birds by customer failed:", error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
 }
 
 export default new TrainingCourseManagementService();

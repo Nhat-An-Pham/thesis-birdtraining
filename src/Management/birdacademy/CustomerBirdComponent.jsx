@@ -15,7 +15,8 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import BirdSkillReceivedComponent from "./BirdSkillReceivedComponent";
-import { ArrowCircleLeftOutlined, Close } from "@mui/icons-material";
+import trainingCourseManagementService from "../../../src/services/trainingcourse-management.service";
+import { Close } from "@mui/icons-material";
 
 const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
   const [birdList, setBirdList] = useState([]);
@@ -25,22 +26,19 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
     setSelectedBird(key);
   };
 
+  const fetchData = async () => {
+    try {
+      let params = {
+        customerId: customerId,
+      };
+      let response =
+        await trainingCourseManagementService.getAllBirdsByCustomer(params);
+      setBirdList(response);
+    } catch (error) {
+      console.error("Error fetching bird data:", error);
+    }
+  };
   useEffect(() => {
-    // Simulate fetching bird information based on customerId
-    // Replace this with your actual API call or data fetching logic
-    const fetchData = async () => {
-      try {
-        // Replace this URL with your actual API endpoint
-        const response = await fetch(
-          `http://13.214.85.41/api/trainingcourse-customer/customer-bird?customerId=${customerId}`
-        );
-        const data = await response.json();
-        setBirdList(data); // Assuming data is an array of bird information
-      } catch (error) {
-        console.error("Error fetching bird data:", error);
-      }
-    };
-
     fetchData();
   }, [customerId]);
 
@@ -65,7 +63,11 @@ const CustomerBirdComponent = ({ customerId, callBackMainManagement }) => {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } , fontWeight: 700}}
+              sx={{
+                flexGrow: 1,
+                display: { xs: "none", sm: "block" },
+                fontWeight: 700,
+              }}
             >
               Customer Bird
             </Typography>
