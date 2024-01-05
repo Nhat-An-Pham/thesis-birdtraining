@@ -18,6 +18,7 @@ const AddNewComponent = ({
   renderIndex,
   courseId,
   sectionId,
+  backToIndex
 }) => {
   const [errMessage, setErrMessage] = useState(null);
   //SECTION
@@ -67,7 +68,7 @@ const AddNewComponent = ({
       .postAddLesson(formData)
       .then((res) => {
         toast.success("Submit Successfully");
-        renderIndex(0);
+        backToIndex(0);
       })
       .catch((e) => {
         toast.error("Fail To Submit");
@@ -172,7 +173,7 @@ const AddNewComponent = ({
               style={{ width: "100%", paddingTop: "20px" }}
             >
               <FormControl fullWidth required style={{ marginBottom: "30px" }}>
-                <InputLabel htmlFor="title">Section Title</InputLabel>
+                <InputLabel htmlFor="title">Lesson Title</InputLabel>
                 <Input
                   type="text"
                   onChange={(e) => {

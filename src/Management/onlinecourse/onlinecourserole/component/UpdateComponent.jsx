@@ -177,7 +177,7 @@ const UpdateComponent = ({
               style={{ width: "100%", paddingTop: "20px" }}
             >
               <FormControl fullWidth required style={{ marginBottom: "30px" }}>
-                <InputLabel htmlFor="title">Section Title</InputLabel>
+                <InputLabel htmlFor="title">Lesson Title</InputLabel>
                 <Input
                   type="text"
                   placeholder={selectedLesson.title}
@@ -198,7 +198,7 @@ const UpdateComponent = ({
                 />
               </FormControl>
               <FormControl required style={{ marginBottom: 15 }}>
-                <Button variant="contained" color="ochre">
+                {/* <Button variant="contained" color="ochre">
                   <UploadComponent
                     onChange={handleVideoChange}
                     accept="video/*"
@@ -207,8 +207,15 @@ const UpdateComponent = ({
                     Upload Video
                   </UploadComponent>
                 </Button>
-                {/* Display submitted files here */}
-                <div>{submittedVideo}</div>
+                
+                <div>{submittedVideo}</div> */}
+                <UploadComponent
+                    onChange={handleVideoChange}
+                    accept="video/*"
+                    multiple={false}
+                  >
+                    Upload Video
+                  </UploadComponent>
                 <p style={{ color: "red" }}>{errMessage}</p>
               </FormControl>
               <br />
