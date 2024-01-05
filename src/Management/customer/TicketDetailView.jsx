@@ -64,7 +64,13 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
         onClose();
       })
-      .catch((e) => console.log("fail Assign Trainer test", e));
+      .catch((e) => {if (assignedTrainer === null) {
+        toast.error("Please Assign Available Trainer!");
+      }
+      else {
+        toast.error("Fail Assign Trainer!");
+      }
+    });
   };
 
   const CancelTicket = (ticketId) => {
