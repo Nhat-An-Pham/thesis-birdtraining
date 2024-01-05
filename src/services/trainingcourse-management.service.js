@@ -28,8 +28,9 @@ class TrainingCourseManagementService {
   }
   async sendNotiConfirmedRequest(params = null) {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         `${BASE_URL}/api/trainingcourse/sendnoticonfirmedrequest`,
+        null,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -37,7 +38,7 @@ class TrainingCourseManagementService {
           params: params,
         }
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error(error);
       // You might want to throw an error here or handle it as needed.
@@ -46,8 +47,9 @@ class TrainingCourseManagementService {
   }
   async sendNotiTrainingdoneRequest(params = null) {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         `${BASE_URL}/api/trainingcourse/sendnotitrainingdonerequest`,
+        null,
         {
           headers: {
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -55,7 +57,7 @@ class TrainingCourseManagementService {
           params: params,
         }
       );
-      return response.data;
+      return response;
     } catch (error) {
       console.error(error);
       // You might want to throw an error here or handle it as needed.
