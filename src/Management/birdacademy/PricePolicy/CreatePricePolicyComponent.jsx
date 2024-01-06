@@ -129,6 +129,7 @@ const CreatePricePolicyComponent = ({ callbackCreatePolicy }) => {
               step="0.01"
               onChange={(e) => setPrice(e.target.value)}
               required
+              value={price}
             />
           </FormControl>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
