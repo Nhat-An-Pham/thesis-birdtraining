@@ -50,7 +50,8 @@ const AddNewComponent = ({
       .postAddSection(formData)
       .then((res) => {
         toast.success("Submit Successfully");
-        renderIndex(0);
+        // renderIndex(0);
+        backToIndex(0);
       })
       .catch((e) => {
         toast.error("Fail To Submit");
