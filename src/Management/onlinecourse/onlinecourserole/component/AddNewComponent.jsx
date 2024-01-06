@@ -64,7 +64,7 @@ const AddNewComponent = ({
     formData.append("Title", lessonTitle);
     formData.append("SectionId", sectionId);
     formData.append("Description", tempDescr);
-    formData.append("ResourceFiles", video);
+    formData.append("Video", video);
     onlinecourseManagement
       .postAddLesson(formData)
       .then((res) => {
