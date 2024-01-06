@@ -302,7 +302,10 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            {ticketDetail.status === "Finished" ? (
+            {ticketDetail.status === "Finished" &&
+            ticketDetail.onlineOrOffline === false &&
+            ticketDetail.evidence &&
+            ticketDetail.evidence.includes(",") ? (
               <>
                 <Typography>
                   {ticketDetail.evidence.split(",").map((evidence) => (
@@ -322,16 +325,54 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                   ))}
                 </Typography>
               </>
+            ) : ticketDetail.status === "Finished" &&
+              ticketDetail.onlineOrOffline === false ? (
+              <>
+                <Typography>
+                  <Link
+                    style={{
+                      marginLeft: "20px",
+                      padding: "10px",
+                      color: "white",
+                      textDecoration: "none",
+                      backgroundColor: "#C8AE7D",
+                    }}
+                    to={ticketDetail.evidence}
+                    target="_blank"
+                  >
+                    {ticketDetail.evidence}
+                  </Link>
+                </Typography>
+              </>
+            ) : ticketDetail.status === "Finished" &&
+              ticketDetail.onlineOrOffline === true ? (
+              <>
+                <Typography>
+                  <Link
+                    style={{
+                      marginLeft: "20px",
+                      padding: "10px",
+                      color: "white",
+                      textDecoration: "none",
+                      backgroundColor: "#C8AE7D",
+                    }}
+                    to={ticketDetail.evidence}
+                    target="_blank"
+                  >
+                    {ticketDetail.evidence}
+                  </Link>
+                </Typography>
+              </>
             ) : (
               <>
                 {ticketDetail.onlineOrOffline === true ? (
                   <>
                     <FormControl>
                       <TextField
-                        label={"Record"}
+                        label={"Record Link"}
                         type="text"
                         defaultValue={ticketDetail.evidence}
-                        onChange={(e) => setOnlineEvidence(e.target.value)}
+                        onChange={(e) => setOnlineEvidence(e.target.value.trim())}
                       />
                     </FormControl>
                   </>
@@ -363,9 +404,9 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
                   onlineEvidence === null ||
                   onlineEvidence === "")) ||
               (ticketDetail.onlineOrOffline === false &&
-                (evidence === null || evidence === "")) ? (
+                (evidence === null || /^\s*$/.test(evidence)) || evidence === "" ) ? (
               <>
-                <Button variant="contained" color="ochre" disabled="true">
+                <Button variant="contained" color="ochre" disabled={true}>
                   Save
                 </Button>
               </>
@@ -420,7 +461,13 @@ const TrainerTicketDetailView = ({ ticketIdForDetail, onClose }) => {
           </Grid>
           <Grid item xs={3}>
             {ticketDetail.status === "Finished" ? (
-              <></>
+              <Button
+                variant="contained"
+                color="ochre"
+                onClick={() => handleViewBillOnClick()}
+              >
+                View Bill
+              </Button>
             ) : ticketDetail.evidence && ticketDetail.actualEndSlot ? (
               <Button
                 variant="contained"
