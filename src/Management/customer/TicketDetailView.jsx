@@ -64,7 +64,13 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
         toast.success("Success Approve Ticket");
         onClose();
       })
-      .catch((e) => console.log("fail Assign Trainer test", e));
+      .catch((e) => {
+        if (assignedTrainer === null) {
+          toast.error("Please choose a Trainer!");
+        } else {
+          toast.error("Fail Assign Trainer!");
+        }
+      });
   };
 
   const CancelTicket = (ticketId) => {
@@ -185,19 +191,9 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
               Customer:
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={3}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerName}
-            </Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography style={{ fontWeight: "bold", color: "blue" }}>
-              Email:
-            </Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography style={{ color: "blue" }}>
-              {ticketDetail.customerEmail}
             </Typography>
           </Grid>
           <Grid item xs={3}>
@@ -208,6 +204,16 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           <Grid item xs={3}>
             <Typography style={{ color: "blue" }}>
               {ticketDetail.customerPhone}
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography style={{ fontWeight: "bold", color: "blue" }}>
+              Email:
+            </Typography>
+          </Grid>
+          <Grid item xs={9}>
+            <Typography style={{ color: "blue" }}>
+              {ticketDetail.customerEmail}
             </Typography>
           </Grid>
           {ticketDetail.onlineOrOffline ? (
@@ -322,6 +328,7 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           {isAssigned === 1 ? (
             <>
               <Grid container item spacing={15}>
+                <Grid item xs={8}></Grid>
                 <Grid item xs={1}>
                   {ticketDetail.onlineOrOffline === true ? (
                     <Button
@@ -360,27 +367,30 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
             </>
           ) : isAssigned === 2 ? (
             <>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    AssignTrainer(assignedTrainer, ticketIdForDetail);
-                  }}
-                >
-                  Assign
-                </Button>
-              </Grid>
-              <Grid item xs={1}>
-                <Button
-                  variant="contained"
-                  color="ochre"
-                  onClick={() => {
-                    CancelTicket(ticketIdForDetail);
-                  }}
-                >
-                  Cancel
-                </Button>
+              <Grid container item spacing={15}>
+                <Grid item xs={8}></Grid>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      AssignTrainer(assignedTrainer, ticketIdForDetail);
+                    }}
+                  >
+                    Assign
+                  </Button>
+                </Grid>
+                <Grid item xs={1}>
+                  <Button
+                    variant="contained"
+                    color="ochre"
+                    onClick={() => {
+                      CancelTicket(ticketIdForDetail);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Grid>
               </Grid>
             </>
           ) : (
@@ -391,14 +401,18 @@ const TicketDetailView = ({ ticketIdForDetail, isAssigned, onClose }) => {
           ticketDetail.status === "Cancelled" ? (
             <></>
           ) : (
-            <Grid item xs={1}>
-              <Button
-                variant="contained"
-                color="ochre"
-                onClick={() => handleViewBillOnClick()}
-              >
-                View Bill
-              </Button>
+            <Grid container item spacing={15}>
+               <Grid item xs={9}></Grid>
+              <Grid item xs={1}>
+                <Button
+                  variant="contained"
+                  color="ochre"
+                  width="100px"
+                  onClick={() => handleViewBillOnClick()}
+                >
+                  View Bill
+                </Button>
+              </Grid>
             </Grid>
           )}
         </Grid>

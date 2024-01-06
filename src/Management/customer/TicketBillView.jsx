@@ -63,32 +63,14 @@ const TicketBillView = ({
                 >
                   <div
                     style={{
-                      boxShadow:
-                        "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
                       borderRadius: 5,
                       width: "90%",
                       height: "100%",
-                      padding: "20px",
                       display: "flex",
                       flexDirection: "column",
                       gap: "1rem",
                     }}
                   >
-                    <div
-                      style={{
-                        boxShadow:
-                          "0px 2px 4px 2px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)",
-                        borderRadius: 5,
-                        width: "100%",
-                        height: "100%",
-                        padding: "20px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                      }}
-                    >
-                      Billing Details
-                    </div>
                     <div>
                       <table
                         style={{

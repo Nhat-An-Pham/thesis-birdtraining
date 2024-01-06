@@ -45,13 +45,11 @@ export default function BirdAcademyMng() {
     trainingCourseManagementService
       .cancelBirdTrainingCourse(params)
       .then((response) => {
-        // Handle the response data
         console.log("Success:", response);
         toast.success("Cancel success!");
         onCallBackMainManagement();
       })
       .catch((error) => {
-        // Handle errors
         console.log("Error:" + error.response);
       });
   };
@@ -63,32 +61,12 @@ export default function BirdAcademyMng() {
     await trainingCourseManagementService
       .confirmBirdTrainingCourse(params)
       .then((response) => {
-        // Handle the response data
         console.log("Success:", response.data);
       })
       .catch((error) => {
-        // Handle errors
         console.error("Error:", error);
       });
-    console.log(key); //birdTrainingCourseId
-    // fetch(`http://13.214.85.41/api/trainingcourse-staff/birdtrainingcourse-confirm?birdTrainingCourseId=${key}`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${ACCESS_TOKEN}`,
-    //       // You may need to include additional headers depending on your API requirements
-    //     },
-    //     params: null,
-    //   })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       // Handle the response data
-    //       console.log('Success:', data);
-    //     })
-    //     .catch(error => {
-    //       // Handle errors
-    //       console.error('Error:', error);
-    //     });
+    console.log(key);
 
     setRenderTrainingSkill(true);
     setRenderCustomer(false);
@@ -117,29 +95,24 @@ export default function BirdAcademyMng() {
   };
   const [users, setUsers] = useState([]);
   const [birdTrainingCourse, setBirdTrainingCourse] = useState([]);
-  // Simulate fetching bird information based on customerId
-  // Replace this with your actual API call or data fetching logic
   const fetchBirdTrainingCourseData = async () => {
     try {
-      // Replace this URL with your actual API endpoint
       let params = {
         $orderby: "registeredDate desc",
       };
       let response =
         await trainingCourseManagementService.getAllBirdTrainingCourse(params);
-      console.log(response);
-      setBirdTrainingCourse(response); // Assuming data is an array of bird information
+      //console.log(response);
+      setBirdTrainingCourse(response);
     } catch (error) {
-      console.error("Error fetching bird data:", error);
+      console.error("Error fetching request data:", error);
     }
-  }; // Simulate fetching bird information based on customerId
-  // Replace this with your actual API call or data fetching logic
+  };
   const fetchCustomerData = async () => {
     try {
-      // Replace this URL with your actual API endpoint
       let response =
         await trainingCourseManagementService.getAllRequestedUser();
-      setUsers(response); // Assuming data is an array of bird information
+      setUsers(response);
     } catch (error) {
       console.error("Error fetching bird data:", error);
     }
@@ -210,7 +183,7 @@ export default function BirdAcademyMng() {
                   </Button>
                 )} */}
                 <h2>Customers</h2>
-                <TableContainer                
+                <TableContainer
                   component={Paper}
                   sx={{
                     boxShadow:

@@ -60,8 +60,13 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
         GetListSlot();
       })
       .catch((e) => {
-        toast.error("Fail Update Slot Time");
-        console.log(e);
+        if (changedMinute === null || changedMinute === 0) {
+          toast.error("Please Insert Time");
+        }
+        else {
+          toast.error("Fail Update Slot Time");
+          console.log(e);
+        }
       });
   };
 

@@ -9,40 +9,50 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import addOnService from "../../services/addon.service";
+import trainingcourseManagementService from "../../../src/services/trainingcourse-management.service";
 
 const BirdSkillReceivedComponent = ({ birdId }) => {
   const [birdSkillList, setBirdSkillList] = useState([]);
-
-  useEffect(() => {
-    // Simulate fetching bird information based on customerId
-    // Replace this with your actual API call or data fetching logic
-    const fetchData = async () => {
-      try {
-        // Replace this URL with your actual API endpoint
-        const response = await fetch(
-          `http://13.214.85.41/api/trainingcourse-customer/birdskillreceived-bird?birdId=${birdId}`
+  const fetchData = async () => {
+    try {
+      let params = {
+        birdId: birdId,
+      };
+      let response =
+        await trainingcourseManagementService.getBirdSkillReceivedByBirdId(
+          params
         );
-        const data = await response.json();
-        setBirdSkillList(data); // Assuming data is an array of bird information
-      } catch (error) {
-        console.error("Error fetching bird data:", error);
-      }
-    };
-
+      //console.log(response);
+      setBirdSkillList(response);
+    } catch (error) {
+      console.error("Error fetching bird skill receive data:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, [birdId]);
   return (
     <>
       {birdSkillList != null && birdSkillList.length > 0 && (
-        <TableContainer style={{padding: 20}}>
+        <TableContainer style={{ padding: 20 }}>
           <h2>Bird Skill Received For Bird {birdId}</h2>
           <Table>
             <TableHead>
-              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Name</TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Name</TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Description</TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Received Date</TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '0.95rem' }}>Bird Skill Picture</TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
+                Bird Name
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
+                Bird Skill Name
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
+                Bird Skill Description
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
+                Received Date
+              </TableCell>
+              <TableCell sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
+                Bird Skill Picture
+              </TableCell>
             </TableHead>
             {birdSkillList.map((rsl) => (
               <TableRow key={rsl.id}>
