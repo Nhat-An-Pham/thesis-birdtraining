@@ -147,6 +147,7 @@ function BookingComponent() {
         setActiveStep(0);
         setServiceId(null);
         setSelectedTrainerId(null);
+        setLastMessage(null);
     };
 
     //Change Service Name

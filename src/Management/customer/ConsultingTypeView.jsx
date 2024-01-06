@@ -104,9 +104,7 @@ const ConsultingTypeView = () => {
                     {sortedList.map((row) => (
                       <TableRow>
                         <TableCell>
-                          <Typography>
-                            {sortedList.indexOf(row) + 1}
-                          </Typography>
+                          <Typography>{sortedList.indexOf(row) + 1}</Typography>
                         </TableCell>
                         {updateRenderIndex === 1 &&
                         selectedTypeId === row.id ? (
@@ -132,26 +130,30 @@ const ConsultingTypeView = () => {
                         {updateRenderIndex === 1 &&
                         selectedTypeId === row.id &&
                         userRole === "Manager" ? (
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleConfirmUpdateOnClick();
-                              }}
-                            >
-                              Confirm
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleCancelUpdateOnClick();
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </TableCell>
+                          <>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleConfirmUpdateOnClick();
+                                }}
+                              >
+                                Confirm
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleCancelUpdateOnClick();
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </TableCell>
+                          </>
                         ) : userRole === "Manager" ? (
                           <TableCell>
                             <Button
