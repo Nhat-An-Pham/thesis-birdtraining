@@ -101,7 +101,11 @@ const CourseDetail = ({ selectedCourse, renderChange }) => {
     const SetRenderIndexFunction = (e) => {
         renderChange(e)
     }
-
+    // const setRenderIndexOnAction = (e) => {
+    //     console.log('set render index: ', e)
+    //     setRenderIndex(e);
+    //     setOpenDiv(0);
+    // }
     return (
         <>
             {/* Course Detail */}
