@@ -679,6 +679,24 @@ class TrainingCourseManagementService {
       throw error;
     }
   }
+  async getBirdSkillReceivedByBirdId(params = null) {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/trainingcourse-customer/birdskillreceived-bird`,
+        {
+          headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+          },
+          params: params,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      // You might want to throw an error here or handle it as needed.
+      throw error;
+    }
+  }
 }
 
 export default new TrainingCourseManagementService();
