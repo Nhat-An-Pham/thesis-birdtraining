@@ -5,6 +5,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./checkoutForm";
 import axios from "axios";
 import Loader from "./Loader";
+import workshopService from "../services/workshop.service";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const stripePromise = loadStripe(
   "pk_test_51OARbWBE05GWCL9eWy2vDqXNLR4L9M1YVtkVExQSkqqQYO8hvUGGjawadvsqIAcXuKX6Aw4tGvqUJQHm2Bf6xNZo00wJQ7LwMh"
@@ -31,35 +32,46 @@ export default function StripeCheckout({
       // };
       // console.log(data);
       // console.log(billAmount);
-      axios(process.env.REACT_APP_PAYMENT + "/payments/create-checkout", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        params: {
-          amount: billAmount,
-        },
-        data: JSON.stringify({
-          name: customerName,
-          email: customerEmail,
-        }),
-      })
-        .then((val) => {
-          setIsLoading(true);
-          console.log('return: ', val.data.paymentIntent);
-          setClientSecret(val.data.paymentIntent.client_secret);
+      let canCheckOut = true;
+      if (wclassid) {
+        workshopService
+          .getBillingInformation({ wclassId: wclassid })
+          .then((res) => {
+            canCheckOut = true;
+          })
+          .catch((e) => (canCheckOut = false));
+      }
+      if (canCheckOut) {
+        axios(process.env.REACT_APP_PAYMENT + "/payments/create-checkout", {
+          method: "post",
+          headers: { "Content-Type": "application/json" },
+          params: {
+            amount: billAmount,
+          },
+          data: JSON.stringify({
+            name: customerName,
+            email: customerEmail,
+          }),
+        })
+          .then((val) => {
+            setIsLoading(true);
+            console.log("return: ", val.data.paymentIntent);
+            setClientSecret(val.data.paymentIntent.client_secret);
 
-          if (val.status === 400) {
-            setErr(val.data);
-            console.log("error 400: ", val);
-          }
-        })
-        .finally(() => {
-          setIsLoading(false);
-        })
-        .catch((error) => {
-          // alert(error.message);
-          setIsLoading(false);
-          console.log('error: ', error);
-        });
+            if (val.status === 400) {
+              setErr(val.data);
+              console.log("error 400: ", val);
+            }
+          })
+          .finally(() => {
+            setIsLoading(false);
+          })
+          .catch((error) => {
+            // alert(error.message);
+            setIsLoading(false);
+            console.log("error: ", error);
+          });
+      }
     }
   }, [customerEmail]);
 
