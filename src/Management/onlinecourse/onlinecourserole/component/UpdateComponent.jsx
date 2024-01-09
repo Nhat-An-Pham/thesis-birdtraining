@@ -38,6 +38,7 @@ const UpdateComponent = ({
       .then((res) => {
         console.log("UPDATE SUCCESSFULLY");
         toast.success("Update Successfully");
+        // console.log('back to index 0');
         backToIndex(0);
       })
       .catch((e) => {
@@ -73,6 +74,8 @@ const UpdateComponent = ({
       .then((res) => {
         console.log("UPDATE SUCCESSFULLY");
         toast.success("Update Successfully");
+        // console.log('back to Index 1');
+        // backToIndex(1);
         backToIndex(0);
       })
       .catch((e) => {

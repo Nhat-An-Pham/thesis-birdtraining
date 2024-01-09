@@ -31,7 +31,8 @@ const PricePolicyView = () => {
   const [changeConsultantPrice, setChangeConsultantPrice] = useState(null);
   const [changeDistancePrice, setChangeDistancePrice] = useState(null);
 
-  const [renderConsultantPriceIndex, setRenderConsultantPriceIndex] = useState(0); // 0: Default, 1: Update
+  const [renderConsultantPriceIndex, setRenderConsultantPriceIndex] =
+    useState(0); // 0: Default, 1: Update
   const [renderDistancePriceIndex, setRenderDistancePriceIndex] = useState(0); // 0: Default, 1: Update
 
   const [listConsultantPricePolicy, setListConsultantPricePolicy] = useState(
@@ -48,7 +49,9 @@ const PricePolicyView = () => {
         console.log("Fail Get Consultant Price Policy list test", e)
       );
   }, [renderConsultantPriceIndex]);
-  const sortedPricePolicyList = [...listConsultantPricePolicy].sort((a, b) => a.id - b.id);
+  const sortedPricePolicyList = [...listConsultantPricePolicy].sort(
+    (a, b) => a.id - b.id
+  );
 
   const [listDistancePricePolicy, setListDistancePricePolicy] = useState([]);
   useEffect(() => {
@@ -60,7 +63,9 @@ const PricePolicyView = () => {
       })
       .catch((e) => console.log("Fail Get Distance Price Policy list test", e));
   }, [renderDistancePriceIndex]);
-  const sortedDistancePriceList = [...listDistancePricePolicy].sort((a, b) => a.id - b.id);
+  const sortedDistancePriceList = [...listDistancePricePolicy].sort(
+    (a, b) => a.id - b.id
+  );
 
   const handleUpdateConsultantOnClick = (rowId, price) => {
     setSelectedPriceId(rowId);
@@ -191,26 +196,30 @@ const PricePolicyView = () => {
                         {renderConsultantPriceIndex === 1 &&
                         selectedPriceId === row.id &&
                         userRole === "Manager" ? (
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleConfirmUpdateConsultantOnClick();
-                              }}
-                            >
-                              Confirm
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleCancelUpdatePricePolicyOnClick();
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </TableCell>
+                          <>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleConfirmUpdateConsultantOnClick();
+                                }}
+                              >
+                                Confirm
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleCancelUpdatePricePolicyOnClick();
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </TableCell>
+                          </>
                         ) : userRole === "Manager" ? (
                           <TableCell>
                             <Button
@@ -276,7 +285,9 @@ const PricePolicyView = () => {
                     {sortedDistancePriceList.map((row) => (
                       <TableRow>
                         <TableCell>
-                          <Typography>{sortedDistancePriceList.indexOf(row) + 1}</Typography>
+                          <Typography>
+                            {sortedDistancePriceList.indexOf(row) + 1}
+                          </Typography>
                         </TableCell>
                         <TableCell>
                           <Typography>
@@ -311,26 +322,31 @@ const PricePolicyView = () => {
                         {renderDistancePriceIndex === 1 &&
                         selectedDistanceId === row.id &&
                         userRole === "Manager" ? (
-                          <TableCell>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleConfirmUpdateDistanceOnCLick();
-                              }}
-                            >
-                              Confirm
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="ochre"
-                              onClick={() => {
-                                handleCancelUpdateDistanceOnClick();
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </TableCell>
+                          <>
+                            {" "}
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleConfirmUpdateDistanceOnCLick();
+                                }}
+                              >
+                                Confirm
+                              </Button>
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                variant="contained"
+                                color="ochre"
+                                onClick={() => {
+                                  handleCancelUpdateDistanceOnClick();
+                                }}
+                              >
+                                Cancel
+                              </Button>
+                            </TableCell>
+                          </>
                         ) : userRole === "Manager" ? (
                           <TableCell>
                             <Button

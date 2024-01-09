@@ -50,7 +50,8 @@ const AddNewComponent = ({
       .postAddSection(formData)
       .then((res) => {
         toast.success("Submit Successfully");
-        renderIndex(0);
+        // renderIndex(0);
+        backToIndex(0);
       })
       .catch((e) => {
         toast.error("Fail To Submit");
@@ -63,7 +64,7 @@ const AddNewComponent = ({
     formData.append("Title", lessonTitle);
     formData.append("SectionId", sectionId);
     formData.append("Description", tempDescr);
-    formData.append("ResourceFiles", video);
+    formData.append("Video", video);
     onlinecourseManagement
       .postAddLesson(formData)
       .then((res) => {
@@ -126,7 +127,7 @@ const AddNewComponent = ({
                   style={{ width: "100%" }}
                 />
               </FormControl>
-              <FormControl required style={{ marginBottom: 15 }}>
+              <FormControl fullWidth required style={{ marginBottom: 15 }}>
                 {/* <Button variant="contained" color="ochre">
                                     <UploadComponent
                                         onChange={handleFileChange}
@@ -192,7 +193,7 @@ const AddNewComponent = ({
                   style={{ width: "100%" }}
                 />
               </FormControl>
-              <FormControl required style={{ marginBottom: 15 }}>
+              <FormControl fullWidth required style={{ marginBottom: 15 }}>
                 {/* <Button variant="contained" color="ochre">
                   <UploadComponent
                     onChange={handleVideoChange}
