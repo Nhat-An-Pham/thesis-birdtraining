@@ -127,7 +127,7 @@ const AddNewComponent = ({
                   style={{ width: "100%" }}
                 />
               </FormControl>
-              <FormControl required style={{ marginBottom: 15 }}>
+              <FormControl fullWidth required style={{ marginBottom: 15 }}>
                 {/* <Button variant="contained" color="ochre">
                                     <UploadComponent
                                         onChange={handleFileChange}
@@ -193,7 +193,7 @@ const AddNewComponent = ({
                   style={{ width: "100%" }}
                 />
               </FormControl>
-              <FormControl required style={{ marginBottom: 15 }}>
+              <FormControl fullWidth required style={{ marginBottom: 15 }}>
                 {/* <Button variant="contained" color="ochre">
                   <UploadComponent
                     onChange={handleVideoChange}
