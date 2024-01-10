@@ -91,9 +91,13 @@ const Workshop = () => {
               className="wclpdiv_section wclpdiv_section-title"
               style={{ fontSize: "20px" }}
             >
-              Date:{" "}
+              {/* Date:{" "}
               <span style={{ color: "red", fontSize: "20px" }}>
                 {dateFormat(selectedClass.date, "mmmm dS, yyyy")}
+              </span> */}
+              Workshop:{" "}
+              <span style={{ color: "red", fontSize: "20px" }}>
+                {selectedClass.workshopTitle}
               </span>
             </p>
 
@@ -110,6 +114,7 @@ const Workshop = () => {
                     key={workshopClass.id}
                   >
                     {/* trainer name and image */}
+                    
                     <div
                       style={{
                         display: "flex",
