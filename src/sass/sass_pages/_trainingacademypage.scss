@@ -99,7 +99,7 @@
     &-container {
         background: white;
         width: 700px;
-        height: 400px;
+        height: 500px;
         padding: 20px;
         border-radius: 5px;
         border: 1px grey solid;
@@ -139,11 +139,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: 20px;
-        margin-bottom: 30px;
-
         & img {
-            width: 40%;
+            width: 30%;
             margin-left: 10px;
             margin-right: 10px;
         }
