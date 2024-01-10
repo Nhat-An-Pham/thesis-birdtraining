@@ -131,7 +131,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              {userRole?.role === "Manager" ? (
+              {userRole && userRole === "Manager" ? (
                 <Button
                   color="ochre"
                   variant="contained"
@@ -177,7 +177,7 @@ const RefundPoliciesManagement = ({ callbackMainManagement }) => {
                             <TableCell>
                               <Typography>{row.refundRate}</Typography>
                             </TableCell>
-                            {userRole?.role === "Manager" ? (
+                            {userRole && userRole === "Manager" ? (
                               <TableCell>
                                 <Button
                                   color="ochre"
