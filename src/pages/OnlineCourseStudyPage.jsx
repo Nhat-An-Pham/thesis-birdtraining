@@ -6,7 +6,6 @@ import RawHTMLRenderer from "../Management/component/htmlRender/htmlRender";
 import ReactPlayer from "react-player";
 import fileIcon from "../assets/icons/file-regular.svg";
 import { Button, Typography } from "@mui/material";
-import { jwtDecode } from "jwt-decode";
 
 const OnlineCourseStudyPage = () => {
   const { courseid } = useParams();
