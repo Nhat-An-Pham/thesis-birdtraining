@@ -61,6 +61,12 @@ const SignUp = () => {
               }
               errorMsg = errorMsg.concat(errors?.PhoneNumber);
             }
+            if (errors.Name) {
+              if (errorMsg !== "") {
+                errorMsg = errorMsg.concat("<br/>");
+              }
+              errorMsg = errorMsg.concat(errors?.Name);
+            }
             console.log(errorMsg);
             setErr(errorMsg);
           } else {
