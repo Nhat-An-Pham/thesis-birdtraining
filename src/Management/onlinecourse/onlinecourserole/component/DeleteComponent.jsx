@@ -20,12 +20,14 @@ const DeleteComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selec
                 // console.log("Cannot Delete Section: ", e)
                 if(e.response?.data?.stackTrace){
                     let stackTrace = e.response.data.stackTrace;
-                    if(stackTrace.contains('FKLesson170997')){
+                    console.log(stackTrace);
+                    if(stackTrace.includes('FKLesson170997')){
                         toast.error("Please delete all lessons in this section")
                     }
                 } else {
                     toast.error("Cannot Delete")
                 }   
+                handleCloseDiv();
             })
     }
 
