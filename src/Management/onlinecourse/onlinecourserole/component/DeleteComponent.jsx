@@ -16,7 +16,7 @@ const DeleteComponent = ({ openDiv, handleCloseDiv, renderIndex, courseId, selec
                 backToIndex(0)
             })
             .catch((e) => {
-                // toast.error("Cannot Delete")
+    // toast.error("Cannot Delete")
                 // console.log("Cannot Delete Section: ", e)
                 if(e.response?.data?.stackTrace){
                     let stackTrace = e.response.data.stackTrace;
