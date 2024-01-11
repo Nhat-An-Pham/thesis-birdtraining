@@ -38,7 +38,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       .catch((e) => console.log("Fail Get List Slot test", e));
   };
 
-  const sortedListSlot = [...listSlot].sort((a, b) => b.id - a.id);
+  const sortedListSlot = [...listSlot].sort((a, b) => a.id - b.id);
 
   const [listMembership, setListMembership] = useState([]);
   const GetListMembership = () => {
@@ -51,7 +51,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       .catch((e) => console.log("Fail Get List Membership test", e));
   };
 
-  const sortedListMembership = [...sortedListMembership].sort((a,b) = b.id - a.id);
+  const sortedListMembership = [...listMembership].sort((a, b) => a.id - b.id);
 
   const [changedMinute, setChangedMinute] = useState("");
 
