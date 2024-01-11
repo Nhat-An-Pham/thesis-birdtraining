@@ -163,17 +163,19 @@ const TrainerAssignedTrainingSkill = () => {
                               Upload Evidences
                             </Button>
                           )}
-                        <Button
-                          onClick={() =>
-                            handleViewTrainingDetail(
-                              item.birdSkillId,
-                              item.id,
-                              item
-                            )
-                          }
-                        >
-                          View training details
-                        </Button>
+                        {item.status != "Cancel" && (
+                          <Button
+                            onClick={() =>
+                              handleViewTrainingDetail(
+                                item.birdSkillId,
+                                item.id,
+                                item
+                              )
+                            }
+                          >
+                            View training details
+                          </Button>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}

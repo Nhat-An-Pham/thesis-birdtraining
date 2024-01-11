@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import appleicon from '../assets/icons/apple.svg'
 import chplayicon from '../assets/icons/chplay.svg'
+import urlQr from '../assets/icons/frame.png'
 
 const TrainingAcademyPage = () => {
 
@@ -24,8 +25,7 @@ const TrainingAcademyPage = () => {
             <div className='tacmy_section-content'>
               <h1 className='tacmy_section-title'>Please Download Our App For Your Bird Care</h1>
               <div className='tacmy_section-img'>
-                <img alt='' src={appleicon}></img>
-                <img alt='' src={chplayicon}></img>
+                <img alt='' src={urlQr}></img>
               </div>
               <button className='tacmy_section-button' onClick={handleCloseDiv} >Close the Tab</button>
             </div>

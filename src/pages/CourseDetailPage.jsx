@@ -83,7 +83,7 @@ function CourseDetailPage() {
                   <p style={{ color: "green", margin: 0 }}>(Completed)</p>
                 ) : null}
                 <p className="cdtp_sidebar-price">
-                  Price: {addonService.formatCurrency(selectedCourse.price)}$
+                  Price: {addonService.formatCurrency(selectedCourse.price)} VND
                 </p>
                 {selectedCourse.status === "Unenrolled" ? (
                   <button onClick={handleBuyButton}>Enroll Now</button>

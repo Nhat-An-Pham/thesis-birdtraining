@@ -88,6 +88,10 @@ function BookingComponent() {
 
 
     const handleNext = async (index) => {
+        if (!customerId){
+            setErrorMessage("*Please login first.");
+            return;
+        }
         if (serviceId === null) {
             setErrorMessage("*Please select a service.")
             return;
@@ -147,6 +151,7 @@ function BookingComponent() {
         setActiveStep(0);
         setServiceId(null);
         setSelectedTrainerId(null);
+        setLastMessage(null);
     };
 
     //Change Service Name

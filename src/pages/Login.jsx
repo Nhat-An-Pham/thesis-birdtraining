@@ -33,7 +33,6 @@ const Login = () => {
                 setTimeout(() => {
                     navigate('/home')
                 }, 3000);
-
             }
         ).catch(e => setErr("WRONG EMAIL OR PASSWORD"));
     }
@@ -48,7 +47,6 @@ const Login = () => {
 
     return (
         <div className='loginpage'>
-
             {/* Same as */}
             <section className='login-container'>
                 <ToastContainer />
