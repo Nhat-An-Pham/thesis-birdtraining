@@ -136,7 +136,11 @@ function BookingComponent() {
                                 setLastMessage("You Have Successfully Booked")
                             }).catch((error) => {
                                 console.log("Fail Booking: ", error.response.data)
-                                setLastMessage(error.response.data)
+                                if(error.response.data.contains('Unauthorized')){
+                                    setLastMessage("Login Customer Account To Use This Function")
+                                } else {
+                                    setLastMessage(error.response.data)
+                                }
                             })
                     } catch (e) {
                     }
