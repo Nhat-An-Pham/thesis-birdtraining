@@ -106,6 +106,7 @@ const TrainerSkillManagementComponent = ({}) => {
                 color="ochre"
                 variant="contained"
                 onClick={handleOpenModal}
+                disabled={userRole === 'Manager'}
               >
                 Add
               </Button>
@@ -150,6 +151,7 @@ const TrainerSkillManagementComponent = ({}) => {
                                 color="ochre"
                                 variant="contained"
                                 onClick={() => handleOpenUpdateModal(row.id)}
+                                disabled={userRole === 'Manager'}
                               >
                                 Update
                               </Button>

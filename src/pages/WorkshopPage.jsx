@@ -91,9 +91,13 @@ const Workshop = () => {
               className="wclpdiv_section wclpdiv_section-title"
               style={{ fontSize: "20px" }}
             >
-              Date:{" "}
+              {/* Date:{" "}
               <span style={{ color: "red", fontSize: "20px" }}>
                 {dateFormat(selectedClass.date, "mmmm dS, yyyy")}
+              </span> */}
+              Workshop:{" "}
+              <span style={{ color: "red", fontSize: "20px" }}>
+                {selectedClass.workshopTitle}
               </span>
             </p>
 
@@ -110,6 +114,7 @@ const Workshop = () => {
                     key={workshopClass.id}
                   >
                     {/* trainer name and image */}
+                    
                     <div
                       style={{
                         display: "flex",
@@ -232,6 +237,33 @@ const Workshop = () => {
                           }}
                         >
                           {dateFormat(workshopClass.date, "mmmm dS, yyyy")}
+                        </span>
+                      </div>
+                      <div
+                        style={{
+                          marginTop: "15px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "flex-end",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            marginRight: "10px",
+                          }}
+                        >
+                          Attendance Status:
+                        </span>
+                        <span
+                          style={{
+                            fontWeight: 500,
+                            fontSize: 18,
+                          }}
+                        >
+                          {workshopClass.status}
                         </span>
                       </div>
                     </div>
@@ -407,7 +439,7 @@ const Workshop = () => {
                   fontWeight: 600,
                 }}
               >
-                This Workshop has no class yet
+                No class found!
               </div>
             )}
           </div>
@@ -508,7 +540,7 @@ const Workshop = () => {
                   fontWeight: 600,
                 }}
               >
-                This Workshop has no class yet
+                No class found!
               </div>
             )}
           </div>
@@ -607,7 +639,7 @@ const Workshop = () => {
                   fontWeight: 600,
                 }}
               >
-                This Workshop has no class yet
+                No class found!
               </div>
             )}
           </div>
@@ -706,7 +738,7 @@ const Workshop = () => {
                   fontWeight: 600,
                 }}
               >
-                This Workshop has no class yet
+                No class found!
               </div>
             )}
           </div>
@@ -805,7 +837,7 @@ const Workshop = () => {
                   fontWeight: 600,
                 }}
               >
-                This Workshop has no class yet
+                No class found!
               </div>
             )}
           </div>

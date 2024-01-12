@@ -97,10 +97,10 @@ export const UserSettingPage = () => {
     }
   };
   const handleSave = () => {
-    if (confirmPassword === password) {
+    if (confirmPassword === password) {    
       UserService.putUserProfile({
         name: name,
-        email: email,
+        email: email === '' ? null : email,
         phoneNumber: phoneNumber,
         password: password,
         gender: gender,
@@ -109,13 +109,18 @@ export const UserSettingPage = () => {
       })
         .then((res) => {
           // toast.success("Data Saved")
-          window.location.reload();
+          // window.location.reload();          
+          window.location.reload();        
+          if(res.data){
+            localStorage.setItem('user-token',  JSON.stringify(res.data));
+          }   
+          setErr(null);
         })
         .catch(() => {
           setErr("Existed / Wrong Email Or Phone Number");
         });
     } else {
-      setErr("Your Password Are NOT MATCH");
+      setErr("Your Password are not match");
     }
   };
 
