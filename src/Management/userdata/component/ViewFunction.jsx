@@ -38,6 +38,8 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       .catch((e) => console.log("Fail Get List Slot test", e));
   };
 
+  const sortedListSlot = [...listSlot].sort((a, b) => a.id - b.id);
+
   const [listMembership, setListMembership] = useState([]);
   const GetListMembership = () => {
     membershipService
@@ -48,6 +50,8 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       })
       .catch((e) => console.log("Fail Get List Membership test", e));
   };
+
+  const sortedListMembership = [...listMembership].sort((a, b) => a.id - b.id);
 
   const [changedMinute, setChangedMinute] = useState("");
 
@@ -62,8 +66,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
       .catch((e) => {
         if (changedMinute === null || changedMinute === 0) {
           toast.error("Please Insert Time");
-        }
-        else {
+        } else {
           toast.error("Fail Update Slot Time");
           console.log(e);
         }
@@ -113,7 +116,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
                   <TableCell>End Time</TableCell>
                 </TableRow>
               </TableHead>
-              {listSlot.map((row, index) => (
+              {sortedListSlot.map((row, index) => (
                 <TableBody>
                   <TableRow key={index}>
                     <TableCell>{row.id}</TableCell>
@@ -190,7 +193,7 @@ const ViewFunction = ({ renderIndex, tablabel }) => {
                     <TableCell>Requirement</TableCell>
                   </TableRow>
                 </TableHead>
-                {listMembership.map((row, index) => (
+                {sortedListMembership.map((row, index) => (
                   <TableBody>
                     <TableRow
                       key={index}
