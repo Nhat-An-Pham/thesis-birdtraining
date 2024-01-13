@@ -100,23 +100,44 @@ class ConsultantService {
 
   //Staff
   async viewListAssignedConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
-      API_URL_STAFF + "viewListAssignedConsultingTicket"
+      API_URL_STAFF + "viewListAssignedConsultingTicket",
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     console.log(response);
     return response;
   }
 
   async viewListNotAssignedConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
-      API_URL_STAFF + "viewListNotAssignedConsultingTicket"
+      API_URL_STAFF + "viewListNotAssignedConsultingTicket",
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     return response;
   }
 
   async viewListHandledConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
-      API_URL_STAFF + "viewListHandledConsultingTicket"
+      API_URL_STAFF + "viewListHandledConsultingTicket",
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
     );
     return response;
   }
@@ -217,6 +238,7 @@ class ConsultantService {
   }
 
   async PreCalculateConsultantPrice({ ticketId, distance }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     let params = {
       ticketId: ticketId,
       distance: distance,
@@ -225,6 +247,11 @@ class ConsultantService {
       API_URL_STAFF + `preCalculateConsultantPrice`,
       {
         params: params,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
     return response;
@@ -275,9 +302,17 @@ class ConsultantService {
   }
 
   async GetAvailableFinishTime({ actualSlotStart }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
       API_URL_TRAINER +
-        `getAvailableFinishTime?actualStartSlot=${actualSlotStart}`
+        `getAvailableFinishTime?actualStartSlot=${actualSlotStart}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
     return response;
   }
