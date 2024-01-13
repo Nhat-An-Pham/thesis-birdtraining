@@ -150,14 +150,6 @@ const Timetable_TicketDetailView = ({
                       </div>
                     </div>
                   </div>
-                  {ticketDetail.status === "Finished" ? (
-                    <div className="ticketdetail-consultant-evidence">
-                      <h3>Evidence</h3>
-                      <p>{ticketDetail.evidence}</p>
-                    </div>
-                  ) : (
-                    <></>
-                  )}
                 </div>
               </div>
             </>
