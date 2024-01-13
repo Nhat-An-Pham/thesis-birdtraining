@@ -101,6 +101,7 @@ class ConsultantService {
 
   //Staff
   async viewListAssignedConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
       API_URL_STAFF + "viewListAssignedConsultingTicket",
       {
@@ -114,6 +115,7 @@ class ConsultantService {
   }
 
   async viewListNotAssignedConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
       API_URL_STAFF + "viewListNotAssignedConsultingTicket",
       {
@@ -126,6 +128,7 @@ class ConsultantService {
   }
 
   async viewListHandledConsultingTicket() {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
       API_URL_STAFF + "viewListHandledConsultingTicket",
       {
@@ -227,6 +230,7 @@ class ConsultantService {
   }
 
   async PreCalculateConsultantPrice({ ticketId, distance }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     let params = {
       ticketId: ticketId,
       distance: distance,
@@ -285,6 +289,7 @@ class ConsultantService {
   }
 
   async GetAvailableFinishTime({ actualSlotStart }) {
+    const accessToken = JSON.parse(localStorage.getItem("user-token"));
     const response = await axios.get(
       API_URL_TRAINER +
         `getAvailableFinishTime?actualStartSlot=${actualSlotStart}`,
