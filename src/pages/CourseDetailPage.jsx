@@ -119,13 +119,13 @@ function CourseDetailPage() {
                 </div>
                 <div className="cdtp_sidebar-footer">
                   <p>For Details About The Course</p>
-                  <button>Call Us: (+84) 90 456 0264</button>
+                  <button>Call Us: (+84) 904 560 264</button>
                 </div>
               </div>
               <div className="cdtp_content">
                 <div className="cdtp_content-descr">
                   <section className="cdpt_content_descr-box">
-                    <h4>What You'll Learn</h4>
+                    <h4>About course</h4>
                     <p>
                       <RawHTMLRenderer
                         htmlContent={selectedCourse.shortDescription}
@@ -135,47 +135,10 @@ function CourseDetailPage() {
                   <section className="cdpt_content_descr-box">
                     <h4>Some Images Of The Course</h4>
                     <img
-                      alt="Course Picture"
+                      alt="course"
                       src={selectedCourse.picture}
                     ></img>
-                  </section>
-                  <section className="cdpt_content_descr-box">
-                    <h4>Requirements</h4>
-                    <div className="cdpt_content_descr_box-req-body">
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-check"
-                        style={{ color: "#2fda3a" }}
-                      />
-                      <p>
-                        Become an advanced, confident, and modern JavaScript
-                        developer from scratch.
-                      </p>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-check"
-                        style={{ color: "#2fda3a" }}
-                      />
-                      <p>
-                        {" "}
-                        Have an intermediate skill level of Python programming.
-                      </p>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-check"
-                        style={{ color: "#2fda3a" }}
-                      />
-                      <p>
-                        {" "}
-                        Have a portfolio of various data analysis projects.
-                      </p>
-                      <FontAwesomeIcon
-                        icon="fa-solid fa-check"
-                        style={{ color: "#2fda3a" }}
-                      />
-                      <p>
-                        {" "}
-                        Use the numpy library to create and manipulate arrays.
-                      </p>
-                    </div>
-                  </section>
+                  </section>                  
                 </div>
               </div>
             </div>
