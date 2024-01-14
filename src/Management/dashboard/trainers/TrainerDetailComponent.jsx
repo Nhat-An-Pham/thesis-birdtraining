@@ -162,7 +162,7 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
                     label={skill.skillName}
                     variant="contained"
                     onDelete={() => onClickDeleteChip(skill)}
-                    disabled={userRole === 'Manager'}
+                    disabled={userRole !== 'Manager'}
                     sx={{ margin: 1 }}
                   />
                 </>
@@ -173,7 +173,7 @@ export default function TrainerDetailComponent({ trainerId, onClose }) {
                 variant="contained"
                 icon={<Add />}
                 onClick={() => setOpenAddSkill(true)}
-                disabled={userRole === 'Manager'}
+                disabled={userRole !== 'Manager'}
                 sx={{ margin: 1 }}
               />
             </Grid>
