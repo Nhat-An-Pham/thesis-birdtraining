@@ -19,10 +19,10 @@ import ConsultantService from '../../services/consultant.service';
 // STEP 3 IS WHERE WE WILL SELECT A DATE AND THEN HAVE THE AVAILABLE TIMES LIST UPDATE ON CHANGE OF THE DATE
 //SO EVERYTIME A NEW DATE IS SELECTED, AN API CALL GETS SENT TO RETRIEVE THE LIST OF TIMES WITH THE NEW PARAMETERS.
 export default function Step3({ getAppointmentDate, selectedTrainerId, getSlotId }) {
-  const [dateValue, setDateValue] = useState(dayjs(new Date()));
+  const idealDay = dayjs(new Date()).add(1, "day")
+  const [dateValue, setDateValue] = useState(idealDay);
   const [times, setTimes] = useState([]);
   const [selectedTime, setSelectedTime] = useState('');
-
 
   const handleChangeTime = (event) => {
     setSelectedTime(event.target.value);
@@ -51,7 +51,7 @@ export default function Step3({ getAppointmentDate, selectedTrainerId, getSlotId
       <FormControl fullWidth>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <MobileDatePicker
-            minDate={dayjs(new Date())}
+            minDate={idealDay}
             label="Select Date"
             inputFormat="MM/DD/YYYY"
             value={dateValue}
