@@ -17,16 +17,16 @@ export const UserSettingPage = () => {
   const navigate = useNavigate();
 
   //after update
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [phoneNumber, setPhoneNumber] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [name, setName] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [confirmPassword, setConfirmPassword] = useState(null);
   const [err, setErr] = useState();
   const [image, setImage] = useState();
   const [gender, setGender] = useState(null);
   const [birthDay, setBirthDay] = useState(null);
-  const [ggMeetLink, setGgMeetLink] = useState();
+  const [ggMeetLink, setGgMeetLink] = useState(null);
 
   //set completed Data
   const [completedCourses, setCompletedCourses] = useState([]);
@@ -39,7 +39,7 @@ export const UserSettingPage = () => {
   if (accessToken) {
     userRole = jwtDecode(accessToken).role;
   } else {
-    navigate("/home")
+    navigate("/home");
   }
 
   //FUNCTION
@@ -81,7 +81,7 @@ export const UserSettingPage = () => {
   };
   const handleGgMeetLinkChange = (event) => {
     setGgMeetLink(event.target.value);
-  }
+  };
   //SAVE HANDLER
   const handleSaveProfile = () => {
     if (image) {
@@ -97,30 +97,43 @@ export const UserSettingPage = () => {
     }
   };
   const handleSave = () => {
-    if (confirmPassword === password) {    
-      UserService.putUserProfile({
-        name: name,
-        email: email === '' ? null : email,
-        phoneNumber: phoneNumber,
-        password: password,
+    if (password && confirmPassword !== password) {
+      setErr("Please make sure your password patch!");
+    } else {
+      let model = {
+        name: name === "" ? null : name,
+        email: email === "" ? null : email,
+        phoneNumber: phoneNumber === "" ? null : phoneNumber,
+        password: password === "" ? null : password,
         gender: gender,
         birthDay: birthDay,
-        ggMeetLink: ggMeetLink,
-      })
+        ggMeetLink: ggMeetLink === "" ? null : ggMeetLink,
+      };
+      console.log(model);
+      UserService.putUserProfile(model)
         .then((res) => {
           // toast.success("Data Saved")
-          // window.location.reload();          
-          window.location.reload();        
-          if(res.data){
-            localStorage.setItem('user-token',  JSON.stringify(res.data));
-          }   
+          // window.location.reload();
+          window.location.reload();
+          if (res.data) {
+            localStorage.setItem("user-token", JSON.stringify(res.data));
+          }
           setErr(null);
         })
-        .catch(() => {
-          setErr("Existed / Wrong Email Or Phone Number");
+        .catch((err) => {          
+          let errors = err.response?.data?.errors;
+          if(errors){
+            console.log(errors);
+            if(errors.Name){
+              setErr(errors.Name[0]);
+            } else if(errors.PhoneNumber){
+              setErr(errors.PhoneNumber[0]);
+            }
+          } else {
+            setErr("Existed / Wrong Email Or Phone Number");
+          }
+          
         });
-    } else {
-      setErr("Your Password are not match");
     }
   };
 
@@ -136,12 +149,14 @@ export const UserSettingPage = () => {
           console.log(e);
         });
       if (userRole === "Customer") {
-        workshopService.getRegisterdWorkshops().then((res) => {
-          console.log("Enrolled Workshop: ", res.data);
-          setEnrolledWorkshop(res.data)
-        })
+        workshopService
+          .getRegisterdWorkshops()
+          .then((res) => {
+            console.log("Enrolled Workshop: ", res.data);
+            setEnrolledWorkshop(res.data);
+          })
           .catch((e) => {
-            console.log("Cannot Get Enrolled Workshop Data")
+            console.log("Cannot Get Enrolled Workshop Data");
           });
 
         onlinecourseService.getCompletedOnlineCourse().then((res) => {
@@ -152,7 +167,7 @@ export const UserSettingPage = () => {
         });
       }
     } else {
-      navigate("/home")
+      navigate("/home");
     }
   }, []);
 
@@ -164,7 +179,7 @@ export const UserSettingPage = () => {
           <div className="ustp-body">
             <ToastContainer />
             <div className="ustp_body-left">
-              <img alt="profile picture" src={user.avatar}></img>
+              <img alt="profile" src={user.avatar}></img>
               <input type="file" onChange={HandleImage} />
               <button onClick={handleSaveProfile}>Update Avatar</button>
             </div>
@@ -243,8 +258,8 @@ export const UserSettingPage = () => {
                     placeholder={user.ggMeetLink}
                     disabled={inputDisable}
                     value={ggMeetLink}
-                    onChange={handleGgMeetLinkChange}>
-                  </input>
+                    onChange={handleGgMeetLinkChange}
+                  ></input>
                 </>
               ) : userRole === "Staff" || userRole === "Manager" ? (
                 <></>
@@ -281,7 +296,7 @@ export const UserSettingPage = () => {
               )}
             </div>
           </div>
-          {userRole === "Customer" ?
+          {userRole === "Customer" ? (
             <div className="ustp-participate-container">
               <div className="ustp-participate-wrapper ustp-participate-wrapper-left">
                 <h3>Finished Courses</h3>
@@ -292,17 +307,23 @@ export const UserSettingPage = () => {
                         <Img src={course.picture}></Img>
                         <div className="ustp-cards-content">
                           <h5>{course.title}</h5>
-                          <Typography sx={{maxHeight: '80px', textOverflow: 'ellipsis'}}>
+                          <Typography
+                            sx={{ maxHeight: "80px", textOverflow: "ellipsis" }}
+                          >
                             <RawHTMLRenderer
                               htmlContent={course.shortDescription}
                             ></RawHTMLRenderer>
                           </Typography>
-                          <Link to={`/onlinecourse/certificate/${course.id}`}>View Certificate</Link>
+                          <Link to={`/onlinecourse/certificate/${course.id}`}>
+                            View Certificate
+                          </Link>
                         </div>
                       </div>
                     ))}
                   </>
-                ) : <>You Have No Completed Course</>}
+                ) : (
+                  <>You Have No Completed Course</>
+                )}
               </div>
               <div className="ustp-participate-wrapper ustp-participate-wrapper-right">
                 <h3>Participated Workshops</h3>
@@ -322,10 +343,12 @@ export const UserSettingPage = () => {
                       </div>
                     ))}
                   </>
-                ) : <>You Have No Completed Course</>}
+                ) : (
+                  <>You Have No Completed Course</>
+                )}
               </div>
             </div>
-            : null}
+          ) : null}
         </div>
       ) : null}
     </div>

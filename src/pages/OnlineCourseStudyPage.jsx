@@ -47,6 +47,7 @@ const OnlineCourseStudyPage = () => {
   };
 
   const FinishLesson = () => {
+    // console.log('FinishLessonClick')
     setButtonClickCount(prevCount => prevCount + 1);
     setCheckLesson(selectedLesson.id);
   };
@@ -64,12 +65,14 @@ const OnlineCourseStudyPage = () => {
 
   //API Handler
   useEffect(() => {
+    // console.log('fetching course')
     if (courseid) {
       OnlinecourseService.getOnlineCourseById({ id: courseid })
         .then((res) => {
           // console.log("Success get Course By Id: ", res.data);
           setSelectedCourse(res.data);
           setCourseSection(res.data.sections);
+          // console.log(res.data.sections);
           if (res.data.status === "Unenrolled" || res.data.staus === null) {
             navigate("/courseslist");
           }
@@ -90,7 +93,7 @@ const OnlineCourseStudyPage = () => {
           console.log(`CANNOT FINISH LESSON ${checkLesson}`, e);
         });
     }
-  }, [selectedLesson]);
+  }, [selectedLesson, checkLesson]);
 
   return (
     <div className="ocsppage">
@@ -108,6 +111,7 @@ const OnlineCourseStudyPage = () => {
                   <h4>{section.title}</h4>
                   {selectedSection ? (
                     <>
+                    
                       {selectedSection.id === section.id ? (
                         <div className="ocsp-sidebar-lesson">
                           {section.lessons.map((lesson) => (
