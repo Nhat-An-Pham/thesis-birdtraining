@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import appleicon from '../assets/icons/apple.svg'
 import chplayicon from '../assets/icons/chplay.svg'
-import urlQr from '../assets/icons/updateQr.png'
+import urlQr from '../assets/icons/frame.png'
 
 const TrainingAcademyPage = () => {
 
