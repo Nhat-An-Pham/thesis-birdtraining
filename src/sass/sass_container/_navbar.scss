@@ -61,10 +61,11 @@
 }
 
 .button-login {
+    font-size: 16px;
     background-color: transparent;
     color: #96989B;
     transition: background-color 0.5s, transform 0.5s;
-
+    margin-right: 10px;
     &:hover {
         color: black;
         transform: scale(1.1, 1.1)
@@ -72,6 +73,7 @@
 }
 
 .button-signup {
+    font-size: 16px;
     background-color: #765827;
     color: white;
     transition: background-color 0.5s, transform 0.5s;

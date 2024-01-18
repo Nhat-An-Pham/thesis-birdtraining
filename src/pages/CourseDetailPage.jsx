@@ -68,10 +68,12 @@ function CourseDetailPage() {
 
   return (
     <div
-      style={{
-        // minHeight: "76.5vh",
-        // display: "flex",
-      }}
+      style={
+        {
+          // minHeight: "76.5vh",
+          // display: "flex",
+        }
+      }
     >
       <div className="coursedetailpage">
         {selectedCourse ? (
@@ -80,7 +82,17 @@ function CourseDetailPage() {
               <div className="cdtp_sidebar">
                 <h3 className="cdtp_sidebar-title">{selectedCourse.title} </h3>
                 {selectedCourse.status === "Completed" ? (
-                  <p style={{ color: "green", margin: 0 }}>(Completed)</p>
+                  <p
+                    style={{
+                      color: "green",
+                      margin: 0,
+                      fontWeight: 600,
+                      fontSize: 20,
+                      marginBottom: 10,
+                    }}
+                  >
+                    (Completed)
+                  </p>
                 ) : null}
                 <p className="cdtp_sidebar-price">
                   Price: {addonService.formatCurrency(selectedCourse.price)} VND
@@ -96,7 +108,7 @@ function CourseDetailPage() {
                   <>
                     <Link
                       to={`/onlinecourse/certificate/${selectedCourse.id}`}
-                      style={{ color: "black" }}
+                      style={{ color: "black" , fontSize: 20, fontWeight: 600, marginTop: 15 }}
                     >
                       View Certificate
                     </Link>
@@ -134,11 +146,8 @@ function CourseDetailPage() {
                   </section>
                   <section className="cdpt_content_descr-box">
                     <h4>Some Images Of The Course</h4>
-                    <img
-                      alt="course"
-                      src={selectedCourse.picture}
-                    ></img>
-                  </section>                  
+                    <img alt="course" src={selectedCourse.picture}></img>
+                  </section>
                 </div>
               </div>
             </div>

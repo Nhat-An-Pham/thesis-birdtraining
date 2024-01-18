@@ -6,6 +6,7 @@ import RawHTMLRenderer from "../Management/component/htmlRender/htmlRender";
 import ReactPlayer from "react-player";
 import fileIcon from "../assets/icons/file-regular.svg";
 import { Button, Typography } from "@mui/material";
+import { IoMdCheckbox } from "react-icons/io";
 
 const OnlineCourseStudyPage = () => {
   const { courseid } = useParams();
@@ -17,7 +18,9 @@ const OnlineCourseStudyPage = () => {
   const [lessonStatus, setLessonStatus] = useState(null);
   const navigate = useNavigate();
 
-  const [buttonClickCount, setButtonClickCount ] = useState(0);
+  const [buttonClickCount, setButtonClickCount] = useState(0);
+
+  const [colorSelect, setColorSelect] = useState(null);
 
   //FUNCTION
   const handleSectionClick = (sectionId) => {
@@ -30,9 +33,9 @@ const OnlineCourseStudyPage = () => {
   };
 
   const handleToNext = (event) => {
-
-  }
-
+    console.log(event);
+    setSelectedLesson(event);
+  };
 
   const handleLessonClick = (lessonId) => {
     if (lessonId) {
@@ -47,9 +50,14 @@ const OnlineCourseStudyPage = () => {
   };
 
   const FinishLesson = () => {
-    // console.log('FinishLessonClick')
-    setButtonClickCount(prevCount => prevCount + 1);
-    setCheckLesson(selectedLesson.id);
+    OnlinecourseService.putCheckLesson({ lessonId: selectedLesson.id })
+      .then(() => {
+        setSelectedSection({ ...selectedSection, status: "Completed" });
+        setButtonClickCount((prevCount) => prevCount + 1);
+      })
+      .catch((e) => {
+        console.log(`CANNOT FINISH LESSON ${selectedLesson.id}`, e);
+      });
   };
 
   const FinishSectionWithResourceFile = () => {
@@ -102,25 +110,38 @@ const OnlineCourseStudyPage = () => {
           <div className="ocsp-sidebar">
             <h3>{selectedCourse.title}</h3>
             <div className="ocsp-sidebar-box">
-              {courseSection.map((section) => (
+              {courseSection.map((section, index) => (
                 <div
                   key={section.id}
                   className="ocsp-sidebar-section"
-                  onClick={() => handleSectionClick(section.id)}
+                  onClick={() => {
+                    handleSectionClick(section.id);
+                  }}
                 >
                   <h4>{section.title}</h4>
                   {selectedSection ? (
                     <>
-                    
                       {selectedSection.id === section.id ? (
                         <div className="ocsp-sidebar-lesson">
-                          {section.lessons.map((lesson) => (
-                            <p onClick={() => handleLessonClick(lesson.id)}>
+                          {section.lessons.map((lesson, index) => (
+                            <p
+                              key={lesson.id}
+                              onClick={() => {
+                                handleLessonClick(lesson.id);
+                                setColorSelect(lesson.id);
+                              }}
+                              style={{
+                                backgroundColor:
+                                  lesson.id === colorSelect ? "#e7a02f" : "",
+                              }}
+                            >
                               {lesson.title}
                               {lesson.status === "Completed" ? (
-                                <span style={{ color: "#4CAF50" }}>
-                                  (Completed)
-                                </span>
+                                <IoMdCheckbox
+                                  size={30}
+                                  color="#4CAF50"
+                                  style={{ marginLeft: 15 }}
+                                />
                               ) : null}
                             </p>
                           ))}
@@ -131,18 +152,35 @@ const OnlineCourseStudyPage = () => {
                 </div>
               ))}
             </div>
-            {selectedCourse.status === "Completed" ?
-              <Link to={`/onlinecourse/certificate/${selectedCourse.id}`} style={{ width: "100%", display: "flex", justifyContent: "center", marginTop: "30px" }}>
-                <Typography style={{ color: "Green", width: "100%", textAlign: "center", textDecoration: "none" }}>You Have Completed This Course, Click Here</Typography>
+            {selectedCourse.status === "Completed" ? (
+              <Link
+                to={`/onlinecourse/certificate/${selectedCourse.id}`}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Typography
+                  style={{
+                    color: "Green",
+                    width: "100%",
+                    textAlign: "center",
+                    textDecoration: "none",
+                  }}
+                >
+                  You Have Completed This Course, Click Here
+                </Typography>
               </Link>
-              : null}
+            ) : null}
           </div>
           <div className="ocsp-content">
             {selectedSection && selectedSection.resourceFiles ? (
               <>
                 <div className="ocsp-content-files">
                   <img src={fileIcon} alt="" />
-                  <h4>{selectedSection.resourceFiles.split('/').slice(-1)}</h4>
+                  <h4>{selectedSection.resourceFiles.split("/").slice(-1)}</h4>
                 </div>
                 <Link
                   style={{
@@ -194,7 +232,9 @@ const OnlineCourseStudyPage = () => {
                     </button>
                   ) : null}
                   {selectedLesson && lessonStatus === "Completed" ? (
-                    <button onClick={() => handleToNext(selectedLesson.id)}>Completed</button>
+                    <button onClick={() => handleToNext(selectedLesson.id)}>
+                      Completed
+                    </button>
                   ) : null}
                 </>
               ) : (
