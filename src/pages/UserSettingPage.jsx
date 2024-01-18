@@ -88,6 +88,9 @@ export const UserSettingPage = () => {
       UserService.putProfileImage({ avatar: image })
         .then((res) => {
           console.log("Success Change Avatar: ", res);
+          if (res.data) {
+            localStorage.setItem("user-token", JSON.stringify(res.data));
+          }
           window.location.reload();
         })
         .catch((e) => {
