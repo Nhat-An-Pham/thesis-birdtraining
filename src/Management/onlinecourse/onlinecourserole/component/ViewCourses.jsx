@@ -18,7 +18,6 @@ import {
     Box,
     Button,
 } from "@mui/material";
-import RawHTMLRenderer from "../../../component/htmlRender/htmlRender";
 import addonService from '../../../../services/addon.service';
 
 const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
@@ -36,7 +35,7 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
         onlinecourseManagement.getAllOnlineCourse()
             .then((res) => {
                 setOnlineCourses(res.data)
-                // console.log(res.data)
+                console.log(res.data)
             })
             .catch((e) => {
                 console.log("Can't Get Online Courses", e);
@@ -70,38 +69,41 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
                             <TableBody>
                                 {onlineCourses && onlineCourses.length > 0 ? (
                                     onlineCourses.map((course) => (
-                                        <TableRow
-                                            hover
-                                            style={{ maxHeight: "35px" }}
-                                            onClick={() => handleCourseClick(course)}
-                                            key={course.id}
-                                        >
-                                            <TableCell className="image-cell">
-                                                <Img
-                                                    src={course.picture}
-                                                    unloader={<CircularProgress />}
-                                                />
-                                            </TableCell>
-                                            <TableCell style={{ width: 0.125 }}>
-                                                {course.title}
-                                            </TableCell>
-                                            <TableCell  >
-                                                <Typography>
-                                                    {/* <RawHTMLRenderer htmlContent={course.shortDescription} /> */}
-                                                    <Button>View Detail</Button>
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell style={{ width: 0.125 }} align="center">
-                                                {addonService.formatCurrency(course.price)}(vnd)
-                                            </TableCell>
-                                            <TableCell style={{ width: 0.125 }} align="center">
-                                                <Checkbox
-                                                    checked={course.status === "ACTIVE"}
-                                                    // onChange={() => switchcourseStatus(course)}
-                                                    sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
+                                        <>
+                                            {course.status === "ACTIVE" ?
+                                                <TableRow
+                                                    hover
+                                                    style={{ maxHeight: "35px" }}
+                                                    onClick={() => handleCourseClick(course)}
+                                                    key={course.id}
+                                                >
+                                                    <TableCell className="image-cell">
+                                                        <Img
+                                                            src={course.picture}
+                                                            unloader={<CircularProgress />}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }}>
+                                                        {course.title}
+                                                    </TableCell>
+                                                    <TableCell  >
+                                                        <Typography>
+                                                            {/* <RawHTMLRenderer htmlContent={course.shortDescription} /> */}
+                                                            <Button>View Detail</Button>
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }} align="center">
+                                                        {addonService.formatCurrency(course.price)}(vnd)
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }} align="center">
+                                                        <Checkbox
+                                                            checked={course.status === "ACTIVE"}
+                                                            // onChange={() => switchcourseStatus(course)}
+                                                            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                                                        />
+                                                    </TableCell>
+                                                </TableRow> : null}
+                                        </>
                                     ))
                                 ) : (
                                     <TableRow>
@@ -110,6 +112,45 @@ const ViewCourses = ({ setSelectedCourseCallBack, renderIndex }) => {
                                         </TableCell>
                                     </TableRow>
                                 )}
+                                {onlineCourses && onlineCourses.length > 0 ? (
+                                    onlineCourses.map((course) => (
+                                        <>
+                                            {course.status === "INACTIVE" ?
+                                                <TableRow
+                                                    hover
+                                                    style={{ maxHeight: "35px" }}
+                                                    onClick={() => handleCourseClick(course)}
+                                                    key={course.id}
+                                                >
+                                                    <TableCell className="image-cell">
+                                                        <Img
+                                                            src={course.picture}
+                                                            unloader={<CircularProgress />}
+                                                        />
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }}>
+                                                        {course.title}
+                                                    </TableCell>
+                                                    <TableCell  >
+                                                        <Typography>
+                                                            {/* <RawHTMLRenderer htmlContent={course.shortDescription} /> */}
+                                                            <Button>View Detail</Button>
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }} align="center">
+                                                        {addonService.formatCurrency(course.price)}(vnd)
+                                                    </TableCell>
+                                                    <TableCell style={{ width: 0.125 }} align="center">
+                                                        <Checkbox
+                                                            checked={course.status === "ACTIVE"}
+                                                            // onChange={() => switchcourseStatus(course)}
+                                                            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+                                                        />
+                                                    </TableCell>
+                                                </TableRow> : null}
+                                        </>
+                                    ))
+                                ) : null}
                             </TableBody>
                         </Table>
                     </TableContainer>
