@@ -123,19 +123,19 @@ export const UserSettingPage = () => {
           }
           setErr(null);
         })
-        .catch((err) => {          
+        .catch((err) => {
           let errors = err.response?.data?.errors;
-          if(errors){
+          if (errors) {
             console.log(errors);
-            if(errors.Name){
+            if (errors.Name) {
               setErr(errors.Name[0]);
-            } else if(errors.PhoneNumber){
+            } else if (errors.PhoneNumber) {
               setErr(errors.PhoneNumber[0]);
             }
           } else {
             setErr("Existed / Wrong Email Or Phone Number");
           }
-          
+
         });
     }
   };
@@ -301,7 +301,7 @@ export const UserSettingPage = () => {
           </div>
           {userRole === "Customer" ? (
             <div className="ustp-participate-container">
-              <div className="ustp-participate-wrapper ustp-participate-wrapper-left">
+              <div className="ustp-participate-wrapper ustp-participate-wrapper-left" >
                 <h3>Finished Courses</h3>
                 {completedCourses ? (
                   <>
