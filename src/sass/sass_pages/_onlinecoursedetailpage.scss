@@ -22,7 +22,8 @@
 //sidebar
 .cdtp_sidebar {
     width: 30%;
-    height: 700px;
+    // height: 700px;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,6 +31,7 @@
     background-color: white;
 
     h3 {
+        margin-bottom: 10px;
         width: 90%;
         font-size: 25px;
     }

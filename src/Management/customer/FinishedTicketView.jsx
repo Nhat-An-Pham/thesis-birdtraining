@@ -34,6 +34,10 @@ const FinishedTicketView = ({}) => {
       );
   }, [renderIndex]);
 
+  const sortedlistFinishedTicket = [
+    ...listFinishedTicket,
+  ].sort((a, b) => b.id - a.id);
+
   const handleDetailClick = (ticketId) => {
     setTicketIdForDetail(ticketId);
     setRenderIndex(0);
@@ -72,7 +76,7 @@ const FinishedTicketView = ({}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listFinishedTicket.map((row, index) => (
+                {sortedlistFinishedTicket.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell>
                       <Typography>{row.id}</Typography>

@@ -35,6 +35,10 @@ const TrainerTicketListView = ({}) => {
       );
   }, [renderIndex]);
 
+  const sortedlistAssignedConsultingTicket = [
+    ...listAssignedConsultingTicket,
+  ].sort((a, b) => b.id - a.id);
+
   const handleDetailClick = (ticketId) => {
     setTicketIdForDetail(ticketId);
     setRenderIndex(0);
@@ -73,7 +77,7 @@ const TrainerTicketListView = ({}) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {listAssignedConsultingTicket.map((row, index) => (
+                {sortedlistAssignedConsultingTicket.map((row, index) => (
                   <TableRow key={index}>
                     <TableCell>
                       <Typography>{row.id}</Typography>
