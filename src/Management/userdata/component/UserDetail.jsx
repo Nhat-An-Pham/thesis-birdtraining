@@ -15,7 +15,7 @@ import userService from "../../../services/user.service";
 import { jwtDecode } from "jwt-decode";
 import "../userdata.scss";
 
-const UserDetail = ({ selectedUser, openDiv, handleCloseDiv }) => {
+const UserDetail = ({ selectedUser, openDiv, handleCloseDiv, role }) => {
   const [errMessage, setErrMessage] = useState(null);
 
   const [roleChange, setRoleChange] = useState(selectedUser.role);
@@ -43,7 +43,7 @@ const UserDetail = ({ selectedUser, openDiv, handleCloseDiv }) => {
   };
   const updateStatusClick = () => {
     userService
-      .putChangeStatus({ id: selectedUser.id, status: statusChange })
+      .putChangeStatus({ id: selectedUser.id, status: statusChange, role: role })
       .then((res) => {
         toast.success("Successfully Change Status");
       })

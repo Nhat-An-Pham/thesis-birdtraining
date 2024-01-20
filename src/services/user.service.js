@@ -65,10 +65,11 @@ class UserService {
         return response;
     }
 
-    async putChangeStatus({ id, status }) {
+    async putChangeStatus({ id, status, role }) {
         const accessToken = JSON.parse(localStorage.getItem("user-token"))
+        let roleString = role.label;
         const response = await axios
-            .put(API_UM_URL + "update-status", { id, status }, {
+            .put(API_UM_URL + "update-status", { id, status, roleString }, {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }

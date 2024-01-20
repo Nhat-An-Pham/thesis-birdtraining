@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import UserDetail from './UserDetail';
 
-const ViewUsers = ({ renderIndex, tablabel }) => {
+const ViewUsers = ({ renderIndex, tablabel, role }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [userList, setUserList] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
@@ -63,7 +63,7 @@ const ViewUsers = ({ renderIndex, tablabel }) => {
 
     return (
         <>
-            {selectedUser ? <UserDetail selectedUser={selectedUser} openDiv={openDiv} handleCloseDiv={handleCloseDiv}></UserDetail> : null}
+            {selectedUser ? <UserDetail selectedUser={selectedUser} openDiv={openDiv} handleCloseDiv={handleCloseDiv} role={tablabel}></UserDetail> : null}
             <h1 style={{ borderBottom: "0.5px grey solid" }}> Users</h1>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
